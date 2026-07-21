@@ -218,9 +218,8 @@ const Trip = (() => {
          <div class="flight-list">${flights.map(flightCard).join("")}</div>
          ${
            anyDerivedCheckIn
-             ? `<p class="section-note">Check-in times are a guide —
-                ${trip.checkInLeadHours || 3} hours before departure. Add <code>checkInTime</code>
-                to a flight to pin the real one.</p>`
+             ? `<p class="section-note">Check-in times shown are
+                ${trip.checkInLeadHours || 3} hours before departure.</p>`
              : ""
          }`
       : "";
