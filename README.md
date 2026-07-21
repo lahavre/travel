@@ -51,7 +51,8 @@ breaking, so a half-planned trip still renders.
 | `title`, `destination`, `emoji`, `notes` | Identity, shown on the trip home page |
 | `startDate`, `endDate` | ISO `YYYY-MM-DD` |
 | `travelers` | Names used as column headers in the settle-up and per-person split tables |
-| `flights` | Outbound / return / internal legs, shown on the trip home page |
+| `flights` | Outbound / return / internal legs, shown as cards on the trip home page |
+| `checkInLeadHours` | Hours before departure to show as check-in (default 3) |
 | `homeCurrency` / `tripCurrency` | ISO codes, e.g. `MYR` / `JPY` |
 | `exchangeRate` | `{ per, rate, history }` — see below |
 | `costCategories` | Optional override of the day-cost buckets |
@@ -70,6 +71,13 @@ breaking, so a half-planned trip still renders.
 `days[].items[].costs` are in **trip** currency and get converted for display;
 everything in `budget`, `settle` and `accommodation` is in **home** currency. Omit
 `exchangeRate` entirely for a domestic trip and cost columns collapse to one currency.
+
+**Flights and check-in.** Each flight card shows a check-in time so you can work
+backwards to when you need to leave for the airport. It defaults to 3 hours before
+departure — override per flight with `checkInTime` (an exact time) or
+`checkInLeadHours`, or trip-wide with a top-level `checkInLeadHours`. An early
+departure correctly rolls check-in back to the previous evening. Flight times are
+local to their own airport; set `arrivesNextDay` on a red-eye.
 
 **Cost categories.** Default buckets are `transport`, `fuel`, `food`, `sightseeing`,
 `misc`. Override with a `costCategories` object mapping key to label; the keys you use

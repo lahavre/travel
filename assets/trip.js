@@ -117,6 +117,32 @@ const Trip = (() => {
     return (value || "").replace(/\n/g, " ");
   }
 
+  /**
+   * Recommended check-in time — how the trip home page answers "when do I need to
+   * leave for the airport". Explicit `checkInTime` in data.json always wins; otherwise
+   * it is derived by backing off `checkInLeadHours` (default 3) from departure.
+   * Returns the clock time plus a day offset, since an early departure can push
+   * check-in into the previous evening.
+   */
+  function checkIn(flight, defaultLeadHours = 3) {
+    if (flight.checkInTime) return { time: flight.checkInTime, dayOffset: 0, derived: false };
+    if (!flight.departTime) return null;
+
+    const [h, m] = flight.departTime.split(":").map(Number);
+    if (isNaN(h) || isNaN(m)) return null;
+
+    const lead = flight.checkInLeadHours != null ? flight.checkInLeadHours : defaultLeadHours;
+    let minutes = h * 60 + m - Math.round(lead * 60);
+    let dayOffset = 0;
+    while (minutes < 0) {
+      minutes += 24 * 60;
+      dayOffset -= 1;
+    }
+    const hh = String(Math.floor(minutes / 60)).padStart(2, "0");
+    const mm = String(minutes % 60).padStart(2, "0");
+    return { time: `${hh}:${mm}`, dayOffset, derived: true };
+  }
+
   /** "13 Oct 2023 (Fri)" — the trip's canonical date format. */
   function longDate(iso) {
     if (!iso) return "";
@@ -138,33 +164,65 @@ const Trip = (() => {
       stays.length ? { label: "Nights booked", value: nights } : null,
     ].filter(Boolean);
 
+    const anyDerivedCheckIn = flights.some((f) => {
+      const c = checkIn(f, trip.checkInLeadHours);
+      return c && c.derived;
+    });
+
+    const flightCard = (f) => {
+      const c = checkIn(f, trip.checkInLeadHours);
+      const stop = (time, name, terminal, extraNote) => `
+        <div class="flight-stop">
+          <div class="flight-time">${escapeHtml(time || "—")}</div>
+          <div>
+            <div class="flight-port">${escapeHtml(name || "")}</div>
+            ${terminal ? `<div class="flight-terminal">${escapeHtml(terminal)}</div>` : ""}
+            ${extraNote ? `<div class="flight-nextday">${extraNote}</div>` : ""}
+          </div>
+        </div>`;
+
+      return `
+        <div class="flight-card">
+          <div class="flight-card-head">
+            <span class="flight-type">${escapeHtml(f.type || "Flight")}</span>
+            <span class="flight-date">${longDate(f.date)}</span>
+            ${f.duration ? `<span class="flight-duration">${escapeHtml(f.duration)}</span>` : ""}
+          </div>
+          <div class="flight-card-body">
+            ${stop(f.departTime, f.from, f.fromTerminal, null)}
+            ${stop(
+              f.arriveTime,
+              f.to,
+              f.toTerminal,
+              f.arrivesNextDay ? "Arrives next day" : null
+            )}
+            <div class="flight-card-foot">
+              <span>${escapeHtml(f.airline || "")}${
+        f.flightNo ? ` · <strong>${escapeHtml(f.flightNo)}</strong>` : ""
+      }</span>
+              ${
+                c
+                  ? `<span class="flight-checkin">Check-in from <strong>${escapeHtml(c.time)}</strong>${
+                      c.dayOffset < 0 ? " (prev day)" : ""
+                    }</span>`
+                  : ""
+              }
+            </div>
+            ${f.remarks ? `<div class="flight-remarks">${multiline(f.remarks)}</div>` : ""}
+          </div>
+        </div>`;
+    };
+
     const flightSection = flights.length
       ? `<h2>Flights</h2>
-         <div class="table-wrap">
-           <table>
-             <thead><tr><th>Flight</th><th>Date</th><th>Route</th><th>Times</th><th>Airline</th><th>Notes</th></tr></thead>
-             <tbody>${flights
-               .map(
-                 (f) => `<tr>
-                   <td><strong>${escapeHtml(f.type || "")}</strong></td>
-                   <td>${longDate(f.date)}</td>
-                   <td>${escapeHtml(f.from || "")} → ${escapeHtml(f.to || "")}</td>
-                   <td>${
-                     f.departTime || f.arriveTime
-                       ? `${escapeHtml(f.departTime || "—")} → ${escapeHtml(f.arriveTime || "—")}${
-                           f.arrivesNextDay ? " <span style=\"font-size:.75rem;color:var(--text-dim)\">+1</span>" : ""
-                         }`
-                       : "—"
-                   }</td>
-                   <td>${escapeHtml(f.airline || "—")}${
-                   f.flightNo ? `<br><span style="color:var(--text-dim);font-size:.82rem">${escapeHtml(f.flightNo)}</span>` : ""
-                 }</td>
-                   <td style="color:var(--text-dim);font-size:.85rem">${multiline(f.remarks)}</td>
-                 </tr>`
-               )
-               .join("")}</tbody>
-           </table>
-         </div>`
+         <div class="flight-list">${flights.map(flightCard).join("")}</div>
+         ${
+           anyDerivedCheckIn
+             ? `<p class="section-note">Check-in times are a guide —
+                ${trip.checkInLeadHours || 3} hours before departure. Add <code>checkInTime</code>
+                to a flight to pin the real one.</p>`
+             : ""
+         }`
       : "";
 
     const hotelSection = stays.length
@@ -709,5 +767,5 @@ const Trip = (() => {
     }
   }
 
-  return { page, multiline, escapeHtml, home, local, toHome, dayCosts, placeholder, ROOT };
+  return { page, multiline, escapeHtml, home, local, toHome, dayCosts, checkIn, placeholder, ROOT };
 })();

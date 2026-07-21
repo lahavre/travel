@@ -72,11 +72,14 @@
       "type": "Outbound",
       "date": "2023-10-13",
       "from": "Kuala Lumpur (KUL)",
+      "fromTerminal": "KLIA2",
       "to": "Tokyo Haneda (HND)",
-      "airline": null,
-      "flightNo": null,
+      "toTerminal": null,
+      "airline": "AirAsia X",
+      "flightNo": "D7 522",
       "departTime": "14:20",
       "arriveTime": "22:30",
+      "duration": "7h 10m",
       "arrivesNextDay": false,
       "remarks": null
     },
@@ -84,13 +87,16 @@
       "type": "Return",
       "date": "2023-10-29",
       "from": "Tokyo Haneda (HND)",
+      "fromTerminal": null,
       "to": "Kuala Lumpur (KUL)",
-      "airline": null,
-      "flightNo": null,
+      "toTerminal": "KLIA2",
+      "airline": "AirAsia X",
+      "flightNo": "D7 523",
       "departTime": "23:50",
-      "arriveTime": null,
+      "arriveTime": "06:45",
+      "duration": "7h 55m",
       "arrivesNextDay": true,
-      "remarks": "Overnight flight — lands 30 Oct."
+      "remarks": "Lands Mon, 30 Oct 2023."
     }
   ],
   "budget": {

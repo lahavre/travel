@@ -29,43 +29,55 @@
     "note": "Optional caveat shown at the top of the budget page — e.g. whether figures are one person's share or the whole group's."
   },
 
-  "_flights": "Shown as a table on the trip home page. Include the outbound and return legs plus any internal flights. `type` is free text (Outbound / Return / Internal). Set `arrivesNextDay` true for a red-eye. Leave `airline`/`flightNo` null until booked — they render as “—”.",
+  "_flights": "Shown as cards on the trip home page — outbound, return, and any internal legs. `type` is free text (Outbound / Return / Internal). All times are local to their own airport. Set `arrivesNextDay` true for a red-eye. Check-in is shown automatically as 3 hours before departure; set `checkInTime` to pin an exact time, or `checkInLeadHours` to change the offset for one flight (a top-level `checkInLeadHours` changes it for the whole trip).",
   "flights": [
     {
       "type": "Outbound",
       "date": "2026-01-01",
       "from": "Kuala Lumpur (KUL)",
+      "fromTerminal": "KLIA2",
       "to": "Destination (XXX)",
+      "toTerminal": null,
       "airline": "Airline name",
       "flightNo": "XX 123",
       "departTime": "09:00",
       "arriveTime": "17:30",
+      "duration": "8h 30m",
       "arrivesNextDay": false,
+      "checkInTime": null,
       "remarks": null
     },
     {
       "type": "Internal",
       "date": "2026-01-02",
       "from": "Destination (XXX)",
+      "fromTerminal": null,
       "to": "Second city (YYY)",
+      "toTerminal": null,
       "airline": null,
       "flightNo": null,
       "departTime": null,
       "arriveTime": null,
+      "duration": null,
       "arrivesNextDay": false,
-      "remarks": "Delete this row if the trip has no internal flights."
+      "checkInTime": null,
+      "remarks": "Delete this card if the trip has no internal flights."
     },
     {
       "type": "Return",
       "date": "2026-01-03",
       "from": "Second city (YYY)",
+      "fromTerminal": null,
       "to": "Kuala Lumpur (KUL)",
+      "toTerminal": "KLIA2",
       "airline": "Airline name",
       "flightNo": "XX 124",
       "departTime": "23:50",
       "arriveTime": "06:30",
+      "duration": "7h 40m",
       "arrivesNextDay": true,
-      "remarks": "Overnight flight."
+      "checkInTime": "20:30",
+      "remarks": "Overnight flight — checkInTime here is pinned rather than derived."
     }
   ],
 

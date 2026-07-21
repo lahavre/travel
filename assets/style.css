@@ -346,6 +346,97 @@ tfoot td {
   margin-top: 6px;
 }
 
+/* ---- Flight cards ---- */
+.flight-list {
+  display: grid;
+  gap: 14px;
+  margin: 12px 0 8px;
+}
+.flight-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  overflow: hidden;
+}
+.flight-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  padding: 10px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.flight-type {
+  font-weight: 700;
+}
+.flight-date {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+.flight-duration {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+.flight-card-body {
+  padding: 14px 16px;
+}
+/* Vertical line joins departure to arrival, like a boarding pass. */
+.flight-stop {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 16px;
+}
+.flight-stop:last-of-type {
+  padding-bottom: 0;
+}
+.flight-stop:first-of-type::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 22px;
+  bottom: 4px;
+  border-left: 2px dotted var(--border);
+}
+.flight-time {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.flight-port {
+  font-weight: 600;
+}
+.flight-terminal {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+.flight-nextday {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.flight-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+.flight-checkin {
+  color: var(--text);
+}
+.flight-remarks {
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
 /* ---- Day tiles: every day the same size, however long the place name ---- */
 .day-grid {
   display: grid;
