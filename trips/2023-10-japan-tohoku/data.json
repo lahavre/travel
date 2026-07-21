@@ -14,48 +14,49 @@
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
   "exchangeRate": {
-    "effectivePer100": 3.305,
+    "per": 100,
+    "rate": 3.305,
     "history": [
       {
         "date": "2022-06-26",
-        "myr": 1657.5,
-        "jpy": 50000.0,
+        "home": 1657.5,
+        "local": 50000.0,
         "rate": 3.315
       },
       {
         "date": "2023-01-14",
-        "myr": 1714.0,
-        "jpy": 50000.0,
+        "home": 1714.0,
+        "local": 50000.0,
         "rate": 3.428
       },
       {
         "date": "2023-02-25",
-        "myr": 1672.5,
-        "jpy": 50000.0,
+        "home": 1672.5,
+        "local": 50000.0,
         "rate": 3.345
       },
       {
         "date": "2023-06-24",
-        "myr": 1663.5,
-        "jpy": 50000.0,
+        "home": 1663.5,
+        "local": 50000.0,
         "rate": 3.327
       },
       {
         "date": "2023-07-22",
-        "myr": 1662.5,
-        "jpy": 50000.0,
+        "home": 1662.5,
+        "local": 50000.0,
         "rate": 3.325
       },
       {
         "date": "2023-06-08",
-        "myr": 1630.0,
-        "jpy": 50000.0,
+        "home": 1630.0,
+        "local": 50000.0,
         "rate": 3.26
       },
       {
         "date": "2023-09-12",
-        "myr": 3220.0,
-        "jpy": 100000.0,
+        "home": 3220.0,
+        "local": 100000.0,
         "rate": 3.22
       }
     ]
@@ -2011,7 +2012,7 @@
   "transport": {
     "mode": "Self-drive — Toyota Corolla Touring, collected in Hamamatsucho, returned in Nakano/Shinjuku",
     "totalKm": 1956.5,
-    "rentalTotalMYR": 6433.23,
+    "rentalTotal": 6433.23,
     "legs": [
       {
         "day": 2,

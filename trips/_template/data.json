@@ -1,0 +1,203 @@
+{
+  "_readme": "Copy this folder to trips/YYYY-MM-destination/ and replace the values below. Every page renders from this file — never edit the HTML. Field reference: README.md. Delete any section you don't need; pages show a placeholder instead of breaking. Delete this _readme key too.",
+
+  "slug": "YYYY-MM-destination",
+  "title": "Destination — short descriptor",
+  "destination": "Country",
+  "emoji": "🧳",
+  "startDate": "2026-01-01",
+  "endDate": "2026-01-03",
+  "travelers": ["You", "Travel buddy"],
+  "notes": "Optional free-text intro shown on the trip home page.",
+
+  "homeCurrency": "MYR",
+  "tripCurrency": "JPY",
+
+  "_exchangeRate": "rate = homeCurrency units per `per` units of tripCurrency. Japan quotes per 100 JPY; somewhere like Europe would use per: 1. Omit this whole block for a domestic trip and cost columns collapse to one currency.",
+  "exchangeRate": {
+    "per": 100,
+    "rate": 3.3,
+    "history": [
+      { "date": "2025-12-01", "home": 1650.0, "local": 50000, "rate": 3.3 }
+    ]
+  },
+
+  "_costCategories": "Optional. Overrides the default buckets (transport, fuel, food, sightseeing, misc) used by day costs. Keys must match the keys used in days[].items[].costs.",
+
+  "summary": {
+    "totalDays": 3,
+    "note": "Optional caveat shown at the top of the budget page — e.g. whether figures are one person's share or the whole group's."
+  },
+
+  "_budget": "Amounts in homeCurrency. `perDay` and `actual` are optional; leave actual null while planning and fill it in after the trip.",
+  "budget": {
+    "categories": [
+      { "category": "Flights", "perDay": null, "budget": 1800.0, "actual": null },
+      { "category": "Accommodation", "perDay": 200.0, "budget": 600.0, "actual": null },
+      { "category": "Food", "perDay": 150.0, "budget": 450.0, "actual": null },
+      { "category": "Transport", "perDay": 100.0, "budget": 300.0, "actual": null },
+      { "category": "Sightseeing", "perDay": 50.0, "budget": 150.0, "actual": null },
+      { "category": "Miscellaneous", "perDay": 0.0, "budget": 0.0, "actual": null }
+    ]
+  },
+
+  "_settle": "Optional — only for group trips where one person pays up front. Keys inside `amounts` must match the names in `travelers`. Use null where a traveller isn't part of that line.",
+  "settle": [
+    {
+      "label": "Accommodation",
+      "amounts": { "You": 300.0, "Travel buddy": 300.0 },
+      "remarks": "Charged to one card, split evenly."
+    }
+  ],
+
+  "_overview": "One row per day — the high-level itinerary table. Time bands are free text.",
+  "overview": [
+    {
+      "day": 1,
+      "weekday": "Thursday",
+      "date": "2026-01-01",
+      "city": "Arrival city",
+      "morning": "Flight out",
+      "afternoon": "Arrive, clear immigration",
+      "evening": "Check in\nDinner nearby",
+      "remarks": "Optional note for the day",
+      "temperature": "City - 8-15"
+    },
+    {
+      "day": 2,
+      "weekday": "Friday",
+      "date": "2026-01-02",
+      "city": "Arrival city",
+      "morning": "Breakfast\nMuseum",
+      "afternoon": "Lunch\nOld town walk",
+      "evening": "Dinner",
+      "remarks": null,
+      "temperature": "City - 7-14"
+    },
+    {
+      "day": 3,
+      "weekday": "Saturday",
+      "date": "2026-01-03",
+      "city": "Departure",
+      "morning": "Check out",
+      "afternoon": "Airport",
+      "evening": "Fly home",
+      "remarks": null,
+      "temperature": null
+    }
+  ],
+
+  "_days": "The detailed plan — one entry per day, each with a timeline of items. `costs` keys are the cost categories, amounts in tripCurrency. Costs roll up automatically into the day total and the budget page. city/weekday/temperature are pulled from `overview` when generating, so they can be repeated here.",
+  "days": [
+    {
+      "day": 1,
+      "date": "2026-01-01",
+      "city": "Arrival city",
+      "weekday": "Thursday",
+      "temperature": "City - 8-15",
+      "summary": "Optional one-line framing for the day.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Depart KLIA",
+          "costs": {},
+          "remarks": "Check in 3 hours early"
+        },
+        {
+          "time": "18:00",
+          "activity": "Arrive and take the airport train into town",
+          "costs": { "transport": 1200 },
+          "remarks": null
+        },
+        {
+          "time": "20:00",
+          "activity": "Check in, then dinner near the hotel",
+          "costs": { "food": 2500 },
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "date": "2026-01-02",
+      "city": "Arrival city",
+      "weekday": "Friday",
+      "temperature": "City - 7-14",
+      "summary": null,
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Breakfast, then the national museum",
+          "costs": { "food": 1000, "sightseeing": 800 },
+          "remarks": "Closed Mondays"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "2026-01-03",
+      "city": "Departure",
+      "weekday": "Saturday",
+      "temperature": null,
+      "summary": null,
+      "items": [
+        {
+          "time": "11:00",
+          "activity": "Check out and head to the airport",
+          "costs": { "transport": 1200 },
+          "remarks": null
+        }
+      ]
+    }
+  ],
+
+  "_accommodation": "Prices in homeCurrency. `perPerson` is optional — include it for group trips to get the split table; use null for anyone not sharing that stay.",
+  "accommodation": [
+    {
+      "city": "Arrival city",
+      "checkIn": "2026-01-01",
+      "checkOut": "2026-01-03",
+      "nights": 2,
+      "persons": 2,
+      "name": "Hotel name",
+      "freeCancellation": "Before 25 Dec",
+      "checkInTime": "From 3pm",
+      "checkOutTime": "Until 11am",
+      "breakfast": "No",
+      "parking": "Not required",
+      "pricePerNight": 300.0,
+      "total": 600.0,
+      "remarks": null,
+      "perPerson": { "You": 300.0, "Travel buddy": 300.0 },
+      "payment": "Paid by card at booking"
+    }
+  ],
+
+  "_transport": "Optional. `legs` is a travel log — drop it for a walk-everywhere city trip and just keep `mode`. `day` refers to the trip day number so each leg links to its day page.",
+  "transport": {
+    "mode": "Trains and metro — 3-day city pass",
+    "totalKm": null,
+    "rentalTotal": null,
+    "legs": [
+      { "day": 1, "date": "2026-01-01", "route": "Airport to city centre", "km": 40, "refuel": false }
+    ]
+  },
+
+  "_todo": "Pre-trip checklist. `status` of exactly \"Done\" renders as a completed badge; anything else renders as pending.",
+  "todo": [
+    {
+      "ref": "1",
+      "task": "Book flights",
+      "status": "Done",
+      "remarks": "Booked 12 Nov",
+      "url": null
+    },
+    {
+      "ref": "2",
+      "task": "Check passport validity (6 months)",
+      "status": null,
+      "remarks": null,
+      "url": null
+    }
+  ]
+}
