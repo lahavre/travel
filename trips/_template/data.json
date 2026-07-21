@@ -29,6 +29,46 @@
     "note": "Optional caveat shown at the top of the budget page — e.g. whether figures are one person's share or the whole group's."
   },
 
+  "_flights": "Shown as a table on the trip home page. Include the outbound and return legs plus any internal flights. `type` is free text (Outbound / Return / Internal). Set `arrivesNextDay` true for a red-eye. Leave `airline`/`flightNo` null until booked — they render as “—”.",
+  "flights": [
+    {
+      "type": "Outbound",
+      "date": "2026-01-01",
+      "from": "Kuala Lumpur (KUL)",
+      "to": "Destination (XXX)",
+      "airline": "Airline name",
+      "flightNo": "XX 123",
+      "departTime": "09:00",
+      "arriveTime": "17:30",
+      "arrivesNextDay": false,
+      "remarks": null
+    },
+    {
+      "type": "Internal",
+      "date": "2026-01-02",
+      "from": "Destination (XXX)",
+      "to": "Second city (YYY)",
+      "airline": null,
+      "flightNo": null,
+      "departTime": null,
+      "arriveTime": null,
+      "arrivesNextDay": false,
+      "remarks": "Delete this row if the trip has no internal flights."
+    },
+    {
+      "type": "Return",
+      "date": "2026-01-03",
+      "from": "Second city (YYY)",
+      "to": "Kuala Lumpur (KUL)",
+      "airline": "Airline name",
+      "flightNo": "XX 124",
+      "departTime": "23:50",
+      "arriveTime": "06:30",
+      "arrivesNextDay": true,
+      "remarks": "Overnight flight."
+    }
+  ],
+
   "_budget": "Amounts in homeCurrency. `perDay` and `actual` are optional; leave actual null while planning and fill it in after the trip.",
   "budget": {
     "categories": [

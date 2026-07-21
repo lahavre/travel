@@ -67,6 +67,32 @@
     "actualTotal": 8407.1,
     "note": "Budget and actual figures are one person's share (the trip organiser). Group-wide totals live on the Accommodation and Settle-up tables."
   },
+  "flights": [
+    {
+      "type": "Outbound",
+      "date": "2023-10-13",
+      "from": "Kuala Lumpur (KUL)",
+      "to": "Tokyo Haneda (HND)",
+      "airline": null,
+      "flightNo": null,
+      "departTime": "14:20",
+      "arriveTime": "22:30",
+      "arrivesNextDay": false,
+      "remarks": null
+    },
+    {
+      "type": "Return",
+      "date": "2023-10-29",
+      "from": "Tokyo Haneda (HND)",
+      "to": "Kuala Lumpur (KUL)",
+      "airline": null,
+      "flightNo": null,
+      "departTime": "23:50",
+      "arriveTime": null,
+      "arrivesNextDay": true,
+      "remarks": "Overnight flight — lands 30 Oct."
+    }
+  ],
   "budget": {
     "categories": [
       {

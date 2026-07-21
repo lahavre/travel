@@ -346,11 +346,59 @@ tfoot td {
   margin-top: 6px;
 }
 
+/* ---- Day tiles: every day the same size, however long the place name ---- */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  /* Fixed row height keeps every tile identical even when a place name wraps. */
+  grid-auto-rows: 78px;
+  gap: 10px;
+  margin: 12px 0 8px;
+}
+.day-grid a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  overflow: hidden;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.day-grid a:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+.day-grid-n {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.day-grid-city {
+  font-size: 0.78rem;
+  line-height: 1.25;
+  color: var(--text-dim);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @media (max-width: 560px) {
   .page {
     padding: 20px 14px 48px;
   }
   th, td {
     padding: 8px;
+  }
+  /* Let wide tables scroll inside their wrapper rather than squeezing every
+     column down to a couple of characters. */
+  .table-wrap table {
+    min-width: 560px;
   }
 }

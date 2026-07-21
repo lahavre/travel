@@ -117,36 +117,82 @@ const Trip = (() => {
     return (value || "").replace(/\n/g, " ");
   }
 
+  /** "13 Oct 2023 (Fri)" — the trip's canonical date format. */
+  function longDate(iso) {
+    if (!iso) return "";
+    const date = TravelSite.formatDate(iso, { day: "numeric", month: "short", year: "numeric" });
+    const weekday = TravelSite.formatDate(iso, { weekday: "short" });
+    return `${date} (${weekday})`;
+  }
+
   // ---------------------------------------------------------------- renderers
 
   function renderIndex(trip) {
     const stays = trip.accommodation || [];
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
-    const cities = [...new Set((trip.overview || []).map((o) => cityName(o.city)).filter(Boolean))];
-    const fx = trip.exchangeRate;
+    const flights = trip.flights || [];
+    const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" });
 
     const facts = [
       { label: "Days", value: (trip.days || []).length || (trip.summary && trip.summary.totalDays) || "—" },
       stays.length ? { label: "Nights booked", value: nights } : null,
-      trip.transport && trip.transport.totalKm
-        ? { label: "Distance", value: `${trip.transport.totalKm.toLocaleString()} km` }
-        : null,
-      fx && fx.rate
-        ? {
-            label: "Exchange rate",
-            value: `${fx.rate} <span style="font-size:.8rem;font-weight:400">${escapeHtml(
-              trip.homeCurrency || ""
-            )}/${fx.per || 1}${escapeHtml(trip.tripCurrency || "")}</span>`,
-          }
-        : null,
     ].filter(Boolean);
+
+    const flightSection = flights.length
+      ? `<h2>Flights</h2>
+         <div class="table-wrap">
+           <table>
+             <thead><tr><th>Flight</th><th>Date</th><th>Route</th><th>Times</th><th>Airline</th><th>Notes</th></tr></thead>
+             <tbody>${flights
+               .map(
+                 (f) => `<tr>
+                   <td><strong>${escapeHtml(f.type || "")}</strong></td>
+                   <td>${longDate(f.date)}</td>
+                   <td>${escapeHtml(f.from || "")} → ${escapeHtml(f.to || "")}</td>
+                   <td>${
+                     f.departTime || f.arriveTime
+                       ? `${escapeHtml(f.departTime || "—")} → ${escapeHtml(f.arriveTime || "—")}${
+                           f.arrivesNextDay ? " <span style=\"font-size:.75rem;color:var(--text-dim)\">+1</span>" : ""
+                         }`
+                       : "—"
+                   }</td>
+                   <td>${escapeHtml(f.airline || "—")}${
+                   f.flightNo ? `<br><span style="color:var(--text-dim);font-size:.82rem">${escapeHtml(f.flightNo)}</span>` : ""
+                 }</td>
+                   <td style="color:var(--text-dim);font-size:.85rem">${multiline(f.remarks)}</td>
+                 </tr>`
+               )
+               .join("")}</tbody>
+           </table>
+         </div>`
+      : "";
+
+    const hotelSection = stays.length
+      ? `<h2>Hotels</h2>
+         <div class="table-wrap">
+           <table>
+             <thead><tr><th>Location</th><th>Hotel</th><th>Check-in</th><th>Check-out</th><th class="num">Nights</th></tr></thead>
+             <tbody>${stays
+               .map(
+                 (a) => `<tr>
+                   <td><strong>${escapeHtml(a.city || "")}</strong></td>
+                   <td>${escapeHtml(a.name || "")}</td>
+                   <td>${short(a.checkIn)}</td>
+                   <td>${short(a.checkOut)}</td>
+                   <td class="num">${a.nights || "—"}</td>
+                 </tr>`
+               )
+               .join("")}</tbody>
+             <tfoot><tr><td colspan="4">Total</td><td class="num">${nights}</td></tr></tfoot>
+           </table>
+         </div>
+         <p class="section-note">Rates and per-person splits are on the
+           <a href="accommodation.html">accommodation page</a>.</p>`
+      : "";
 
     return `
       <h1>${trip.emoji ? trip.emoji + " " : ""}${escapeHtml(trip.title)}</h1>
-      <p class="subtitle">
-        ${TravelSite.formatDate(trip.startDate)} – ${TravelSite.formatDate(trip.endDate)}
-        ${has(trip.travelers) ? ` · ${escapeHtml(trip.travelers.join(", "))}` : ""}
-      </p>
+      <p class="subtitle">${longDate(trip.startDate)} – ${longDate(trip.endDate)}</p>
 
       <div class="fact-grid">
         ${facts
@@ -160,17 +206,18 @@ const Trip = (() => {
           .join("")}
       </div>
 
-      ${cities.length ? `<h2>Route</h2><p>${escapeHtml(cities.join(" → "))}</p>` : ""}
+      ${flightSection}
+      ${hotelSection}
       ${trip.transport && trip.transport.mode ? `<h2>Getting around</h2><p>${escapeHtml(trip.transport.mode)}</p>` : ""}
       ${trip.notes ? `<h2>Notes</h2><p>${multiline(trip.notes)}</p>` : ""}
 
       <h2>Jump to a day</h2>
       ${
         has(trip.days)
-          ? `<div class="quick-links">${trip.days
+          ? `<div class="day-grid">${trip.days
               .map(
                 (d) =>
-                  `<a href="day.html?day=${d.day}">Day ${d.day}<span style="display:block;font-weight:400;font-size:.78rem;color:var(--text-dim)">${escapeHtml(
+                  `<a href="day.html?day=${d.day}"><span class="day-grid-n">Day ${d.day}</span><span class="day-grid-city">${escapeHtml(
                     cityName(d.city).split(" (")[0]
                   )}</span></a>`
               )

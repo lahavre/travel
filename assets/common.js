@@ -28,9 +28,13 @@ const TravelSite = (() => {
     return res.json();
   }
 
+  // Day-first everywhere, matching the DD/MM/YYYY convention the trips were planned in.
+  // Pinned rather than left to the viewer's locale so dates read the same on every device.
+  const LOCALE = "en-GB";
+
   function formatDate(iso, opts = { weekday: "short", day: "2-digit", month: "short", year: "numeric" }) {
     if (!iso) return "";
-    return new Date(iso + "T00:00:00").toLocaleDateString(undefined, opts);
+    return new Date(iso + "T00:00:00").toLocaleDateString(LOCALE, opts);
   }
 
   function formatMoney(amount, currency = "MYR") {

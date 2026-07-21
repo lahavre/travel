@@ -51,6 +51,7 @@ breaking, so a half-planned trip still renders.
 | `title`, `destination`, `emoji`, `notes` | Identity, shown on the trip home page |
 | `startDate`, `endDate` | ISO `YYYY-MM-DD` |
 | `travelers` | Names used as column headers in the settle-up and per-person split tables |
+| `flights` | Outbound / return / internal legs, shown on the trip home page |
 | `homeCurrency` / `tripCurrency` | ISO codes, e.g. `MYR` / `JPY` |
 | `exchangeRate` | `{ per, rate, history }` — see below |
 | `costCategories` | Optional override of the day-cost buckets |
@@ -81,10 +82,15 @@ The pages use `fetch()`, so they need to be served over HTTP — opening the fil
 directly with `file://` will not work.
 
 ```
-python -m http.server 8080
+python serve.py
 ```
 
-Then visit <http://localhost:8080>.
+Then visit <http://localhost:8080>. `serve.py` is `http.server` plus no-cache headers,
+so edits to `assets/*.js` and `data.json` show up on a normal refresh instead of
+appearing to do nothing until a hard reload.
+
+Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned in
+`assets/common.js` rather than following the viewer's browser.
 
 ## Publishing
 
