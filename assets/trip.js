@@ -283,37 +283,66 @@ const Trip = (() => {
       }`;
   }
 
+  /** The stay covering a given night: check-in on or before it, check-out after it. */
+  function stayOn(isoDate, stays) {
+    return (stays || []).find((a) => a.checkIn && a.checkOut && a.checkIn <= isoDate && isoDate < a.checkOut);
+  }
+
   function renderOverview(trip) {
     if (!has(trip.overview)) return `<h1>High-level itinerary</h1>${placeholder("itinerary")}`;
 
+    const SLOTS = [
+      { key: "morning", label: "Morning", cls: "slot-morning" },
+      { key: "afternoon", label: "Afternoon", cls: "slot-afternoon" },
+      { key: "evening", label: "Evening", cls: "slot-evening" },
+    ];
+
     const rows = trip.overview
-      .map(
-        (o) => `
-        <tr>
-          <td><a href="day.html?day=${o.day}"><strong>Day ${o.day}</strong></a><br>
-            <span style="color:var(--text-dim);font-size:.82rem">${TravelSite.formatDate(o.date, {
-              day: "2-digit",
-              month: "short",
-            })}<br>${escapeHtml(o.weekday || "")}</span></td>
-          <td>${multiline(o.city)}</td>
-          <td>${multiline(o.morning)}</td>
-          <td>${multiline(o.afternoon)}</td>
-          <td>${multiline(o.evening)}</td>
-          <td style="color:var(--text-dim);font-size:.85rem">${multiline(o.remarks)}${
-            o.temperature ? `<br><em>${multiline(o.temperature)}</em>` : ""
-          }</td>
-        </tr>`
-      )
+      .map((o) => {
+        const stay = stayOn(o.date, trip.accommodation);
+        const location = stay ? stay.city : cityName(o.city);
+        const stayingIn = stay && stay.name
+          ? `${escapeHtml(location)} <span class="stay-hotel">(${escapeHtml(stay.name)})</span>`
+          : escapeHtml(cityName(o.city));
+
+        // Day, place and remarks span the three time-of-day rows below.
+        return SLOTS.map((slot, i) => {
+          const lead =
+            i === 0
+              ? `<td rowspan="3" class="ov-day">
+                   <a href="day.html?day=${o.day}"><strong>Day ${o.day}</strong></a><br>
+                   <span class="ov-date">${TravelSite.formatDate(o.date, {
+                     day: "2-digit",
+                     month: "short",
+                     year: "numeric",
+                   })}<br>${escapeHtml(o.weekday || "")}</span>
+                 </td>
+                 <td rowspan="3" class="ov-stay">${stayingIn}</td>`
+              : "";
+          const trail =
+            i === 0
+              ? `<td rowspan="3" class="ov-remarks">${multiline(o.remarks)}${
+                  o.temperature ? `${o.remarks ? "<br><br>" : ""}<em>${multiline(o.temperature)}</em>` : ""
+                }</td>`
+              : "";
+          return `<tr class="${slot.cls}${i === 0 ? " ov-day-start" : ""}">
+            ${lead}
+            <td class="ov-slot">${slot.label}</td>
+            <td class="ov-plan">${multiline(o[slot.key])}</td>
+            ${trail}
+          </tr>`;
+        }).join("");
+      })
       .join("");
 
     return `
       <h1>High-level itinerary</h1>
       <p class="subtitle">The whole trip at a glance — click a day for the detailed plan.</p>
       <div class="table-wrap">
-        <table>
+        <table class="overview-table">
           <thead><tr>
             <th>Day</th><th>Staying in</th>
-            <th>Morning</th><th>Afternoon</th><th>Evening</th>
+            <th colspan="2">Plan</th>
             <th>Remarks</th>
           </tr></thead>
           <tbody>${rows}</tbody>
