@@ -288,6 +288,23 @@ const Trip = (() => {
     return (stays || []).find((a) => a.checkIn && a.checkOut && a.checkIn <= isoDate && isoDate < a.checkOut);
   }
 
+  /**
+   * Temperatures are stored as [{location, min, max, note}] in Celsius.
+   * `withLocation` prefixes each entry with its place name, which only helps
+   * when a day passes through more than one.
+   */
+  function temperatureLines(list) {
+    if (!has(list)) return [];
+    const showPlace = list.length > 1;
+    return list.map((t) => {
+      const place = showPlace && t.location ? `${escapeHtml(t.location)} ` : "";
+      if (t.min === null || t.max === null) {
+        return `${place}${escapeHtml(t.note || "—")}`;
+      }
+      return `${place}${t.min}–${t.max} °C`;
+    });
+  }
+
   function renderOverview(trip) {
     if (!has(trip.overview)) return `<h1>High-level itinerary</h1>${placeholder("itinerary")}`;
 
@@ -301,15 +318,27 @@ const Trip = (() => {
       .map((o) => {
         const stay = stayOn(o.date, trip.accommodation);
         const location = stay ? stay.city : cityName(o.city);
-        const stayingIn = stay && stay.name
-          ? `${escapeHtml(location)} <span class="stay-hotel">(${escapeHtml(stay.name)})</span>`
-          : escapeHtml(cityName(o.city));
+        const temps = temperatureLines(o.temperature);
+        const slotRemarks = o.slotRemarks || {};
+        // A whole-day note has no single slot to sit in, so it gets its own row.
+        const dayNote = o.remarks ? 1 : 0;
+        const span = 3 + dayNote;
 
-        // Day, place and remarks span the three time-of-day rows below.
-        return SLOTS.map((slot, i) => {
+        const stayingIn = `
+          ${stay && stay.name
+            ? `${escapeHtml(location)}<span class="stay-hotel">(${escapeHtml(stay.name)})</span>`
+            : escapeHtml(cityName(o.city))}
+          ${
+            temps.length
+              ? `<div class="stay-temp"><span class="stay-temp-label">Temperature:</span>
+                   ${temps.map((t) => `<span class="stay-temp-val">${t}</span>`).join("")}</div>`
+              : ""
+          }`;
+
+        const slotRows = SLOTS.map((slot, i) => {
           const lead =
             i === 0
-              ? `<td rowspan="3" class="ov-day">
+              ? `<td rowspan="${span}" class="ov-day">
                    <a href="day.html?day=${o.day}"><strong>Day ${o.day}</strong></a><br>
                    <span class="ov-date">${TravelSite.formatDate(o.date, {
                      day: "2-digit",
@@ -317,21 +346,23 @@ const Trip = (() => {
                      year: "numeric",
                    })}<br>${escapeHtml(o.weekday || "")}</span>
                  </td>
-                 <td rowspan="3" class="ov-stay">${stayingIn}</td>`
-              : "";
-          const trail =
-            i === 0
-              ? `<td rowspan="3" class="ov-remarks">${multiline(o.remarks)}${
-                  o.temperature ? `${o.remarks ? "<br><br>" : ""}<em>${multiline(o.temperature)}</em>` : ""
-                }</td>`
+                 <td rowspan="${span}" class="ov-stay">${stayingIn}</td>`
               : "";
           return `<tr class="${slot.cls}${i === 0 ? " ov-day-start" : ""}">
             ${lead}
             <td class="ov-slot">${slot.label}</td>
-            <td class="ov-plan">${multiline(o[slot.key])}</td>
-            ${trail}
+            <td class="ov-activity">${multiline(o[slot.key])}</td>
+            <td class="ov-remarks">${multiline(slotRemarks[slot.key])}</td>
           </tr>`;
         }).join("");
+
+        const noteRow = dayNote
+          ? `<tr class="ov-note-row">
+               <td colspan="3"><span class="ov-note-label">All day</span> ${multiline(o.remarks)}</td>
+             </tr>`
+          : "";
+
+        return slotRows + noteRow;
       })
       .join("");
 
@@ -342,7 +373,7 @@ const Trip = (() => {
         <table class="overview-table">
           <thead><tr>
             <th>Day</th><th>Staying in</th>
-            <th colspan="2">Plan</th>
+            <th colspan="2">Activity</th>
             <th>Remarks</th>
           </tr></thead>
           <tbody>${rows}</tbody>
@@ -403,7 +434,11 @@ const Trip = (() => {
       <h1>Day ${day.day}${day.city ? " · " + escapeHtml(cityName(day.city)) : ""}</h1>
       <p class="subtitle">
         ${TravelSite.formatDate(day.date)}
-        ${day.temperature ? ` · ${escapeHtml(day.temperature.replace(/\n/g, " · "))} °C` : ""}
+        ${
+          has(day.temperature)
+            ? ` · ${temperatureLines(day.temperature).join(" · ")}`
+            : ""
+        }
       </p>
       ${day.summary ? `<p class="section-note">${multiline(day.summary)}</p>` : ""}
 

@@ -203,7 +203,19 @@
       "afternoon": "Travel KL to Tokyo (Haneda)",
       "evening": "Travel KL to Tokyo (Haneda)\nTokyo Arrival\nCheck-in Tokyo Hotel (Hamamatsucho)\nLate Supper",
       "remarks": null,
-      "temperature": "Tokyo - 18-25"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": 18,
+          "max": 25,
+          "note": null
+        }
+      ]
     },
     {
       "day": 2,
@@ -214,7 +226,25 @@
       "afternoon": "Ice Cream @ Book Compass (Tokyo Station)\nCollect Car at Toyota-Rent-A-Car (Hamamatshucho)\nTravel to Kinugawa Onsen",
       "evening": "Check-in Hotel (Kinugawa Onsen)\nDinner @ Yuki (Kinugawa Onsen)\nFree & Easy",
       "remarks": "Kalai will meet and join us in Tokyo. Kalai will book a separate room for Kinugawa Onsen.\nCollect Rental Car",
-      "temperature": "Tokyo - 17-24\nKinugawa - 12-15"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": 17,
+          "max": 24,
+          "note": null
+        },
+        {
+          "location": "Kinugawa",
+          "min": 12,
+          "max": 15,
+          "note": null
+        }
+      ]
     },
     {
       "day": 3,
@@ -225,7 +255,25 @@
       "afternoon": "Lunch near Yumoto Onsen Area\nTrekking (Yumoto Onsen -> Yudaki Falls ->  Odashirogahara Marshland -> Yumoto Onsen)",
       "evening": "Dinner @ Nikko?\nFree & Easy\nRefuel Car",
       "remarks": "Gary will join us in Nikko/Kinugawa Onsen from dinner onwards",
-      "temperature": "Kinugawa - 9-14\nYumoto - 9-16"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 9,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Yumoto",
+          "min": 9,
+          "max": 16,
+          "note": null
+        }
+      ]
     },
     {
       "day": 4,
@@ -236,7 +284,25 @@
       "afternoon": "Travel to Ouchi-Juku\nLunch at Misawaya (Negi Soba)\nExplore Ouchi-Juku\nTravel to Aizu-Wakamatsu",
       "evening": "Check-in Aizuwakamatsu Hotel (Airbnb)\nDinner @ Takino (Wappameshi)\nFree & Easy/Laundry",
       "remarks": null,
-      "temperature": "Kinugawa - 6-18\nAizu - 7-19"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 6,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Aizu",
+          "min": 7,
+          "max": 19,
+          "note": null
+        }
+      ]
     },
     {
       "day": 5,
@@ -247,7 +313,19 @@
       "afternoon": "Lunch @ Bannai Shokudō (Kitakata Ramen)\nAizu Bukeyashiki Museum\nIimoriyama & Sazaedo Pagoda",
       "evening": "Dinner @ Tontei (Sauce Katsudon)\nFree & Easy/Laundry",
       "remarks": "Alternative:\n1. Kitakata Ramen (Ramen Ippei/Makoto Shokudō)\n2. Katsudon (Katsuichi/とんかつ大将 )",
-      "temperature": "Aizu - 6-18"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Aizu",
+          "min": 6,
+          "max": 18,
+          "note": null
+        }
+      ]
     },
     {
       "day": 6,
@@ -258,7 +336,25 @@
       "afternoon": "Lunch around Urabandai Kogen Eki\nLake Hibara Lakeshore Trail\nRengenuma Pond & Nakasenuma Pond\nCheck-in Urabandai Hotel (donaludo Pension)",
       "evening": "Dinner",
       "remarks": "donaludo Pension - Pay at the hotel. Please prepare 5500JPY in cash.",
-      "temperature": "Aizu - 8-18\nUrabandai - 8-16"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Aizu",
+          "min": 8,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Urabandai",
+          "min": 8,
+          "max": 16,
+          "note": null
+        }
+      ]
     },
     {
       "day": 7,
@@ -269,7 +365,31 @@
       "afternoon": "Lunch (Convenience Store)\nHike Mount Issaikyo\nTo Fukushima via Bandai Azuma Skyline",
       "evening": "Check-in Fukushima Hotel (HOTEL SANKYO FUKUSHIMA)\nRefuel Car \nDinner @Fukushima (Enban Gyoza)\nFree & Easy/Laundry",
       "remarks": "Buy food for lunch from convenience store in the morning",
-      "temperature": "Urabandai - 9-16\nAzuma - ?? Expected lower than 9-16\nFukushima - 12-19"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Urabandai",
+          "min": 9,
+          "max": 16,
+          "note": null
+        },
+        {
+          "location": "Azuma",
+          "min": null,
+          "max": null,
+          "note": "?? Expected lower than 9-16"
+        },
+        {
+          "location": "Fukushima",
+          "min": 12,
+          "max": 19,
+          "note": null
+        }
+      ]
     },
     {
       "day": 8,
@@ -280,7 +400,31 @@
       "afternoon": "Lunch @ ????\nToko Sake Museum\nBuy Ekiben @ Shinkineya??\nTravel to Zao Onsen\nCheck-in Zao Onsen Hotel",
       "evening": "Dinner\nFree & Easy",
       "remarks": null,
-      "temperature": "Fukushima - 8-17\nYonezawa - 3-16\nZao Onsen - -1-12"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Fukushima",
+          "min": 8,
+          "max": 17,
+          "note": null
+        },
+        {
+          "location": "Yonezawa",
+          "min": 3,
+          "max": 16,
+          "note": null
+        },
+        {
+          "location": "Zao Onsen",
+          "min": -1,
+          "max": 12,
+          "note": null
+        }
+      ]
     },
     {
       "day": 9,
@@ -291,7 +435,31 @@
       "afternoon": "Lunch (Convenience Store)\nHike Mount Zao\nPublic Onsen after Hiking?",
       "evening": "Travel to Yamagata\nCheck-in Yamagata Hotel (Yamagata Nanokamachi Washington Hotel)\nDinner @ Hottonaru Yokocho (Izakaya)\nFree & Easy/Laundry",
       "remarks": "See if wanna stop by Nishizao Park\nIf time allows, eat at 栄屋本店 (Hiyashi Ramen)",
-      "temperature": "Zao Onsen - 7-14\nMt Zao - ?? Expected lower than 7-14\nYamagata - 11-19"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Zao Onsen",
+          "min": 7,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Mt Zao",
+          "min": null,
+          "max": null,
+          "note": "?? Expected lower than 7-14"
+        },
+        {
+          "location": "Yamagata",
+          "min": 11,
+          "max": 19,
+          "note": null
+        }
+      ]
     },
     {
       "day": 10,
@@ -302,7 +470,19 @@
       "afternoon": "Lunch @ Yamagyu (Yakiniku)\nKajo Park & Surrounding",
       "evening": "Dinner @ 長屋酒場 (Local Yamagata Cuisine)\nFree & Easy/Laundry",
       "remarks": "If time allows, eat at 栄屋本店 (Hiyashi Ramen)",
-      "temperature": "Yamagata - 10-19"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Yamagata",
+          "min": 10,
+          "max": 19,
+          "note": null
+        }
+      ]
     },
     {
       "day": 11,
@@ -313,7 +493,25 @@
       "afternoon": "Lunch @ Yamatake (Ita Soba)\nTravel to Ginzan Onsen\nCheck-in Ginzan Onsen Hotel (Takimikan)\nFree & Easy/Onsen/Explore Ginzan Onsen",
       "evening": "Dinner @ Takimikan\nFree & Easy/Onsen/Explore Ginzan Onsen",
       "remarks": "Alternative(Ita Soba):\n1. Sugi (11 am–3 pm, Closed on Friday)\n2. そば吉里吉里(Kirikiri) (11 am–2 pm, Closed on Thu & Fri)\nKalai will leave after Yamadera/lunchtime",
-      "temperature": "Yamagata - 10-19\nGinzan Onsen - 10-19"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Yamagata",
+          "min": 10,
+          "max": 19,
+          "note": null
+        },
+        {
+          "location": "Ginzan Onsen",
+          "min": 10,
+          "max": 19,
+          "note": null
+        }
+      ]
     },
     {
       "day": 12,
@@ -324,7 +522,31 @@
       "afternoon": "Lunch around Naruko Gorge/Onsen Area\nJapan Kokeshi Museum/Katanuma Lake\nTravel to Sendai",
       "evening": "Check-in Sendai Hotel (Airbnb)\nWY - Sendai Pokemon Center\nDinner @ ほや&純米酒場 ま ぼ屋 仙台駅前店 (Hoya)\nFree & Easy/Laundry",
       "remarks": "Gary will leave after Ginzan Onsen. Drop him at Sendai Station",
-      "temperature": "Ginzan Onsen - 9-18\nNaruko - 9-18\nSendai - 12-20"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Ginzan Onsen",
+          "min": 9,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Naruko",
+          "min": 9,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Sendai",
+          "min": 12,
+          "max": 20,
+          "note": null
+        }
+      ]
     },
     {
       "day": 13,
@@ -335,7 +557,25 @@
       "afternoon": "Lunch @ Matsushima (Oyster)\nFukuurajima Island/Zuiganji Temple\nMt. Otakamori",
       "evening": "Dinner @ Rikyu Matsushima (Gyutan)\nRefuel Car\nFree & Easy/Laundry",
       "remarks": null,
-      "temperature": "Sendai - 12-19\nMatsushima - 11-19"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Sendai",
+          "min": 12,
+          "max": 19,
+          "note": null
+        },
+        {
+          "location": "Matsushima",
+          "min": 11,
+          "max": 19,
+          "note": null
+        }
+      ]
     },
     {
       "day": 14,
@@ -346,7 +586,25 @@
       "afternoon": "Lunch @ Aobajo Food Court\nAoba Castle\nDinner @ Inaho (Seri Nabe)",
       "evening": "Travel to Kinugawa Onsen\nCheck-in Kinugawa Onsen Hotel (Airbnb)\nFree & Easy/Laundry",
       "remarks": "Alternative: Wabisuke (Seri Nabe)",
-      "temperature": "Sendai - 11-20\nKinugawa - 8-18"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Sendai",
+          "min": 11,
+          "max": 20,
+          "note": null
+        },
+        {
+          "location": "Kinugawa",
+          "min": 8,
+          "max": 18,
+          "note": null
+        }
+      ]
     },
     {
       "day": 15,
@@ -357,7 +615,25 @@
       "afternoon": "Lunch @ Chunzenji Lake\nChuzenji Temple\nItalian/British Embassy\nHangetsuyama Observation Deck",
       "evening": "Dinner @ Nikko Town\nFree & Easy/Laundry",
       "remarks": "Maybe skip Chuzenji Temple",
-      "temperature": "Kinugawa - 5-17\nChuzenji - -3-7"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 5,
+          "max": 17,
+          "note": null
+        },
+        {
+          "location": "Chuzenji",
+          "min": -3,
+          "max": 7,
+          "note": null
+        }
+      ]
     },
     {
       "day": 16,
@@ -368,7 +644,31 @@
       "afternoon": "Lunch around Nikko Temple Complex\nExplore Nikko Temple Complex\nTravel to Tokyo",
       "evening": "Check-in Tokyo Hotel (Airbnb)\nRefuel Car\nReturn the car\nDinner @ Ichiran Ramen (Shinjuku)",
       "remarks": "Return the car",
-      "temperature": "Kinugawa - 6-14\nNikko - 6-15\nTokyo - 12-20"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 6,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Nikko",
+          "min": 6,
+          "max": 15,
+          "note": null
+        },
+        {
+          "location": "Tokyo",
+          "min": 12,
+          "max": 20,
+          "note": null
+        }
+      ]
     },
     {
       "day": 17,
@@ -379,7 +679,19 @@
       "afternoon": "Explore Team Labs \nTravel to Roppongi\nEarly Dinner @ Butagumi",
       "evening": "Travel to Haneda Airport\nTravel Tokyo (Haneda) to KL",
       "remarks": null,
-      "temperature": "Tokyo - 14-20"
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": 14,
+          "max": 20,
+          "note": null
+        }
+      ]
     }
   ],
   "days": [
@@ -424,7 +736,14 @@
       ],
       "city": "Tokyo (Hamamatsucho)",
       "weekday": "Friday",
-      "temperature": "Tokyo - 18-25",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": 18,
+          "max": 25,
+          "note": null
+        }
+      ],
       "summary": null
     },
     {
@@ -503,7 +822,20 @@
       ],
       "city": "Kinugawa Onsen",
       "weekday": "Saturday",
-      "temperature": "Tokyo - 17-24\nKinugawa - 12-15",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": 17,
+          "max": 24,
+          "note": null
+        },
+        {
+          "location": "Kinugawa",
+          "min": 12,
+          "max": 15,
+          "note": null
+        }
+      ],
       "summary": "Kalai will meet and join us in Tokyo. Kalai will book a separate room for Kinugawa Onsen.\nCollect Rental Car"
     },
     {
@@ -569,7 +901,20 @@
       ],
       "city": "Kinugawa Onsen",
       "weekday": "Sunday",
-      "temperature": "Kinugawa - 9-14\nYumoto - 9-16",
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 9,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Yumoto",
+          "min": 9,
+          "max": 16,
+          "note": null
+        }
+      ],
       "summary": "Gary will join us in Nikko/Kinugawa Onsen from dinner onwards"
     },
     {
@@ -664,7 +1009,20 @@
       ],
       "city": "Aizuwakamatsu",
       "weekday": "Monday",
-      "temperature": "Kinugawa - 6-18\nAizu - 7-19",
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 6,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Aizu",
+          "min": 7,
+          "max": 19,
+          "note": null
+        }
+      ],
       "summary": null
     },
     {
@@ -746,7 +1104,14 @@
       ],
       "city": "Aizuwakamatsu",
       "weekday": "Tuesday",
-      "temperature": "Aizu - 6-18",
+      "temperature": [
+        {
+          "location": "Aizu",
+          "min": 6,
+          "max": 18,
+          "note": null
+        }
+      ],
       "summary": "Alternative:\n1. Kitakata Ramen (Ramen Ippei/Makoto Shokudō)\n2. Katsudon (Katsuichi/とんかつ大将 )"
     },
     {
@@ -818,7 +1183,20 @@
       ],
       "city": "Urabandai",
       "weekday": "Wednesday",
-      "temperature": "Aizu - 8-18\nUrabandai - 8-16",
+      "temperature": [
+        {
+          "location": "Aizu",
+          "min": 8,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Urabandai",
+          "min": 8,
+          "max": 16,
+          "note": null
+        }
+      ],
       "summary": "donaludo Pension - Pay at the hotel. Please prepare 5500JPY in cash."
     },
     {
@@ -908,7 +1286,26 @@
       ],
       "city": "Fukushima",
       "weekday": "Thursday",
-      "temperature": "Urabandai - 9-16\nAzuma - ?? Expected lower than 9-16\nFukushima - 12-19",
+      "temperature": [
+        {
+          "location": "Urabandai",
+          "min": 9,
+          "max": 16,
+          "note": null
+        },
+        {
+          "location": "Azuma",
+          "min": null,
+          "max": null,
+          "note": "?? Expected lower than 9-16"
+        },
+        {
+          "location": "Fukushima",
+          "min": 12,
+          "max": 19,
+          "note": null
+        }
+      ],
       "summary": "Buy food for lunch from convenience store in the morning"
     },
     {
@@ -996,7 +1393,26 @@
       ],
       "city": "Zao Onsen",
       "weekday": "Friday",
-      "temperature": "Fukushima - 8-17\nYonezawa - 3-16\nZao Onsen - -1-12",
+      "temperature": [
+        {
+          "location": "Fukushima",
+          "min": 8,
+          "max": 17,
+          "note": null
+        },
+        {
+          "location": "Yonezawa",
+          "min": 3,
+          "max": 16,
+          "note": null
+        },
+        {
+          "location": "Zao Onsen",
+          "min": -1,
+          "max": 12,
+          "note": null
+        }
+      ],
       "summary": null
     },
     {
@@ -1084,7 +1500,26 @@
       ],
       "city": "Yamagata",
       "weekday": "Saturday",
-      "temperature": "Zao Onsen - 7-14\nMt Zao - ?? Expected lower than 7-14\nYamagata - 11-19",
+      "temperature": [
+        {
+          "location": "Zao Onsen",
+          "min": 7,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Mt Zao",
+          "min": null,
+          "max": null,
+          "note": "?? Expected lower than 7-14"
+        },
+        {
+          "location": "Yamagata",
+          "min": 11,
+          "max": 19,
+          "note": null
+        }
+      ],
       "summary": "See if wanna stop by Nishizao Park\nIf time allows, eat at 栄屋本店 (Hiyashi Ramen)"
     },
     {
@@ -1147,7 +1582,14 @@
       ],
       "city": "Yamagata",
       "weekday": "Sunday",
-      "temperature": "Yamagata - 10-19",
+      "temperature": [
+        {
+          "location": "Yamagata",
+          "min": 10,
+          "max": 19,
+          "note": null
+        }
+      ],
       "summary": "If time allows, eat at 栄屋本店 (Hiyashi Ramen)"
     },
     {
@@ -1230,7 +1672,20 @@
       ],
       "city": "Ginzan Onsen",
       "weekday": "Monday",
-      "temperature": "Yamagata - 10-19\nGinzan Onsen - 10-19",
+      "temperature": [
+        {
+          "location": "Yamagata",
+          "min": 10,
+          "max": 19,
+          "note": null
+        },
+        {
+          "location": "Ginzan Onsen",
+          "min": 10,
+          "max": 19,
+          "note": null
+        }
+      ],
       "summary": "Alternative(Ita Soba):\n1. Sugi (11 am–3 pm, Closed on Friday)\n2. そば吉里吉里(Kirikiri) (11 am–2 pm, Closed on Thu & Fri)\nKalai will leave after Yamadera/lunchtime"
     },
     {
@@ -1322,7 +1777,26 @@
       ],
       "city": "Sendai",
       "weekday": "Tuesday",
-      "temperature": "Ginzan Onsen - 9-18\nNaruko - 9-18\nSendai - 12-20",
+      "temperature": [
+        {
+          "location": "Ginzan Onsen",
+          "min": 9,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Naruko",
+          "min": 9,
+          "max": 18,
+          "note": null
+        },
+        {
+          "location": "Sendai",
+          "min": 12,
+          "max": 20,
+          "note": null
+        }
+      ],
       "summary": "Gary will leave after Ginzan Onsen. Drop him at Sendai Station"
     },
     {
@@ -1423,7 +1897,20 @@
       ],
       "city": "Sendai",
       "weekday": "Wednesday",
-      "temperature": "Sendai - 12-19\nMatsushima - 11-19",
+      "temperature": [
+        {
+          "location": "Sendai",
+          "min": 12,
+          "max": 19,
+          "note": null
+        },
+        {
+          "location": "Matsushima",
+          "min": 11,
+          "max": 19,
+          "note": null
+        }
+      ],
       "summary": null
     },
     {
@@ -1518,7 +2005,20 @@
       ],
       "city": "Kinugawa Onsen",
       "weekday": "Thursday",
-      "temperature": "Sendai - 11-20\nKinugawa - 8-18",
+      "temperature": [
+        {
+          "location": "Sendai",
+          "min": 11,
+          "max": 20,
+          "note": null
+        },
+        {
+          "location": "Kinugawa",
+          "min": 8,
+          "max": 18,
+          "note": null
+        }
+      ],
       "summary": "Alternative: Wabisuke (Seri Nabe)"
     },
     {
@@ -1607,7 +2107,20 @@
       ],
       "city": "Kinugawa Onsen",
       "weekday": "Friday",
-      "temperature": "Kinugawa - 5-17\nChuzenji - -3-7",
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 5,
+          "max": 17,
+          "note": null
+        },
+        {
+          "location": "Chuzenji",
+          "min": -3,
+          "max": 7,
+          "note": null
+        }
+      ],
       "summary": "Maybe skip Chuzenji Temple"
     },
     {
@@ -1699,7 +2212,26 @@
       ],
       "city": "Tokyo (Setagaya)",
       "weekday": "Saturday",
-      "temperature": "Kinugawa - 6-14\nNikko - 6-15\nTokyo - 12-20",
+      "temperature": [
+        {
+          "location": "Kinugawa",
+          "min": 6,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Nikko",
+          "min": 6,
+          "max": 15,
+          "note": null
+        },
+        {
+          "location": "Tokyo",
+          "min": 12,
+          "max": 20,
+          "note": null
+        }
+      ],
       "summary": "Return the car"
     },
     {
@@ -1782,7 +2314,14 @@
       ],
       "city": "Tokyo → Kuala Lumpur",
       "weekday": "Sunday",
-      "temperature": "Tokyo - 14-20",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": 14,
+          "max": 20,
+          "note": null
+        }
+      ],
       "summary": null
     }
   ],

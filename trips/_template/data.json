@@ -102,7 +102,7 @@
     }
   ],
 
-  "_overview": "One row per day — the high-level itinerary table. Time bands are free text.",
+  "_overview": "One row per day. Each day renders as three colour-banded rows — morning, afternoon, evening — with its own remark per slot. `remarks` is a whole-day note shown on its own row underneath. `temperature` is a list in Celsius; give one entry per place the day passes through, and use `note` instead of min/max when it isn't a plain range. The hotel shown in the Staying in column is matched automatically from `accommodation` by date.",
   "overview": [
     {
       "day": 1,
@@ -112,8 +112,13 @@
       "morning": "Flight out",
       "afternoon": "Arrive, clear immigration",
       "evening": "Check in\nDinner nearby",
-      "remarks": "Optional note for the day",
-      "temperature": "City - 8-15"
+      "slotRemarks": {
+        "morning": "Leave for the airport 3h before.",
+        "afternoon": null,
+        "evening": "Hotel reception closes at 11pm."
+      },
+      "remarks": "Optional note that applies to the whole day.",
+      "temperature": [{ "location": "Arrival city", "min": 8, "max": 15, "note": null }]
     },
     {
       "day": 2,
@@ -123,8 +128,12 @@
       "morning": "Breakfast\nMuseum",
       "afternoon": "Lunch\nOld town walk",
       "evening": "Dinner",
+      "slotRemarks": { "morning": "Museum closed Mondays.", "afternoon": null, "evening": null },
       "remarks": null,
-      "temperature": "City - 7-14"
+      "temperature": [
+        { "location": "Arrival city", "min": 7, "max": 14, "note": null },
+        { "location": "Hill town", "min": null, "max": null, "note": "Colder — no forecast yet" }
+      ]
     },
     {
       "day": 3,
@@ -134,8 +143,9 @@
       "morning": "Check out",
       "afternoon": "Airport",
       "evening": "Fly home",
+      "slotRemarks": { "morning": null, "afternoon": null, "evening": null },
       "remarks": null,
-      "temperature": null
+      "temperature": []
     }
   ],
 

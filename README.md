@@ -59,7 +59,7 @@ breaking, so a half-planned trip still renders.
 | `summary` | `totalDays` and an optional `note` shown atop the budget page |
 | `budget.categories` | `category`, `perDay`, `budget`, `actual` — in **home** currency |
 | `settle` | Group cost-splitting rows; `amounts` keys must match `travelers` |
-| `overview` | One row per day for the high-level table |
+| `overview` | One row per day; `morning`/`afternoon`/`evening` activities, `slotRemarks` per slot, `remarks` for a whole-day note, `temperature` list in Celsius |
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks` |
 | `accommodation` | Stays, with optional `perPerson` split |
 | `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
@@ -71,6 +71,14 @@ breaking, so a half-planned trip still renders.
 `days[].items[].costs` are in **trip** currency and get converted for display;
 everything in `budget`, `settle` and `accommodation` is in **home** currency. Omit
 `exchangeRate` entirely for a domestic trip and cost columns collapse to one currency.
+
+**The overview table.** Each day renders as three colour-banded rows — morning,
+afternoon, evening — with the activity and its own remark sharing the band's tint. A
+`remarks` value applies to the whole day and gets its own row underneath. The hotel in
+the "Staying in" column is resolved from `accommodation` by date rather than typed
+twice, so correcting a stay updates the overview too. Temperatures are always Celsius:
+one `{location, min, max}` entry per place a day passes through, or `note` when there
+is no firm range.
 
 **Flights and check-in.** Each flight card shows a check-in time so you can work
 backwards to when you need to leave for the airport. It defaults to 3 hours before

@@ -404,9 +404,44 @@ tfoot td {
   font-size: 0.85rem;
   color: var(--text-dim);
 }
-.ov-remarks {
+.stay-temp {
+  margin-top: 6px;
+  font-weight: 400;
+  font-size: 0.82rem;
   color: var(--text-dim);
+}
+.stay-temp-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.stay-temp-val {
+  display: block;
+  white-space: nowrap;
+}
+.ov-remarks {
   font-size: 0.85rem;
+  vertical-align: top;
+}
+/* A note that applies to the whole day rather than one time slot. */
+.ov-note-row td {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  padding-top: 4px;
+}
+.ov-note-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 1px 6px;
+  margin-right: 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  vertical-align: 1px;
 }
 .ov-slot {
   font-size: 0.76rem;
@@ -416,27 +451,31 @@ tfoot td {
   white-space: nowrap;
   vertical-align: top;
 }
-.ov-plan {
+.ov-activity {
   vertical-align: top;
 }
 
-/* Sunrise / daylight / dusk tints, so the three bands are told apart at a glance. */
+/* Sunrise / daylight / dusk tints, carried across the slot label, the activity
+   and its remarks so each band reads as one strip. */
 .slot-morning .ov-slot,
-.slot-morning .ov-plan {
+.slot-morning .ov-activity,
+.slot-morning .ov-remarks {
   background: var(--slot-morning-bg);
 }
 .slot-morning .ov-slot {
   color: var(--slot-morning-fg);
 }
 .slot-afternoon .ov-slot,
-.slot-afternoon .ov-plan {
+.slot-afternoon .ov-activity,
+.slot-afternoon .ov-remarks {
   background: var(--slot-afternoon-bg);
 }
 .slot-afternoon .ov-slot {
   color: var(--slot-afternoon-fg);
 }
 .slot-evening .ov-slot,
-.slot-evening .ov-plan {
+.slot-evening .ov-activity,
+.slot-evening .ov-remarks {
   background: var(--slot-evening-bg);
 }
 .slot-evening .ov-slot {
