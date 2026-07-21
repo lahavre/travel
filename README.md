@@ -7,16 +7,18 @@ Trip itineraries, planned and researched with Claude Code, published as a static
 ```
 index.html            Landing page — lists trips newest-first
 trips.json            Trip manifest that the landing page reads
+serve.py              Local preview server (no-cache)
 assets/               Shared stylesheet + JS (site helpers, trip page renderers)
+tools/                One-off scripts (Excel migration, page scaffolding)
 trips/_template/      Copy this folder to start a new trip
 trips/<slug>/
   data.json           Single source of truth for the trip
-  index.html          Trip home
+  index.html          Trip home — flights, hotels, jump-to-a-day
   overview.html       High-level itinerary
   day.html?day=N      Detailed plan for one day, with prev/next navigation
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
-  transport.html      Driving log / getting around
+  transport.html      Travel log / getting around
   todo.html           Pre-trip bookings and paperwork
 ```
 
@@ -76,9 +78,9 @@ everything in `budget`, `settle` and `accommodation` is in **home** currency. Om
 afternoon, evening — with the activity and its own remark sharing the band's tint. A
 `remarks` value applies to the whole day and gets its own row underneath. The hotel in
 the "Staying in" column is resolved from `accommodation` by date rather than typed
-twice, so correcting a stay updates the overview too. Temperatures are always Celsius:
-one `{location, min, max}` entry per place a day passes through, or `note` when there
-is no firm range.
+twice, so correcting a stay updates the overview too. Temperatures are always Celsius
+and read `City: 18 to 25 °C`: one `{location, min, max}` entry per place a day passes
+through, or `note` when there is no firm range.
 
 **Flights and check-in.** Each flight card shows a check-in time so you can work
 backwards to when you need to leave for the airport. It defaults to 3 hours before
@@ -108,6 +110,21 @@ appearing to do nothing until a hard reload.
 Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned in
 `assets/common.js` rather than following the viewer's browser.
 
+## Tools
+
+`tools/` holds scripts that are not part of the site:
+
+- `new_trip_pages.py [slug...]` — (re)writes the seven boilerplate pages into trip
+  folders. Copying `trips/_template/` does the same for a single new trip; this is for
+  updating every trip at once if the boilerplate changes.
+- `migrate_japan_2023.py [xlsx]` — rebuilds the Japan trip's `data.json` from the
+  original workbook. Kept for provenance: it records exactly how those figures were
+  derived, and is the starting point for migrating another old workbook. Needs
+  `openpyxl`, and the workbook must be closed in Excel or the file is locked.
+
 ## Publishing
 
-Hosted with GitHub Pages from the `main` branch (Settings → Pages → deploy from a branch).
+Hosted with GitHub Pages from the `main` branch
+(Settings → Pages → Source: Deploy from a branch → `main` / `(root)`).
+
+**Not yet enabled** — until it is, the site only runs locally.
