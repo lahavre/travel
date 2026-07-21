@@ -57,8 +57,10 @@ blocks pushes carrying a private email.
 
 ## Status
 
+- Live at <https://lahavre.github.io/travel/>; pushing to `main` redeploys.
 - Japan 2023 is migrated and reconciled; it is the reference trip.
 - `trips/_template/` is the starting point, deliberately absent from `trips.json`.
 - The design is a **first draft** — formatting is expected to keep changing.
-- **GitHub Pages is not enabled yet** (Settings → Pages → deploy from `main`, root).
-  That is a repo setting only the owner can change.
+
+Do not delete the root `.nojekyll`. Without it Pages runs Jekyll, which drops every
+path starting with an underscore and 404s `trips/_template/`.

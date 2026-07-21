@@ -124,7 +124,12 @@ Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned 
 
 ## Publishing
 
-Hosted with GitHub Pages from the `main` branch
-(Settings → Pages → Source: Deploy from a branch → `main` / `(root)`).
+Live at <https://lahavre.github.io/travel/>, served by GitHub Pages from `main`
+(Settings → Pages → Source: Deploy from a branch → `main` / `(root)`). Pushing to
+`main` redeploys; allow a minute, and note Pages sets `Cache-Control: max-age=600`,
+so a hard refresh may be needed to see a change immediately.
 
-**Not yet enabled** — until it is, the site only runs locally.
+The empty `.nojekyll` file at the repo root is **required**. Without it GitHub Pages
+runs the files through Jekyll, which silently drops anything whose name starts with an
+underscore — that would 404 the whole of `trips/_template/`. Keep it, and the
+published site matches the repo exactly.
