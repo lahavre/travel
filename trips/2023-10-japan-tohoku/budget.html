@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Budget — Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("budget", (trip) => {
+      const { rows, totalBudget, totalActual } = TravelSite.computeBudgetSummary(trip.budget.categories);
+      const myr = (v) => TravelSite.formatMoney(v, "MYR");
+
+      const budgetRows = rows
+        .map(
+          (c) => `
+          <tr>
+            <td>${Trip.escapeHtml(c.category)}</td>
+            <td class="num">${c.perDay ? myr(c.perDay) : "—"}</td>
+            <td class="num">${myr(c.budget)}</td>
+            <td class="num">${TravelSite.formatPercent(c.pctOfBudget)}</td>
+            <td class="num">${c.actual === null ? "—" : myr(c.actual)}</td>
+            <td class="num">${c.actual === null ? "—" : TravelSite.formatPercent(c.pctOfActual)}</td>
+            <td class="num">${c.actual === null ? "—" : myr(c.diff)}</td>
+          </tr>`
+        )
+        .join("");
+
+      // Day-by-day planned spend, rolled up from the detailed itinerary.
+      const dayRows = trip.days
+        .map((d) => {
+          const { sum } = Trip.dayCosts(d);
+          return { day: d.day, date: d.date, city: d.city, jpy: sum };
+        })
+        .filter((d) => d.jpy > 0);
+      const plannedJPY = dayRows.reduce((s, d) => s + d.jpy, 0);
+
+      const settleRows = trip.settle
+        .map(
+          (r) => `
+          <tr>
+            <td>${Trip.escapeHtml(r.label)}</td>
+            ${trip.travelers
+              .map((t) => `<td class="num">${r.amounts[t] === null ? "—" : myr(r.amounts[t])}</td>`)
+              .join("")}
+            <td style="color:var(--text-dim);font-size:.85rem">${Trip.multiline(r.remarks)}</td>
+          </tr>`
+        )
+        .join("");
+
+      const fxRows = trip.exchangeRate.history
+        .map(
+          (f) => `<tr><td>${TravelSite.formatDate(f.date, { day: "2-digit", month: "short", year: "numeric" })}</td>
+            <td class="num">${myr(f.myr)}</td>
+            <td class="num">¥${f.jpy.toLocaleString()}</td>
+            <td class="num">${f.rate}</td></tr>`
+        )
+        .join("");
+
+      document.getElementById("main").innerHTML = `
+        <h1>Budget &amp; settle-up</h1>
+        <p class="subtitle">${Trip.escapeHtml(trip.summary.note)}</p>
+
+        <div class="fact-grid">
+          <div class="fact"><div class="label">Budgeted</div><div class="value">${myr(totalBudget)}</div></div>
+          <div class="fact"><div class="label">Actual</div><div class="value">${myr(totalActual)}</div></div>
+          <div class="fact"><div class="label">Under budget by</div><div class="value">${myr(totalBudget - totalActual)}</div></div>
+          <div class="fact"><div class="label">Avg / day</div><div class="value">${myr(totalActual / trip.summary.totalDays)}</div></div>
+        </div>
+
+        <h2>Budget vs actual by category</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Category</th><th class="num">Per day</th>
+              <th class="num">Budget</th><th class="num">% of budget</th>
+              <th class="num">Actual</th><th class="num">% of actual</th><th class="num">Difference</th>
+            </tr></thead>
+            <tbody>${budgetRows}</tbody>
+            <tfoot><tr>
+              <td>Total</td><td class="num"></td>
+              <td class="num">${myr(totalBudget)}</td><td class="num">100.0%</td>
+              <td class="num">${myr(totalActual)}</td><td class="num">100.0%</td>
+              <td class="num">${myr(totalBudget - totalActual)}</td>
+            </tr></tfoot>
+          </table>
+        </div>
+        <p class="section-note">Categories showing “—” for actual were never tallied in the original spreadsheet.</p>
+
+        <h2>Settle-up between travellers</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th></th>${trip.travelers.map((t) => `<th class="num">${Trip.escapeHtml(t)}</th>`).join("")}<th>Remarks</th></tr></thead>
+            <tbody>${settleRows}</tbody>
+          </table>
+        </div>
+
+        <h2>Planned spend from the itinerary</h2>
+        <p class="section-note">Rolled up from every costed activity in the day-by-day plan — group total, before splitting.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Day</th><th>Where</th><th class="num">JPY</th><th class="num">MYR</th></tr></thead>
+            <tbody>${dayRows
+              .map(
+                (d) => `<tr>
+                  <td><a href="day.html?day=${d.day}">Day ${d.day}</a></td>
+                  <td>${Trip.escapeHtml((d.city || "").replace(/\n/g, " "))}</td>
+                  <td class="num">¥${d.jpy.toLocaleString()}</td>
+                  <td class="num">${myr(Trip.toMYR(d.jpy, trip))}</td></tr>`
+              )
+              .join("")}</tbody>
+            <tfoot><tr><td colspan="2">Total planned</td>
+              <td class="num">¥${plannedJPY.toLocaleString()}</td>
+              <td class="num">${myr(Trip.toMYR(plannedJPY, trip))}</td></tr></tfoot>
+          </table>
+        </div>
+
+        <h2>Exchange rate history</h2>
+        <p class="section-note">Effective rate used across this trip: <strong>${trip.exchangeRate.effectivePer100} MYR per 100 JPY</strong>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date exchanged</th><th class="num">MYR</th><th class="num">JPY</th><th class="num">Rate (MYR/100¥)</th></tr></thead>
+            <tbody>${fxRows}</tbody>
+          </table>
+        </div>`;
+    });
+  </script>
+</body>
+</html>

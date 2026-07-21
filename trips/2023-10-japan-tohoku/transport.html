@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Transport — Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("transport", (trip) => {
+      const legs = trip.transport.legs;
+      const refuels = legs.filter((l) => l.refuel).length;
+
+      const rows = legs
+        .map(
+          (l) => `<tr>
+            <td><a href="day.html?day=${l.day}">Day ${l.day}</a><br>
+              <span style="color:var(--text-dim);font-size:.82rem">${TravelSite.formatDate(l.date, { day: "2-digit", month: "short" })}</span></td>
+            <td>${Trip.escapeHtml(l.route)}</td>
+            <td class="num">${l.km ? l.km.toLocaleString() + " km" : "—"}</td>
+            <td>${l.refuel ? "⛽ Refuel" : ""}</td>
+          </tr>`
+        )
+        .join("");
+
+      document.getElementById("main").innerHTML = `
+        <h1>Transport</h1>
+        <p class="subtitle">${Trip.escapeHtml(trip.transport.mode)}</p>
+
+        <div class="fact-grid">
+          <div class="fact"><div class="label">Total distance</div><div class="value">${trip.transport.totalKm.toLocaleString()} km</div></div>
+          <div class="fact"><div class="label">Driving days</div><div class="value">${legs.length}</div></div>
+          <div class="fact"><div class="label">Refuel stops</div><div class="value">${refuels}</div></div>
+          <div class="fact"><div class="label">Car rental total</div><div class="value">${TravelSite.formatMoney(trip.transport.rentalTotalMYR, "MYR")}</div></div>
+        </div>
+
+        <h2>Driving log</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Day</th><th>Route</th><th class="num">Distance</th><th></th></tr></thead>
+            <tbody>${rows}</tbody>
+            <tfoot><tr><td colspan="2">Total</td>
+              <td class="num">${trip.transport.totalKm.toLocaleString()} km</td><td></td></tr></tfoot>
+          </table>
+        </div>
+        <p class="section-note">Car rental, fuel, parking and ETC tolls are split between travellers on the
+          <a href="budget.html">budget page</a>.</p>`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Day — Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("day", (trip) => {
+      const requested = parseInt(new URLSearchParams(location.search).get("day"), 10);
+      const day = trip.days.find((d) => d.day === requested) || trip.days[0];
+      const idx = trip.days.indexOf(day);
+      const prev = trip.days[idx - 1];
+      const next = trip.days[idx + 1];
+      const { totals, sum } = Trip.dayCosts(day);
+
+      document.title = `Day ${day.day} — ${trip.title}`;
+
+      const pager = (pos) => `
+        <div class="day-pager">
+          ${prev ? `<a href="day.html?day=${prev.day}">← Day ${prev.day}</a>` : `<span class="disabled">← Day ${day.day - 1}</span>`}
+          <a href="overview.html">All days</a>
+          ${next ? `<a href="day.html?day=${next.day}">Day ${next.day} →</a>` : `<span class="disabled">Day ${day.day + 1} →</span>`}
+        </div>`;
+
+      const timeline = day.items
+        .map(
+          (it) => `
+          <div class="timeline-item">
+            <div class="timeline-time">${it.time || ""}</div>
+            <div>
+              <div class="timeline-activity">${Trip.multiline(it.activity)}</div>
+              ${it.remarks ? `<div class="timeline-meta">${Trip.multiline(it.remarks)}</div>` : ""}
+              ${
+                Object.keys(it.costs || {}).length
+                  ? `<div class="cost-tags">${Object.entries(it.costs)
+                      .map(([k, v]) => `<span class="cost-tag">${Trip.COST_LABELS[k]}: ¥${v.toLocaleString()}</span>`)
+                      .join("")}</div>`
+                  : ""
+              }
+            </div>
+          </div>`
+        )
+        .join("");
+
+      const costRows = Object.entries(totals)
+        .map(
+          ([k, v]) => `<tr><td>${Trip.COST_LABELS[k]}</td>
+            <td class="num">¥${v.toLocaleString()}</td>
+            <td class="num">${TravelSite.formatMoney(Trip.toMYR(v, trip), "MYR")}</td></tr>`
+        )
+        .join("");
+
+      document.getElementById("main").innerHTML = `
+        <h1>Day ${day.day} · ${Trip.escapeHtml((day.city || "").replace(/\n/g, " "))}</h1>
+        <p class="subtitle">
+          ${TravelSite.formatDate(day.date)}
+          ${day.temperature ? ` · ${Trip.escapeHtml(day.temperature.replace(/\n/g, " · "))} °C` : ""}
+        </p>
+        ${day.summary ? `<p class="section-note">${Trip.multiline(day.summary)}</p>` : ""}
+
+        ${pager()}
+
+        <h2>Plan</h2>
+        <div>${timeline}</div>
+
+        <h2>Estimated cost for the day</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Category</th><th class="num">JPY</th><th class="num">MYR</th></tr></thead>
+            <tbody>${costRows || `<tr><td colspan="3">No costs recorded for this day.</td></tr>`}</tbody>
+            <tfoot><tr><td>Total</td>
+              <td class="num">¥${sum.toLocaleString()}</td>
+              <td class="num">${TravelSite.formatMoney(Trip.toMYR(sum, trip), "MYR")}</td></tr></tfoot>
+          </table>
+        </div>
+
+        ${pager()}`;
+    });
+  </script>
+</body>
+</html>

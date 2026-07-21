@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("index", (trip) => {
+      const nights = trip.accommodation.reduce((s, a) => s + (a.nights || 0), 0);
+      const cities = [...new Set(trip.overview.map((o) => o.city).filter(Boolean))];
+
+      document.getElementById("main").innerHTML = `
+        <h1>${trip.emoji} ${Trip.escapeHtml(trip.title)}</h1>
+        <p class="subtitle">
+          ${TravelSite.formatDate(trip.startDate)} – ${TravelSite.formatDate(trip.endDate)}
+          · ${trip.summary.totalDays} days · ${Trip.escapeHtml(trip.travelers.join(", "))}
+        </p>
+
+        <div class="fact-grid">
+          <div class="fact"><div class="label">Days</div><div class="value">${trip.summary.totalDays}</div></div>
+          <div class="fact"><div class="label">Hotel nights</div><div class="value">${nights}</div></div>
+          <div class="fact"><div class="label">Distance driven</div><div class="value">${trip.transport.totalKm.toLocaleString()} km</div></div>
+          <div class="fact"><div class="label">Exchange rate</div><div class="value">${trip.exchangeRate.effectivePer100} <span style="font-size:.8rem;font-weight:400">MYR/100¥</span></div></div>
+        </div>
+
+        <div class="quick-links">
+          <a href="overview.html">High-level itinerary</a>
+          <a href="day.html?day=1">Day-by-day</a>
+          <a href="budget.html">Budget &amp; settle-up</a>
+          <a href="accommodation.html">Accommodation</a>
+          <a href="transport.html">Transport</a>
+          <a href="todo.html">To-do list</a>
+        </div>
+
+        <h2>Route</h2>
+        <p>${Trip.escapeHtml(cities.join(" → "))}</p>
+
+        <h2>Getting around</h2>
+        <p>${Trip.escapeHtml(trip.transport.mode)}</p>
+
+        <h2>Jump to a day</h2>
+        <div class="quick-links">
+          ${trip.days
+            .map(
+              (d) =>
+                `<a href="day.html?day=${d.day}">Day ${d.day}<span style="display:block;font-weight:400;font-size:.78rem;color:var(--text-dim)">${Trip.escapeHtml((d.city || "").split(" (")[0])}</span></a>`
+            )
+            .join("")}
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2209 @@
+{
+  "slug": "2023-10-japan-tohoku",
+  "title": "Japan — Tohoku, Fukushima & Nikko",
+  "destination": "Japan",
+  "emoji": "🇯🇵",
+  "startDate": "2023-10-13",
+  "endDate": "2023-10-29",
+  "travelers": [
+    "CMC",
+    "WY",
+    "Gary",
+    "Kalai"
+  ],
+  "homeCurrency": "MYR",
+  "tripCurrency": "JPY",
+  "exchangeRate": {
+    "effectivePer100": 3.305,
+    "history": [
+      {
+        "date": "2022-06-26",
+        "myr": 1657.5,
+        "jpy": 50000.0,
+        "rate": 3.315
+      },
+      {
+        "date": "2023-01-14",
+        "myr": 1714.0,
+        "jpy": 50000.0,
+        "rate": 3.428
+      },
+      {
+        "date": "2023-02-25",
+        "myr": 1672.5,
+        "jpy": 50000.0,
+        "rate": 3.345
+      },
+      {
+        "date": "2023-06-24",
+        "myr": 1663.5,
+        "jpy": 50000.0,
+        "rate": 3.327
+      },
+      {
+        "date": "2023-07-22",
+        "myr": 1662.5,
+        "jpy": 50000.0,
+        "rate": 3.325
+      },
+      {
+        "date": "2023-06-08",
+        "myr": 1630.0,
+        "jpy": 50000.0,
+        "rate": 3.26
+      },
+      {
+        "date": "2023-09-12",
+        "myr": 3220.0,
+        "jpy": 100000.0,
+        "rate": 3.22
+      }
+    ]
+  },
+  "summary": {
+    "totalDays": 17,
+    "budgetTotal": 12885.85,
+    "actualTotal": 8407.1,
+    "note": "Budget and actual figures are one person's share (the trip organiser). Group-wide totals live on the Accommodation and Settle-up tables."
+  },
+  "budget": {
+    "categories": [
+      {
+        "category": "Airplane Ticket",
+        "perDay": null,
+        "budget": 2387.85,
+        "actual": 2387.85
+      },
+      {
+        "category": "SIM / Roaming",
+        "perDay": null,
+        "budget": 98.0,
+        "actual": 98.0
+      },
+      {
+        "category": "Accommodation",
+        "perDay": 200.0,
+        "budget": 3200.0,
+        "actual": 3027.42
+      },
+      {
+        "category": "Transportation",
+        "perDay": 200.0,
+        "budget": 3200.0,
+        "actual": 2773.37
+      },
+      {
+        "category": "Food",
+        "perDay": 200.0,
+        "budget": 3200.0,
+        "actual": null
+      },
+      {
+        "category": "Sightseeing",
+        "perDay": 50.0,
+        "budget": 800.0,
+        "actual": 120.45
+      },
+      {
+        "category": "Miscellaneous",
+        "perDay": 0.0,
+        "budget": 0.0,
+        "actual": null
+      },
+      {
+        "category": "Souvenir",
+        "perDay": 0.0,
+        "budget": 0.0,
+        "actual": null
+      }
+    ]
+  },
+  "settle": [
+    {
+      "label": "Hotel",
+      "amounts": {
+        "CMC": 3027.42,
+        "WY": 3027.42,
+        "Gary": 1901.59,
+        "Kalai": 1043.01
+      },
+      "remarks": "All payment already charged via CC"
+    },
+    {
+      "label": "Transport",
+      "amounts": {
+        "CMC": 2773.37,
+        "WY": 2773.37,
+        "Gary": 966.09,
+        "Kalai": 1306.65
+      },
+      "remarks": "CMC to pay for rental car first, petrol, parking, ETC, and other stuff first. \nThen divide it later."
+    },
+    {
+      "label": "Advanced Payment (Before the trip)",
+      "amounts": {
+        "CMC": null,
+        "WY": 3027.42,
+        "Gary": 1901.59,
+        "Kalai": 0.0
+      },
+      "remarks": null
+    },
+    {
+      "label": "Remaining Payment (After the trip)",
+      "amounts": {
+        "CMC": 5800.8,
+        "WY": 2773.38,
+        "Gary": 966.08,
+        "Kalai": 2349.66
+      },
+      "remarks": null
+    }
+  ],
+  "overview": [
+    {
+      "day": 1,
+      "weekday": "Friday",
+      "date": "2023-10-13",
+      "city": "Tokyo (Hamamatsucho)",
+      "morning": null,
+      "afternoon": "Travel KL to Tokyo (Haneda)",
+      "evening": "Travel KL to Tokyo (Haneda)\nTokyo Arrival\nCheck-in Tokyo Hotel (Hamamatsucho)\nLate Supper",
+      "remarks": null,
+      "temperature": "Tokyo - 18-25"
+    },
+    {
+      "day": 2,
+      "weekday": "Saturday",
+      "date": "2023-10-14",
+      "city": "Kinugawa Onsen",
+      "morning": "Check-out Tokyo Hotel (Hamamatsucho)\nMeet with Kalai\nBrunch @ Gyukatsu Motomura Muromachi",
+      "afternoon": "Ice Cream @ Book Compass (Tokyo Station)\nCollect Car at Toyota-Rent-A-Car (Hamamatshucho)\nTravel to Kinugawa Onsen",
+      "evening": "Check-in Hotel (Kinugawa Onsen)\nDinner @ Yuki (Kinugawa Onsen)\nFree & Easy",
+      "remarks": "Kalai will meet and join us in Tokyo. Kalai will book a separate room for Kinugawa Onsen.\nCollect Rental Car",
+      "temperature": "Tokyo - 17-24\nKinugawa - 12-15"
+    },
+    {
+      "day": 3,
+      "weekday": "Sunday",
+      "date": "2023-10-15",
+      "city": "Kinugawa Onsen",
+      "morning": "Breakfast (Convenience Store)\nTravel to Ryuzu Falls\nTrekking (Ryuzu Falls -> Senjogahara Marshland -> Yudaki Falls -> Yumoto Onsen)",
+      "afternoon": "Lunch near Yumoto Onsen Area\nTrekking (Yumoto Onsen -> Yudaki Falls ->  Odashirogahara Marshland -> Yumoto Onsen)",
+      "evening": "Dinner @ Nikko?\nFree & Easy\nRefuel Car",
+      "remarks": "Gary will join us in Nikko/Kinugawa Onsen from dinner onwards",
+      "temperature": "Kinugawa - 9-14\nYumoto - 9-16"
+    },
+    {
+      "day": 4,
+      "weekday": "Monday",
+      "date": "2023-10-16",
+      "city": "Aizuwakamatsu",
+      "morning": "Breakfast (Convenience Store)\nCheck-out Hotel (Kinugawa Onsen)\nRyuokyo Gorge\nTravel to To-no-Hetsuri",
+      "afternoon": "Travel to Ouchi-Juku\nLunch at Misawaya (Negi Soba)\nExplore Ouchi-Juku\nTravel to Aizu-Wakamatsu",
+      "evening": "Check-in Aizuwakamatsu Hotel (Airbnb)\nDinner @ Takino (Wappameshi)\nFree & Easy/Laundry",
+      "remarks": null,
+      "temperature": "Kinugawa - 6-18\nAizu - 7-19"
+    },
+    {
+      "day": 5,
+      "weekday": "Tuesday",
+      "date": "2023-10-17",
+      "city": "Aizuwakamatsu",
+      "morning": "Breakfast (Convenience Store)\nEnzoji Temple",
+      "afternoon": "Lunch @ Bannai Shokudō (Kitakata Ramen)\nAizu Bukeyashiki Museum\nIimoriyama & Sazaedo Pagoda",
+      "evening": "Dinner @ Tontei (Sauce Katsudon)\nFree & Easy/Laundry",
+      "remarks": "Alternative:\n1. Kitakata Ramen (Ramen Ippei/Makoto Shokudō)\n2. Katsudon (Katsuichi/とんかつ大将 )",
+      "temperature": "Aizu - 6-18"
+    },
+    {
+      "day": 6,
+      "weekday": "Wednesday",
+      "date": "2023-10-18",
+      "city": "Urabandai",
+      "morning": "Check-out Aizuwakamatsu Hotel (Airbnb)\nBreakfast (Convenience Store)\nTravel to Urabandai via Bandai Gold Line\nGoshikinuma Ponds Trail",
+      "afternoon": "Lunch around Urabandai Kogen Eki\nLake Hibara Lakeshore Trail\nRengenuma Pond & Nakasenuma Pond\nCheck-in Urabandai Hotel (donaludo Pension)",
+      "evening": "Dinner",
+      "remarks": "donaludo Pension - Pay at the hotel. Please prepare 5500JPY in cash.",
+      "temperature": "Aizu - 8-18\nUrabandai - 8-16"
+    },
+    {
+      "day": 7,
+      "weekday": "Thursday",
+      "date": "2023-10-19",
+      "city": "Fukushima",
+      "morning": "Check-out Urabandai Hotel (donaludo Pension)\nBreakfast (Convenience Store)\nTo Jododaira Visitor Center via Bandai Azuma Lakeline & Bandai Azuma Skyline\nHike Mount Azuma Kofuji",
+      "afternoon": "Lunch (Convenience Store)\nHike Mount Issaikyo\nTo Fukushima via Bandai Azuma Skyline",
+      "evening": "Check-in Fukushima Hotel (HOTEL SANKYO FUKUSHIMA)\nRefuel Car \nDinner @Fukushima (Enban Gyoza)\nFree & Easy/Laundry",
+      "remarks": "Buy food for lunch from convenience store in the morning",
+      "temperature": "Urabandai - 9-16\nAzuma - ?? Expected lower than 9-16\nFukushima - 12-19"
+    },
+    {
+      "day": 8,
+      "weekday": "Friday",
+      "date": "2023-10-20",
+      "city": "Zao Onsen",
+      "morning": "Breakfast\nCheck-out Fukushima Hotel (HOTEL SANKYO FUKUSHIMA)\nTravel to Yonezawa\nUesugi Shrine/Yonezawa City Uesugi Museum",
+      "afternoon": "Lunch @ ????\nToko Sake Museum\nBuy Ekiben @ Shinkineya??\nTravel to Zao Onsen\nCheck-in Zao Onsen Hotel",
+      "evening": "Dinner\nFree & Easy",
+      "remarks": null,
+      "temperature": "Fukushima - 8-17\nYonezawa - 3-16\nZao Onsen - -1-12"
+    },
+    {
+      "day": 9,
+      "weekday": "Saturday",
+      "date": "2023-10-21",
+      "city": "Yamagata",
+      "morning": "Breakfast (Convenience Store)\nCheck-out Zao Onsen Hotel\nHike Mount Zao",
+      "afternoon": "Lunch (Convenience Store)\nHike Mount Zao\nPublic Onsen after Hiking?",
+      "evening": "Travel to Yamagata\nCheck-in Yamagata Hotel (Yamagata Nanokamachi Washington Hotel)\nDinner @ Hottonaru Yokocho (Izakaya)\nFree & Easy/Laundry",
+      "remarks": "See if wanna stop by Nishizao Park\nIf time allows, eat at 栄屋本店 (Hiyashi Ramen)",
+      "temperature": "Zao Onsen - 7-14\nMt Zao - ?? Expected lower than 7-14\nYamagata - 11-19"
+    },
+    {
+      "day": 10,
+      "weekday": "Sunday",
+      "date": "2023-10-22",
+      "city": "Yamagata",
+      "morning": "Breakfast @ ???\nYamagata Folk Museum Bunshokan",
+      "afternoon": "Lunch @ Yamagyu (Yakiniku)\nKajo Park & Surrounding",
+      "evening": "Dinner @ 長屋酒場 (Local Yamagata Cuisine)\nFree & Easy/Laundry",
+      "remarks": "If time allows, eat at 栄屋本店 (Hiyashi Ramen)",
+      "temperature": "Yamagata - 10-19"
+    },
+    {
+      "day": 11,
+      "weekday": "Monday",
+      "date": "2023-10-23",
+      "city": "Ginzan Onsen",
+      "morning": "Check-out Yamagata Hotel (Yamagata Nanokamachi Washington Hotel)\nBreakfast @???\nRefuel Car\nYamadera Temple",
+      "afternoon": "Lunch @ Yamatake (Ita Soba)\nTravel to Ginzan Onsen\nCheck-in Ginzan Onsen Hotel (Takimikan)\nFree & Easy/Onsen/Explore Ginzan Onsen",
+      "evening": "Dinner @ Takimikan\nFree & Easy/Onsen/Explore Ginzan Onsen",
+      "remarks": "Alternative(Ita Soba):\n1. Sugi (11 am–3 pm, Closed on Friday)\n2. そば吉里吉里(Kirikiri) (11 am–2 pm, Closed on Thu & Fri)\nKalai will leave after Yamadera/lunchtime",
+      "temperature": "Yamagata - 10-19\nGinzan Onsen - 10-19"
+    },
+    {
+      "day": 12,
+      "weekday": "Tuesday",
+      "date": "2023-10-24",
+      "city": "Sendai",
+      "morning": "Breakfast @ Takimikan\nFree & Easy/Onsen/Explore Ginzan Onsen\nCheck-out Ginzan Onsen Hotel (Takimikan)\nTravel to Naruko Gorge\nOfukazawa Bridge/Ofukazawa Walking Trail",
+      "afternoon": "Lunch around Naruko Gorge/Onsen Area\nJapan Kokeshi Museum/Katanuma Lake\nTravel to Sendai",
+      "evening": "Check-in Sendai Hotel (Airbnb)\nWY - Sendai Pokemon Center\nDinner @ ほや&純米酒場 ま ぼ屋 仙台駅前店 (Hoya)\nFree & Easy/Laundry",
+      "remarks": "Gary will leave after Ginzan Onsen. Drop him at Sendai Station",
+      "temperature": "Ginzan Onsen - 9-18\nNaruko - 9-18\nSendai - 12-20"
+    },
+    {
+      "day": 13,
+      "weekday": "Wednesday",
+      "date": "2023-10-25",
+      "city": "Sendai",
+      "morning": "Breakfast @ Komeda's Coffee\nTravel to Matsushima\nOshima Island/Sightseeing Cruise?",
+      "afternoon": "Lunch @ Matsushima (Oyster)\nFukuurajima Island/Zuiganji Temple\nMt. Otakamori",
+      "evening": "Dinner @ Rikyu Matsushima (Gyutan)\nRefuel Car\nFree & Easy/Laundry",
+      "remarks": null,
+      "temperature": "Sendai - 12-19\nMatsushima - 11-19"
+    },
+    {
+      "day": 14,
+      "weekday": "Thursday",
+      "date": "2023-10-26",
+      "city": "Kinugawa Onsen",
+      "morning": "Check-out Sendai Hotel (Airbnb)\nTravel to Shiogama\nBreakfast @ Shiogama Fish Market\nZuihoden Temple",
+      "afternoon": "Lunch @ Aobajo Food Court\nAoba Castle\nDinner @ Inaho (Seri Nabe)",
+      "evening": "Travel to Kinugawa Onsen\nCheck-in Kinugawa Onsen Hotel (Airbnb)\nFree & Easy/Laundry",
+      "remarks": "Alternative: Wabisuke (Seri Nabe)",
+      "temperature": "Sendai - 11-20\nKinugawa - 8-18"
+    },
+    {
+      "day": 15,
+      "weekday": "Friday",
+      "date": "2023-10-27",
+      "city": "Kinugawa Onsen",
+      "morning": "Breakfast (Convenience Store)\nTravel to Akechidaira Ropeway\nAkechidaira Observation Deck\nKegon Falls",
+      "afternoon": "Lunch @ Chunzenji Lake\nChuzenji Temple\nItalian/British Embassy\nHangetsuyama Observation Deck",
+      "evening": "Dinner @ Nikko Town\nFree & Easy/Laundry",
+      "remarks": "Maybe skip Chuzenji Temple",
+      "temperature": "Kinugawa - 5-17\nChuzenji - -3-7"
+    },
+    {
+      "day": 16,
+      "weekday": "Saturday",
+      "date": "2023-10-28",
+      "city": "Tokyo (Setagaya)",
+      "morning": "Breakfast\nCheck-out Kinugawa Onsen Hotel (Airbnb)\nExplore Nikko Temple Complex",
+      "afternoon": "Lunch around Nikko Temple Complex\nExplore Nikko Temple Complex\nTravel to Tokyo",
+      "evening": "Check-in Tokyo Hotel (Airbnb)\nRefuel Car\nReturn the car\nDinner @ Ichiran Ramen (Shinjuku)",
+      "remarks": "Return the car",
+      "temperature": "Kinugawa - 6-14\nNikko - 6-15\nTokyo - 12-20"
+    },
+    {
+      "day": 17,
+      "weekday": "Sunday",
+      "date": "2023-10-29",
+      "city": "Tokyo → Kuala Lumpur",
+      "morning": "Check-out Tokyo Hotel (Airbnb)\nTravel to Roppongi. Store luggage in coin locker.\nTravel to Toyosu. \nBrunch around Toyosu",
+      "afternoon": "Explore Team Labs \nTravel to Roppongi\nEarly Dinner @ Butagumi",
+      "evening": "Travel to Haneda Airport\nTravel Tokyo (Haneda) to KL",
+      "remarks": null,
+      "temperature": "Tokyo - 14-20"
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "date": "2023-10-13",
+      "items": [
+        {
+          "time": "14:20",
+          "activity": "Kuala Lumpur departure.",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "22:30",
+          "activity": "Haneda Arrival\n- Reload Suica Card",
+          "costs": {},
+          "remarks": "Reload 3500 JPY"
+        },
+        {
+          "time": "23:30",
+          "activity": "Travel to Hotel (Hamamatsucho) - Sotetsu Fresa Inn Hamamatsucho Daimon\n1. Haneda -(Tokyo Monorail)> Hamamatsuchō Station -(Walk - 15 mins)> Hotel (500JPY)\n2. Haneda -(Keikyū Airport Line)> Keikyu-Kamata Station -(Keikyū Main Line)> Daimon Station -(Walk - 5 mins)> Hotel (500JPY)",
+          "costs": {
+            "transport": 500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "00:30",
+          "activity": "Check in Hotel (Hamamatsucho) - Sotetsu Fresa Inn Hamamatsucho Daimon\nLate Supper",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "02:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Tokyo (Hamamatsucho)",
+      "weekday": "Friday",
+      "temperature": "Tokyo - 18-25",
+      "summary": null
+    },
+    {
+      "day": 2,
+      "date": "2023-10-14",
+      "items": [
+        {
+          "time": "09:30",
+          "activity": "Wake up. Check out Hotel (Hamamatsucho) - Sotetsu Fresa Inn Hamamatsucho Daimon\nKeep luggage at hotel.",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:30",
+          "activity": "Brunch at Gyukatsu Motomura Muromachi. Open at 11am (Alternative: Akihabara or Ueno Store)\nHotel -(Walk)> Daimon Station -(Asakusa Line)> Nihombashi Station -(Walk)> Store",
+          "costs": {
+            "transport": 180.0,
+            "food": 3000.0
+          },
+          "remarks": "Meet Kalai for brunch"
+        },
+        {
+          "time": "12:15",
+          "activity": "Go eat icecream at BOOK COMPASS @ Tokyo Station\nStore -(Walk)> Shin-Nihombashi Station -(JR Sobu Line)> Tokyo Station",
+          "costs": {
+            "transport": 150.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Travel to Hotel (Hamamatsucho) - Sotetsu Fresa Inn Hamamatsucho Daimon\n1. Tokyo Station -(JR Yamanote Line)> Hamamatsucho Station -(Walk)> Hotel (170JPY)\n2. Tokyo Station -(Keihin Tohoku Line)> Shimbashi Station -(Walk)> Hotel (150JPY)",
+          "costs": {
+            "transport": 170.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:30",
+          "activity": "Collect luggage at Hotel (Hamamatsucho) - Sotetsu Fresa Inn Hamamatsucho Daimon\nCollect Car at Toyota-Rent-A-Car (Hamamatshucho Station Branch)",
+          "costs": {},
+          "remarks": "Pay using Credit Card"
+        },
+        {
+          "time": "14:00",
+          "activity": "Travel to Hotel (Kinugawa Onsen) - K's House Nikko - Kinugawa Onsen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:00",
+          "activity": "Check in Hotel (Kinugawa Onsen) - K's House Nikko - Kinugawa Onsen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner around Kinugawa Onsen\n1. Yuki",
+          "costs": {
+            "food": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "20:30",
+          "activity": "Free and Easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "22:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Kinugawa Onsen",
+      "weekday": "Saturday",
+      "temperature": "Tokyo - 17-24\nKinugawa - 12-15",
+      "summary": "Kalai will meet and join us in Tokyo. Kalai will book a separate room for Kinugawa Onsen.\nCollect Rental Car"
+    },
+    {
+      "day": 3,
+      "date": "2023-10-15",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Wake Up.",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "06:30",
+          "activity": "Travel to Ryuzu Falls. \nBuy food for breakfast at convenince store along the way\nPark at Ryuzu Falls.",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "08:00",
+          "activity": "Trekking (Latest by 12pm reach Yumoto Onsen)\n1. Ryuzu Falls to Senjougahara Marshland to Yumoto Onsen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:30",
+          "activity": "Lunch and rest in Yumoto Onsen\n1. Nikko Yumoto Rest House?",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:30",
+          "activity": "Trekking (Latest by 1pm leave Yumoto Onsen)\n1. Yumoto Onsen to Odashirogahara Marshland to  Ryuzu Fall",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Travel to Hotel (Kinugawa Onsen) - K's House Nikko - Kinugawa Onsen\nDinner at Nikko Town\n1. Find a restaurant",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": "Gary will join us for dinner onwards."
+        },
+        {
+          "time": "20:00",
+          "activity": "Free and Easy\nRefuel Car (Est 3000 yen)",
+          "costs": {
+            "fuel": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "22:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Kinugawa Onsen",
+      "weekday": "Sunday",
+      "temperature": "Kinugawa - 9-14\nYumoto - 9-16",
+      "summary": "Gary will join us in Nikko/Kinugawa Onsen from dinner onwards"
+    },
+    {
+      "day": 4,
+      "date": "2023-10-16",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Wake Up. \nExplore Kinutateiwaotsuri Bridge.\nBuy food for breakfast at convenince store",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "08:00",
+          "activity": "Check out Hotel (Kinugawa Onsen) - K's House Nikko - Kinugawa Onsen\nTravel to Ryuokyo Gorge",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:30",
+          "activity": "Explore Ryuokyo Gorge\nTrek/Hike to around Point D / 白岩半島 , then back to parking lot",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:00",
+          "activity": "Travel to To-No Hetsuri",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Car Parking (300 yen)\nExplore To-No Hetsuri",
+          "costs": {
+            "fuel": 300.0
+          },
+          "remarks": "Skip this if no time"
+        },
+        {
+          "time": "14:00",
+          "activity": "Travel to Ochijuku. Parking 500 yen.\nLate Lunch at Ouchijuku (Negi Soba & Momohime Sake)\n1. Misawaya",
+          "costs": {
+            "fuel": 500.0,
+            "food": 2500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Ochijuku (Leave latest by 5pm)\n1. Ouchijuku Viewpoint\n2. Ouchi-juku Town Museum",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Travel to Aizu-Wakamatsu",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:00",
+          "activity": "Check in Airbnb - 2F-B Aizu Wakamatsu City. Park Car - 1000 yen",
+          "costs": {
+            "fuel": 1000.0
+          },
+          "remarks": "Meet Gary at Hotel?"
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner in Town\n1. Takino - Wappa Meshi (Open until 8pm only)",
+          "costs": {
+            "food": 3000.0
+          },
+          "remarks": "Need reservation"
+        },
+        {
+          "time": "20:00",
+          "activity": "Free and Easy\nLaundry",
+          "costs": {
+            "misc": 800.0
+          },
+          "remarks": "There is washing machine at Airbnb place, but no dryer.\nCan go Izakaya for drinking"
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Aizuwakamatsu",
+      "weekday": "Monday",
+      "temperature": "Kinugawa - 6-18\nAizu - 7-19",
+      "summary": null
+    },
+    {
+      "day": 5,
+      "date": "2023-10-17",
+      "items": [
+        {
+          "time": "07:00",
+          "activity": "Wake Up. \nBuy food for breakfast at convenience store.",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "08:00",
+          "activity": "Travel to Enzoji Temple.\nExplore Enzoji Temple (8 am–4 pm, Free)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:00",
+          "activity": "Travel to Kitakata",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:30",
+          "activity": "Lunch at Kitakata (Ramen)\n1. Genraiken (10 am–2 pm, Closed on Tue&Wed)\n2. Bannai Shokudō (7 am–5:50 pm, Closed on Thu)\n3. Ramen Ippei (7 am–6:30 pm, Closed on Wed)\n4. Makoto Shokudō (7 am–2 pm, Closed on Mon)",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Travel to Aizu-Wakamatsu",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Aizu Bukeyashiki Museum (8.30am - 5pm, 850JPY)",
+          "costs": {
+            "sightseeing": 850.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Travel to Iimori Hill\n1. Sazaedo Pagoda (8:15 to Sunset, 400JPY)\n2. Byakkotai Memorial Hall (9am to 4pm, 400 JPY)\n3. Byakkotai Folklore and Historical Museum (8.30am - 5.00pm, 300JPY)",
+          "costs": {
+            "sightseeing": 800.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner (Sauce Katsudon)\n1. Tontei (9am–2pm, 5–9pm)\n2. Katsuichi (11am–2pm, 5–9:30pm)\n3. とんかつ大将 (11:30am–3pm, 5–9pm)",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": "https://japanfoodculture.org/posts/hxjz5WPW"
+        },
+        {
+          "time": "21:00",
+          "activity": "Back to Airbnb. Park Car - 1000 yen\nFree and Easy\nLaundry",
+          "costs": {
+            "fuel": 1000.0
+          },
+          "remarks": "Can go Izakaya for drinking"
+        },
+        {
+          "time": "22:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Aizuwakamatsu",
+      "weekday": "Tuesday",
+      "temperature": "Aizu - 6-18",
+      "summary": "Alternative:\n1. Kitakata Ramen (Ramen Ippei/Makoto Shokudō)\n2. Katsudon (Katsuichi/とんかつ大将 )"
+    },
+    {
+      "day": 6,
+      "date": "2023-10-18",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Wake Up.\nCheck out  Airbnb - 2F-B Aizu Wakamatsu City. \nBuy food for breakfast in convenience store",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "07:30",
+          "activity": "Travel to Urabandai Visitor Center via Urabandai Gold Line",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:30",
+          "activity": "Spend some time in Sightseeing Center\nExplore Goshikinuma Pond Trail",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:00",
+          "activity": "Brunch around Urabandai Kogen Eki",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Explore Lake Hibara Lakeside Trail. (Entrance Near Nagamine Funatsuki Bus Stop)\nExplore Rengenuma Pond Trail\nExplore Nakasenuma Pond Trail\nWalk to Urabandai Visitor Center",
+          "costs": {},
+          "remarks": "If interested, can drop by Mt. Bandai Eruption Memorial Hall, but need to drop Lake Hibara Trekking"
+        },
+        {
+          "time": "18:00",
+          "activity": "Travel & Check-in Hotel (Urabandai) - donaludo Pension",
+          "costs": {
+            "misc": 5500.0
+          },
+          "remarks": "Pay direct to hotel (Total 22,000 yen)\nEach person 5,500 yen. \nPlease prepare the cash accordingly."
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner (Urabandai)",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": "Maybe dinner from konbini"
+        },
+        {
+          "time": "21:00",
+          "activity": "Free and Easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "22:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Urabandai",
+      "weekday": "Wednesday",
+      "temperature": "Aizu - 8-18\nUrabandai - 8-16",
+      "summary": "donaludo Pension - Pay at the hotel. Please prepare 5500JPY in cash."
+    },
+    {
+      "day": 7,
+      "date": "2023-10-19",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Wake Up. \nCheck out Hotel (Urabandai) - donaludo Pension\nBuy food for breakfast and lunch in convenience store.",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "07:00",
+          "activity": "Travel to Nakatsugawa Valley",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "07:30",
+          "activity": "Explore Nakatsugawa Valley",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:30",
+          "activity": "Travel to Jododaira Visitor Center",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:00",
+          "activity": "Park Car\nHike Mount Azuma-Kofuji",
+          "costs": {
+            "fuel": 500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "11:30",
+          "activity": "Lunch",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "12:30",
+          "activity": "Hike Mount Issaikyo",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:30",
+          "activity": "Travel to Fukushima",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Check-in Hotel (Fukuishima) - HOTEL SANKYO FUKUSHIMA\nRefuel Car (4000 JPY). Car Park (900JPY)",
+          "costs": {
+            "fuel": 4900.0
+          },
+          "remarks": "Hotel Parking Charge - 900 yen per night\nRefuel Car - 4000 JPY"
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner (Enban Gyoza)\n1. WINE＆GYOUZA BAR TERUI（照井） (6:30–10 pm, Closed on Sun) - Walkable from Hotel\n2. Yamame (5:30–9:30 pm, Closed on Sun) - Walkable from Hotel.\n3. Chuka Bokeden (5:30–9:30 pm, Closed on Sun) - Walkable from Hotel.\n4. Gyoza Terui (Minami Yanome) (11:30 am–2 pm, 5–9 pm, Closed on Wed) - 2nd Furthest",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": "Can continue drinking for 1,2, and 3. \nIzakaya shop"
+        },
+        {
+          "time": "21:30",
+          "activity": "Free and Easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Fukushima",
+      "weekday": "Thursday",
+      "temperature": "Urabandai - 9-16\nAzuma - ?? Expected lower than 9-16\nFukushima - 12-19",
+      "summary": "Buy food for lunch from convenience store in the morning"
+    },
+    {
+      "day": 8,
+      "date": "2023-10-20",
+      "items": [
+        {
+          "time": "07:30",
+          "activity": "Wake Up. Check out Hotel (Fukushima) - HOTEL SANKYO FUKUSHIMA\nBuy food for breakfast in convenience store/ Go find a café somewhere for light breakfast.",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "08:00",
+          "activity": "Travel to Yonezawa",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "09:00",
+          "activity": "Explore Yonezawa.\n1. Uesugi Shrine/Yonezawa City Uesugi Museum (9:00-17:00, 410JPY)",
+          "costs": {
+            "sightseeing": 410.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch at Yonezawa (Yonezawa Beef)\n1. Torikatsu (Sukiyaki)\n2. Hikousen (Beef Burger, Omurice)",
+          "costs": {
+            "food": 4500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Yonezawa. \n1. Toko Sake Museum (350JPY)",
+          "costs": {
+            "sightseeing": 350.0,
+            "misc": 5000.0
+          },
+          "remarks": "Buy Sake?"
+        },
+        {
+          "time": "16:00",
+          "activity": "Buy Ekiben for dinner at Shinkineya?\nParking (100 yen for 30 minutes)",
+          "costs": {
+            "fuel": 200.0,
+            "food": 1500.0
+          },
+          "remarks": "Can skip if not interested"
+        },
+        {
+          "time": "16:30",
+          "activity": "Travel to Zao Onsen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Check-in Hotel (Zao Onsen) - Takasagoya Ryokan",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Free & Easy\nWalk around Zao Onsen Town",
+          "costs": {},
+          "remarks": "Can go Izakaya for drinking"
+        },
+        {
+          "time": "22:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Zao Onsen",
+      "weekday": "Friday",
+      "temperature": "Fukushima - 8-17\nYonezawa - 3-16\nZao Onsen - -1-12",
+      "summary": null
+    },
+    {
+      "day": 9,
+      "date": "2023-10-21",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Wake Up. Check out Hotel (Zao Onsen) - Takasagoya Ryokan\nBuy food for breakfast and lunch in convenience store.",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "07:00",
+          "activity": "Walk around Zao Onsen Town",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:30",
+          "activity": "Hike Mt Zao. \nZao Sanroku Station -(Ropeway)> Juhyo Kogen Station -(Ropeway)> Jizo Sancho Station -(Hike)> Okama Crater\nTwo Option:\n1. Okama Crater -(Hike)> Jizo Sancho Station -(Ropeway)> Zao Sanroku Station (Buy two way round trip - 3500yen)\n2. Okama Crater -(Hike)> Juhyo Kogen Station -(Ropeway)> Zao Sanroku Station (Buy one way ticket - 1800+1000 yen)",
+          "costs": {
+            "transport": 3500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Two Option:\n1. Okama Crater -(Hike)> Jizo Sancho Station -(Ropeway)> Zao Sanroku Station (Buy two way round trip - 3500yen)\n2. Okama Crater -(Hike)> Juhyo Kogen Station -(Ropeway)> Zao Sanroku Station (Buy one way ticket - 1800+1000 yen)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:30",
+          "activity": "Public Onsen after hiking?\n1. Zao Onsen Dairotenburo (1000 yen)\n2. ??",
+          "costs": {
+            "misc": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Travel to Yamagata.",
+          "costs": {},
+          "remarks": "See if wanna stop by Nishizao Park"
+        },
+        {
+          "time": "18:30",
+          "activity": "Check in Hotel (Yamagata) - Yamagata Nanokamachi Washington Hotel\nCar Parking (600 JPY)",
+          "costs": {
+            "fuel": 600.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner @ Yamagata Town\n1. Hottonaru Yokocho (Izakaya)\n2. 栄屋本店 (Hiyashi Ramen) (11:30 am–6:30 pm)",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "21:00",
+          "activity": "Free & Easy\nLaundry",
+          "costs": {
+            "misc": 800.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Yamagata",
+      "weekday": "Saturday",
+      "temperature": "Zao Onsen - 7-14\nMt Zao - ?? Expected lower than 7-14\nYamagata - 11-19",
+      "summary": "See if wanna stop by Nishizao Park\nIf time allows, eat at 栄屋本店 (Hiyashi Ramen)"
+    },
+    {
+      "day": 10,
+      "date": "2023-10-22",
+      "items": [
+        {
+          "time": "08:00",
+          "activity": "Wake Up. \nBreakfast?",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "09:00",
+          "activity": "Explore Yamagata\n1. Yamagata Folk Museum Bunshokan (9 am–4:30 pm, Closed on Mon, Free)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:30",
+          "activity": "Lunch:\n1. Yamagyu (Yakiniku) (\t11:30 am–2:30 pm, 5:30–9:30 pm, Closed on Tue) - Recommended to reserve for seats (Lunch set is affordable)",
+          "costs": {
+            "food": 2500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Yamagata (Kajo Park)\n1. Old Saiseikan Hospital Building (9 am–4:30 pm, Free)\n2. Yamagata Prefectural Museum (9 am–4:30 pm, Closed on Mon, 300 JPY)\n3. Mogami Yoshiaki Historical Museum (9 am–5 pm, Free)\n4. Yamagata Museum of Art (10 am–5 pm, Closed on Mon, Free)",
+          "costs": {
+            "food": 500.0,
+            "sightseeing": 300.0
+          },
+          "remarks": "Nearby got famous store for Dondonyaki\n1. 山形どんどん焼き おやつ屋さん (9:30 am–7 pm) - 500 JPY"
+        },
+        {
+          "time": "17:00",
+          "activity": "Dinner:\n1. 長屋酒場 (Local Yamagata Cuisine) (5 pm–12 am)\n2. 栄屋本店 (Hiyashi Ramen) (11:30 am–6:30 pm)",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "20:00",
+          "activity": "Back to Hotel\nCar Parking (600 JPY)\nLaundry",
+          "costs": {
+            "fuel": 600.0
+          },
+          "remarks": "Can go Izakaya for drinking"
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Yamagata",
+      "weekday": "Sunday",
+      "temperature": "Yamagata - 10-19",
+      "summary": "If time allows, eat at 栄屋本店 (Hiyashi Ramen)"
+    },
+    {
+      "day": 11,
+      "date": "2023-10-23",
+      "items": [
+        {
+          "time": "07:00",
+          "activity": "Wake Up. Check out Hotel (Yamagata) - Yamagata Nanokamachi Washington Hotel\nBreakfast. Refuel Car",
+          "costs": {
+            "fuel": 3000.0,
+            "food": 1000.0
+          },
+          "remarks": "Refuel Car"
+        },
+        {
+          "time": "08:00",
+          "activity": "Travel to Yamadera",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:30",
+          "activity": "Explore Yamadera",
+          "costs": {
+            "sightseeing": 900.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "11:30",
+          "activity": "Travel to Yamagata.",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch (Ita Soba)\n1. Yamatake (11 am–2:30 pm, Closed on Wednesday)\n2. Sugi (11 am–3 pm, Closed on Friday)\n3. そば吉里吉里(Kirikiri) (11 am–2 pm, Closed on Thu & Fri)",
+          "costs": {
+            "food": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "14:30",
+          "activity": "Travel to Ginzan Onsen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Check-in Hotel (Ginzan Onsen) - Takimikan\n1. You can choose your dinner time upon arrival. (18:00, 18:15, 18:30, 18:45)  \n2. Breakfast can be served at your preferred time. (Admission from 7:30 to 8:30, close 9:00)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:30",
+          "activity": "Explore Ginzan Onsen / Onsen / Free & Easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "20:30",
+          "activity": "Explore Ginzan Onsen / Onsen / Free & Easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "22:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Ginzan Onsen",
+      "weekday": "Monday",
+      "temperature": "Yamagata - 10-19\nGinzan Onsen - 10-19",
+      "summary": "Alternative(Ita Soba):\n1. Sugi (11 am–3 pm, Closed on Friday)\n2. そば吉里吉里(Kirikiri) (11 am–2 pm, Closed on Thu & Fri)\nKalai will leave after Yamadera/lunchtime"
+    },
+    {
+      "day": 12,
+      "date": "2023-10-24",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Wake Up.\nExplore Ginzan Onsen / Onsen / Free & Easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:30",
+          "activity": "Breakfast",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "09:30",
+          "activity": "Check out Hotel (Ginzan Onsen) - Takimikan\nTravel to Naruko Gorge (Narukokyo)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:30",
+          "activity": "Explore Naruko Gorge. Car Parking - 500 yen\n1. Ofukazawa Bridge \n2. Ofukazawa Walking Trail",
+          "costs": {
+            "fuel": 500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Lunch around Naruko Gorge/Onsen",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Naruko Gorge\n1. Japan Kokeshi Museum (8:30 to 17:00, 400JPY)\n2. Katanuma Lake",
+          "costs": {
+            "sightseeing": 400.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Travel to Sendai",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Check-in Airbnb - Room in a home hosted by Ryu",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:00",
+          "activity": "Travel to City Center. \nWY go shopping for Pokemon Center",
+          "costs": {
+            "fuel": 800.0
+          },
+          "remarks": "Zunda Saryo - Can tamak Zunda Mochi & Zunda Shake before 9pm"
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner (Hoya)\n1. ほや&純米酒場 ま ぼ屋 仙台駅前店 (Hoya) (5–11 pm, closed on Mon)\n2. Inaho (Seri Nabe) (3–11 pm, Closed on Sunday) - Alternative",
+          "costs": {
+            "food": 5000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "21:00",
+          "activity": "Travel back to Airbnb\nFree & Easy\nLaundry",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Sendai",
+      "weekday": "Tuesday",
+      "temperature": "Ginzan Onsen - 9-18\nNaruko - 9-18\nSendai - 12-20",
+      "summary": "Gary will leave after Ginzan Onsen. Drop him at Sendai Station"
+    },
+    {
+      "day": 13,
+      "date": "2023-10-25",
+      "items": [
+        {
+          "time": "07:00",
+          "activity": "Wake Up.",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "07:30",
+          "activity": "Breakfast at Komeda's Coffee",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "09:00",
+          "activity": "Travel to Matsushima",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "09:30",
+          "activity": "Explore Matsushima\n1. Oshima Island\n2. Sightseeing Cruise? (1500 yen - 50 mins)",
+          "costs": {
+            "sightseeing": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch at Matsushima (Oyster)\n1. Matsushima Tourism Association Oyster Shack (All you can eat oyster for 45 mins, 2300 JPY)\n2. BAY-OYSTER",
+          "costs": {
+            "food": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:30",
+          "activity": "Explore Matsushima\n1. Fukuurajima Island (200 yen)\n2. Zuiganji Temple (700 yen)",
+          "costs": {
+            "sightseeing": 900.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Travel to Mt. Otakamori",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:30",
+          "activity": "WY Photo Time at Mt. Otakamori",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:00",
+          "activity": "Travel to Matsushima",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner @Matsushima (Gyutan). Parking Fee - 300 JPY per hour\n1. Rikyu (11 am–8:30 pm)",
+          "costs": {
+            "fuel": 600.0,
+            "food": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "20:30",
+          "activity": "Travel back to Airbnb\nRefuel Car (3,500 JPY)",
+          "costs": {
+            "fuel": 3500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "21:30",
+          "activity": "Free & Easy\nLaundry",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Sendai",
+      "weekday": "Wednesday",
+      "temperature": "Sendai - 12-19\nMatsushima - 11-19",
+      "summary": null
+    },
+    {
+      "day": 14,
+      "date": "2023-10-26",
+      "items": [
+        {
+          "time": "07:00",
+          "activity": "Wake Up. \nCheck out Airbnb - Room in a home hosted by Ryu",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "07:30",
+          "activity": "Travel to Shiogama Fish Market",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "08:15",
+          "activity": "Breakfast at Shiogama Fish Market (Sashimi, sushi, etc)\n1. Build your own Kaisendon (Seafood Bowl)",
+          "costs": {
+            "food": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "09:30",
+          "activity": "Travel to Zuihoden Temple",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:00",
+          "activity": "Explore Zuihoden Temple and Aoba Castle\n1. Zuihōden Temple (9:00 to 16:50, 570 JPY)",
+          "costs": {
+            "sightseeing": 570.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch @ Aobajo Food Court",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Aoba Castle\n1. Aoba Castle Museum (9:00 to 16:20, 700 yen (museum only),800 yen (VR goggles only), 1300 yen (both))\n2. Gokoku Shrine & Memorial Hall",
+          "costs": {
+            "sightseeing": 1300.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Dinner at Sendai (Seri Nabe)\n1. Inaho (Seri Nabe) (3–11 pm, Closed on Sunday)\n2. Wabisuke (Seri Nabe) (5–10 pm, Closed on Sunday)",
+          "costs": {
+            "fuel": 800.0,
+            "food": 3000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "18:00",
+          "activity": "Travel to Kinugawa Onsen",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "21:30",
+          "activity": "Check-in Airbnb - Entire rental unit hosted by Maru",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "22:00",
+          "activity": "Free & Easy\nLaundry",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Kinugawa Onsen",
+      "weekday": "Thursday",
+      "temperature": "Sendai - 11-20\nKinugawa - 8-18",
+      "summary": "Alternative: Wabisuke (Seri Nabe)"
+    },
+    {
+      "day": 15,
+      "date": "2023-10-27",
+      "items": [
+        {
+          "time": "07:00",
+          "activity": "Wake Up.",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "07:30",
+          "activity": "Travel to Akechidaira Observation Deck.\nRefuel Car\nBuy food for breakfast at convenience store along the way",
+          "costs": {
+            "fuel": 3500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "08:45",
+          "activity": "Buy ticket for Akechidaira Ropeway. (9:00 to 15:30, 600JPY, one way, 1000JPY round)\nAkechidaira Observation Deck\nFree parking if buy ticket. Mention to the counter",
+          "costs": {
+            "transport": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "10:00",
+          "activity": "Travel to Chuzenji Lake",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:30",
+          "activity": "Explore Kegon Falls (8:00 to 17:00, 570 JPY)\nParking - 320 JPY",
+          "costs": {
+            "fuel": 320.0,
+            "sightseeing": 570.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch ard Chuzenji Lake",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:30",
+          "activity": "Explore Chuzenji Lake\n1. Chuzenji Temple (8:00 to 17:00, 500 JPY)\n2. Italian/British Embassy Villa (9:00 to 17:00, 300 JPY)\n3. Hangetsuyama Observation Deck",
+          "costs": {
+            "sightseeing": 800.0
+          },
+          "remarks": "Maybe skip Chuzenji Temple. See time"
+        },
+        {
+          "time": "18:00",
+          "activity": "Travel to Nikko",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner @ Nikko Town",
+          "costs": {
+            "food": 1500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "21:00",
+          "activity": "Travel back to Airbnb\nFree & Easy\nLaundry",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Kinugawa Onsen",
+      "weekday": "Friday",
+      "temperature": "Kinugawa - 5-17\nChuzenji - -3-7",
+      "summary": "Maybe skip Chuzenji Temple"
+    },
+    {
+      "day": 16,
+      "date": "2023-10-28",
+      "items": [
+        {
+          "time": "07:00",
+          "activity": "Wake Up. \nCheck out Airbnb - Entire rental unit hosted by Maru",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "07:45",
+          "activity": "Travel to Nikko Toshogu Temple.\nBuy food for breakfast at convenience store along the way",
+          "costs": {
+            "food": 1000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "08:45",
+          "activity": "Park at West Approach Parking Lot 1 (700 yen per day per entry)\nExplore Nikko. \n1. Rinnoji Temple (8am - 5pm) - 400 yen (Sanbutsudo only), 900 yen (Sanbutsudo and Taiyuin), 300 yen (Treasure House and Shoyoen Garden)\n2. Toshogu Shrine (9am -5pm) - 1300 yen (shrine), 1000 yen (museum), 2100 yen (shrine and museum)\n3. Futarasan Shrine (8am - 5pm) - 300 yen (If got time)",
+          "costs": {
+            "fuel": 700.0,
+            "sightseeing": 3300.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "12:30",
+          "activity": "Lunch around Nikko Toshugu Temple",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:30",
+          "activity": "Explore Nikko. \n1. Tamozawa Imperial Villa (9am -5pm) - 600 yen\n2. Kanmangafuchi Abyss",
+          "costs": {
+            "sightseeing": 600.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "15:30",
+          "activity": "Travel to Tokyo",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Check in Airbnb - Entire rental unit hosted by Shohei",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Refuel Car. \nReturn Car to Nakano Station Shop/Shinjuku 3-chome Station Shop\nHave to return car before 8pm",
+          "costs": {
+            "fuel": 2500.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "20:00",
+          "activity": "Dinner at Ichiran Ramen (Shinjuku)\nNakano Station Shop -(Walk)> Nakano Station -(JR Chuo Line)> Shinjuku Station -(Walk)> Store",
+          "costs": {
+            "transport": 170.0,
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "22:00",
+          "activity": "Travel to Airbnb\nShinjuku Station -(Keio Line)> Daitabashi Station -(Walk)> Airbnb",
+          "costs": {
+            "transport": 140.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "23:00",
+          "activity": "Sleep",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Tokyo (Setagaya)",
+      "weekday": "Saturday",
+      "temperature": "Kinugawa - 6-14\nNikko - 6-15\nTokyo - 12-20",
+      "summary": "Return the car"
+    },
+    {
+      "day": 17,
+      "date": "2023-10-29",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Wake up. Check out Airbnb - Entire rental unit hosted by Maru",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:00",
+          "activity": "Travel to Roppongi Station. Store luggage at locker.\nSasazuka/Daitabashi Station -(Keio Line> Shinjuku Station -(Oedo Line)> Roppongi Station (350 JPY)",
+          "costs": {
+            "transport": 350.0,
+            "misc": 800.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "11:00",
+          "activity": "Travel to Toyosu\n1. Roppongi Station -(Hibiya Line)> Hibiya Station -(Walk)> Yurakucho Station -(Yurakucho Line)> Toyosu Station (210 JPY)\n2. Roppongi Station -(Oedo Line)> Tsukishima Station -(Yurakucho Line)> Toyosu Station (320 JPY)",
+          "costs": {
+            "transport": 320.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "11:30",
+          "activity": "Brunch ard Toyosu. WY to decide",
+          "costs": {
+            "food": 2000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Walk to TeamLabs\nExplore TeamLabs",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Travel to Roppongi.\n1. TeamLabs -(Walk)> Toyosu Station -(Yurakucho Line)> Yurakucho Station -(Walk)> Hibiya Station -(Hibiya Line)> Roppongi Station(210 JPY)\n2. TeamLabs -(Walk)> Shin-Toyosu Station -(Bus - 05-2)> Kachidoki Station -(Oedo Line)> Roppongi Station(430 JPY)",
+          "costs": {
+            "transport": 430.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Early Dinner @  Butagumi Shokudo (Roppongi Hills) - (Sat/Sun - 11 am–10 pm)",
+          "costs": {
+            "food": 5000.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Collect Luggage. Travel to Haneda Airport (Leave latest by 7pm)\n1. Roppongi Station -(Oedo Line)> Daimon Station -(Walk)> Hamamatsuchō Station -(Tokyo Monorail)> Haneda Airport (680 JPY)\n2. Roppongi Station -(Oedo Line)> Daimon Station -(Asakusa/Keikyuu Line)> Haneda Airport (510 JPY)",
+          "costs": {
+            "transport": 680.0
+          },
+          "remarks": null
+        },
+        {
+          "time": "20:30",
+          "activity": "Check-in Luggage.\nSouvenir?",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:50",
+          "activity": "Tokyo Departure (Sayonara Japan)",
+          "costs": {},
+          "remarks": null
+        }
+      ],
+      "city": "Tokyo → Kuala Lumpur",
+      "weekday": "Sunday",
+      "temperature": "Tokyo - 14-20",
+      "summary": null
+    }
+  ],
+  "accommodation": [
+    {
+      "city": "Tokyo",
+      "checkIn": "2023-10-13",
+      "checkOut": "2023-10-14",
+      "nights": 1.0,
+      "persons": 2.0,
+      "name": "Sotetsu Fresa Inn Hamamatsucho Daimon",
+      "freeCancellation": "Before 11 Oct",
+      "checkInTime": "From 3pm",
+      "checkOutTime": "Until 11am",
+      "breakfast": "No",
+      "parking": "Not required",
+      "pricePerNight": 323.63,
+      "total": 323.63,
+      "remarks": null,
+      "perPerson": {
+        "CMC": 161.81,
+        "WY": 161.81,
+        "Gary": null,
+        "Kalai": null
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Kinugawa Onsen",
+      "checkIn": "2023-10-14",
+      "checkOut": "2023-10-16",
+      "nights": 2.0,
+      "persons": 2.0,
+      "name": "K's House Nikko - Kinugawa Onsen",
+      "freeCancellation": "No",
+      "checkInTime": "3-7pm",
+      "checkOutTime": "8-11am",
+      "breakfast": "No",
+      "parking": "Free",
+      "pricePerNight": 258.71,
+      "total": 517.42,
+      "remarks": null,
+      "perPerson": {
+        "CMC": 258.71,
+        "WY": 258.71,
+        "Gary": null,
+        "Kalai": null
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Aizuwakamatsu",
+      "checkIn": "2023-10-16",
+      "checkOut": "2023-10-18",
+      "nights": 2.0,
+      "persons": 4.0,
+      "name": "Airbnb - 2F-B Aizu Wakamatsu City",
+      "freeCancellation": "Before 11 Oct",
+      "checkInTime": "From 3pm",
+      "checkOutTime": "Until 10am",
+      "breakfast": "No",
+      "parking": "Charges",
+      "pricePerNight": 493.59,
+      "total": 987.18,
+      "remarks": "Parking charges (1000 yen per night)",
+      "perPerson": {
+        "CMC": 246.79,
+        "WY": 246.79,
+        "Gary": 246.79,
+        "Kalai": 246.79
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Urabandai",
+      "checkIn": "2023-10-18",
+      "checkOut": "2023-10-19",
+      "nights": 1.0,
+      "persons": 4.0,
+      "name": "donaludo Pension",
+      "freeCancellation": "Before 3 Oct",
+      "checkInTime": "3-10pm",
+      "checkOutTime": "Until 10am",
+      "breakfast": "No",
+      "parking": "Free",
+      "pricePerNight": 0.0,
+      "total": 0.0,
+      "remarks": "Pay at the hotel. See note 2\n22,000 JPY = 5,500 JPY per person (About RM185)\nPlease prepare the cash accordingly.",
+      "perPerson": {
+        "CMC": null,
+        "WY": null,
+        "Gary": null,
+        "Kalai": null
+      },
+      "payment": "Pay at hotel. \nPlease prepare 5,500 JPY in cash"
+    },
+    {
+      "city": "Fukushima",
+      "checkIn": "2023-10-19",
+      "checkOut": "2023-10-20",
+      "nights": 1.0,
+      "persons": 4.0,
+      "name": "HOTEL SANKYO FUKUSHIMA",
+      "freeCancellation": "Before 14 Oct",
+      "checkInTime": "From 3pm",
+      "checkOutTime": "Until 11am",
+      "breakfast": "No",
+      "parking": "Charges",
+      "pricePerNight": 508.16,
+      "total": 508.16,
+      "remarks": "Hotel parking charges \n(900 yen per night)",
+      "perPerson": {
+        "CMC": 127.04,
+        "WY": 127.04,
+        "Gary": 127.04,
+        "Kalai": 127.04
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Zao Onsen",
+      "checkIn": "2023-10-20",
+      "checkOut": "2023-10-21",
+      "nights": 1.0,
+      "persons": 4.0,
+      "name": "Takasagoya Ryokan",
+      "freeCancellation": "Before 16 Oct",
+      "checkInTime": "3-7pm",
+      "checkOutTime": "Until 10am",
+      "breakfast": "No",
+      "parking": "Free",
+      "pricePerNight": 1007.72,
+      "total": 1007.72,
+      "remarks": null,
+      "perPerson": {
+        "CMC": 251.93,
+        "WY": 251.93,
+        "Gary": 251.93,
+        "Kalai": 251.93
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Yamagata",
+      "checkIn": "2023-10-21",
+      "checkOut": "2023-10-23",
+      "nights": 2.0,
+      "persons": 4.0,
+      "name": "Yamagata Nanokamachi Washington Hotel",
+      "freeCancellation": "Before 19 Oct",
+      "checkInTime": "From 2pm",
+      "checkOutTime": "Until 10am",
+      "breakfast": "No",
+      "parking": "Charges",
+      "pricePerNight": 834.5,
+      "total": 1669.0,
+      "remarks": "Parking is required for City\n(600 yen per night)",
+      "perPerson": {
+        "CMC": 417.25,
+        "WY": 417.25,
+        "Gary": 417.25,
+        "Kalai": 417.25
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Ginzan Onsen",
+      "checkIn": "2023-10-23",
+      "checkOut": "2023-10-24",
+      "nights": 1.0,
+      "persons": 3.0,
+      "name": "Takimikan Ryokan",
+      "freeCancellation": "No",
+      "checkInTime": "3-6pm",
+      "checkOutTime": "7-11am",
+      "breakfast": "Yes",
+      "parking": "Free",
+      "pricePerNight": 2575.72,
+      "total": 2575.72,
+      "remarks": "Dinner and Breakfast. (25,300 JPY/person). Waiting for Credit card bill to know the actual charges in MYR (75,900 JPY)",
+      "perPerson": {
+        "CMC": 858.57,
+        "WY": 858.57,
+        "Gary": 858.57,
+        "Kalai": null
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Sendai",
+      "checkIn": "2023-10-24",
+      "checkOut": "2023-10-26",
+      "nights": 2.0,
+      "persons": 2.0,
+      "name": "Airbnb - Room in a home hosted by Ryu",
+      "freeCancellation": "No",
+      "checkInTime": "1-8pm",
+      "checkOutTime": "Until 11am",
+      "breakfast": "No",
+      "parking": "Free",
+      "pricePerNight": 264.75,
+      "total": 529.51,
+      "remarks": null,
+      "perPerson": {
+        "CMC": 264.75,
+        "WY": 264.75,
+        "Gary": null,
+        "Kalai": null
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Nikko",
+      "checkIn": "2023-10-26",
+      "checkOut": "2023-10-28",
+      "nights": 2.0,
+      "persons": 2.0,
+      "name": "Airbnb - Entire rental unit hosted by Maru",
+      "freeCancellation": "No",
+      "checkInTime": "From 4pm",
+      "checkOutTime": "Until 11am",
+      "breakfast": "No",
+      "parking": "Free",
+      "pricePerNight": 250.98,
+      "total": 501.96,
+      "remarks": null,
+      "perPerson": {
+        "CMC": 250.98,
+        "WY": 250.98,
+        "Gary": null,
+        "Kalai": null
+      },
+      "payment": "Already Charged in CC"
+    },
+    {
+      "city": "Tokyo",
+      "checkIn": "2023-10-28",
+      "checkOut": "2023-10-29",
+      "nights": 1.0,
+      "persons": 2.0,
+      "name": "Airbnb - Entire rental unit hosted by Shohei",
+      "freeCancellation": "No",
+      "checkInTime": "From 3pm",
+      "checkOutTime": "Until 11am",
+      "breakfast": "No",
+      "parking": "Not required",
+      "pricePerNight": 379.15,
+      "total": 379.15,
+      "remarks": null,
+      "perPerson": {
+        "CMC": 189.57,
+        "WY": 189.57,
+        "Gary": null,
+        "Kalai": null
+      },
+      "payment": "Already Charged in CC"
+    }
+  ],
+  "transport": {
+    "mode": "Self-drive — Toyota Corolla Touring, collected in Hamamatsucho, returned in Nakano/Shinjuku",
+    "totalKm": 1956.5,
+    "rentalTotalMYR": 6433.23,
+    "legs": [
+      {
+        "day": 2,
+        "date": "2023-10-14",
+        "route": "Tokyo to Kinugawa Onsen",
+        "km": 207.0,
+        "refuel": false
+      },
+      {
+        "day": 3,
+        "date": "2023-10-15",
+        "route": "Kinugawa Onsen to Ryuzu Falls, and back",
+        "km": 80.5,
+        "refuel": true
+      },
+      {
+        "day": 4,
+        "date": "2023-10-16",
+        "route": "Kinugawa Onsen to Aizu",
+        "km": 172.5,
+        "refuel": false
+      },
+      {
+        "day": 5,
+        "date": "2023-10-17",
+        "route": "Around Aizu",
+        "km": 92.0,
+        "refuel": false
+      },
+      {
+        "day": 6,
+        "date": "2023-10-18",
+        "route": "Aizu to Urabandai",
+        "km": 46.0,
+        "refuel": false
+      },
+      {
+        "day": 7,
+        "date": "2023-10-19",
+        "route": "Urabandai to Fukushima",
+        "km": 97.75,
+        "refuel": true
+      },
+      {
+        "day": 8,
+        "date": "2023-10-20",
+        "route": "Fukushima to Zao Onsen",
+        "km": 230.0,
+        "refuel": false
+      },
+      {
+        "day": 9,
+        "date": "2023-10-21",
+        "route": "Zao Onsen to Yamagata",
+        "km": 28.75,
+        "refuel": false
+      },
+      {
+        "day": 10,
+        "date": "2023-10-22",
+        "route": "Around Yamagata",
+        "km": 23.0,
+        "refuel": true
+      },
+      {
+        "day": 11,
+        "date": "2023-10-23",
+        "route": "Yamagata to Yamadera to Ginzan Onsen",
+        "km": 105.0,
+        "refuel": false
+      },
+      {
+        "day": 12,
+        "date": "2023-10-24",
+        "route": "Ginzan Onsen to Naruko Gorge to Sendai",
+        "km": 149.5,
+        "refuel": false
+      },
+      {
+        "day": 13,
+        "date": "2023-10-25",
+        "route": "Sendai to Matsushima & Around, and back",
+        "km": 115.0,
+        "refuel": true
+      },
+      {
+        "day": 14,
+        "date": "2023-10-26",
+        "route": "Sendai to Nasu Kogen to Nikko",
+        "km": 345.0,
+        "refuel": false
+      },
+      {
+        "day": 15,
+        "date": "2023-10-27",
+        "route": "Nikko to Chuzenji & Around, and back",
+        "km": 69.0,
+        "refuel": true
+      },
+      {
+        "day": 16,
+        "date": "2023-10-28",
+        "route": "Nikko & Around, and to Tokyo",
+        "km": 195.5,
+        "refuel": true
+      }
+    ]
+  },
+  "todo": [
+    {
+      "ref": "1",
+      "task": "Car Rental Reservation",
+      "status": "Done",
+      "remarks": "To start booking on 15th July 2023. Toyota Corolla Touring\na. Pick up Location - Hamamatsucho Shop\nb. Drop off Location - Nakano Station Shop / Shinjuku 3-chome Station Shop",
+      "url": "https://rent.toyota.co.jp/eng/"
+    },
+    {
+      "ref": "2",
+      "task": "Restaurant Reservation",
+      "status": null,
+      "remarks": "Kalai to reserve for us (a-e)",
+      "url": null
+    },
+    {
+      "ref": "a",
+      "task": "Yuki?",
+      "status": "Done",
+      "remarks": "14th Oct 2023 from 6.30pm (3 person)",
+      "url": "https://yuki-restaurant.business.site/"
+    },
+    {
+      "ref": "b",
+      "task": "Misawaya - Negi Soba",
+      "status": "Done",
+      "remarks": "16th Oct 2023 from 2.00pm (4 person)",
+      "url": "http://www.misawaya.jp/mail.php"
+    },
+    {
+      "ref": "c",
+      "task": "Takino - Wappa Meshi",
+      "status": "Done",
+      "remarks": "16th Oct 2023 from 6.30pm (4 person)",
+      "url": "http://www.takino.jp/reservation/"
+    },
+    {
+      "ref": "d",
+      "task": "Torikatsu - Sukiyaki (Yonezawa Wagyu)",
+      "status": "Not available",
+      "remarks": "20th Oct 2023 from 12.00pm (4 person)",
+      "url": "https://yonezawa-torikatu.com/contact/"
+    },
+    {
+      "ref": "e",
+      "task": "Yamagyu",
+      "status": "Done",
+      "remarks": "22nd Oct 2023 from 11.30pm (4 person) via phone",
+      "url": "http://www.yamagyu.com/"
+    },
+    {
+      "ref": "f",
+      "task": "Maboya",
+      "status": "Can't book online",
+      "remarks": "24th Oct 2023 from 6.00pm (3 person)\nNeed to book using local number",
+      "url": "https://maboya.owst.jp/"
+    },
+    {
+      "ref": "3",
+      "task": "Ghibli Museum Ticket",
+      "status": "Not available",
+      "remarks": "29th Oct 2023 - 10am slot (WY to book ticket on 10th Sep 2023)",
+      "url": null
+    },
+    {
+      "ref": "4",
+      "task": "Exchange another 100000JPY",
+      "status": "Done",
+      "remarks": "To be done before 30th September 2023",
+      "url": null
+    },
+    {
+      "ref": "5",
+      "task": "Renew Passport",
+      "status": "Done",
+      "remarks": "To be done before 30th September 2023",
+      "url": null
+    },
+    {
+      "ref": "6",
+      "task": "International Driving Permit",
+      "status": "Done",
+      "remarks": null,
+      "url": null
+    }
+  ]
+}

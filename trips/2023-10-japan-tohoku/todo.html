@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>To-do — Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("todo", (trip) => {
+      const done = trip.todo.filter((t) => t.status === "Done").length;
+
+      const rows = trip.todo
+        .map(
+          (t) => `<tr>
+            <td>${Trip.escapeHtml(t.ref || "")}</td>
+            <td>${Trip.escapeHtml(t.task)}${
+              t.url ? `<br><a href="${Trip.escapeHtml(t.url)}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${Trip.escapeHtml(t.url)}</a>` : ""
+            }</td>
+            <td>${t.status ? `<span class="badge${t.status === "Done" ? "" : " past"}">${Trip.escapeHtml(t.status)}</span>` : ""}</td>
+            <td style="color:var(--text-dim);font-size:.85rem">${Trip.multiline(t.remarks)}</td>
+          </tr>`
+        )
+        .join("");
+
+      document.getElementById("main").innerHTML = `
+        <h1>Pre-trip to-do</h1>
+        <p class="subtitle">${done} of ${trip.todo.length} done — bookings, reservations and paperwork sorted before departure.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Task</th><th>Status</th><th>Notes</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    });
+  </script>
+</body>
+</html>

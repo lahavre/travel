@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Overview — Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("overview", (trip) => {
+      const rows = trip.overview
+        .map(
+          (o) => `
+          <tr>
+            <td><a href="day.html?day=${o.day}"><strong>Day ${o.day}</strong></a><br>
+              <span style="color:var(--text-dim);font-size:.82rem">${TravelSite.formatDate(o.date, { day: "2-digit", month: "short" })}<br>${Trip.escapeHtml(o.weekday || "")}</span></td>
+            <td>${Trip.multiline(o.city)}</td>
+            <td>${Trip.multiline(o.morning)}</td>
+            <td>${Trip.multiline(o.afternoon)}</td>
+            <td>${Trip.multiline(o.evening)}</td>
+            <td style="color:var(--text-dim);font-size:.85rem">${Trip.multiline(o.remarks)}${o.temperature ? `<br><em>${Trip.multiline(o.temperature)}</em>` : ""}</td>
+          </tr>`
+        )
+        .join("");
+
+      document.getElementById("main").innerHTML = `
+        <h1>High-level itinerary</h1>
+        <p class="subtitle">The whole trip at a glance — click a day for the detailed plan.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Day</th><th>Staying in</th>
+                <th>Morning<br>03:00–12:00</th>
+                <th>Afternoon<br>12:00–18:00</th>
+                <th>Evening<br>18:00–03:00</th>
+                <th>Remarks &amp; temp</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    });
+  </script>
+</body>
+</html>

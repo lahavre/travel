@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+
+  <main class="page">
+    <h1>Travel</h1>
+    <p class="subtitle">Every trip, planned and researched with Claude Code.</p>
+
+    <div id="trip-grid" class="trip-grid"></div>
+  </main>
+
+  <script src="assets/common.js"></script>
+  <script>
+    TravelSite.renderHeader({ root: ".", siteTitle: "Travel" });
+
+    TravelSite.fetchJSON("trips.json")
+      .then((trips) => {
+        const grid = document.getElementById("trip-grid");
+        if (!trips.length) {
+          grid.outerHTML = `<div class="empty-state">No trips yet — the next one will show up here.</div>`;
+          return;
+        }
+        const sorted = TravelSite.sortTripsByDate(trips);
+        grid.innerHTML = sorted
+          .map((t) => {
+            const status = TravelSite.tripStatus(t.startDate, t.endDate);
+            const badgeClass = status === "past" ? "badge past" : "badge";
+            const badgeLabel = status === "current" ? "In progress" : status === "past" ? "Past" : "Upcoming";
+            const dateRange = `${TravelSite.formatDate(t.startDate, { day: "2-digit", month: "short", year: "numeric" })} – ${TravelSite.formatDate(t.endDate, { day: "2-digit", month: "short", year: "numeric" })}`;
+            return `
+              <a class="trip-card" href="trips/${t.slug}/index.html">
+                <span class="emoji">${t.emoji || "🧳"}</span>
+                <div class="trip-name">${t.title}</div>
+                <div class="trip-dates">${t.destination} · ${dateRange}</div>
+                <span class="${badgeClass}">${badgeLabel}</span>
+              </a>`;
+          })
+          .join("");
+      })
+      .catch((err) => {
+        document.getElementById("trip-grid").outerHTML = `<div class="empty-state">Couldn't load trips.json (${err.message})</div>`;
+      });
+  </script>
+</body>
+</html>

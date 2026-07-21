@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accommodation — Japan 2023</title>
+  <link rel="stylesheet" href="../../assets/style.css" />
+</head>
+<body>
+  <header class="site-header"><div id="site-header"></div></header>
+  <main class="page" id="main"></main>
+
+  <script src="../../assets/common.js"></script>
+  <script src="../../assets/trip.js"></script>
+  <script>
+    Trip.page("accommodation", (trip) => {
+      const myr = (v) => (v === null || v === undefined ? "—" : TravelSite.formatMoney(v, "MYR"));
+      const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short" });
+
+      const total = trip.accommodation.reduce((s, a) => s + (a.total || 0), 0);
+      const nights = trip.accommodation.reduce((s, a) => s + (a.nights || 0), 0);
+
+      const rows = trip.accommodation
+        .map(
+          (a) => `
+          <tr>
+            <td><strong>${Trip.escapeHtml(a.city)}</strong><br>
+              <span style="color:var(--text-dim);font-size:.85rem">${Trip.escapeHtml(a.name)}</span></td>
+            <td>${short(a.checkIn)} → ${short(a.checkOut)}<br>
+              <span style="color:var(--text-dim);font-size:.82rem">${a.nights} night${a.nights > 1 ? "s" : ""} · ${a.persons} pax</span></td>
+            <td style="font-size:.85rem">In: ${Trip.escapeHtml(a.checkInTime || "—")}<br>Out: ${Trip.escapeHtml(a.checkOutTime || "—")}</td>
+            <td style="font-size:.85rem">Breakfast: ${Trip.escapeHtml(a.breakfast || "—")}<br>Parking: ${Trip.escapeHtml(a.parking || "—")}</td>
+            <td class="num">${myr(a.pricePerNight)}</td>
+            <td class="num">${myr(a.total)}</td>
+            <td style="color:var(--text-dim);font-size:.82rem">${Trip.multiline(a.remarks)}${a.payment ? `<br><em>${Trip.multiline(a.payment)}</em>` : ""}</td>
+          </tr>`
+        )
+        .join("");
+
+      const perPersonRows = trip.accommodation
+        .map(
+          (a) => `<tr>
+            <td>${Trip.escapeHtml(a.city)}</td>
+            ${trip.travelers.map((t) => `<td class="num">${myr(a.perPerson[t])}</td>`).join("")}
+          </tr>`
+        )
+        .join("");
+
+      const perPersonTotals = trip.travelers.map((t) =>
+        trip.accommodation.reduce((s, a) => s + (a.perPerson[t] || 0), 0)
+      );
+
+      document.getElementById("main").innerHTML = `
+        <h1>Accommodation</h1>
+        <p class="subtitle">${trip.accommodation.length} stays · ${nights} nights · ${TravelSite.formatMoney(total, "MYR")} total</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Where</th><th>Dates</th><th>Times</th><th>Included</th>
+              <th class="num">Per night</th><th class="num">Total</th><th>Notes</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+            <tfoot><tr><td colspan="5">Grand total</td>
+              <td class="num">${TravelSite.formatMoney(total, "MYR")}</td><td></td></tr></tfoot>
+          </table>
+        </div>
+
+        <h2>Split per traveller</h2>
+        <p class="section-note">Only covers the portion paid up front on the organiser's card — stays paid directly at the property are marked “—”.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Stay</th>${trip.travelers.map((t) => `<th class="num">${Trip.escapeHtml(t)}</th>`).join("")}</tr></thead>
+            <tbody>${perPersonRows}</tbody>
+            <tfoot><tr><td>Total</td>${perPersonTotals.map((v) => `<td class="num">${TravelSite.formatMoney(v, "MYR")}</td>`).join("")}</tr></tfoot>
+          </table>
+        </div>`;
+    });
+  </script>
+</body>
+</html>
