@@ -289,15 +289,14 @@ const Trip = (() => {
   }
 
   /**
-   * Temperatures are stored as [{location, min, max, note}] in Celsius.
-   * `withLocation` prefixes each entry with its place name, which only helps
-   * when a day passes through more than one.
+   * Temperatures are stored as [{location, min, max, note}] in Celsius and render
+   * as "City: 18–25 °C". An en dash separates the range so a sub-zero low stays
+   * legible ("Zao Onsen: -1–12 °C").
    */
   function temperatureLines(list) {
     if (!has(list)) return [];
-    const showPlace = list.length > 1;
     return list.map((t) => {
-      const place = showPlace && t.location ? `${escapeHtml(t.location)} ` : "";
+      const place = t.location ? `${escapeHtml(t.location)}: ` : "";
       if (t.min === null || t.max === null) {
         return `${place}${escapeHtml(t.note || "—")}`;
       }
