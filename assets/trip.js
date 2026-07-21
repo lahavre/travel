@@ -290,8 +290,8 @@ const Trip = (() => {
 
   /**
    * Temperatures are stored as [{location, min, max, note}] in Celsius and render
-   * as "City: 18–25 °C". An en dash separates the range so a sub-zero low stays
-   * legible ("Zao Onsen: -1–12 °C").
+   * as "City: 18 to 25 °C". "to" rather than a dash keeps a sub-zero low readable
+   * ("Zao Onsen: -1 to 12 °C").
    */
   function temperatureLines(list) {
     if (!has(list)) return [];
@@ -300,7 +300,7 @@ const Trip = (() => {
       if (t.min === null || t.max === null) {
         return `${place}${escapeHtml(t.note || "—")}`;
       }
-      return `${place}${t.min}–${t.max} °C`;
+      return `${place}${t.min} to ${t.max} °C`;
     });
   }
 

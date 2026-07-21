@@ -405,7 +405,7 @@ tfoot td {
   color: var(--text-dim);
 }
 .stay-temp {
-  margin-top: 6px;
+  margin-top: 14px;
   font-weight: 400;
   font-size: 0.82rem;
   color: var(--text-dim);
