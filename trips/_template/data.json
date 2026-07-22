@@ -222,12 +222,16 @@
     }
   ],
 
-  "_accommodation": "Each stay renders as a summary (place, dates, price) beside a labelled detail list. Prices in homeCurrency; `total` shows with `pricePerNight` in brackets on multi-night stays. Times are 24-hour: `checkInFrom`/`checkInTo` read \"From 15:00 to 19:00\" — omit `checkInTo` when the property only gives a start — and `checkOutUntil` reads \"Until 11:00\". `reservation`, `address`, `phone`, `rooms` and `roomType` come off the booking confirmation. `meal`, `parking` and `laundry` are free text (\"N/A\", \"Free\", \"Paid\", \"Breakfast & dinner\", \"Washing & drying\"); null shows as \"—\". `prepaid` true/false drives the Paid row, with `payAtProperty` for anything owed on arrival and `cancellation` for the policy wording. NEVER put door codes, lock-box codes or personal contact details here — the site is public.",
+  "_accommodation": "Each stay renders as a summary (place, dates, price) beside a labelled detail list. Prices in homeCurrency; `total` shows with `pricePerNight` in brackets on multi-night stays. Times are 24-hour: `checkInFrom`/`checkInTo` read \"From 15:00 to 19:00\" — omit `checkInTo` when the property only gives a start — and `checkOutUntil` reads \"Until 11:00\". `reservation`, `address`, `phone`, `rooms` and `roomType` come off the booking confirmation. A voucher often carries more than one number — the platform's booking ID plus a supplier or property reference — so put the platform's own in `bookingNo` and every other one in `refs`, labelled as the voucher labels it; all of them are shown. `meal`, `parking` and `laundry` are free text (\"N/A\", \"Free\", \"Paid\", \"Breakfast & dinner\", \"Washing & drying\"); null shows as \"—\". `prepaid` true/false drives the Paid row, with `payAtProperty` for anything owed on arrival and `cancellation` for the policy wording. NEVER put door codes, lock-box codes or personal contact details here — the site is public.",
   "accommodation": [
     {
       "city": "Arrival city",
       "name": "Hotel name",
-      "reservation": { "site": "Agoda", "bookingNo": "935918893" },
+      "reservation": {
+        "site": "Agoda",
+        "bookingNo": "935918893",
+        "refs": [{ "label": "Booking.com Ref", "value": "2318680570" }]
+      },
       "address": "1-2-7 Shibadaimon, Minato-ku, Tokyo, Japan, 105-0012",
       "phone": "+81 3 5472 2031",
       "checkIn": "2026-01-01",

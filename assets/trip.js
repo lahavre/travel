@@ -730,6 +730,23 @@ const Trip = (() => {
       return `No${bits.length ? ` (${bits.join(". ")})` : ""}`;
     };
 
+    /**
+     * A booking often carries more than one number — the platform's own booking ID
+     * plus whatever reference it was placed under with the supplier or the property.
+     * Both matter at the desk, so show every one rather than picking a favourite.
+     */
+    const reservationValue = (r) => {
+      if (!r || !r.site) return "—";
+      const numbers = [];
+      if (r.bookingNo) numbers.push(`Booking No: ${escapeHtml(r.bookingNo)}`);
+      (r.refs || []).forEach((x) => {
+        if (x && x.value) numbers.push(`${escapeHtml(x.label || "Ref")}: ${escapeHtml(x.value)}`);
+      });
+      return `${escapeHtml(r.site)}${
+        numbers.length ? ` <span class="stay-refs">(${numbers.join(" · ")})</span>` : ""
+      }`;
+    };
+
     // Hotel name links to Maps — search the address when we have one, since a
     // property name alone can be ambiguous.
     const hotelValue = (a) => {
@@ -751,16 +768,7 @@ const Trip = (() => {
     const detailRows = (a) => [
       ["Hotel", hotelValue(a)],
       ["Address", a.address ? dash(a.address) : "—"],
-      [
-        "Reservation",
-        a.reservation && a.reservation.site
-          ? `${escapeHtml(a.reservation.site)}${
-              a.reservation.bookingNo
-                ? ` (Booking No: ${escapeHtml(a.reservation.bookingNo)})`
-                : ""
-            }`
-          : "—",
-      ],
+      ["Reservation", reservationValue(a.reservation)],
       ["Room Type", roomValue(a)],
       ["Check-In", checkInValue(a)],
       ["Check-Out", a.checkOutUntil ? `Until ${escapeHtml(a.checkOutUntil)}` : "—"],

@@ -89,6 +89,11 @@ Times are 24-hour, so `checkInFrom`/`checkInTo` read "From 15:00 until 19:00" an
 `checkOutUntil` reads "Until 11:00" — "until" in both. `prepaid` drives the Paid row,
 with `payAtProperty` for anything owed on arrival.
 
+A voucher often carries more than one number — the platform's own booking ID plus the
+reference it was placed under with a supplier or the property. Put the platform's in
+`bookingNo` and the rest in `refs` as `{label, value}`; every one is displayed, since
+either may be the one a front desk asks for.
+
 Fill these from the booking confirmation, not from memory or an old spreadsheet: where
 the two disagree, the confirmation is right. A blank renders "—", meaning nobody has
 checked; write "N/A" only once you know the property genuinely does not offer it.

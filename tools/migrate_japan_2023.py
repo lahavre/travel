@@ -72,7 +72,8 @@ RANGE_RE = re.compile(r"^(-?\d+)\s*-\s*(-?\d+)$")
 # was never recorded on any voucher, so it stays null rather than guessed.
 RESERVATIONS = {
     "Sotetsu Fresa Inn Hamamatsucho Daimon": {
-        "reservation": {"site": "Agoda", "bookingNo": "935918893"},
+        "reservation": {"site": "Agoda", "bookingNo": "935918893",
+                        "refs": [{"label": "Booking.com Ref", "value": "2318680570"}]},
         "address": "1-2-7 Shibadaimon, Minato-ku, Shinbashi, Tokyo, Japan, 105-0012",
         "phone": "+81 3 5472 2031",
         "rooms": 1,
@@ -109,7 +110,8 @@ RESERVATIONS = {
         "extraRemarks": None,
     },
     "donaludo Pension": {
-        "reservation": {"site": "Agoda", "bookingNo": "964540701"},
+        "reservation": {"site": "Agoda", "bookingNo": "964540701",
+                        "refs": [{"label": "Booking.com Ref", "value": "2752987512"}]},
         "address": "Kengamine 1093, Kitashiobara, Kitashiobara, Japan, 969-2701",
         "phone": None,
         "rooms": 2,
@@ -122,7 +124,8 @@ RESERVATIONS = {
         "extraRemarks": "Taxes and fees of MYR 65.84 included.",
     },
     "HOTEL SANKYO FUKUSHIMA": {
-        "reservation": {"site": "Agoda", "bookingNo": "964590833", "ref": "3408024"},
+        "reservation": {"site": "Agoda", "bookingNo": "964590833",
+                        "refs": [{"label": "Booking Ref", "value": "3408024"}]},
         "address": "7-11, Omachi, Fukushima, Fukushima, Japan, 960-8041",
         "phone": "+81 24 525 2211",
         "rooms": 1,
@@ -134,7 +137,8 @@ RESERVATIONS = {
         "extraRemarks": "Taxes and fees of MYR 88.20 included.",
     },
     "Takasagoya Ryokan": {
-        "reservation": {"site": "Agoda", "bookingNo": "969115477"},
+        "reservation": {"site": "Agoda", "bookingNo": "969115477",
+                        "refs": [{"label": "Booking.com Ref", "value": "3903868873"}]},
         "address": "23 Zaouonsen, Zao, Yamagata, Japan, 990-2301",
         "phone": "+81 23 694 9026",
         "rooms": 2,
@@ -146,7 +150,8 @@ RESERVATIONS = {
         "extraRemarks": "Taxes and fees of MYR 91.60 included.",
     },
     "Yamagata Nanokamachi Washington Hotel": {
-        "reservation": {"site": "Agoda", "bookingNo": "981801613", "ref": "JTB 6035581297"},
+        "reservation": {"site": "Agoda", "bookingNo": "981801613",
+                        "refs": [{"label": "JTB Ref", "value": "6035581297"}]},
         "address": "1-4-31 Nanokamachi, Yamagata city, Yamagata, Japan, 990-0042",
         "phone": None,
         "rooms": 2,
