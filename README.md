@@ -85,9 +85,13 @@ through, or `note` when there is no firm range.
 **Accommodation.** Each stay renders as a summary — place, dates, nights, total with
 the nightly rate in brackets — beside a labelled detail list: hotel (linked to Maps),
 address, reservation, room type, check-in, check-out, laundry, meal, parking and paid.
-Times are 24-hour, so `checkInFrom`/`checkInTo` read "From 15:00 to 19:00" and
-`checkOutUntil` reads "Until 11:00". `prepaid` drives the Paid row, with
-`payAtProperty` for anything owed on arrival.
+Times are 24-hour, so `checkInFrom`/`checkInTo` read "From 15:00 until 19:00" and
+`checkOutUntil` reads "Until 11:00" — "until" in both. `prepaid` drives the Paid row,
+with `payAtProperty` for anything owed on arrival.
+
+Fill these from the booking confirmation, not from memory or an old spreadsheet: where
+the two disagree, the confirmation is right. A blank renders "—", meaning nobody has
+checked; write "N/A" only once you know the property genuinely does not offer it.
 
 **Never put door codes, lock-box codes, host directions or personal contact details in
 `data.json`** — the repository and the published site are public. Booking confirmations

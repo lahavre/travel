@@ -714,9 +714,10 @@ const Trip = (() => {
 
     const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
 
+    // "From 15:00 until 19:00" — "until" matches the check-out wording.
     const checkInValue = (a) => {
       if (!a.checkInFrom) return "—";
-      return `From ${a.checkInFrom}${a.checkInTo ? ` to ${a.checkInTo}` : ""}`;
+      return `From ${a.checkInFrom}${a.checkInTo ? ` until ${a.checkInTo}` : ""}`;
     };
 
     const paidValue = (a) => {

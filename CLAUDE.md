@@ -14,12 +14,23 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   conversion, day cost roll-ups and the overview's hotel column are all derived at
   render time. Never hardcode a computed figure into markup or duplicate a value that
   can be looked up (the overview reads hotels from `accommodation` by date).
+- **An uploaded document outbids anything typed by hand.** Booking confirmations,
+  airline vouchers and receipts are the source of truth; a spreadsheet or a
+  remembered detail is not, because it carries human error. When they disagree, the
+  document wins — and say so, rather than quietly overwriting. Reading the Japan
+  vouchers this way corrected four cancellation policies the workbook had flattened
+  to "non-refundable" and explained a stay recorded as costing nothing.
 - **Don't invent trip data.** Where the source didn't record something — a flight
   number, an unforecast temperature, a travel duration — leave it `null` and let it
   render as "—" or a note. Ask rather than fill a plausible-looking gap. This
   includes travel times: the page links out to Google Maps rather than guessing,
   because the Directions API needs a key that a public static site cannot keep
   secret.
+- **"—" and "N/A" are different claims.** "—" means nobody has found out yet; "N/A"
+  means it was checked and the property does not offer it. Never promote one to the
+  other. For a trip being planned for real, ask the traveller to confirm the
+  amenities a booking rarely states — laundry above all — instead of leaving them
+  unknown.
 - **Every section is optional.** Missing or empty sections must render a placeholder,
   never throw. Test a sparse trip after touching a renderer.
 - **The repo and the site are public.** Booking confirmations carry door codes,
@@ -34,7 +45,8 @@ Static travel-itinerary site, published via GitHub Pages from `main`
 | Date + weekday | `13 Oct 2023 (Fri)` — `Trip.longDate()` |
 | Temperature | Always Celsius, `City: 18 to 25 °C`. Use "to", never a dash — sub-zero lows (`-1 to 12`) are unreadable otherwise |
 | Currency | Three-letter ISO code as the spreadsheet used — `MYR 517.42`, not `RM517.42`. Driven by `homeCurrency` / `tripCurrency`; never hardcode MYR or JPY |
-| Check-in | 3 hours before departure by default |
+| Hotel check-in / out | `From 15:00 until 19:00` and `Until 11:00` — "until" in both, never "to" |
+| Flight check-in | 3 hours before departure by default |
 | Spelling | British — "traveller", "colour" |
 
 Time-of-day colour bands (morning amber, afternoon blue, evening violet) are CSS
@@ -56,6 +68,9 @@ the Japan trip's totals match its workbook exactly and should stay that way.
 For a new trip: research and propose the day-by-day in chat first, get sign-off, then
 copy `trips/_template/` to `trips/YYYY-MM-destination/`, fill in `data.json`, and add
 one entry to `trips.json`.
+
+Ask for the booking confirmations rather than transcribing details from memory or a
+spreadsheet, and read every one before filling in a stay.
 
 Commit locally as work completes. **Push only when explicitly asked.** Commits use
 this repo's own git identity (`lahavre` / the GitHub noreply address) — the account
