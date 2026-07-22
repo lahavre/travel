@@ -483,6 +483,52 @@ tfoot td {
   color: var(--slot-evening-fg);
 }
 
+/* ---- Accommodation table ---- */
+/* Eight columns do not fit a phone, and squeezing them shreds the dates — give the
+   table a floor and let .table-wrap scroll it instead. */
+.stay-table {
+  min-width: 1080px;
+}
+.stay-table td {
+  vertical-align: top;
+}
+/* "13 Oct 2023" and "(From 15:00 to 19:00)" each stay on one line. */
+.stay-table .stay-date,
+.stay-table .stay-date .stay-window,
+.stay-table .num .stay-window {
+  white-space: nowrap;
+}
+/* Secondary detail: hotel name, time window, nightly rate, room type. */
+.stay-window {
+  display: inline-block;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+.stay-address {
+  font-size: 0.82rem;
+  min-width: 150px;
+}
+.stay-notes {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  min-width: 170px;
+}
+.amenity-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.amenity-tag {
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+
 /* ---- Day picker: every day one click away ---- */
 .day-picker {
   display: flex;
@@ -719,5 +765,8 @@ tfoot td {
      column down to a couple of characters. */
   .table-wrap table {
     min-width: 560px;
+  }
+  .table-wrap .stay-table {
+    min-width: 1080px;
   }
 }

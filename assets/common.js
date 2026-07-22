@@ -37,13 +37,16 @@ const TravelSite = (() => {
     return new Date(iso + "T00:00:00").toLocaleDateString(LOCALE, opts);
   }
 
+  // narrowSymbol gives the short local sign — RM rather than "MYR", ¥ rather than
+  // "JPY" — which is how prices are actually written on a booking.
   function formatMoney(amount, currency = "MYR") {
     if (amount === null || amount === undefined || isNaN(amount)) return "-";
-    return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 2,
-    }).format(amount);
+    const opts = { style: "currency", currency, maximumFractionDigits: 2 };
+    try {
+      return new Intl.NumberFormat(LOCALE, { ...opts, currencyDisplay: "narrowSymbol" }).format(amount);
+    } catch (err) {
+      return new Intl.NumberFormat(LOCALE, opts).format(amount);
+    }
   }
 
   function tripStatus(startDate, endDate) {

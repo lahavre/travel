@@ -64,6 +64,74 @@ def rows(name):
 
 RANGE_RE = re.compile(r"^(-?\d+)\s*-\s*(-?\d+)$")
 
+# Booking details taken from the confirmation vouchers. Only the stays whose
+# voucher we actually have are listed; the rest stay null rather than invented.
+RESERVATIONS = {
+    "HOTEL SANKYO FUKUSHIMA": {
+        "reservation": {"site": "Agoda", "bookingNo": "3408024", "guestRef": "964590833"},
+        "address": "7-11, Omachi, Fukushima, Fukushima, Japan, 960-8041",
+        "phone": "+81 24 525 2211",
+        "rooms": 1,
+        "roomType": "[Adjoining/Nearby Room] 2 Bedrooms, 4 Single Beds, Non Smoking",
+        "extraAmenities": ["Free WiFi"],
+        "extraRemarks": "Taxes and fees of MYR 88.20 included.",
+    },
+}
+
+
+def to24(hour, minute, meridiem):
+    hour = int(hour)
+    minute = int(minute or 0)
+    if meridiem == "pm" and hour != 12:
+        hour += 12
+    elif meridiem == "am" and hour == 12:
+        hour = 0
+    return f"{hour:02d}:{minute:02d}"
+
+
+def parse_window(raw):
+    """"3-7pm" -> ("15:00", "19:00");  "From 3pm" -> ("15:00", None);
+    "Until 11am" -> (None, "11:00").  Returns (start, end) in 24-hour time."""
+    if not raw:
+        return None, None
+    s = str(raw).strip().lower()
+
+    # "3-7pm", "8-11am" — one meridiem at the end applies to both ends.
+    m = re.match(r"^(\d{1,2})(?::(\d{2}))?\s*-\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)$", s)
+    if m:
+        mer = m.group(5)
+        start = to24(m.group(1), m.group(2), mer)
+        end = to24(m.group(3), m.group(4), mer)
+        # "3-10pm" means 15:00-22:00, but a start later than the end means the
+        # range crossed noon, e.g. "11-2pm".
+        if start > end:
+            start = to24(m.group(1), m.group(2), "am")
+        return start, end
+
+    m = re.match(r"^from\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)$", s)
+    if m:
+        return to24(m.group(1), m.group(2), m.group(3)), None
+
+    m = re.match(r"^until\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)$", s)
+    if m:
+        return None, to24(m.group(1), m.group(2), m.group(3))
+
+    return None, None
+
+
+def amenities_for(breakfast, parking, extra):
+    """Breakfast and parking were their own columns; they belong with the notes."""
+    out = []
+    if (breakfast or "").strip().lower() == "yes":
+        out.append("Breakfast included")
+    park = (parking or "").strip().lower()
+    if park == "free":
+        out.append("Free parking")
+    elif park == "charges":
+        out.append("Paid parking")
+    out.extend(extra)
+    return out
+
 
 def parse_temperature(raw):
     """"Tokyo - 18-25\nZao Onsen - -1-12" -> [{location, min, max, note}].
@@ -168,21 +236,35 @@ for r in rows("Hotel")[2:]:
         continue
     if not d(v[1]):
         continue
+    name = s(v[5])
+    booking = RESERVATIONS.get(name, {})
+    check_in_from, check_in_to = parse_window(v[7])
+    _, check_out_until = parse_window(v[8])
+    remarks = s(v[13])
+    if booking.get("extraRemarks"):
+        remarks = f"{remarks}\n{booking['extraRemarks']}" if remarks else booking["extraRemarks"]
+
     accommodation.append({
         "city": s(v[0]),
+        "reservation": booking.get("reservation"),
+        "address": booking.get("address"),
+        "phone": booking.get("phone"),
         "checkIn": d(v[1]),
         "checkOut": d(v[2]),
         "nights": num(v[3]),
         "persons": num(v[4]),
-        "name": s(v[5]),
+        "rooms": booking.get("rooms"),
+        "roomType": booking.get("roomType"),
+        "name": name,
         "freeCancellation": s(v[6]),
-        "checkInTime": s(v[7]),
-        "checkOutTime": s(v[8]),
-        "breakfast": s(v[9]),
-        "parking": s(v[10]),
+        # 24-hour windows parsed from the workbook's "3-7pm" / "Until 11am" text.
+        "checkInFrom": check_in_from,
+        "checkInTo": check_in_to,
+        "checkOutUntil": check_out_until,
+        "amenities": amenities_for(v[9], v[10], booking.get("extraAmenities", [])),
         "pricePerNight": num(v[11]),
         "total": num(v[12]),
-        "remarks": s(v[13]),
+        "remarks": remarks,
         "perPerson": {k: num(v[14 + i]) for i, k in enumerate(["CMC", "WY", "Gary", "Kalai"])},
         "payment": s(v[18]),
     })

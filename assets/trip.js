@@ -20,7 +20,7 @@ const Trip = (() => {
     { key: "overview", label: "Overview", href: "overview.html" },
     { key: "day", label: "Days", href: "day.html?day=1" },
     { key: "budget", label: "Budget", href: "budget.html" },
-    { key: "accommodation", label: "Stays", href: "accommodation.html" },
+    { key: "accommodation", label: "Accommodation", href: "accommodation.html" },
     { key: "transport", label: "Transport", href: "transport.html" },
     { key: "todo", label: "To-do", href: "todo.html" },
   ];
@@ -709,43 +709,104 @@ const Trip = (() => {
 
     const total = stays.reduce((s, a) => s + (a.total || 0), 0);
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
-    const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short" });
+    const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" });
     const splitTravellers = has(trip.travelers) && stays.some((a) => a.perPerson);
+
+    // "13 Oct 2023 (From 15:00 to 19:00)" — the "to" half only when there is one.
+    const checkInCell = (a) => {
+      if (!a.checkIn) return "—";
+      const win = a.checkInFrom
+        ? `From ${a.checkInFrom}${a.checkInTo ? ` to ${a.checkInTo}` : ""}`
+        : null;
+      return `${short(a.checkIn)}${win ? `<br><span class="stay-window">(${escapeHtml(win)})</span>` : ""}`;
+    };
+    const checkOutCell = (a) => {
+      if (!a.checkOut) return "—";
+      return `${short(a.checkOut)}${
+        a.checkOutUntil ? `<br><span class="stay-window">(Until ${escapeHtml(a.checkOutUntil)})</span>` : ""
+      }`;
+    };
+
+    // Total first, nightly rate in brackets: "RM517.42 (RM258.71 / night)".
+    const priceCell = (a) => {
+      if (a.total == null) return "—";
+      const each = a.pricePerNight != null && a.nights > 1
+        ? `<br><span class="stay-window">(${home(a.pricePerNight, trip)} / night)</span>`
+        : "";
+      return `${home(a.total, trip)}${each}`;
+    };
+
+    const reservationCell = (a) => {
+      const r = a.reservation;
+      if (!r || (!r.site && !r.bookingNo)) return "—";
+      return `<strong>${escapeHtml(r.site || "")}</strong>${
+        r.bookingNo
+          ? `<br><span class="stay-window">(Booking No: ${escapeHtml(r.bookingNo)})</span>`
+          : ""
+      }`;
+    };
+
+    const roomCell = (a) => {
+      const bits = [];
+      if (a.rooms) bits.push(`${a.rooms} room${a.rooms > 1 ? "s" : ""}`);
+      if (a.persons) bits.push(`${a.persons} pax`);
+      if (!bits.length && !a.roomType) return "—";
+      return `${bits.join(" · ")}${
+        a.roomType ? `<br><span class="stay-window">${escapeHtml(a.roomType)}</span>` : ""
+      }`;
+    };
+
+    const notesCell = (a) => {
+      const parts = [];
+      if (has(a.amenities)) {
+        parts.push(
+          `<div class="amenity-tags">${a.amenities
+            .map((x) => `<span class="amenity-tag">${escapeHtml(x)}</span>`)
+            .join("")}</div>`
+        );
+      }
+      if (a.remarks) parts.push(multiline(a.remarks));
+      if (a.freeCancellation && a.freeCancellation.toLowerCase() !== "no") {
+        parts.push(`<em>Free cancellation: ${escapeHtml(a.freeCancellation)}</em>`);
+      }
+      if (a.payment) parts.push(`<em>${multiline(a.payment)}</em>`);
+      return parts.join("<br>") || "—";
+    };
 
     let out = `
       <h1>Accommodation</h1>
       <p class="subtitle">${stays.length} stays · ${nights} nights · ${home(total, trip)} total</p>
 
       <div class="table-wrap">
-        <table>
+        <table class="stay-table">
           <thead><tr>
-            <th>Where</th><th>Dates</th><th>Times</th><th>Included</th>
-            <th class="num">Per night</th><th class="num">Total</th><th>Notes</th>
+            <th>Reservation</th><th>Location</th><th>Address</th><th>Room</th>
+            <th>Check-In Date</th><th>Check-Out Date</th>
+            <th class="num">Price</th><th>Notes</th>
           </tr></thead>
           <tbody>${stays
             .map(
               (a) => `<tr>
+                <td>${reservationCell(a)}</td>
                 <td><strong>${escapeHtml(a.city || "")}</strong><br>
-                  <span style="color:var(--text-dim);font-size:.85rem">${escapeHtml(a.name || "")}</span></td>
-                <td>${short(a.checkIn)} → ${short(a.checkOut)}<br>
-                  <span style="color:var(--text-dim);font-size:.82rem">${a.nights} night${
-                a.nights > 1 ? "s" : ""
-              }${a.persons ? ` · ${a.persons} pax` : ""}</span></td>
-                <td style="font-size:.85rem">In: ${escapeHtml(a.checkInTime || "—")}<br>Out: ${escapeHtml(
-                a.checkOutTime || "—"
-              )}</td>
-                <td style="font-size:.85rem">Breakfast: ${escapeHtml(a.breakfast || "—")}<br>Parking: ${escapeHtml(
-                a.parking || "—"
-              )}</td>
-                <td class="num">${home(a.pricePerNight, trip)}</td>
-                <td class="num">${home(a.total, trip)}</td>
-                <td style="color:var(--text-dim);font-size:.82rem">${multiline(a.remarks)}${
-                a.payment ? `<br><em>${multiline(a.payment)}</em>` : ""
-              }</td>
+                  <span class="stay-window">${escapeHtml(a.name || "")}</span></td>
+                <td class="stay-address">${
+                  a.address
+                    ? `<a href="${mapsSearch(a.address)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+                        a.address
+                      )}</a>${a.phone ? `<br><span class="stay-window">${escapeHtml(a.phone)}</span>` : ""}`
+                    : "—"
+                }</td>
+                <td>${roomCell(a)}</td>
+                <td class="stay-date">${checkInCell(a)}</td>
+                <td class="stay-date">${checkOutCell(a)}</td>
+                <td class="num">${priceCell(a)}</td>
+                <td class="stay-notes">${notesCell(a)}</td>
               </tr>`
             )
             .join("")}</tbody>
-          <tfoot><tr><td colspan="5">Grand total</td><td class="num">${home(total, trip)}</td><td></td></tr></tfoot>
+          <tfoot><tr><td colspan="6">Grand total · ${nights} nights</td>
+            <td class="num">${home(total, trip)}</td><td></td></tr></tfoot>
         </table>
       </div>`;
 
