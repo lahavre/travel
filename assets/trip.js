@@ -813,12 +813,6 @@ const Trip = (() => {
               </tr>`
             )
             .join("")}</tbody>
-          <tfoot><tr>
-            <td class="stay-summary"><div class="stay-place">Grand total</div>
-              <div class="stay-dates">${nights} nights</div>
-              <div class="stay-price">${home(total, trip)}</div></td>
-            <td></td>
-          </tr></tfoot>
         </table>
       </div>`;
 
@@ -828,27 +822,31 @@ const Trip = (() => {
       );
       out += `
         <h2>Split per traveller</h2>
-        <p class="section-note">Stays paid directly at the property, or not shared, show “—”.</p>
+        <p class="section-note">N/A — paid directly at the property, or cost not shared.</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Stay</th>${trip.travelers
+            <thead><tr><th>Stay</th><th class="num">Price</th>${trip.travelers
               .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
               .join("")}</tr></thead>
             <tbody>${stays
               .map(
-                (a) => `<tr><td>${escapeHtml(a.city || a.name || "")}</td>${trip.travelers
-                  .map(
-                    (t) =>
-                      `<td class="num">${
-                        a.perPerson && a.perPerson[t] != null ? home(a.perPerson[t], trip) : "—"
-                      }</td>`
-                  )
-                  .join("")}</tr>`
+                (a) => `<tr>
+                  <td>${escapeHtml(a.city || a.name || "")}</td>
+                  <td class="num">${a.total != null ? home(a.total, trip) : "N/A"}</td>
+                  ${trip.travelers
+                    .map(
+                      (t) =>
+                        `<td class="num">${
+                          a.perPerson && a.perPerson[t] != null ? home(a.perPerson[t], trip) : "N/A"
+                        }</td>`
+                    )
+                    .join("")}</tr>`
               )
               .join("")}</tbody>
-            <tfoot><tr><td>Total</td>${totals
-              .map((v) => `<td class="num">${home(v, trip)}</td>`)
-              .join("")}</tr></tfoot>
+            <tfoot><tr><td>Total</td>
+              <td class="num">${home(total, trip)}</td>
+              ${totals.map((v) => `<td class="num">${home(v, trip)}</td>`).join("")}
+            </tr></tfoot>
           </table>
         </div>`;
     }

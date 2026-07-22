@@ -122,7 +122,7 @@ RESERVATIONS = {
         "parking": "Free",
         "laundry": None,
         "prepaid": False,
-        "payAtProperty": "JPY 22,000 on check-in",
+        "payAtProperty": "JPY 22,000",
         "dropRemarks": True,
         "extraRemarks": "JPY 22,000 total, JPY 5,500 each — bring cash. "
                         "Taxes and fees of MYR 65.84 included.",
