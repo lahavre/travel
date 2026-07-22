@@ -94,6 +94,12 @@ renders as "Paid (JPY 1,000 / night)".
 Each row states its fact once. `remarks` is for what no other row covers — don't
 repeat the payment, meal or parking there.
 
+Full field list per stay: `city`, `name`, `reservation` (`site`, `bookingNo`, `refs`),
+`address`, `phone`, `checkIn`, `checkOut`, `nights`, `persons`, `rooms`, `roomType`,
+`checkInFrom`, `checkInTo`, `checkOutUntil`, `laundry`, `meal`, `parking`,
+`parkingNote`, `prepaid`, `payAtProperty`, `cancellation`, `pricePerNight`, `total`,
+`remarks`, `perPerson`. `trips/_template/data.json` has a worked example of every one.
+
 A voucher often carries more than one number — the platform's own booking ID plus the
 reference it was placed under with a supplier or the property. Put the platform's in
 `bookingNo` and the rest in `refs` as `{label, value}`; every one is displayed, since
