@@ -176,14 +176,14 @@ RESERVATIONS = {
         "phone": None,
         "rooms": 1,
         "roomType": "Japanese-style room",
-        "meal": "Breakfast & dinner",
+        "meal": "Breakfast & dinner (TAKIMI-kaiseki plan)",
         "parking": "Free",
         "laundry": None,
         "prepaid": True,
         "cancellation": "Free cancellation before 15:00, 22 Oct 2023",
         "dropRemarks": True,
-        "extraRemarks": "JPY 75,900 for 3 guests (JPY 25,300 each), TAKIMI-kaiseki "
-                        "plan. Bathing tax payable at the property.",
+        "extraRemarks": "JPY 75,900 for 3 guests (JPY 25,300 each). Bathing tax "
+                        "payable at the property.",
     },
     "Airbnb - Room in a home hosted by Ryu": {
         "reservation": {"site": "Airbnb", "bookingNo": "HMDZMSZNX8"},
