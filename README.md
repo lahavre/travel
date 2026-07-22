@@ -62,7 +62,7 @@ breaking, so a half-planned trip still renders.
 | `budget.categories` | `category`, `perDay`, `budget`, `actual` — in **home** currency |
 | `settle` | Group cost-splitting rows; `amounts` keys must match `travelers` |
 | `overview` | One row per day; `morning`/`afternoon`/`evening` activities, `slotRemarks` per slot, `remarks` for a whole-day note, `temperature` list in Celsius |
-| `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks` |
+| `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
 | `accommodation` | Stays, with optional `perPerson` split |
 | `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
 | `todo` | Pre-trip checklist; `status: "Done"` renders as complete |
@@ -81,6 +81,18 @@ the "Staying in" column is resolved from `accommodation` by date rather than typ
 twice, so correcting a stay updates the overview too. Temperatures are always Celsius
 and read `City: 18 to 25 °C`: one `{location, min, max}` entry per place a day passes
 through, or `note` when there is no firm range.
+
+**Maps and travel times.** Any activity can carry a `travel` block
+(`from`, `to`, `mode`, `duration`, `distance`, `cost`) which renders as a line with a
+**Directions ↗** link; the same link appears for the day's driving leg and on every
+row of the transport page. The links use Google's public URL scheme — no API key, no
+billing — and Maps works out the live route, time and tolls once opened.
+
+`duration`, `distance` and `cost` are **your own figures, not computed**. Working them
+out in the page would need the Google Directions API, and its key cannot be kept
+secret in a public static site, so the link is the honest way to get live numbers.
+Distances already recorded per day live in `transport.legs[].km`; note these are the
+whole day's driving, so they read higher than a point-to-point Maps estimate.
 
 **Flights and check-in.** Each flight card shows a check-in time so you can work
 backwards to when you need to leave for the airport. It defaults to 3 hours before

@@ -143,6 +143,72 @@ const Trip = (() => {
     return { time: `${hh}:${mm}`, dayOffset, derived: true };
   }
 
+  /**
+   * Google Maps links. These use the public URL scheme, which needs no API key and
+   * no billing — Maps itself works out the live route, time and tolls when opened.
+   * Predicting duration or cost *inside* this page would need the Directions API,
+   * whose key cannot be kept secret in a public static site, so stored estimates
+   * (travel.duration / travel.cost) are shown as-is and the link covers the rest.
+   */
+  function mapsDirections(from, to, mode) {
+    const params = new URLSearchParams({ api: "1", origin: from, destination: to });
+    if (mode) params.set("travelmode", mode);
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
+  }
+
+  function mapsSearch(query) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  }
+
+  /** A "Tokyo to Kinugawa Onsen" style route string, split into its two ends. */
+  function splitRoute(route) {
+    const m = /^(.*?)\s+to\s+(.*)$/i.exec(route || "");
+    if (!m) return null;
+    const to = m[2].replace(/,?\s*and back$/i, "").trim();
+    return to ? { from: m[1].trim(), to } : null;
+  }
+
+  /** Travel details attached to one activity, with a directions link. */
+  function travelChip(travel, trip) {
+    if (!travel || (!travel.from && !travel.to)) return "";
+    const mode = travel.mode || (trip.transport && trip.transport.defaultMode) || "driving";
+    const bits = [];
+    if (travel.duration) bits.push(escapeHtml(travel.duration));
+    if (travel.distance) bits.push(escapeHtml(travel.distance));
+    if (travel.cost != null) bits.push(local(travel.cost, trip));
+
+    const url =
+      travel.from && travel.to ? mapsDirections(travel.from, travel.to, mode) : mapsSearch(travel.to || travel.from);
+
+    return `<div class="travel-chip">
+      <span class="travel-route">${escapeHtml(travel.from || "")}${
+      travel.from && travel.to ? " → " : ""
+    }${escapeHtml(travel.to || "")}</span>
+      ${bits.length ? `<span class="travel-meta">${bits.join(" · ")}</span>` : ""}
+      <a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>
+    </div>`;
+  }
+
+  /** The driving leg recorded for this day, if the trip logs one. */
+  function legCard(trip, day) {
+    const leg = ((trip.transport || {}).legs || []).find((l) => l.day === day.day);
+    if (!leg) return "";
+    const ends = splitRoute(leg.route);
+    const mode = (trip.transport && trip.transport.defaultMode) || "driving";
+    const url = ends ? mapsDirections(ends.from, ends.to, mode) : mapsSearch(leg.route || "");
+
+    return `<div class="leg-card">
+      <div>
+        <span class="leg-label">Getting around</span>
+        <span class="leg-route">${escapeHtml(leg.route || "")}</span>
+        <span class="travel-meta">${leg.km ? `${leg.km.toLocaleString()} km` : ""}${
+      leg.refuel ? `${leg.km ? " · " : ""}⛽ refuel` : ""
+    }</span>
+      </div>
+      <a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>
+    </div>`;
+  }
+
   /** "13 Oct 2023 (Fri)" — the trip's canonical date format. */
   function longDate(iso) {
     if (!iso) return "";
@@ -400,15 +466,29 @@ const Trip = (() => {
         ${next ? `<a href="day.html?day=${next.day}">Day ${next.day} →</a>` : `<span class="disabled">Next →</span>`}
       </div>`;
 
-    const timeline = has(day.items)
+    // Jump straight to any day without stepping through them one at a time.
+    const picker = `
+      <div class="day-picker" aria-label="Jump to a day">
+        ${trip.days
+          .map(
+            (d) =>
+              `<a href="day.html?day=${d.day}" class="${d.day === day.day ? "current" : ""}"${
+                d.day === day.day ? ' aria-current="page"' : ""
+              } title="${escapeHtml(cityName(d.city))}">${d.day}</a>`
+          )
+          .join("")}
+      </div>`;
+
+    const planRows = has(day.items)
       ? day.items
           .map(
             (it) => `
-        <div class="timeline-item">
-          <div class="timeline-time">${escapeHtml(it.time || "")}</div>
-          <div>
+        <tr>
+          <td class="plan-time">${escapeHtml(it.time || "")}</td>
+          <td class="plan-activity">
             <div class="timeline-activity">${multiline(it.activity)}</div>
             ${it.remarks ? `<div class="timeline-meta">${multiline(it.remarks)}</div>` : ""}
+            ${travelChip(it.travel, trip)}
             ${
               Object.keys(it.costs || {}).length
                 ? `<div class="cost-tags">${Object.entries(it.costs)
@@ -419,11 +499,11 @@ const Trip = (() => {
                     .join("")}</div>`
                 : ""
             }
-          </div>
-        </div>`
+          </td>
+        </tr>`
           )
           .join("")
-      : placeholder("activities");
+      : "";
 
     const costRows = Object.entries(totals)
       .map(([k, v]) => `<tr><td>${escapeHtml(labels[k] || k)}</td>${moneyCells(v, trip)}</tr>`)
@@ -442,9 +522,21 @@ const Trip = (() => {
       ${day.summary ? `<p class="section-note">${multiline(day.summary)}</p>` : ""}
 
       ${pager}
+      ${picker}
+
+      ${legCard(trip, day)}
 
       <h2>Plan</h2>
-      <div>${timeline}</div>
+      ${
+        planRows
+          ? `<div class="table-wrap">
+               <table class="plan-table">
+                 <thead><tr><th>Time</th><th>Activity</th></tr></thead>
+                 <tbody>${planRows}</tbody>
+               </table>
+             </div>`
+          : placeholder("activities")
+      }
 
       ${
         sum > 0
@@ -722,10 +814,14 @@ const Trip = (() => {
         legs.length
           ? `<div class="table-wrap">
               <table>
-                <thead><tr><th>Day</th><th>Route</th><th class="num">Distance</th><th></th></tr></thead>
+                <thead><tr><th>Day</th><th>Route</th><th class="num">Distance</th><th></th><th></th></tr></thead>
                 <tbody>${legs
-                  .map(
-                    (l) => `<tr>
+                  .map((l) => {
+                    const ends = splitRoute(l.route);
+                    const url = ends
+                      ? mapsDirections(ends.from, ends.to, (t && t.defaultMode) || "driving")
+                      : mapsSearch(l.route || "");
+                    return `<tr>
                       <td><a href="day.html?day=${l.day}">Day ${l.day}</a><br>
                         <span style="color:var(--text-dim);font-size:.82rem">${TravelSite.formatDate(l.date, {
                           day: "2-digit",
@@ -734,12 +830,13 @@ const Trip = (() => {
                       <td>${escapeHtml(l.route || "")}</td>
                       <td class="num">${l.km ? l.km.toLocaleString() + " km" : "—"}</td>
                       <td>${l.refuel ? "⛽ Refuel" : ""}</td>
-                    </tr>`
-                  )
+                      <td><a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Map ↗</a></td>
+                    </tr>`;
+                  })
                   .join("")}</tbody>
                 ${
                   t.totalKm
-                    ? `<tfoot><tr><td colspan="2">Total</td><td class="num">${t.totalKm.toLocaleString()} km</td><td></td></tr></tfoot>`
+                    ? `<tfoot><tr><td colspan="2">Total</td><td class="num">${t.totalKm.toLocaleString()} km</td><td></td><td></td></tr></tfoot>`
                     : ""
                 }
               </table>

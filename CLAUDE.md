@@ -15,8 +15,11 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   render time. Never hardcode a computed figure into markup or duplicate a value that
   can be looked up (the overview reads hotels from `accommodation` by date).
 - **Don't invent trip data.** Where the source didn't record something — a flight
-  number, an unforecast temperature — leave it `null` and let it render as "—" or a
-  note. Ask rather than fill a plausible-looking gap.
+  number, an unforecast temperature, a travel duration — leave it `null` and let it
+  render as "—" or a note. Ask rather than fill a plausible-looking gap. This
+  includes travel times: the page links out to Google Maps rather than guessing,
+  because the Directions API needs a key that a public static site cannot keep
+  secret.
 - **Every section is optional.** Missing or empty sections must render a placeholder,
   never throw. Test a sparse trip after touching a renderer.
 

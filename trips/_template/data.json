@@ -169,7 +169,16 @@
           "time": "18:00",
           "activity": "Arrive and take the airport train into town",
           "costs": { "transport": 1200 },
-          "remarks": null
+          "remarks": null,
+          "_travel": "Optional. Adds a Google Maps directions link to this activity. `duration`, `distance` and `cost` are your own estimates — the page cannot compute them (see README). `mode` is driving | transit | walking | bicycling.",
+          "travel": {
+            "from": "Airport (XXX)",
+            "to": "City centre station",
+            "mode": "transit",
+            "duration": "45 min",
+            "distance": "38 km",
+            "cost": 1200
+          }
         },
         {
           "time": "20:00",

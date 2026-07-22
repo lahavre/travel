@@ -483,6 +483,97 @@ tfoot td {
   color: var(--slot-evening-fg);
 }
 
+/* ---- Day picker: every day one click away ---- */
+.day-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 18px;
+}
+.day-picker a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg-elev);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.day-picker a:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+.day-picker a.current {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+/* ---- Day plan table ---- */
+.plan-table .plan-time {
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: top;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.plan-table .plan-activity {
+  vertical-align: top;
+}
+
+/* ---- Travel / directions ---- */
+.leg-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin: 14px 0 4px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--bg-elev);
+}
+.leg-label {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+}
+.leg-route {
+  font-weight: 600;
+  margin-right: 8px;
+}
+.travel-chip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+.travel-route {
+  font-weight: 600;
+}
+.travel-meta {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.travel-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* ---- Flight cards ---- */
 .flight-list {
   display: grid;
