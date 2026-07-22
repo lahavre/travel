@@ -712,66 +712,62 @@ const Trip = (() => {
     const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" });
     const splitTravellers = has(trip.travelers) && stays.some((a) => a.perPerson);
 
-    // "13 Oct 2023 (From 15:00 to 19:00)" — the "to" half only when there is one.
-    const checkInCell = (a) => {
-      if (!a.checkIn) return "—";
-      const win = a.checkInFrom
-        ? `From ${a.checkInFrom}${a.checkInTo ? ` to ${a.checkInTo}` : ""}`
-        : null;
-      return `${short(a.checkIn)}${win ? `<br><span class="stay-window">(${escapeHtml(win)})</span>` : ""}`;
-    };
-    const checkOutCell = (a) => {
-      if (!a.checkOut) return "—";
-      return `${short(a.checkOut)}${
-        a.checkOutUntil ? `<br><span class="stay-window">(Until ${escapeHtml(a.checkOutUntil)})</span>` : ""
-      }`;
+    const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
+
+    const checkInValue = (a) => {
+      if (!a.checkInFrom) return "—";
+      return `From ${a.checkInFrom}${a.checkInTo ? ` to ${a.checkInTo}` : ""}`;
     };
 
-    // Total first, nightly rate in brackets: "RM517.42 (RM258.71 / night)".
-    const priceCell = (a) => {
-      if (a.total == null) return "—";
-      const each = a.pricePerNight != null && a.nights > 1
-        ? `<br><span class="stay-window">(${home(a.pricePerNight, trip)} / night)</span>`
-        : "";
-      return `${home(a.total, trip)}${each}`;
-    };
-
-    const reservationCell = (a) => {
-      const r = a.reservation;
-      if (!r || (!r.site && !r.bookingNo)) return "—";
-      return `<strong>${escapeHtml(r.site || "")}</strong>${
-        r.bookingNo
-          ? `<br><span class="stay-window">(Booking No: ${escapeHtml(r.bookingNo)})</span>`
-          : ""
-      }`;
-    };
-
-    const roomCell = (a) => {
+    const paidValue = (a) => {
+      if (a.prepaid == null) return "—";
+      const cancel = a.cancellation ? escapeHtml(a.cancellation) : null;
+      if (a.prepaid) return `Yes${cancel ? ` (${cancel})` : ""}`;
       const bits = [];
-      if (a.rooms) bits.push(`${a.rooms} room${a.rooms > 1 ? "s" : ""}`);
-      if (a.persons) bits.push(`${a.persons} pax`);
-      if (!bits.length && !a.roomType) return "—";
-      return `${bits.join(" · ")}${
-        a.roomType ? `<br><span class="stay-window">${escapeHtml(a.roomType)}</span>` : ""
-      }`;
+      if (a.payAtProperty) bits.push(`Pay ${escapeHtml(a.payAtProperty)} at the property`);
+      if (cancel) bits.push(cancel);
+      return `No${bits.length ? ` (${bits.join(". ")})` : ""}`;
     };
 
-    const notesCell = (a) => {
-      const parts = [];
-      if (has(a.amenities)) {
-        parts.push(
-          `<div class="amenity-tags">${a.amenities
-            .map((x) => `<span class="amenity-tag">${escapeHtml(x)}</span>`)
-            .join("")}</div>`
-        );
-      }
-      if (a.remarks) parts.push(multiline(a.remarks));
-      if (a.freeCancellation && a.freeCancellation.toLowerCase() !== "no") {
-        parts.push(`<em>Free cancellation: ${escapeHtml(a.freeCancellation)}</em>`);
-      }
-      if (a.payment) parts.push(`<em>${multiline(a.payment)}</em>`);
-      return parts.join("<br>") || "—";
+    // Hotel name links to Maps — search the address when we have one, since a
+    // property name alone can be ambiguous.
+    const hotelValue = (a) => {
+      if (!a.name) return "—";
+      const query = a.address ? `${a.name}, ${a.address}` : a.name;
+      return `<a href="${mapsSearch(query)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+        a.name
+      )}</a>`;
     };
+
+    const roomValue = (a) => {
+      const count = [];
+      if (a.rooms) count.push(`${a.rooms} room${a.rooms > 1 ? "s" : ""}`);
+      if (a.persons) count.push(`${a.persons} pax`);
+      const label = [a.roomType, count.join(" · ")].filter(Boolean).join(" · ");
+      return label || "—";
+    };
+
+    const detailRows = (a) => [
+      ["Hotel", hotelValue(a)],
+      ["Address", a.address ? dash(a.address) : "—"],
+      [
+        "Reservation",
+        a.reservation && a.reservation.site
+          ? `${escapeHtml(a.reservation.site)}${
+              a.reservation.bookingNo
+                ? ` (Booking No: ${escapeHtml(a.reservation.bookingNo)})`
+                : ""
+            }`
+          : "—",
+      ],
+      ["Room Type", roomValue(a)],
+      ["Check-In", checkInValue(a)],
+      ["Check-Out", a.checkOutUntil ? `Until ${escapeHtml(a.checkOutUntil)}` : "—"],
+      ["Laundry", dash(a.laundry)],
+      ["Meal", dash(a.meal || "N/A")],
+      ["Parking", dash(a.parking)],
+      ["Paid", paidValue(a)],
+    ];
 
     let out = `
       <h1>Accommodation</h1>
@@ -779,34 +775,36 @@ const Trip = (() => {
 
       <div class="table-wrap">
         <table class="stay-table">
-          <thead><tr>
-            <th>Reservation</th><th>Location</th><th>Address</th><th>Room</th>
-            <th>Check-In Date</th><th>Check-Out Date</th>
-            <th class="num">Price</th><th>Notes</th>
-          </tr></thead>
           <tbody>${stays
             .map(
               (a) => `<tr>
-                <td>${reservationCell(a)}</td>
-                <td><strong>${escapeHtml(a.city || "")}</strong><br>
-                  <span class="stay-window">${escapeHtml(a.name || "")}</span></td>
-                <td class="stay-address">${
-                  a.address
-                    ? `<a href="${mapsSearch(a.address)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-                        a.address
-                      )}</a>${a.phone ? `<br><span class="stay-window">${escapeHtml(a.phone)}</span>` : ""}`
-                    : "—"
-                }</td>
-                <td>${roomCell(a)}</td>
-                <td class="stay-date">${checkInCell(a)}</td>
-                <td class="stay-date">${checkOutCell(a)}</td>
-                <td class="num">${priceCell(a)}</td>
-                <td class="stay-notes">${notesCell(a)}</td>
+                <td class="stay-summary">
+                  <div class="stay-place">${escapeHtml(a.city || "")}</div>
+                  <div class="stay-dates">${short(a.checkIn)} – ${short(a.checkOut)}, ${a.nights} night${
+                a.nights > 1 ? "s" : ""
+              }</div>
+                  <div class="stay-price">${home(a.total, trip)}${
+                a.pricePerNight != null && a.nights > 1
+                  ? ` <span class="stay-rate">(${home(a.pricePerNight, trip)} / night)</span>`
+                  : ""
+              }</div>
+                </td>
+                <td class="stay-detail">
+                  <dl>${detailRows(a)
+                    .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
+                    .join("")}</dl>
+                  ${a.remarks ? `<div class="stay-remark">${multiline(a.remarks)}</div>` : ""}
+                  ${a.payment ? `<div class="stay-remark"><em>${multiline(a.payment)}</em></div>` : ""}
+                </td>
               </tr>`
             )
             .join("")}</tbody>
-          <tfoot><tr><td colspan="6">Grand total · ${nights} nights</td>
-            <td class="num">${home(total, trip)}</td><td></td></tr></tfoot>
+          <tfoot><tr>
+            <td class="stay-summary"><div class="stay-place">Grand total</div>
+              <div class="stay-dates">${nights} nights</div>
+              <div class="stay-price">${home(total, trip)}</div></td>
+            <td></td>
+          </tr></tfoot>
         </table>
       </div>`;
 

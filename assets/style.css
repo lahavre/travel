@@ -483,50 +483,82 @@ tfoot td {
   color: var(--slot-evening-fg);
 }
 
-/* ---- Accommodation table ---- */
-/* Eight columns do not fit a phone, and squeezing them shreds the dates — give the
-   table a floor and let .table-wrap scroll it instead. */
-.stay-table {
-  min-width: 1080px;
-}
+/* ---- Accommodation: summary on the left, labelled detail on the right ----
+   Two columns instead of nine, so it stays readable on a phone without scrolling. */
 .stay-table td {
   vertical-align: top;
 }
-/* "13 Oct 2023" and "(From 15:00 to 19:00)" each stay on one line. */
-.stay-table .stay-date,
-.stay-table .stay-date .stay-window,
-.stay-table .num .stay-window {
-  white-space: nowrap;
-}
-/* Secondary detail: hotel name, time window, nightly rate, room type. */
-.stay-window {
-  display: inline-block;
-  color: var(--text-dim);
-  font-size: 0.82rem;
-  font-weight: 400;
-}
-.stay-address {
-  font-size: 0.82rem;
-  min-width: 150px;
-}
-.stay-notes {
-  color: var(--text-dim);
-  font-size: 0.82rem;
+.stay-summary {
+  width: 30%;
   min-width: 170px;
 }
-.amenity-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 6px;
+.stay-place {
+  font-weight: 700;
+  font-size: 1rem;
 }
-.amenity-tag {
-  padding: 1px 7px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  font-size: 0.74rem;
-  color: var(--text);
+.stay-dates {
+  margin-top: 4px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.stay-price {
+  margin-top: 6px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.stay-rate {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--text-dim);
   white-space: nowrap;
+}
+
+/* Label/value pairs. The grid keeps every label column-aligned down the row. */
+.stay-detail dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 2px 10px;
+  margin: 0;
+  font-size: 0.88rem;
+}
+.stay-detail dt {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.stay-detail dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.stay-remark {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 620px) {
+  /* Stack the two cells so nothing has to scroll sideways. */
+  .stay-table,
+  .stay-table tbody,
+  .stay-table tfoot,
+  .stay-table tr,
+  .stay-table td {
+    display: block;
+    width: auto;
+  }
+  .stay-table tr {
+    border-bottom: 2px solid var(--border);
+  }
+  .stay-table td {
+    border-bottom: none;
+  }
+  .stay-summary {
+    padding-bottom: 4px;
+  }
+  .stay-detail dl {
+    grid-template-columns: max-content 1fr;
+  }
 }
 
 /* ---- Day picker: every day one click away ---- */
@@ -766,7 +798,8 @@ tfoot td {
   .table-wrap table {
     min-width: 560px;
   }
+  /* The stay table restacks instead of scrolling — see its own rules above. */
   .table-wrap .stay-table {
-    min-width: 1080px;
+    min-width: 0;
   }
 }

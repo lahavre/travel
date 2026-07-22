@@ -22,6 +22,9 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   secret.
 - **Every section is optional.** Missing or empty sections must render a placeholder,
   never throw. Test a sparse trip after touching a renderer.
+- **The repo and the site are public.** Booking confirmations carry door codes,
+  lock-box codes, host directions and the traveller's own phone, email and date of
+  birth. Take the property details across and leave all of that behind.
 
 ## House formatting
 
@@ -30,7 +33,7 @@ Static travel-itinerary site, published via GitHub Pages from `main`
 | Dates | Day-first, `13 Oct 2023`. Locale pinned to `en-GB` in `assets/common.js` — don't fall back to the viewer's locale |
 | Date + weekday | `13 Oct 2023 (Fri)` — `Trip.longDate()` |
 | Temperature | Always Celsius, `City: 18 to 25 °C`. Use "to", never a dash — sub-zero lows (`-1 to 12`) are unreadable otherwise |
-| Currency | Driven by `homeCurrency` / `tripCurrency`; never hardcode MYR or JPY |
+| Currency | Three-letter ISO code as the spreadsheet used — `MYR 517.42`, not `RM517.42`. Driven by `homeCurrency` / `tripCurrency`; never hardcode MYR or JPY |
 | Check-in | 3 hours before departure by default |
 | Spelling | British — "traveller", "colour" |
 

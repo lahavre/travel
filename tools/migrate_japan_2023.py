@@ -64,17 +64,151 @@ def rows(name):
 
 RANGE_RE = re.compile(r"^(-?\d+)\s*-\s*(-?\d+)$")
 
-# Booking details taken from the confirmation vouchers. Only the stays whose
-# voucher we actually have are listed; the rest stay null rather than invented.
+# Booking details transcribed from the confirmation vouchers in
+# OneDrive/Travel/2023 01. Japan/Hotel Booking/.
+#
+# Deliberately NOT copied across, because this repo is public: door and lock-box
+# codes, host directions, and the guest's own phone/email/date of birth. Laundry
+# was never recorded on any voucher, so it stays null rather than guessed.
 RESERVATIONS = {
+    "Sotetsu Fresa Inn Hamamatsucho Daimon": {
+        "reservation": {"site": "Agoda", "bookingNo": "935918893"},
+        "address": "1-2-7 Shibadaimon, Minato-ku, Shinbashi, Tokyo, Japan, 105-0012",
+        "phone": "+81 3 5472 2031",
+        "rooms": 1,
+        "roomType": "Double Room - Smoking (requested non-smoking, twin beds)",
+        "meal": None,
+        "parking": "N/A",
+        "laundry": None,
+        "prepaid": True,
+        "extraRemarks": "Taxes and fees of MYR 29.72 included.",
+    },
+    "K's House Nikko - Kinugawa Onsen": {
+        "reservation": {"site": "Agoda", "bookingNo": "941298857"},
+        "address": "Kinugawaonsen Ōhara Nikko City, 680-1, Kinugawa, Nikko, Japan, 321-2522",
+        "phone": "+81 288 77 1300",
+        "rooms": 1,
+        "roomType": "Economy Room with Bunk Bed and Shared Bathroom",
+        "meal": None,
+        "parking": "Free",
+        "laundry": None,
+        "prepaid": True,
+        "extraRemarks": "Non-refundable. Taxes and fees of MYR 89.80 included; "
+                        "bathing tax of MYR 19.84 payable at the property.",
+    },
+    "Airbnb - 2F-B Aizu Wakamatsu City": {
+        "reservation": {"site": "Airbnb", "bookingNo": "HMMDH2JRPK"},
+        "address": "4-12 Sakaemachi エクシード Ⅱ 2F-B, Aizuwakamatsu, Fukushima 965-0871, Japan",
+        "phone": None,
+        "rooms": 1,
+        "roomType": "Entire home · 3DK, sleeps 9 (host: Taku)",
+        "meal": None,
+        "parking": "Paid",
+        "laundry": None,
+        "prepaid": True,
+        "extraRemarks": None,
+    },
+    "donaludo Pension": {
+        "reservation": {"site": "Agoda", "bookingNo": "964540701"},
+        "address": "Kengamine 1093, Kitashiobara, Kitashiobara, Japan, 969-2701",
+        "phone": None,
+        "rooms": 2,
+        "roomType": "Twin Room with Extra Bed",
+        "meal": None,
+        "parking": "Free",
+        "laundry": None,
+        "prepaid": False,
+        "payAtProperty": "JPY 22,000 on check-in",
+        "extraRemarks": "Taxes and fees of MYR 65.84 included.",
+    },
     "HOTEL SANKYO FUKUSHIMA": {
-        "reservation": {"site": "Agoda", "bookingNo": "3408024", "guestRef": "964590833"},
+        "reservation": {"site": "Agoda", "bookingNo": "964590833", "ref": "3408024"},
         "address": "7-11, Omachi, Fukushima, Fukushima, Japan, 960-8041",
         "phone": "+81 24 525 2211",
         "rooms": 1,
         "roomType": "[Adjoining/Nearby Room] 2 Bedrooms, 4 Single Beds, Non Smoking",
-        "extraAmenities": ["Free WiFi"],
+        "meal": None,
+        "parking": "Paid",
+        "laundry": None,
+        "prepaid": True,
         "extraRemarks": "Taxes and fees of MYR 88.20 included.",
+    },
+    "Takasagoya Ryokan": {
+        "reservation": {"site": "Agoda", "bookingNo": "969115477"},
+        "address": "23 Zaouonsen, Zao, Yamagata, Japan, 990-2301",
+        "phone": "+81 23 694 9026",
+        "rooms": 2,
+        "roomType": "Japanese-Style Room with Shared Bathroom",
+        "meal": None,
+        "parking": "Free",
+        "laundry": None,
+        "prepaid": True,
+        "extraRemarks": "Taxes and fees of MYR 91.60 included.",
+    },
+    "Yamagata Nanokamachi Washington Hotel": {
+        "reservation": {"site": "Agoda", "bookingNo": "981801613", "ref": "JTB 6035581297"},
+        "address": "1-4-31 Nanokamachi, Yamagata city, Yamagata, Japan, 990-0042",
+        "phone": None,
+        "rooms": 2,
+        "roomType": "Standard Room - Twin",
+        "meal": None,
+        "parking": "Paid",
+        "laundry": None,
+        "prepaid": True,
+        "extraRemarks": "Taxes and fees of MYR 151.74 included.",
+    },
+    "Takimikan Ryokan": {
+        "reservation": {"site": "Takimikan (direct)", "bookingNo": "6890"},
+        "address": None,
+        "phone": None,
+        "rooms": 1,
+        "roomType": "Japanese-style room",
+        "meal": "Breakfast & dinner",
+        "parking": "Free",
+        "laundry": None,
+        "prepaid": True,
+        "cancellation": "Cancel by 15:00, 22 Oct",
+        "extraRemarks": "JPY 75,900 for 3 guests, TAKIMI-kaiseki plan. "
+                        "Bathing tax payable at the property.",
+    },
+    "Airbnb - Room in a home hosted by Ryu": {
+        "reservation": {"site": "Airbnb", "bookingNo": "HMDZMSZNX8"},
+        "address": "2-27 Hagigaoka, Taihaku-ku, Sendai, Miyagi Prefecture 982-0848, Japan",
+        "phone": None,
+        "rooms": 1,
+        "roomType": "Private room (host: Ryu)",
+        "meal": None,
+        "parking": "Free",
+        "laundry": None,
+        "prepaid": True,
+        "cancellation": "Partial refund if cancelled by 13:00, 17 Oct",
+        "extraRemarks": None,
+    },
+    "Airbnb - Entire rental unit hosted by Maru": {
+        "reservation": {"site": "Airbnb", "bookingNo": "HMZ5348JDK"},
+        "address": "鬼怒川温泉大原 72-72 飛鳥ハイツ 302, 日光市, 栃木県 321-2522, Japan",
+        "phone": None,
+        "rooms": 1,
+        "roomType": "Entire home · 3 beds (host: Maru)",
+        "meal": None,
+        "parking": "Free",
+        "laundry": None,
+        "prepaid": True,
+        "cancellation": "Partial refund if cancelled by 16:00, 19 Oct",
+        "extraRemarks": "Free car park 160 m from the apartment.",
+    },
+    "Airbnb - Entire rental unit hosted by Shohei": {
+        "reservation": {"site": "Airbnb", "bookingNo": "HMTNYKEPBK"},
+        "address": "方南 1-2-3, メゾン･ド・ダダ弐番館 105, 杉並区, 東京都 168-0062, Japan",
+        "phone": None,
+        "rooms": 1,
+        "roomType": "Entire home · 2 beds (host: Shohei)",
+        "meal": None,
+        "parking": "N/A",
+        "laundry": None,
+        "prepaid": True,
+        "cancellation": "Partial refund if cancelled by 15:00, 21 Oct",
+        "extraRemarks": None,
     },
 }
 
@@ -119,18 +253,32 @@ def parse_window(raw):
     return None, None
 
 
-def amenities_for(breakfast, parking, extra):
-    """Breakfast and parking were their own columns; they belong with the notes."""
-    out = []
-    if (breakfast or "").strip().lower() == "yes":
-        out.append("Breakfast included")
-    park = (parking or "").strip().lower()
-    if park == "free":
-        out.append("Free parking")
-    elif park == "charges":
-        out.append("Paid parking")
-    out.extend(extra)
-    return out
+def cancellation_text(workbook_value, override):
+    """Display-ready cancellation wording. The voucher wins where we have one —
+    the workbook recorded Ginzan as "No" although its confirmation gives a
+    cancellation deadline."""
+    if override:
+        return override
+    v = (workbook_value or "").strip()
+    if not v:
+        return None
+    if v.lower() == "no":
+        return "Non-refundable"
+    # Lower only the leading word so "Before 11 Oct" keeps its month capital.
+    return "Free cancellation " + v[0].lower() + v[1:]
+
+
+def meal_from(breakfast):
+    return "Breakfast" if (breakfast or "").strip().lower() == "yes" else None
+
+
+def parking_from(parking):
+    p = (parking or "").strip().lower()
+    if p == "free":
+        return "Free"
+    if p == "charges":
+        return "Paid"
+    return "N/A"
 
 
 def parse_temperature(raw):
@@ -246,6 +394,7 @@ for r in rows("Hotel")[2:]:
 
     accommodation.append({
         "city": s(v[0]),
+        "name": name,
         "reservation": booking.get("reservation"),
         "address": booking.get("address"),
         "phone": booking.get("phone"),
@@ -255,13 +404,16 @@ for r in rows("Hotel")[2:]:
         "persons": num(v[4]),
         "rooms": booking.get("rooms"),
         "roomType": booking.get("roomType"),
-        "name": name,
-        "freeCancellation": s(v[6]),
+        "cancellation": cancellation_text(v[6], booking.get("cancellation")),
         # 24-hour windows parsed from the workbook's "3-7pm" / "Until 11am" text.
         "checkInFrom": check_in_from,
         "checkInTo": check_in_to,
         "checkOutUntil": check_out_until,
-        "amenities": amenities_for(v[9], v[10], booking.get("extraAmenities", [])),
+        "laundry": booking.get("laundry"),
+        "meal": booking.get("meal") or meal_from(v[9]),
+        "parking": booking.get("parking") or parking_from(v[10]),
+        "prepaid": booking.get("prepaid"),
+        "payAtProperty": booking.get("payAtProperty"),
         "pricePerNight": num(v[11]),
         "total": num(v[12]),
         "remarks": remarks,

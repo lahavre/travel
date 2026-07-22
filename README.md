@@ -63,7 +63,7 @@ breaking, so a half-planned trip still renders.
 | `settle` | Group cost-splitting rows; `amounts` keys must match `travelers` |
 | `overview` | One row per day; `morning`/`afternoon`/`evening` activities, `slotRemarks` per slot, `remarks` for a whole-day note, `temperature` list in Celsius |
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
-| `accommodation` | Stays, with optional `perPerson` split |
+| `accommodation` | Stays — booking, address, room, times, meal/parking/laundry, payment, optional `perPerson` split |
 | `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
 | `todo` | Pre-trip checklist; `status: "Done"` renders as complete |
 
@@ -81,6 +81,17 @@ the "Staying in" column is resolved from `accommodation` by date rather than typ
 twice, so correcting a stay updates the overview too. Temperatures are always Celsius
 and read `City: 18 to 25 °C`: one `{location, min, max}` entry per place a day passes
 through, or `note` when there is no firm range.
+
+**Accommodation.** Each stay renders as a summary — place, dates, nights, total with
+the nightly rate in brackets — beside a labelled detail list: hotel (linked to Maps),
+address, reservation, room type, check-in, check-out, laundry, meal, parking and paid.
+Times are 24-hour, so `checkInFrom`/`checkInTo` read "From 15:00 to 19:00" and
+`checkOutUntil` reads "Until 11:00". `prepaid` drives the Paid row, with
+`payAtProperty` for anything owed on arrival.
+
+**Never put door codes, lock-box codes, host directions or personal contact details in
+`data.json`** — the repository and the published site are public. Booking confirmations
+routinely contain all of these; copy across the property details only.
 
 **Maps and travel times.** Any activity can carry a `travel` block
 (`from`, `to`, `mode`, `duration`, `distance`, `cost`) which renders as a line with a
