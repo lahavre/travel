@@ -94,8 +94,8 @@ RESERVATIONS = {
         "parking": "Free",
         "laundry": None,
         "prepaid": True,
-        "extraRemarks": "Non-refundable. Taxes and fees of MYR 89.80 included; "
-                        "bathing tax of MYR 19.84 payable at the property.",
+        "extraRemarks": "Taxes and fees of MYR 89.80 included; bathing tax of "
+                        "MYR 19.84 payable at the property.",
     },
     "Airbnb - 2F-B Aizu Wakamatsu City": {
         "reservation": {"site": "Airbnb", "bookingNo": "HMMDH2JRPK"},
@@ -105,6 +105,8 @@ RESERVATIONS = {
         "roomType": "Entire home · 3DK, sleeps 9 (host: Taku)",
         "meal": None,
         "parking": "Paid",
+        "parkingNote": "JPY 1,000 / night",
+        "dropRemarks": True,
         "laundry": None,
         "prepaid": True,
         "extraRemarks": None,
@@ -121,7 +123,9 @@ RESERVATIONS = {
         "laundry": None,
         "prepaid": False,
         "payAtProperty": "JPY 22,000 on check-in",
-        "extraRemarks": "Taxes and fees of MYR 65.84 included.",
+        "dropRemarks": True,
+        "extraRemarks": "JPY 22,000 total, JPY 5,500 each — bring cash. "
+                        "Taxes and fees of MYR 65.84 included.",
     },
     "HOTEL SANKYO FUKUSHIMA": {
         "reservation": {"site": "Agoda", "bookingNo": "964590833",
@@ -132,6 +136,8 @@ RESERVATIONS = {
         "roomType": "[Adjoining/Nearby Room] 2 Bedrooms, 4 Single Beds, Non Smoking",
         "meal": None,
         "parking": "Paid",
+        "parkingNote": "JPY 900 / night",
+        "dropRemarks": True,
         "laundry": None,
         "prepaid": True,
         "extraRemarks": "Taxes and fees of MYR 88.20 included.",
@@ -158,6 +164,8 @@ RESERVATIONS = {
         "roomType": "Standard Room - Twin",
         "meal": None,
         "parking": "Paid",
+        "parkingNote": "JPY 600 / night, required in the city",
+        "dropRemarks": True,
         "laundry": None,
         "prepaid": True,
         "extraRemarks": "Taxes and fees of MYR 151.74 included.",
@@ -172,9 +180,10 @@ RESERVATIONS = {
         "parking": "Free",
         "laundry": None,
         "prepaid": True,
-        "cancellation": "Cancel by 15:00, 22 Oct",
-        "extraRemarks": "JPY 75,900 for 3 guests, TAKIMI-kaiseki plan. "
-                        "Bathing tax payable at the property.",
+        "cancellation": "Free cancellation before 15:00, 22 Oct 2023",
+        "dropRemarks": True,
+        "extraRemarks": "JPY 75,900 for 3 guests (JPY 25,300 each), TAKIMI-kaiseki "
+                        "plan. Bathing tax payable at the property.",
     },
     "Airbnb - Room in a home hosted by Ryu": {
         "reservation": {"site": "Airbnb", "bookingNo": "HMDZMSZNX8"},
@@ -186,7 +195,7 @@ RESERVATIONS = {
         "parking": "Free",
         "laundry": None,
         "prepaid": True,
-        "cancellation": "Partial refund if cancelled by 13:00, 17 Oct",
+        "cancellation": "Partial refund if cancelled before 13:00, 17 Oct 2023",
         "extraRemarks": None,
     },
     "Airbnb - Entire rental unit hosted by Maru": {
@@ -197,10 +206,11 @@ RESERVATIONS = {
         "roomType": "Entire home · 3 beds (host: Maru)",
         "meal": None,
         "parking": "Free",
+        "parkingNote": "160 m from the apartment",
         "laundry": None,
         "prepaid": True,
-        "cancellation": "Partial refund if cancelled by 16:00, 19 Oct",
-        "extraRemarks": "Free car park 160 m from the apartment.",
+        "cancellation": "Partial refund if cancelled before 16:00, 19 Oct 2023",
+        "extraRemarks": None,
     },
     "Airbnb - Entire rental unit hosted by Shohei": {
         "reservation": {"site": "Airbnb", "bookingNo": "HMTNYKEPBK"},
@@ -212,7 +222,7 @@ RESERVATIONS = {
         "parking": "N/A",
         "laundry": None,
         "prepaid": True,
-        "cancellation": "Partial refund if cancelled by 15:00, 21 Oct",
+        "cancellation": "Partial refund if cancelled before 15:00, 21 Oct 2023",
         "extraRemarks": None,
     },
 }
@@ -258,10 +268,12 @@ def parse_window(raw):
     return None, None
 
 
-def cancellation_text(workbook_value, override):
-    """Display-ready cancellation wording. The voucher wins where we have one —
-    the workbook recorded Ginzan as "No" although its confirmation gives a
-    cancellation deadline."""
+def cancellation_text(workbook_value, override, check_in):
+    """Display-ready cancellation wording, always carrying the year.
+
+    The voucher wins where we have one — the workbook recorded Ginzan and the
+    three Airbnb stays as "No" although their confirmations give deadlines.
+    """
     if override:
         return override
     v = (workbook_value or "").strip()
@@ -269,7 +281,12 @@ def cancellation_text(workbook_value, override):
         return None
     if v.lower() == "no":
         return "Non-refundable"
-    # Lower only the leading word so "Before 11 Oct" keeps its month capital.
+    # "Before 11 Oct" -> "Free cancellation before 11 Oct 2023". A cancellation
+    # deadline always precedes check-in, so it shares that year.
+    year = (check_in or "")[:4]
+    if year and year not in v:
+        v = f"{v} {year}"
+    # Lower only the leading word so the month keeps its capital.
     return "Free cancellation " + v[0].lower() + v[1:]
 
 
@@ -393,7 +410,7 @@ for r in rows("Hotel")[2:]:
     booking = RESERVATIONS.get(name, {})
     check_in_from, check_in_to = parse_window(v[7])
     _, check_out_until = parse_window(v[8])
-    remarks = s(v[13])
+    remarks = None if booking.get("dropRemarks") else s(v[13])
     if booking.get("extraRemarks"):
         remarks = f"{remarks}\n{booking['extraRemarks']}" if remarks else booking["extraRemarks"]
 
@@ -409,7 +426,7 @@ for r in rows("Hotel")[2:]:
         "persons": num(v[4]),
         "rooms": booking.get("rooms"),
         "roomType": booking.get("roomType"),
-        "cancellation": cancellation_text(v[6], booking.get("cancellation")),
+        "cancellation": cancellation_text(v[6], booking.get("cancellation"), d(v[1])),
         # 24-hour windows parsed from the workbook's "3-7pm" / "Until 11am" text.
         "checkInFrom": check_in_from,
         "checkInTo": check_in_to,
@@ -417,13 +434,13 @@ for r in rows("Hotel")[2:]:
         "laundry": booking.get("laundry"),
         "meal": booking.get("meal") or meal_from(v[9]),
         "parking": booking.get("parking") or parking_from(v[10]),
+        "parkingNote": booking.get("parkingNote"),
         "prepaid": booking.get("prepaid"),
         "payAtProperty": booking.get("payAtProperty"),
         "pricePerNight": num(v[11]),
         "total": num(v[12]),
         "remarks": remarks,
         "perPerson": {k: num(v[14 + i]) for i, k in enumerate(["CMC", "WY", "Gary", "Kalai"])},
-        "payment": s(v[18]),
     })
 
 # ---------- Budget (Summary) ----------

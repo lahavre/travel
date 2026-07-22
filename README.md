@@ -87,7 +87,12 @@ the nightly rate in brackets — beside a labelled detail list: hotel (linked to
 address, reservation, room type, check-in, check-out, laundry, meal, parking and paid.
 Times are 24-hour, so `checkInFrom`/`checkInTo` read "From 15:00 until 19:00" and
 `checkOutUntil` reads "Until 11:00" — "until" in both. `prepaid` drives the Paid row,
-with `payAtProperty` for anything owed on arrival.
+with `payAtProperty` for anything owed on arrival and `cancellation` for the policy,
+which always carries its year. A parking rate or condition goes in `parkingNote` and
+renders as "Paid (JPY 1,000 / night)".
+
+Each row states its fact once. `remarks` is for what no other row covers — don't
+repeat the payment, meal or parking there.
 
 A voucher often carries more than one number — the platform's own booking ID plus the
 reference it was placed under with a supplier or the property. Put the platform's in

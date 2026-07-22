@@ -774,7 +774,13 @@ const Trip = (() => {
       ["Check-Out", a.checkOutUntil ? `Until ${escapeHtml(a.checkOutUntil)}` : "—"],
       ["Laundry", dash(a.laundry)],
       ["Meal", dash(a.meal || "N/A")],
-      ["Parking", dash(a.parking)],
+      // Rate and conditions belong beside "Paid"/"Free", not buried in the notes.
+      [
+        "Parking",
+        a.parking
+          ? `${escapeHtml(a.parking)}${a.parkingNote ? ` (${escapeHtml(a.parkingNote)})` : ""}`
+          : "—",
+      ],
       ["Paid", paidValue(a)],
     ];
 
@@ -803,7 +809,6 @@ const Trip = (() => {
                     .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
                     .join("")}</dl>
                   ${a.remarks ? `<div class="stay-remark">${multiline(a.remarks)}</div>` : ""}
-                  ${a.payment ? `<div class="stay-remark"><em>${multiline(a.payment)}</em></div>` : ""}
                 </td>
               </tr>`
             )

@@ -2347,13 +2347,14 @@
       "persons": 2.0,
       "rooms": 1,
       "roomType": "Double Room - Smoking (requested non-smoking, twin beds)",
-      "cancellation": "Free cancellation before 11 Oct",
+      "cancellation": "Free cancellation before 11 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": null,
       "checkOutUntil": "11:00",
       "laundry": null,
       "meal": null,
       "parking": "N/A",
+      "parkingNote": null,
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 323.63,
@@ -2364,8 +2365,7 @@
         "WY": 161.81,
         "Gary": null,
         "Kalai": null
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Kinugawa Onsen",
@@ -2389,18 +2389,18 @@
       "laundry": null,
       "meal": null,
       "parking": "Free",
+      "parkingNote": null,
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 258.71,
       "total": 517.42,
-      "remarks": "Non-refundable. Taxes and fees of MYR 89.80 included; bathing tax of MYR 19.84 payable at the property.",
+      "remarks": "Taxes and fees of MYR 89.80 included; bathing tax of MYR 19.84 payable at the property.",
       "perPerson": {
         "CMC": 258.71,
         "WY": 258.71,
         "Gary": null,
         "Kalai": null
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Aizuwakamatsu",
@@ -2417,25 +2417,25 @@
       "persons": 4.0,
       "rooms": 1,
       "roomType": "Entire home · 3DK, sleeps 9 (host: Taku)",
-      "cancellation": "Free cancellation before 11 Oct",
+      "cancellation": "Free cancellation before 11 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": null,
       "checkOutUntil": "10:00",
       "laundry": null,
       "meal": null,
       "parking": "Paid",
+      "parkingNote": "JPY 1,000 / night",
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 493.59,
       "total": 987.18,
-      "remarks": "Parking charges (1000 yen per night)",
+      "remarks": null,
       "perPerson": {
         "CMC": 246.79,
         "WY": 246.79,
         "Gary": 246.79,
         "Kalai": 246.79
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Urabandai",
@@ -2458,25 +2458,25 @@
       "persons": 4.0,
       "rooms": 2,
       "roomType": "Twin Room with Extra Bed",
-      "cancellation": "Free cancellation before 3 Oct",
+      "cancellation": "Free cancellation before 3 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": "22:00",
       "checkOutUntil": "10:00",
       "laundry": null,
       "meal": null,
       "parking": "Free",
+      "parkingNote": null,
       "prepaid": false,
       "payAtProperty": "JPY 22,000 on check-in",
       "pricePerNight": 0.0,
       "total": 0.0,
-      "remarks": "Pay at the hotel. See note 2\n22,000 JPY = 5,500 JPY per person (About RM185)\nPlease prepare the cash accordingly.\nTaxes and fees of MYR 65.84 included.",
+      "remarks": "JPY 22,000 total, JPY 5,500 each — bring cash. Taxes and fees of MYR 65.84 included.",
       "perPerson": {
         "CMC": null,
         "WY": null,
         "Gary": null,
         "Kalai": null
-      },
-      "payment": "Pay at hotel. \nPlease prepare 5,500 JPY in cash"
+      }
     },
     {
       "city": "Fukushima",
@@ -2499,25 +2499,25 @@
       "persons": 4.0,
       "rooms": 1,
       "roomType": "[Adjoining/Nearby Room] 2 Bedrooms, 4 Single Beds, Non Smoking",
-      "cancellation": "Free cancellation before 14 Oct",
+      "cancellation": "Free cancellation before 14 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": null,
       "checkOutUntil": "11:00",
       "laundry": null,
       "meal": null,
       "parking": "Paid",
+      "parkingNote": "JPY 900 / night",
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 508.16,
       "total": 508.16,
-      "remarks": "Hotel parking charges \n(900 yen per night)\nTaxes and fees of MYR 88.20 included.",
+      "remarks": "Taxes and fees of MYR 88.20 included.",
       "perPerson": {
         "CMC": 127.04,
         "WY": 127.04,
         "Gary": 127.04,
         "Kalai": 127.04
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Zao Onsen",
@@ -2540,13 +2540,14 @@
       "persons": 4.0,
       "rooms": 2,
       "roomType": "Japanese-Style Room with Shared Bathroom",
-      "cancellation": "Free cancellation before 16 Oct",
+      "cancellation": "Free cancellation before 16 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": "19:00",
       "checkOutUntil": "10:00",
       "laundry": null,
       "meal": null,
       "parking": "Free",
+      "parkingNote": null,
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 1007.72,
@@ -2557,8 +2558,7 @@
         "WY": 251.93,
         "Gary": 251.93,
         "Kalai": 251.93
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Yamagata",
@@ -2581,25 +2581,25 @@
       "persons": 4.0,
       "rooms": 2,
       "roomType": "Standard Room - Twin",
-      "cancellation": "Free cancellation before 19 Oct",
+      "cancellation": "Free cancellation before 19 Oct 2023",
       "checkInFrom": "14:00",
       "checkInTo": null,
       "checkOutUntil": "10:00",
       "laundry": null,
       "meal": null,
       "parking": "Paid",
+      "parkingNote": "JPY 600 / night, required in the city",
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 834.5,
       "total": 1669.0,
-      "remarks": "Parking is required for City\n(600 yen per night)\nTaxes and fees of MYR 151.74 included.",
+      "remarks": "Taxes and fees of MYR 151.74 included.",
       "perPerson": {
         "CMC": 417.25,
         "WY": 417.25,
         "Gary": 417.25,
         "Kalai": 417.25
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Ginzan Onsen",
@@ -2616,25 +2616,25 @@
       "persons": 3.0,
       "rooms": 1,
       "roomType": "Japanese-style room",
-      "cancellation": "Cancel by 15:00, 22 Oct",
+      "cancellation": "Free cancellation before 15:00, 22 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": "18:00",
       "checkOutUntil": "11:00",
       "laundry": null,
       "meal": "Breakfast & dinner",
       "parking": "Free",
+      "parkingNote": null,
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 2575.72,
       "total": 2575.72,
-      "remarks": "Dinner and Breakfast. (25,300 JPY/person). Waiting for Credit card bill to know the actual charges in MYR (75,900 JPY)\nJPY 75,900 for 3 guests, TAKIMI-kaiseki plan. Bathing tax payable at the property.",
+      "remarks": "JPY 75,900 for 3 guests (JPY 25,300 each), TAKIMI-kaiseki plan. Bathing tax payable at the property.",
       "perPerson": {
         "CMC": 858.57,
         "WY": 858.57,
         "Gary": 858.57,
         "Kalai": null
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Sendai",
@@ -2651,13 +2651,14 @@
       "persons": 2.0,
       "rooms": 1,
       "roomType": "Private room (host: Ryu)",
-      "cancellation": "Partial refund if cancelled by 13:00, 17 Oct",
+      "cancellation": "Partial refund if cancelled before 13:00, 17 Oct 2023",
       "checkInFrom": "13:00",
       "checkInTo": "20:00",
       "checkOutUntil": "11:00",
       "laundry": null,
       "meal": null,
       "parking": "Free",
+      "parkingNote": null,
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 264.75,
@@ -2668,8 +2669,7 @@
         "WY": 264.75,
         "Gary": null,
         "Kalai": null
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Nikko",
@@ -2686,25 +2686,25 @@
       "persons": 2.0,
       "rooms": 1,
       "roomType": "Entire home · 3 beds (host: Maru)",
-      "cancellation": "Partial refund if cancelled by 16:00, 19 Oct",
+      "cancellation": "Partial refund if cancelled before 16:00, 19 Oct 2023",
       "checkInFrom": "16:00",
       "checkInTo": null,
       "checkOutUntil": "11:00",
       "laundry": null,
       "meal": null,
       "parking": "Free",
+      "parkingNote": "160 m from the apartment",
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 250.98,
       "total": 501.96,
-      "remarks": "Free car park 160 m from the apartment.",
+      "remarks": null,
       "perPerson": {
         "CMC": 250.98,
         "WY": 250.98,
         "Gary": null,
         "Kalai": null
-      },
-      "payment": "Already Charged in CC"
+      }
     },
     {
       "city": "Tokyo",
@@ -2721,13 +2721,14 @@
       "persons": 2.0,
       "rooms": 1,
       "roomType": "Entire home · 2 beds (host: Shohei)",
-      "cancellation": "Partial refund if cancelled by 15:00, 21 Oct",
+      "cancellation": "Partial refund if cancelled before 15:00, 21 Oct 2023",
       "checkInFrom": "15:00",
       "checkInTo": null,
       "checkOutUntil": "11:00",
       "laundry": null,
       "meal": null,
       "parking": "N/A",
+      "parkingNote": null,
       "prepaid": true,
       "payAtProperty": null,
       "pricePerNight": 379.15,
@@ -2738,8 +2739,7 @@
         "WY": 189.57,
         "Gary": null,
         "Kalai": null
-      },
-      "payment": "Already Charged in CC"
+      }
     }
   ],
   "transport": {
