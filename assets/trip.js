@@ -702,46 +702,19 @@ const Trip = (() => {
       </div>`;
   }
 
-  function renderDay(trip) {
-    if (!has(trip.days)) return `<h1>Day-by-day</h1>${placeholder("days")}`;
-
-    const requested = parseInt(new URLSearchParams(location.search).get("day"), 10);
-    const day = trip.days.find((d) => d.day === requested) || trip.days[0];
+  /** The panel for one day: heading, pager, plan and costs. */
+  function dayPanel(trip, day) {
     const idx = trip.days.indexOf(day);
     const prev = trip.days[idx - 1];
     const next = trip.days[idx + 1];
     const { totals, sum } = dayCosts(day);
     const labels = costLabels(trip);
 
-    document.title = `Day ${day.day} — ${trip.title}`;
-
     const pager = `
       <div class="day-pager">
-        ${prev ? `<a href="day.html?day=${prev.day}">← Day ${prev.day}</a>` : `<span class="disabled">← Prev</span>`}
+        ${prev ? `<a href="day.html?day=${prev.day}" data-day="${prev.day}">← Day ${prev.day}</a>` : `<span class="disabled">← Prev</span>`}
         <a href="overview.html">All days</a>
-        ${next ? `<a href="day.html?day=${next.day}">Day ${next.day} →</a>` : `<span class="disabled">Next →</span>`}
-      </div>`;
-
-    // Jump straight to any day without stepping through them one at a time.
-    const picker = `
-      <div class="day-picker" aria-label="Jump to a day">
-        ${trip.days
-          .map(
-            (d) =>
-              `<a href="day.html?day=${d.day}" class="${d.day === day.day ? "current" : ""}"${
-                d.day === day.day ? ' aria-current="page"' : ""
-              } title="${escapeHtml(cityName(d.city))}">
-                <span class="day-picker-n">Day ${d.day} (${TravelSite.formatDate(d.date, {
-                weekday: "short",
-              })})</span>
-                <span class="day-picker-date">${TravelSite.formatDate(d.date, {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}</span>
-              </a>`
-          )
-          .join("")}
+        ${next ? `<a href="day.html?day=${next.day}" data-day="${next.day}">Day ${next.day} →</a>` : `<span class="disabled">Next →</span>`}
       </div>`;
 
     const planRows = has(day.items)
@@ -784,16 +757,11 @@ const Trip = (() => {
       <h1>Day ${day.day}${day.city ? " · " + escapeHtml(cityName(day.city)) : ""}</h1>
       <p class="subtitle">
         ${TravelSite.formatDate(day.date)}
-        ${
-          has(day.temperature)
-            ? ` · ${temperatureLines(day.temperature).join(" · ")}`
-            : ""
-        }
+        ${has(day.temperature) ? ` · ${temperatureLines(day.temperature).join(" · ")}` : ""}
       </p>
       ${day.summary ? `<p class="section-note">${multiline(day.summary)}</p>` : ""}
 
       ${pager}
-      ${picker}
 
       <h2>Plan</h2>
       ${
@@ -818,9 +786,108 @@ const Trip = (() => {
                </table>
              </div>`
           : ""
-      }
+      }`;
+  }
 
-      ${pager}`;
+  /** The day list that sits alongside the plan. */
+  function dayList(trip, current) {
+    return `
+      <nav class="day-picker" aria-label="Jump to a day">
+        ${trip.days
+          .map(
+            (d) =>
+              `<a href="day.html?day=${d.day}" data-day="${d.day}" class="${
+                d.day === current.day ? "current" : ""
+              }"${d.day === current.day ? ' aria-current="page"' : ""} title="${escapeHtml(
+                cityName(d.city)
+              )}">
+                <span class="day-picker-n">Day ${d.day} (${TravelSite.formatDate(d.date, {
+                weekday: "short",
+              })})</span>
+                <span class="day-picker-date">${TravelSite.formatDate(d.date, {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}</span>
+              </a>`
+          )
+          .join("")}
+      </nav>`;
+  }
+
+  function dayFromUrl(trip) {
+    const requested = parseInt(new URLSearchParams(location.search).get("day"), 10);
+    return trip.days.find((d) => d.day === requested) || trip.days[0];
+  }
+
+  /**
+   * Swap the panel without reloading, so flipping through days keeps the list in
+   * place. Links keep their href, so opening one in a new tab still works and the
+   * page is usable if this script never runs.
+   */
+  function showDay(trip, day, push) {
+    const panel = document.getElementById("day-panel");
+    if (!panel) return;
+    panel.innerHTML = dayPanel(trip, day);
+    document.title = `Day ${day.day} — ${trip.title}`;
+    document
+      .querySelectorAll(".day-picker a")
+      .forEach((a) => {
+        const on = Number(a.dataset.day) === day.day;
+        a.classList.toggle("current", on);
+        if (on) a.setAttribute("aria-current", "page");
+        else a.removeAttribute("aria-current");
+      });
+    if (push) history.pushState({ day: day.day }, "", `day.html?day=${day.day}`);
+    revealCurrentDay();
+  }
+
+  /** Keep the selected day visible in a long list without moving the page. */
+  function revealCurrentDay() {
+    const side = document.querySelector(".day-side");
+    const current = document.querySelector(".day-picker a.current");
+    if (!side || !current) return;
+    // Only the list scrolls; on mobile it scrolls sideways instead.
+    const vertical = side.scrollHeight > side.clientHeight;
+    if (vertical) {
+      const target = current.offsetTop - side.clientHeight / 2 + current.offsetHeight / 2;
+      side.scrollTop = Math.max(0, target);
+    } else if (side.scrollWidth > side.clientWidth) {
+      side.scrollLeft = Math.max(0, current.offsetLeft - side.clientWidth / 2);
+    }
+  }
+
+  function renderDay(trip) {
+    if (!has(trip.days)) return `<h1>Day-by-day</h1>${placeholder("days")}`;
+
+    const day = dayFromUrl(trip);
+    document.title = `Day ${day.day} — ${trip.title}`;
+
+    // Wired up after the markup lands in the document.
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (!main || main.dataset.dayNav) return;
+      main.dataset.dayNav = "1";
+
+      main.addEventListener("click", (e) => {
+        const link = e.target.closest("a[data-day]");
+        if (!link || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        const target = trip.days.find((d) => d.day === Number(link.dataset.day));
+        if (!target) return;
+        e.preventDefault();
+        showDay(trip, target, true);
+        document.getElementById("day-panel").scrollIntoView({ block: "start" });
+      });
+
+      window.addEventListener("popstate", () => showDay(trip, dayFromUrl(trip), false));
+      revealCurrentDay();
+    }, 0);
+
+    return `
+      <div class="day-layout">
+        <aside class="day-side">${dayList(trip, day)}</aside>
+        <div class="day-panel" id="day-panel">${dayPanel(trip, day)}</div>
+      </div>`;
   }
 
   function renderBudget(trip) {
