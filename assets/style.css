@@ -574,18 +574,29 @@ tfoot td {
 }
 .day-picker a {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 34px;
-  height: 34px;
-  padding: 0 6px;
+  min-width: 104px;
+  padding: 6px 10px;
   border: 1px solid var(--border);
   border-radius: 7px;
   background: var(--bg-elev);
   color: var(--text);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.day-picker-n {
   font-size: 0.85rem;
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
+}
+.day-picker-date {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+.day-picker a.current .day-picker-date {
+  color: inherit;
+  opacity: 0.85;
 }
 .day-picker a:hover {
   border-color: var(--accent);

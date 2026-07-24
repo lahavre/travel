@@ -244,12 +244,21 @@ const Trip = (() => {
    * "Explore Aizu Bukeyashiki Museum (8.30am - 5pm, 850JPY)" keeps the museum but
    * "Hotel (Kinugawa Onsen)" keeps its town.
    */
+  const ABBREVIATION = /(?:Mt|St|Jr|Sr|Dr|Ave|Rd|No)$/i;
+
   function cleanPlace(text) {
-    // Protect the full stop in "Mt. Otakamori" before splitting on sentences,
-    // or the place becomes "Mt".
-    const GUARD = " ";
-    let s = String(text || "").replace(/\b(Mt|St|Jr|Sr|Dr|Ave|Rd|No)\./gi, `$1${GUARD}`);
-    s = s.split(/\.(?:\s|$)/)[0].split(GUARD).join(".");
+    let s = String(text || "");
+
+    // Cut at the first sentence break. A full stop inside "Mt. Otakamori" or
+    // "8.30am" is not one, or the place would come out as "Mt".
+    for (let i = 0; i < s.length; i += 1) {
+      if (s[i] !== ".") continue;
+      if (i + 1 < s.length && !/\s/.test(s[i + 1])) continue;
+      if (ABBREVIATION.test(s.slice(0, i).split(/[\s(]/).pop())) continue;
+      s = s.slice(0, i);
+      break;
+    }
+
     s = s.replace(/\s+via\s+.*$/i, "");
     s = s.replace(/\s*\(([^)]*)\)\s*$/, (m, inner) =>
       /\d|jpy|yen|am\b|pm\b|free|alternative/i.test(inner) ? "" : m
@@ -452,26 +461,6 @@ const Trip = (() => {
       travel.from && travel.to ? " → " : ""
     }${escapeHtml(travel.to || "")}</span>
       ${bits.length ? `<span class="travel-meta">${bits.join(" · ")}</span>` : ""}
-      <a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>
-    </div>`;
-  }
-
-  /** The driving leg recorded for this day, if the trip logs one. */
-  function legCard(trip, day) {
-    const leg = ((trip.transport || {}).legs || []).find((l) => l.day === day.day);
-    if (!leg) return "";
-    const ends = splitRoute(leg.route);
-    const mode = (trip.transport && trip.transport.defaultMode) || "driving";
-    const url = ends ? mapsDirections(ends.from, ends.to, mode) : mapsSearch(leg.route || "");
-
-    return `<div class="leg-card">
-      <div>
-        <span class="leg-label">Getting around</span>
-        <span class="leg-route">${escapeHtml(leg.route || "")}</span>
-        <span class="travel-meta">${leg.km ? `${leg.km.toLocaleString()} km` : ""}${
-      leg.refuel ? `${leg.km ? " · " : ""}⛽ refuel` : ""
-    }</span>
-      </div>
       <a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>
     </div>`;
   }
@@ -741,7 +730,16 @@ const Trip = (() => {
             (d) =>
               `<a href="day.html?day=${d.day}" class="${d.day === day.day ? "current" : ""}"${
                 d.day === day.day ? ' aria-current="page"' : ""
-              } title="${escapeHtml(cityName(d.city))}">${d.day}</a>`
+              } title="${escapeHtml(cityName(d.city))}">
+                <span class="day-picker-n">Day ${d.day} (${TravelSite.formatDate(d.date, {
+                weekday: "short",
+              })})</span>
+                <span class="day-picker-date">${TravelSite.formatDate(d.date, {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}</span>
+              </a>`
           )
           .join("")}
       </div>`;
@@ -796,8 +794,6 @@ const Trip = (() => {
 
       ${pager}
       ${picker}
-
-      ${legCard(trip, day)}
 
       <h2>Plan</h2>
       ${
