@@ -759,26 +759,63 @@ const Trip = (() => {
       .map(([k, v]) => `<tr><td>${escapeHtml(labels[k] || k)}</td>${moneyCells(v, trip)}</tr>`)
       .join("");
 
-    // Forecast per place the day passes through — it has its own section below.
+    // One row per place the day passes through. `observed` is what the weather
+    // actually did, where a measurement for that place could be sourced; the plain
+    // range is what was written down when planning. Any column with nothing behind
+    // it is left out rather than filled with dashes.
+    const anyObserved = (day.temperature || []).some((t) => t.observed);
+    const planned = (t) =>
+      t.min === null || t.max === null
+        ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
+        : `${t.min} to ${t.max} °C`;
+
     const weather = has(day.temperature)
       ? `<h2>Weather</h2>
          <div class="table-wrap">
-           <table>
-             <thead><tr><th>Place</th><th>Temperature</th></tr></thead>
+           <table class="weather-table">
+             <thead><tr>
+               <th>Place</th>
+               <th>${anyObserved ? "Planned" : "Temperature"}</th>
+               ${
+                 anyObserved
+                   ? `<th>Actual</th><th>Conditions</th>
+                      <th class="num">Rain</th><th class="num">Wind</th><th>Daylight</th>`
+                   : ""
+               }
+             </tr></thead>
              <tbody>${day.temperature
-               .map(
-                 (t) => `<tr>
+               .map((t) => {
+                 const o = t.observed;
+                 return `<tr>
                    <td>${escapeHtml(t.location || "—")}</td>
-                   <td>${
-                     t.min === null || t.max === null
-                       ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
-                       : `${t.min} to ${t.max} °C`
-                   }</td>
-                 </tr>`
-               )
+                   <td>${planned(t)}</td>
+                   ${
+                     anyObserved
+                       ? o
+                         ? `<td>${o.min} to ${o.max} °C
+                              <span class="weather-note">feels ${o.feelsMin} to ${o.feelsMax}</span></td>
+                            <td>${escapeHtml(o.condition)}</td>
+                            <td class="num">${
+                              o.rain ? `${o.rain} mm${o.rainHours ? ` · ${o.rainHours} h` : ""}` : "—"
+                            }</td>
+                            <td class="num">${o.wind} km/h</td>
+                            <td class="weather-note">${escapeHtml(o.sunrise)}–${escapeHtml(
+                             o.sunset
+                           )}</td>`
+                         : `<td colspan="6" class="weather-note">Not measured for this place</td>`
+                       : ""
+                   }
+                 </tr>`;
+               })
                .join("")}</tbody>
            </table>
-         </div>`
+         </div>
+         ${
+           anyObserved
+             ? `<p class="section-note">“Planned” is the forecast recorded while planning;
+                “actual” is what was measured on the day (Open-Meteo).</p>`
+             : ""
+         }`
       : "";
 
     return `

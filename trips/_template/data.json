@@ -156,7 +156,27 @@
       "date": "2026-01-01",
       "city": "Arrival city",
       "weekday": "Thursday",
-      "temperature": [{ "location": "Arrival city", "min": 8, "max": 15, "note": null }],
+      "_temperature": "`min`/`max` are the forecast you recorded while planning. `observed` is what the weather actually did — run tools/fetch_weather.py to fill it from Open-Meteo (free, no key). Omit `observed` and the extra columns disappear.",
+      "temperature": [
+        {
+          "location": "Arrival city",
+          "min": 8,
+          "max": 15,
+          "note": null,
+          "observed": {
+            "condition": "Light rain",
+            "min": 7.4,
+            "max": 16.2,
+            "feelsMin": 5.1,
+            "feelsMax": 15.0,
+            "rain": 5.8,
+            "rainHours": 6,
+            "wind": 18.4,
+            "sunrise": "07:12",
+            "sunset": "17:40"
+          }
+        }
+      ],
       "summary": "Optional one-line framing for the day.",
       "items": [
         {

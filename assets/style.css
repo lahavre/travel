@@ -285,6 +285,15 @@ tfoot td {
 .weather-note {
   color: var(--text-dim);
 }
+/* Seven columns of weather need more room than a phone has, but should fit the
+   day panel on a desktop without scrolling. */
+.weather-table {
+  min-width: 640px;
+}
+.weather-table .weather-note {
+  display: block;
+  font-size: 0.8rem;
+}
 
 /* ---- Timeline (detailed day itinerary) ---- */
 .timeline-item {
