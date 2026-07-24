@@ -260,23 +260,30 @@ tfoot td {
 }
 
 /* ---- Day page nav ---- */
+/* Three slots, so "All days" stays centred even when there is no previous or
+   next day to show. */
 .day-pager {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 12px;
   margin: 28px 0 8px;
 }
-.day-pager a, .day-pager span {
+.day-pager a {
   padding: 8px 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--bg-elev);
   font-size: 0.9rem;
 }
-.day-pager .disabled {
+.pager-slot {
+  display: flex;
+}
+.pager-slot.end {
+  justify-content: flex-end;
+}
+.weather-note {
   color: var(--text-dim);
-  opacity: 0.5;
 }
 
 /* ---- Timeline (detailed day itinerary) ---- */

@@ -710,11 +710,17 @@ const Trip = (() => {
     const { totals, sum } = dayCosts(day);
     const labels = costLabels(trip);
 
+    // The first and last days simply have no previous or next — an empty slot keeps
+    // "All days" centred without leaving a dead button behind.
     const pager = `
       <div class="day-pager">
-        ${prev ? `<a href="day.html?day=${prev.day}" data-day="${prev.day}">← Day ${prev.day}</a>` : `<span class="disabled">← Prev</span>`}
+        <div class="pager-slot">${
+          prev ? `<a href="day.html?day=${prev.day}" data-day="${prev.day}">← Day ${prev.day}</a>` : ""
+        }</div>
         <a href="overview.html">All days</a>
-        ${next ? `<a href="day.html?day=${next.day}" data-day="${next.day}">Day ${next.day} →</a>` : `<span class="disabled">Next →</span>`}
+        <div class="pager-slot end">${
+          next ? `<a href="day.html?day=${next.day}" data-day="${next.day}">Day ${next.day} →</a>` : ""
+        }</div>
       </div>`;
 
     const planRows = has(day.items)
@@ -753,12 +759,31 @@ const Trip = (() => {
       .map(([k, v]) => `<tr><td>${escapeHtml(labels[k] || k)}</td>${moneyCells(v, trip)}</tr>`)
       .join("");
 
+    // Forecast per place the day passes through — it has its own section below.
+    const weather = has(day.temperature)
+      ? `<h2>Weather</h2>
+         <div class="table-wrap">
+           <table>
+             <thead><tr><th>Place</th><th>Temperature</th></tr></thead>
+             <tbody>${day.temperature
+               .map(
+                 (t) => `<tr>
+                   <td>${escapeHtml(t.location || "—")}</td>
+                   <td>${
+                     t.min === null || t.max === null
+                       ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
+                       : `${t.min} to ${t.max} °C`
+                   }</td>
+                 </tr>`
+               )
+               .join("")}</tbody>
+           </table>
+         </div>`
+      : "";
+
     return `
       <h1>Day ${day.day}${day.city ? " · " + escapeHtml(cityName(day.city)) : ""}</h1>
-      <p class="subtitle">
-        ${TravelSite.formatDate(day.date)}
-        ${has(day.temperature) ? ` · ${temperatureLines(day.temperature).join(" · ")}` : ""}
-      </p>
+      <p class="subtitle">${TravelSite.formatDate(day.date)}</p>
       ${day.summary ? `<p class="section-note">${multiline(day.summary)}</p>` : ""}
 
       ${pager}
@@ -774,6 +799,8 @@ const Trip = (() => {
              </div>`
           : placeholder("activities")
       }
+
+      ${weather}
 
       ${
         sum > 0

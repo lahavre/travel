@@ -15,7 +15,7 @@ trips/<slug>/
   data.json           Single source of truth for the trip
   index.html          Trip home — flights, hotels, jump-to-a-day
   overview.html       High-level itinerary
-  day.html?day=N      Detailed plan for one day, with prev/next navigation
+  day.html?day=N      One day: plan, weather, costs — day list switches in place
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
   transport.html      Travel log / getting around
@@ -73,6 +73,12 @@ breaking, so a half-planned trip still renders.
 `days[].items[].costs` are in **trip** currency and get converted for display;
 everything in `budget`, `settle` and `accommodation` is in **home** currency. Omit
 `exchangeRate` entirely for a domestic trip and cost columns collapse to one currency.
+
+**The day page.** A sticky list of days sits beside the plan; clicking one swaps the
+panel without reloading, and the URL, title and back button follow. The panel runs
+Plan → Weather → Estimated cost. Weather is a row per place the day passes through,
+drawn from that day's `temperature`, and the section is omitted when the list is
+empty.
 
 **The overview table.** Each day renders as three colour-banded rows — morning,
 afternoon, evening — with the activity and its own remark sharing the band's tint. A
