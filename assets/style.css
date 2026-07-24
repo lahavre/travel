@@ -655,6 +655,17 @@ tfoot td {
   font-weight: 600;
   white-space: nowrap;
 }
+/* One journey per line: where it runs, and the way to see it on a map. */
+.route-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin-top: 4px;
+}
+.route-ends {
+  font-size: 0.9rem;
+}
 
 /* ---- Flight cards ---- */
 .flight-list {

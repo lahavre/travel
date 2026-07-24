@@ -184,7 +184,7 @@
           "time": "20:00",
           "activity": "Travel to the hotel\n1. Airport (XXX) -(Metro Line)> Central Station -(Walk - 10 mins)> Hotel (500)\n2. Airport (XXX) -(Airport Bus)> Hotel (900)",
           "costs": { "transport": 500 },
-          "remarks": "Any line written as A -(Mode)> B gets a Google Maps directions link automatically. \"Hotel\" or \"Airbnb\" resolves to that night's stay from `accommodation`."
+          "remarks": "A line written as A -(Mode)> B collapses to \"A to B\" with a Google Maps link. \"Hotel\"/\"Airbnb\" resolve from `accommodation`, an airport name or code from `flights`, and \"Store\"/\"Restaurant\" from the venue this activity names."
         },
         {
           "time": "21:00",

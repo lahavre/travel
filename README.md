@@ -113,20 +113,30 @@ checked; write "N/A" only once you know the property genuinely does not offer it
 `data.json`** — the repository and the published site are public. Booking confirmations
 routinely contain all of these; copy across the property details only.
 
-**Route notation.** Write a leg inside an activity as `A -(Mode)> B -(Mode)> C` and the
-day page turns that line into a Google Maps directions link, keeping the text as
-written. Number alternatives (`1.` / `2.`) and each gets its own link; a trailing
-`(500JPY)` is left out of the route.
+**Route notation.** Write a leg inside an activity as `A -(Mode)> B -(Mode)> C`. The
+day page collapses it to a single line — **“A to C” with a Directions link** — since
+the intermediate hops mostly restate what Maps returns live. Alternatives numbered
+`1.` / `2.` between the same two points fold into one line, with every original
+spelling kept on hover.
 
 The mode words decide how Maps routes it: a rail or bus line gives transit, `Walk`
 or `Hike` gives walking, `Drive`/`Taxi` gives driving. Intermediate stops are passed
 as waypoints **except** for transit, which Google cannot route with waypoints — there
-the two ends are sent and Maps works out the connection, while the written line still
-names the intended lines.
+the two ends are sent and Maps works out the connection.
 
-A stop written as `Hotel` or `Airbnb` resolves to the stay booked for that night from
-`accommodation`, so the link lands on the property's real address instead of searching
-for the word. Name real places at both ends: a placeholder like `Store` geocodes badly.
+Endpoints are resolved rather than taken literally, so a plan can stay loosely worded:
+
+| Written | Becomes | From |
+| --- | --- | --- |
+| `Hotel`, `Airbnb` | the property, linked to its address | `accommodation` |
+| `Haneda`, `HND` | the airport as the booking records it, plus terminal | `flights` |
+| `Store`, `Restaurant` | the venue the activity names (“Dinner at …”) | the activity |
+
+A stay word means the property in use *at that hour* — on a moving day, anything
+before the new check-in still refers to the place being left. An unnamed origin looks
+back to the previous activity, since that is where the traveller actually is; a
+destination does not. Airports match on their own name or code, never the city, so
+“Tokyo Station” is not mistaken for Tokyo Haneda.
 
 **Maps and travel times.** Any activity can carry a `travel` block
 (`from`, `to`, `mode`, `duration`, `distance`, `cost`) which renders as a line with a

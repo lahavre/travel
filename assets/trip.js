@@ -203,49 +203,146 @@ const Trip = (() => {
   // Words a plan uses for "the place we are staying" rather than naming it.
   const STAY_WORD = /^(hotel|airbnb|hostel|ryokan|guest ?house|pension|apartment|accommodation|the hotel)$/i;
 
+  // A plan says "Store" or "Restaurant" for the venue its own title already named.
+  const VENUE_WORD = /^(store|shop|restaurant|cafe|café|venue|the store)$/i;
+
   /**
-   * Turn one activity line written in the arrow notation into a linked route.
-   * Returns null when the line is ordinary prose. "Hotel" resolves to the stay
-   * booked for that night, so the link lands on the real address rather than
-   * searching for the word "hotel".
+   * Which stay "Hotel" means at a given moment.
+   *
+   * On a moving day both are in play: the one being checked out of that morning and
+   * the one being checked into that evening. Anything before the new place opens for
+   * check-in still refers to the old one.
    */
-  function routeLine(line, trip, day) {
-    if (!ROUTE_STEP.test(line)) return null;
-
-    // Keep any "1." / "2." numbering and a trailing "(500JPY)" out of the stops.
-    const numbering = /^\s*(\d+[.)]\s*)/.exec(line);
-    let body = numbering ? line.slice(numbering[0].length) : line;
-    let trailing = "";
-    const cost = /\s*(\([^()]*\))\s*$/.exec(body);
-    if (cost && !ROUTE_STEP.test(cost[1])) {
-      trailing = cost[1];
-      body = body.slice(0, cost.index);
+  function stayAt(trip, day, time) {
+    const stays = trip.accommodation || [];
+    const arriving = stays.find((a) => a.checkIn === day.date);
+    const leaving = stays.find((a) => a.checkOut === day.date);
+    if (arriving && leaving && time && arriving.checkInFrom && time < arriving.checkInFrom) {
+      return leaving;
     }
-
-    const parts = body.split(ROUTE_STEP);
-    // split() with one capture group yields stop, mode, stop, mode, stop…
-    const stops = parts.filter((_, i) => i % 2 === 0).map((s) => s.trim()).filter(Boolean);
-    const modes = parts.filter((_, i) => i % 2 === 1).map((s) => s.trim());
-    if (stops.length < 2) return null;
-
-    // "Hotel" / "Airbnb" mean the stay booked for that night — send Maps to its
-    // real address rather than letting it search for the word.
-    const stay = day ? stayOn(day.date, trip.accommodation) : null;
-    const resolve = (s) => (STAY_WORD.test(s) && stay ? stay.address || stay.name || s : s);
-
-    const url = mapsRoute(stops.map(resolve), routeMode(modes), trip.destination);
-    return `${numbering ? escapeHtml(numbering[1]) : ""}${escapeHtml(body.trim())}${
-      trailing ? ` ${escapeHtml(trailing)}` : ""
-    } <a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>`;
+    return arriving || leaving || stayOn(day.date, stays);
   }
 
-  /** Activity text with any route lines turned into Google Maps links. */
-  function activityHtml(text, trip, day) {
+  /** The place an activity's own wording names — "Dinner at Ichiran Ramen". */
+  function venueFrom(proseLines) {
+    for (const line of proseLines) {
+      const m = /\b(?:at|@)\s+([^.\n]+)/i.exec(line);
+      if (m) return m[1].trim();
+    }
+    return null;
+  }
+
+  /**
+   * Resolve a route stop to what to show and what to send Google.
+   *
+   * A stay word becomes the property in use at that hour; a venue word becomes the
+   * place the activity named; an airport named loosely ("Haneda") becomes the airport
+   * as the flight booking records it, terminal included when the voucher gave one.
+   * The label stays readable while the query is precise.
+   */
+  function resolveStop(stop, trip, day, ctx) {
+    if (STAY_WORD.test(stop) && day) {
+      const stay = stayAt(trip, day, ctx && ctx.time);
+      if (stay) return { label: stay.name || stop, query: stay.address || stay.name || stop };
+    }
+
+    if (VENUE_WORD.test(stop) && ctx && ctx.venue) {
+      return { label: ctx.venue, query: ctx.venue };
+    }
+
+    // Match an airport on its own name or code — never on the city, or "Tokyo
+    // Station" would be mistaken for Tokyo Haneda.
+    const hay = stop.toLowerCase();
+    for (const f of trip.flights || []) {
+      for (const [port, terminal] of [[f.from, f.fromTerminal], [f.to, f.toTerminal]]) {
+        if (!port) continue;
+        const code = (/\(([A-Z]{3})\)/.exec(port) || [])[1];
+        const name = port.replace(/\s*\([^)]*\)\s*$/, "").split(/\s+/).pop();
+        const hit =
+          (code && new RegExp(`\\b${code}\\b`, "i").test(stop)) ||
+          (name && name.length > 3 && hay.includes(name.toLowerCase()));
+        if (hit) {
+          const full = terminal ? `${port} ${terminal}` : port;
+          return { label: full, query: full };
+        }
+      }
+    }
+    return { label: stop, query: stop };
+  }
+
+  /**
+   * Collapse an activity's route lines into one summary per journey.
+   *
+   * The written options all run between the same two points and mostly restate
+   * what Maps returns live, so the page shows "A to B" with a link and keeps the
+   * original wording on hover.
+   */
+  function activityRoutes(text, trip, day, time, prevText) {
+    const lines = String(text || "").split("\n");
+    const plain = lines.filter((l) => !ROUTE_STEP.test(l));
+    // You set off from wherever the last activity left you, and arrive at the place
+    // this one names — so an unnamed origin looks back a step, a destination does not.
+    const venue = venueFrom(plain);
+    const ctx = {
+      time,
+      venue,
+      originVenue:
+        venueFrom(String(prevText || "").split("\n").filter((l) => !ROUTE_STEP.test(l))) || venue,
+    };
+    const routes = [];
+    const byKey = new Map();
+
+    lines.forEach((line) => {
+      if (!ROUTE_STEP.test(line)) return;
+      let body = line.replace(/^\s*\d+[.)]\s*/, "");
+      const cost = /\s*(\([^()]*\))\s*$/.exec(body);
+      if (cost && !ROUTE_STEP.test(cost[1])) body = body.slice(0, cost.index);
+
+      const parts = body.split(ROUTE_STEP);
+      const stops = parts.filter((_, i) => i % 2 === 0).map((s) => s.trim()).filter(Boolean);
+      const modes = parts.filter((_, i) => i % 2 === 1).map((s) => s.trim());
+      if (stops.length < 2) return;
+
+      const from = resolveStop(stops[0], trip, day, { ...ctx, venue: ctx.originVenue });
+      const to = resolveStop(stops[stops.length - 1], trip, day, ctx);
+      const key = `${from.query}|${to.query}`;
+      if (byKey.has(key)) {
+        byKey.get(key).detail.push(line.trim());
+        return;
+      }
+      const route = {
+        from,
+        to,
+        url: mapsRoute(
+          [from.query, ...stops.slice(1, -1), to.query],
+          routeMode(modes),
+          trip.destination
+        ),
+        detail: [line.trim()],
+      };
+      byKey.set(key, route);
+      routes.push(route);
+    });
+
+    return { plain, routes };
+  }
+
+  /** Activity text, with its travel legs collapsed into linked "A to B" summaries. */
+  function activityHtml(text, trip, day, time, prevText) {
     if (!text) return "";
-    return String(text)
-      .split("\n")
-      .map((line) => routeLine(line, trip, day) || escapeHtml(line))
-      .join("<br>");
+    const { plain, routes } = activityRoutes(text, trip, day, time, prevText);
+
+    const prose = plain.map((l) => escapeHtml(l)).join("<br>");
+    const legs = routes
+      .map(
+        (r) => `<div class="route-line" title="${escapeHtml(r.detail.join("\n"))}">
+          <span class="route-ends">${escapeHtml(r.from.label)} to ${escapeHtml(r.to.label)}</span>
+          <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>
+        </div>`
+      )
+      .join("");
+
+    return prose + legs;
   }
 
   /** A "Tokyo to Kinugawa Onsen" style route string, split into its two ends. */
@@ -570,11 +667,17 @@ const Trip = (() => {
     const planRows = has(day.items)
       ? day.items
           .map(
-            (it) => `
+            (it, i) => `
         <tr>
           <td class="plan-time">${escapeHtml(it.time || "")}</td>
           <td class="plan-activity">
-            <div class="timeline-activity">${activityHtml(it.activity, trip, day)}</div>
+            <div class="timeline-activity">${activityHtml(
+              it.activity,
+              trip,
+              day,
+              it.time,
+              i > 0 ? day.items[i - 1].activity : null
+            )}</div>
             ${it.remarks ? `<div class="timeline-meta">${multiline(it.remarks)}</div>` : ""}
             ${travelChip(it.travel, trip)}
             ${
@@ -1087,6 +1190,6 @@ const Trip = (() => {
 
   return {
     page, multiline, escapeHtml, home, local, toHome, dayCosts, checkIn,
-    activityHtml, routeLine, placeholder, ROOT,
+    activityHtml, activityRoutes, placeholder, ROOT,
   };
 })();
