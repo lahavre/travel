@@ -80,14 +80,16 @@ Plan → Weather → Estimated cost. Weather is a row per place the day passes t
 drawn from that day's `temperature`, and the section is omitted when the list is
 empty.
 
-Each entry keeps two things apart: `min`/`max` are the forecast recorded while
-planning, and `observed` is what the weather actually did — condition, real and
-apparent temperature, rainfall and hours of it, wind, sunrise and sunset. Those
-columns only appear once a day has observations, and a place without them says so
-rather than borrowing a neighbour's.
+Each entry carries one forecast: `min`/`max`, `feelsMin`/`feelsMax`, `condition`,
+`wind`, `sunrise` and `sunset`. The last three columns appear only once some entry
+has them, so a trip with nothing but temperatures still renders. `note` covers a
+place with no forecast — it is never filled with a guess.
 
-Fill `observed` with `tools/fetch_weather.py` (see below). A trip with no
-observations still renders a plain temperature column.
+Rainfall totals are deliberately absent: for planning, knowing the day reads "Light
+rain" or "Rain" is what matters, not the millimetres.
+
+Fill it with `tools/fetch_weather.py` (see below), and re-run as departure nears —
+a forecast a fortnight out is barely better than a seasonal average.
 
 **The overview table.** Each day renders as three colour-banded rows — morning,
 afternoon, evening — with the activity and its own remark sharing the band's tint. A
@@ -210,14 +212,14 @@ Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned 
 - `new_trip_pages.py [slug...]` — (re)writes the seven boilerplate pages into trip
   folders. Copying `trips/_template/` does the same for a single new trip; this is for
   updating every trip at once if the boilerplate changes.
-- `fetch_weather.py <data.json>` — fills each day's `temperature[].observed` from the
-  Open-Meteo archive, which needs no key. Coordinates live in a `PLACES` table in the
-  script, taken from Open-Meteo's geocoder and checked against the prefecture each
-  place belongs to. **Add a place only once its coordinates are verified**: an onsen
-  or a summit often geocodes to a same-named town elsewhere, or to a valley hundreds
-  of metres below, and weather from the wrong altitude is worse than none. Anything
-  left out keeps the range the trip recorded. For a trip still ahead, point `ARCHIVE`
-  at Open-Meteo's forecast API — the daily fields are identical.
+- `fetch_weather.py <data.json>` — fills each day's `temperature[]` from Open-Meteo,
+  which needs no key. It picks the forecast API for a trip still ahead and the
+  archive for one already past, from the trip's own dates. Coordinates live in a
+  `PLACES` table in the script, taken from Open-Meteo's geocoder and checked against
+  the region each place belongs to. **Add a place only once its coordinates are
+  verified**: an onsen or a summit often geocodes to a same-named town elsewhere, or
+  to a valley hundreds of metres below, and weather from the wrong altitude is worse
+  than none. Anything left out keeps whatever the trip recorded.
 - `migrate_japan_2023.py [xlsx]` — rebuilds the Japan trip's `data.json` from the
   original workbook. Kept for provenance: it records exactly how those figures were
   derived, and is the starting point for migrating another old workbook. Needs

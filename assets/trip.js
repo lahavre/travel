@@ -759,63 +759,46 @@ const Trip = (() => {
       .map(([k, v]) => `<tr><td>${escapeHtml(labels[k] || k)}</td>${moneyCells(v, trip)}</tr>`)
       .join("");
 
-    // One row per place the day passes through. `observed` is what the weather
-    // actually did, where a measurement for that place could be sourced; the plain
-    // range is what was written down when planning. Any column with nothing behind
-    // it is left out rather than filled with dashes.
-    const anyObserved = (day.temperature || []).some((t) => t.observed);
-    const planned = (t) =>
-      t.min === null || t.max === null
-        ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
-        : `${t.min} to ${t.max} °C`;
+    // One row per place the day passes through. A planner only ever has a forecast,
+    // so there is a single set of figures rather than a comparison. Rainfall totals
+    // are left out — "Light rain" or "Rain" is what a plan turns on.
+    const anyDetail = (day.temperature || []).some((t) => t.condition || t.wind || t.sunrise);
 
     const weather = has(day.temperature)
       ? `<h2>Weather</h2>
          <div class="table-wrap">
            <table class="weather-table">
              <thead><tr>
-               <th>Place</th>
-               <th>${anyObserved ? "Planned" : "Temperature"}</th>
-               ${
-                 anyObserved
-                   ? `<th>Actual</th><th>Conditions</th>
-                      <th class="num">Rain</th><th class="num">Wind</th><th>Daylight</th>`
-                   : ""
-               }
+               <th>Place</th><th>Temperature</th>
+               ${anyDetail ? `<th>Conditions</th><th class="num">Wind</th><th>Daylight</th>` : ""}
              </tr></thead>
              <tbody>${day.temperature
                .map((t) => {
-                 const o = t.observed;
+                 const range =
+                   t.min === null || t.min === undefined || t.max === null || t.max === undefined
+                     ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
+                     : `${t.min} to ${t.max} °C${
+                         t.feelsMin !== undefined && t.feelsMin !== null
+                           ? `<span class="weather-note">feels ${t.feelsMin} to ${t.feelsMax}</span>`
+                           : ""
+                       }`;
                  return `<tr>
                    <td>${escapeHtml(t.location || "—")}</td>
-                   <td>${planned(t)}</td>
+                   <td>${range}</td>
                    ${
-                     anyObserved
-                       ? o
-                         ? `<td>${o.min} to ${o.max} °C
-                              <span class="weather-note">feels ${o.feelsMin} to ${o.feelsMax}</span></td>
-                            <td>${escapeHtml(o.condition)}</td>
-                            <td class="num">${
-                              o.rain ? `${o.rain} mm${o.rainHours ? ` · ${o.rainHours} h` : ""}` : "—"
-                            }</td>
-                            <td class="num">${o.wind} km/h</td>
-                            <td class="weather-note">${escapeHtml(o.sunrise)}–${escapeHtml(
-                             o.sunset
-                           )}</td>`
-                         : `<td colspan="6" class="weather-note">Not measured for this place</td>`
+                     anyDetail
+                       ? `<td>${t.condition ? escapeHtml(t.condition) : "—"}</td>
+                          <td class="num">${t.wind ? `${t.wind} km/h` : "—"}</td>
+                          <td class="weather-note">${
+                            t.sunrise ? `${escapeHtml(t.sunrise)}–${escapeHtml(t.sunset)}` : "—"
+                          }</td>`
                        : ""
                    }
                  </tr>`;
                })
                .join("")}</tbody>
            </table>
-         </div>
-         ${
-           anyObserved
-             ? `<p class="section-note">“Planned” is the forecast recorded while planning;
-                “actual” is what was measured on the day (Open-Meteo).</p>`
-             : ""
-         }`
+         </div>`
       : "";
 
     return `

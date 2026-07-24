@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
-"""Add observed weather to a trip's day-by-day from the Open-Meteo archive.
+"""Fill a trip's day-by-day weather from Open-Meteo.
 
-    python tools/fetch_weather.py trips/2023-10-japan-tohoku/data.json
+    python tools/fetch_weather.py trips/2026-03-somewhere/data.json
 
-Open-Meteo needs no key and its historical archive reports what the weather
-actually did, so a past trip can carry real observations rather than the forecast
-someone wrote down while planning. Both are kept: `min`/`max` stay as recorded at
-planning time, and the measurements land in `observed` beside them.
+Open-Meteo needs no key, so the numbers are written into data.json and the site
+stays static. A trip still ahead gets the forecast; one already past gets the
+archive, which is the same set of daily fields. Either way each place ends up
+with one set of figures — this is a planner, so there is nothing to compare a
+forecast against.
+
+Re-run it as departure approaches: a forecast more than a couple of weeks out is
+barely better than a seasonal average, and the API only forecasts about 16 days.
 
 Only places in PLACES are fetched. Their coordinates come from Open-Meteo's own
 geocoding API, checked against the prefecture they should be in — an onsen or a
 mountain often geocodes to somewhere else entirely, and weather from the wrong
 altitude is worse than none. A place left out keeps whatever the trip recorded.
-
-For a trip still in the future, point BASE at the forecast API instead; the daily
-fields are the same.
 """
+import datetime
 import json
 import sys
 import time
@@ -23,6 +25,7 @@ import urllib.parse
 import urllib.request
 
 ARCHIVE = "https://archive-api.open-meteo.com/v1/archive"
+FORECAST = "https://api.open-meteo.com/v1/forecast"
 
 # name in data.json -> (latitude, longitude, what the geocoder called it)
 PLACES = {
@@ -61,18 +64,19 @@ CONDITIONS = {
     95: "Thunderstorm", 96: "Thunderstorm with hail", 99: "Thunderstorm with hail",
 }
 
+# Rainfall totals are left out on purpose: for planning it is enough to know the
+# day reads "Light rain" or "Rain", not how many millimetres fell.
 DAILY = ",".join([
     "weathercode",
     "temperature_2m_max", "temperature_2m_min",
     "apparent_temperature_max", "apparent_temperature_min",
-    "precipitation_sum", "precipitation_hours",
     "windspeed_10m_max",
     "sunrise", "sunset",
 ])
 
 
-def fetch(lat, lon, start, end, timezone):
-    url = ARCHIVE + "?" + urllib.parse.urlencode({
+def fetch(base, lat, lon, start, end, timezone):
+    url = base + "?" + urllib.parse.urlencode({
         "latitude": lat, "longitude": lon,
         "start_date": start, "end_date": end,
         "daily": DAILY, "timezone": timezone,
@@ -95,9 +99,13 @@ def main(path, timezone="Asia/Tokyo"):
         return
     start, end = days[0]["date"], days[-1]["date"]
 
+    today = datetime.date.today().isoformat()
+    base = ARCHIVE if end < today else FORECAST
+    print(f"{start} to {end} -> {'archive' if base is ARCHIVE else 'forecast'}")
+
     series = {}
     for name, (lat, lon, source) in PLACES.items():
-        data = fetch(lat, lon, start, end, timezone)
+        data = fetch(base, lat, lon, start, end, timezone)
         daily = data["daily"]
         series[name] = {
             date: {
@@ -106,8 +114,6 @@ def main(path, timezone="Asia/Tokyo"):
                 "min": round_or_none(daily["temperature_2m_min"][i]),
                 "feelsMax": round_or_none(daily["apparent_temperature_max"][i]),
                 "feelsMin": round_or_none(daily["apparent_temperature_min"][i]),
-                "rain": round_or_none(daily["precipitation_sum"][i]),
-                "rainHours": round_or_none(daily["precipitation_hours"][i], 0),
                 "wind": round_or_none(daily["windspeed_10m_max"][i]),
                 "sunrise": daily["sunrise"][i][11:16],
                 "sunset": daily["sunset"][i][11:16],
@@ -123,23 +129,25 @@ def main(path, timezone="Asia/Tokyo"):
             name = entry.get("location")
             obs = series.get(name, {}).get(day["date"])
             if not obs:
-                entry.pop("observed", None)
                 skipped += 1
                 continue
-            entry["observed"] = {
-                "condition": CONDITIONS.get(obs["code"], f"code {obs['code']}"),
-                "min": obs["min"], "max": obs["max"],
-                "feelsMin": obs["feelsMin"], "feelsMax": obs["feelsMax"],
-                "rain": obs["rain"], "rainHours": obs["rainHours"],
-                "wind": obs["wind"],
-                "sunrise": obs["sunrise"], "sunset": obs["sunset"],
-            }
+            # Real figures replace whatever was typed in, including a vague note.
+            entry["min"] = obs["min"]
+            entry["max"] = obs["max"]
+            entry["note"] = None
+            entry["feelsMin"] = obs["feelsMin"]
+            entry["feelsMax"] = obs["feelsMax"]
+            entry["condition"] = CONDITIONS.get(obs["code"], f"code {obs['code']}")
+            entry["wind"] = obs["wind"]
+            entry["sunrise"] = obs["sunrise"]
+            entry["sunset"] = obs["sunset"]
+            entry.pop("observed", None)
             filled += 1
 
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(trip, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"\nobserved weather added to {filled} entries, {skipped} left as recorded")
+    print(f"\nweather filled for {filled} entries, {skipped} left as recorded")
 
 
 if __name__ == "__main__":

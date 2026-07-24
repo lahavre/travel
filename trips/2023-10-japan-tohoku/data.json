@@ -739,21 +739,15 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 18,
-          "max": 25,
+          "min": 13.1,
+          "max": 21.9,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 13.1,
-            "max": 21.9,
-            "feelsMin": 11.4,
-            "feelsMax": 20.4,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 19.6,
-            "sunrise": "05:45",
-            "sunset": "17:09"
-          }
+          "feelsMin": 11.4,
+          "feelsMax": 20.4,
+          "condition": "Overcast",
+          "wind": 19.6,
+          "sunrise": "05:45",
+          "sunset": "17:09"
         }
       ],
       "summary": null
@@ -837,39 +831,27 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 17,
-          "max": 24,
+          "min": 10.4,
+          "max": 21.4,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 10.4,
-            "max": 21.4,
-            "feelsMin": 8.6,
-            "feelsMax": 20.6,
-            "rain": 0.2,
-            "rainHours": 1.0,
-            "wind": 14.1,
-            "sunrise": "05:46",
-            "sunset": "17:08"
-          }
+          "feelsMin": 8.6,
+          "feelsMax": 20.6,
+          "condition": "Light drizzle",
+          "wind": 14.1,
+          "sunrise": "05:46",
+          "sunset": "17:08"
         },
         {
           "location": "Kinugawa",
-          "min": 12,
-          "max": 15,
+          "min": 6.8,
+          "max": 19.3,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 6.8,
-            "max": 19.3,
-            "feelsMin": 3.9,
-            "feelsMax": 18.9,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 11.2,
-            "sunrise": "05:46",
-            "sunset": "17:07"
-          }
+          "feelsMin": 3.9,
+          "feelsMax": 18.9,
+          "condition": "Overcast",
+          "wind": 11.2,
+          "sunrise": "05:46",
+          "sunset": "17:07"
         }
       ],
       "summary": "Kalai will meet and join us in Tokyo. Kalai will book a separate room for Kinugawa Onsen.\nCollect Rental Car"
@@ -940,39 +922,27 @@
       "temperature": [
         {
           "location": "Kinugawa",
-          "min": 9,
-          "max": 14,
+          "min": 12.0,
+          "max": 17.3,
           "note": null,
-          "observed": {
-            "condition": "Rain",
-            "min": 12.0,
-            "max": 17.3,
-            "feelsMin": 10.9,
-            "feelsMax": 17.2,
-            "rain": 22.8,
-            "rainHours": 13.0,
-            "wind": 8.8,
-            "sunrise": "05:47",
-            "sunset": "17:05"
-          }
+          "feelsMin": 10.9,
+          "feelsMax": 17.2,
+          "condition": "Rain",
+          "wind": 8.8,
+          "sunrise": "05:47",
+          "sunset": "17:05"
         },
         {
           "location": "Yumoto",
-          "min": 9,
-          "max": 16,
+          "min": 5.8,
+          "max": 11.7,
           "note": null,
-          "observed": {
-            "condition": "Rain",
-            "min": 5.8,
-            "max": 11.7,
-            "feelsMin": 1.1,
-            "feelsMax": 9.6,
-            "rain": 25.9,
-            "rainHours": 15.0,
-            "wind": 24.0,
-            "sunrise": "05:49",
-            "sunset": "17:07"
-          }
+          "feelsMin": 1.1,
+          "feelsMax": 9.6,
+          "condition": "Rain",
+          "wind": 24.0,
+          "sunrise": "05:49",
+          "sunset": "17:07"
         }
       ],
       "summary": "Gary will join us in Nikko/Kinugawa Onsen from dinner onwards"
@@ -1072,21 +1042,15 @@
       "temperature": [
         {
           "location": "Kinugawa",
-          "min": 6,
-          "max": 18,
+          "min": 12.4,
+          "max": 20.7,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 12.4,
-            "max": 20.7,
-            "feelsMin": 11.0,
-            "feelsMax": 20.0,
-            "rain": 0.1,
-            "rainHours": 1.0,
-            "wind": 10.7,
-            "sunrise": "05:48",
-            "sunset": "17:04"
-          }
+          "feelsMin": 11.0,
+          "feelsMax": 20.0,
+          "condition": "Light drizzle",
+          "wind": 10.7,
+          "sunrise": "05:48",
+          "sunset": "17:04"
         },
         {
           "location": "Aizu",
@@ -1264,21 +1228,15 @@
         },
         {
           "location": "Urabandai",
-          "min": 8,
-          "max": 16,
+          "min": 6.0,
+          "max": 14.9,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 6.0,
-            "max": 14.9,
-            "feelsMin": 4.1,
-            "feelsMax": 13.1,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 8.9,
-            "sunrise": "05:50",
-            "sunset": "16:59"
-          }
+          "feelsMin": 4.1,
+          "feelsMax": 13.1,
+          "condition": "Overcast",
+          "wind": 8.9,
+          "sunrise": "05:50",
+          "sunset": "16:59"
         }
       ],
       "summary": "donaludo Pension - Pay at the hotel. Please prepare 5500JPY in cash."
@@ -1373,57 +1331,39 @@
       "temperature": [
         {
           "location": "Urabandai",
-          "min": 9,
-          "max": 16,
+          "min": 8.5,
+          "max": 16.1,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 8.5,
-            "max": 16.1,
-            "feelsMin": 6.7,
-            "feelsMax": 14.8,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 12.9,
-            "sunrise": "05:51",
-            "sunset": "16:58"
-          }
+          "feelsMin": 6.7,
+          "feelsMax": 14.8,
+          "condition": "Overcast",
+          "wind": 12.9,
+          "sunrise": "05:51",
+          "sunset": "16:58"
         },
         {
           "location": "Azuma",
-          "min": null,
-          "max": null,
-          "note": "?? Expected lower than 9-16",
-          "observed": {
-            "condition": "Overcast",
-            "min": 3.9,
-            "max": 12.6,
-            "feelsMin": 0.5,
-            "feelsMax": 10.4,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 15.2,
-            "sunrise": "05:50",
-            "sunset": "16:57"
-          }
+          "min": 3.9,
+          "max": 12.6,
+          "note": null,
+          "feelsMin": 0.5,
+          "feelsMax": 10.4,
+          "condition": "Overcast",
+          "wind": 15.2,
+          "sunrise": "05:50",
+          "sunset": "16:57"
         },
         {
           "location": "Fukushima",
-          "min": 12,
-          "max": 19,
+          "min": 8.8,
+          "max": 23.4,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 8.8,
-            "max": 23.4,
-            "feelsMin": 7.7,
-            "feelsMax": 23.2,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 10.4,
-            "sunrise": "05:49",
-            "sunset": "16:56"
-          }
+          "feelsMin": 7.7,
+          "feelsMax": 23.2,
+          "condition": "Overcast",
+          "wind": 10.4,
+          "sunrise": "05:49",
+          "sunset": "16:56"
         }
       ],
       "summary": "Buy food for lunch from convenience store in the morning"
@@ -1516,39 +1456,27 @@
       "temperature": [
         {
           "location": "Fukushima",
-          "min": 8,
-          "max": 17,
+          "min": 13.4,
+          "max": 22.5,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 13.4,
-            "max": 22.5,
-            "feelsMin": 12.7,
-            "feelsMax": 22.7,
-            "rain": 1.4,
-            "rainHours": 5.0,
-            "wind": 9.4,
-            "sunrise": "05:50",
-            "sunset": "16:55"
-          }
+          "feelsMin": 12.7,
+          "feelsMax": 22.7,
+          "condition": "Light drizzle",
+          "wind": 9.4,
+          "sunrise": "05:50",
+          "sunset": "16:55"
         },
         {
           "location": "Yonezawa",
-          "min": 3,
-          "max": 16,
+          "min": 9.0,
+          "max": 22.4,
           "note": null,
-          "observed": {
-            "condition": "Light rain",
-            "min": 9.0,
-            "max": 22.4,
-            "feelsMin": 8.1,
-            "feelsMax": 23.7,
-            "rain": 10.3,
-            "rainHours": 8.0,
-            "wind": 16.5,
-            "sunrise": "05:52",
-            "sunset": "16:56"
-          }
+          "feelsMin": 8.1,
+          "feelsMax": 23.7,
+          "condition": "Light rain",
+          "wind": 16.5,
+          "sunrise": "05:52",
+          "sunset": "16:56"
         },
         {
           "location": "Zao Onsen",
@@ -1653,39 +1581,27 @@
         },
         {
           "location": "Mt Zao",
-          "min": null,
-          "max": null,
-          "note": "?? Expected lower than 7-14",
-          "observed": {
-            "condition": "Light rain",
-            "min": -3.8,
-            "max": 2.9,
-            "feelsMin": -8.2,
-            "feelsMax": -0.5,
-            "rain": 8.1,
-            "rainHours": 19.0,
-            "wind": 18.6,
-            "sunrise": "05:52",
-            "sunset": "16:53"
-          }
+          "min": -3.8,
+          "max": 2.9,
+          "note": null,
+          "feelsMin": -8.2,
+          "feelsMax": -0.5,
+          "condition": "Light rain",
+          "wind": 18.6,
+          "sunrise": "05:52",
+          "sunset": "16:53"
         },
         {
           "location": "Yamagata",
-          "min": 11,
-          "max": 19,
+          "min": 6.2,
+          "max": 13.0,
           "note": null,
-          "observed": {
-            "condition": "Rain",
-            "min": 6.2,
-            "max": 13.0,
-            "feelsMin": 3.7,
-            "feelsMax": 12.9,
-            "rain": 9.5,
-            "rainHours": 17.0,
-            "wind": 18.0,
-            "sunrise": "05:52",
-            "sunset": "16:53"
-          }
+          "feelsMin": 3.7,
+          "feelsMax": 12.9,
+          "condition": "Rain",
+          "wind": 18.0,
+          "sunrise": "05:52",
+          "sunset": "16:53"
         }
       ],
       "summary": "See if wanna stop by Nishizao Park\nIf time allows, eat at 栄屋本店 (Hiyashi Ramen)"
@@ -1753,21 +1669,15 @@
       "temperature": [
         {
           "location": "Yamagata",
-          "min": 10,
-          "max": 19,
+          "min": 5.5,
+          "max": 13.1,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 5.5,
-            "max": 13.1,
-            "feelsMin": 3.0,
-            "feelsMax": 9.5,
-            "rain": 0.3,
-            "rainHours": 3.0,
-            "wind": 19.2,
-            "sunrise": "05:53",
-            "sunset": "16:52"
-          }
+          "feelsMin": 3.0,
+          "feelsMax": 9.5,
+          "condition": "Light drizzle",
+          "wind": 19.2,
+          "sunrise": "05:53",
+          "sunset": "16:52"
         }
       ],
       "summary": "If time allows, eat at 栄屋本店 (Hiyashi Ramen)"
@@ -1855,21 +1765,15 @@
       "temperature": [
         {
           "location": "Yamagata",
-          "min": 10,
-          "max": 19,
+          "min": 7.1,
+          "max": 17.7,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 7.1,
-            "max": 17.7,
-            "feelsMin": 5.6,
-            "feelsMax": 16.2,
-            "rain": 0.2,
-            "rainHours": 2.0,
-            "wind": 16.2,
-            "sunrise": "05:54",
-            "sunset": "16:51"
-          }
+          "feelsMin": 5.6,
+          "feelsMax": 16.2,
+          "condition": "Light drizzle",
+          "wind": 16.2,
+          "sunrise": "05:54",
+          "sunset": "16:51"
         },
         {
           "location": "Ginzan Onsen",
@@ -1978,39 +1882,27 @@
         },
         {
           "location": "Naruko",
-          "min": 9,
-          "max": 18,
+          "min": 6.7,
+          "max": 16.1,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 6.7,
-            "max": 16.1,
-            "feelsMin": 4.1,
-            "feelsMax": 14.7,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 7.7,
-            "sunrise": "05:55",
-            "sunset": "16:47"
-          }
+          "feelsMin": 4.1,
+          "feelsMax": 14.7,
+          "condition": "Overcast",
+          "wind": 7.7,
+          "sunrise": "05:55",
+          "sunset": "16:47"
         },
         {
           "location": "Sendai",
-          "min": 12,
-          "max": 20,
+          "min": 7.3,
+          "max": 18.8,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 7.3,
-            "max": 18.8,
-            "feelsMin": 5.3,
-            "feelsMax": 18.2,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 8.7,
-            "sunrise": "05:53",
-            "sunset": "16:47"
-          }
+          "feelsMin": 5.3,
+          "feelsMax": 18.2,
+          "condition": "Overcast",
+          "wind": 8.7,
+          "sunrise": "05:53",
+          "sunset": "16:47"
         }
       ],
       "summary": "Gary will leave after Ginzan Onsen. Drop him at Sendai Station"
@@ -2116,39 +2008,27 @@
       "temperature": [
         {
           "location": "Sendai",
-          "min": 12,
-          "max": 19,
+          "min": 9.5,
+          "max": 20.1,
           "note": null,
-          "observed": {
-            "condition": "Light rain",
-            "min": 9.5,
-            "max": 20.1,
-            "feelsMin": 8.1,
-            "feelsMax": 20.4,
-            "rain": 4.2,
-            "rainHours": 4.0,
-            "wind": 8.0,
-            "sunrise": "05:54",
-            "sunset": "16:46"
-          }
+          "feelsMin": 8.1,
+          "feelsMax": 20.4,
+          "condition": "Light rain",
+          "wind": 8.0,
+          "sunrise": "05:54",
+          "sunset": "16:46"
         },
         {
           "location": "Matsushima",
-          "min": 11,
-          "max": 19,
+          "min": 10.1,
+          "max": 19.8,
           "note": null,
-          "observed": {
-            "condition": "Light rain",
-            "min": 10.1,
-            "max": 19.8,
-            "feelsMin": 8.4,
-            "feelsMax": 20.9,
-            "rain": 3.2,
-            "rainHours": 4.0,
-            "wind": 10.9,
-            "sunrise": "05:54",
-            "sunset": "16:45"
-          }
+          "feelsMin": 8.4,
+          "feelsMax": 20.9,
+          "condition": "Light rain",
+          "wind": 10.9,
+          "sunrise": "05:54",
+          "sunset": "16:45"
         }
       ],
       "summary": null
@@ -2248,39 +2128,27 @@
       "temperature": [
         {
           "location": "Sendai",
-          "min": 11,
-          "max": 20,
+          "min": 7.2,
+          "max": 20.8,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 7.2,
-            "max": 20.8,
-            "feelsMin": 5.3,
-            "feelsMax": 19.7,
-            "rain": 0.1,
-            "rainHours": 1.0,
-            "wind": 9.0,
-            "sunrise": "05:55",
-            "sunset": "16:45"
-          }
+          "feelsMin": 5.3,
+          "feelsMax": 19.7,
+          "condition": "Light drizzle",
+          "wind": 9.0,
+          "sunrise": "05:55",
+          "sunset": "16:45"
         },
         {
           "location": "Kinugawa",
-          "min": 8,
-          "max": 18,
+          "min": 8.4,
+          "max": 19.9,
           "note": null,
-          "observed": {
-            "condition": "Mainly clear",
-            "min": 8.4,
-            "max": 19.9,
-            "feelsMin": 5.7,
-            "feelsMax": 17.6,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 15.5,
-            "sunrise": "05:58",
-            "sunset": "16:51"
-          }
+          "feelsMin": 5.7,
+          "feelsMax": 17.6,
+          "condition": "Mainly clear",
+          "wind": 15.5,
+          "sunrise": "05:58",
+          "sunset": "16:51"
         }
       ],
       "summary": "Alternative: Wabisuke (Seri Nabe)"
@@ -2374,21 +2242,15 @@
       "temperature": [
         {
           "location": "Kinugawa",
-          "min": 5,
-          "max": 17,
+          "min": 7.3,
+          "max": 17.0,
           "note": null,
-          "observed": {
-            "condition": "Light drizzle",
-            "min": 7.3,
-            "max": 17.0,
-            "feelsMin": 5.6,
-            "feelsMax": 16.7,
-            "rain": 0.1,
-            "rainHours": 1.0,
-            "wind": 9.6,
-            "sunrise": "05:59",
-            "sunset": "16:50"
-          }
+          "feelsMin": 5.6,
+          "feelsMax": 16.7,
+          "condition": "Light drizzle",
+          "wind": 9.6,
+          "sunrise": "05:59",
+          "sunset": "16:50"
         },
         {
           "location": "Chuzenji",
@@ -2491,57 +2353,39 @@
       "temperature": [
         {
           "location": "Kinugawa",
-          "min": 6,
-          "max": 14,
+          "min": 7.7,
+          "max": 17.5,
           "note": null,
-          "observed": {
-            "condition": "Light rain",
-            "min": 7.7,
-            "max": 17.5,
-            "feelsMin": 6.2,
-            "feelsMax": 17.3,
-            "rain": 2.5,
-            "rainHours": 4.0,
-            "wind": 10.0,
-            "sunrise": "06:00",
-            "sunset": "16:49"
-          }
+          "feelsMin": 6.2,
+          "feelsMax": 17.3,
+          "condition": "Light rain",
+          "wind": 10.0,
+          "sunrise": "06:00",
+          "sunset": "16:49"
         },
         {
           "location": "Nikko",
-          "min": 6,
-          "max": 15,
+          "min": 7.9,
+          "max": 16.6,
           "note": null,
-          "observed": {
-            "condition": "Light rain",
-            "min": 7.9,
-            "max": 16.6,
-            "feelsMin": 6.4,
-            "feelsMax": 15.5,
-            "rain": 5.5,
-            "rainHours": 7.0,
-            "wind": 8.0,
-            "sunrise": "06:00",
-            "sunset": "16:50"
-          }
+          "feelsMin": 6.4,
+          "feelsMax": 15.5,
+          "condition": "Light rain",
+          "wind": 8.0,
+          "sunrise": "06:00",
+          "sunset": "16:50"
         },
         {
           "location": "Tokyo",
-          "min": 12,
-          "max": 20,
+          "min": 12.4,
+          "max": 20.9,
           "note": null,
-          "observed": {
-            "condition": "Overcast",
-            "min": 12.4,
-            "max": 20.9,
-            "feelsMin": 10.5,
-            "feelsMax": 19.8,
-            "rain": 0.0,
-            "rainHours": 0.0,
-            "wind": 18.7,
-            "sunrise": "05:58",
-            "sunset": "16:51"
-          }
+          "feelsMin": 10.5,
+          "feelsMax": 19.8,
+          "condition": "Overcast",
+          "wind": 18.7,
+          "sunrise": "05:58",
+          "sunset": "16:51"
         }
       ],
       "summary": "Return the car"
@@ -2629,21 +2473,15 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 14,
-          "max": 20,
+          "min": 13.5,
+          "max": 19.7,
           "note": null,
-          "observed": {
-            "condition": "Drizzle",
-            "min": 13.5,
-            "max": 19.7,
-            "feelsMin": 9.3,
-            "feelsMax": 16.8,
-            "rain": 1.6,
-            "rainHours": 3.0,
-            "wind": 27.4,
-            "sunrise": "05:59",
-            "sunset": "16:50"
-          }
+          "feelsMin": 9.3,
+          "feelsMax": 16.8,
+          "condition": "Drizzle",
+          "wind": 27.4,
+          "sunrise": "05:59",
+          "sunset": "16:50"
         }
       ],
       "summary": null
