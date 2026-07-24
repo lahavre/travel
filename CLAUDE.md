@@ -31,6 +31,13 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   other. For a trip being planned for real, ask the traveller to confirm the
   amenities a booking rarely states — laundry above all — instead of leaving them
   unknown.
+- **Weather comes from a verified coordinate or not at all.** `tools/fetch_weather.py`
+  fills the forecast from Open-Meteo (free, no key, so the numbers are baked into
+  `data.json` and the site stays static). Only add a place to its `PLACES` table once
+  the geocoder's answer has been checked against the region it should be in — an
+  onsen or a summit often resolves to a same-named town elsewhere, or a valley
+  hundreds of metres below, and a few hundred metres of altitude is a few degrees.
+  Four Japan places are deliberately left blank for exactly this reason.
 - **Every section is optional.** Missing or empty sections must render a placeholder,
   never throw. Test a sparse trip after touching a renderer.
 - **The repo and the site are public.** Booking confirmations carry door codes,
@@ -73,6 +80,11 @@ one entry to `trips.json`.
 
 Ask for the booking confirmations rather than transcribing details from memory or a
 spreadsheet, and read every one before filling in a stay.
+
+Then run `python tools/fetch_weather.py <trip>/data.json` for the forecast, adding
+each place to its `PLACES` table first. Open-Meteo only forecasts about 16 days, so
+a trip planned further out has no weather until closer to departure — re-run it then.
+`tools/` also holds the page scaffolder and the Japan workbook migration.
 
 Commit locally as work completes. **Push only when explicitly asked.** Commits use
 this repo's own git identity (`lahavre` / the GitHub noreply address) — the account
