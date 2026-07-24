@@ -213,10 +213,12 @@ const Trip = (() => {
    * the one being checked into that evening. Anything before the new place opens for
    * check-in still refers to the old one.
    */
-  function stayAt(trip, day, time) {
+  function stayAt(trip, day, time, arrivingPreferred) {
     const stays = trip.accommodation || [];
     const arriving = stays.find((a) => a.checkIn === day.date);
     const leaving = stays.find((a) => a.checkOut === day.date);
+    // Heading *to* the hotel means tonight's, whatever the hour.
+    if (arrivingPreferred && arriving) return arriving;
     if (arriving && leaving && time && arriving.checkInFrom && time < arriving.checkInFrom) {
       return leaving;
     }
@@ -226,8 +228,61 @@ const Trip = (() => {
   /** The place an activity's own wording names — "Dinner at Ichiran Ramen". */
   function venueFrom(proseLines) {
     for (const line of proseLines) {
-      const m = /\b(?:at|@)\s+([^.\n]+)/i.exec(line);
-      if (m) return m[1].trim();
+      // Take the rest of the line and let cleanPlace find the sentence end, so
+      // "at Mt. Otakamori" is not cut short at the abbreviation.
+      const m = /\b(?:at|@)\s+(.+)$/i.exec(line);
+      if (m) return cleanPlace(m[1]);
+    }
+    return null;
+  }
+
+  /**
+   * Trim a place name out of the surrounding sentence.
+   *
+   * Drops a trailing "via …", anything after a sentence break, and a closing
+   * bracket that holds opening hours or a price rather than a location — so
+   * "Explore Aizu Bukeyashiki Museum (8.30am - 5pm, 850JPY)" keeps the museum but
+   * "Hotel (Kinugawa Onsen)" keeps its town.
+   */
+  function cleanPlace(text) {
+    // Protect the full stop in "Mt. Otakamori" before splitting on sentences,
+    // or the place becomes "Mt".
+    const GUARD = " ";
+    let s = String(text || "").replace(/\b(Mt|St|Jr|Sr|Dr|Ave|Rd|No)\./gi, `$1${GUARD}`);
+    s = s.split(/\.(?:\s|$)/)[0].split(GUARD).join(".");
+    s = s.replace(/\s+via\s+.*$/i, "");
+    s = s.replace(/\s*\(([^)]*)\)\s*$/, (m, inner) =>
+      /\d|jpy|yen|am\b|pm\b|free|alternative/i.test(inner) ? "" : m
+    );
+    return s.replace(/[\s,.;:?!-]+$/, "").trim();
+  }
+
+  // "Travel to Kitakata", "Explore Matsushima" — an activity that states where it is.
+  const GOES_TO = /^\s*(?:travel|drive|head|go|walk|move)\s+(?:back\s+)?to\s+(.+)$/i;
+  const HAPPENS_AT = /^\s*(?:explore|hike|hiking|trekking|visit|check[- ]?in(?:\s+at)?)\s+(.+)$/i;
+  // Being somewhere at the start or end of a day means being at the accommodation.
+  const AT_THE_STAY = /^\s*(?:wake up|sleep|breakfast|check[- ]?out|collect luggage|rest)\b/i;
+
+  /**
+   * Where an activity leaves the traveller.
+   *
+   * Used to infer the start of a journey the plan did not spell out: the previous
+   * activity says where you are. Returns null rather than a guess when the wording
+   * names no place — a wrong direction link is worse than none.
+   */
+  function placeOf(text, trip, day, time) {
+    for (const line of String(text || "").split("\n")) {
+      if (ROUTE_STEP.test(line)) continue;
+      const goes = GOES_TO.exec(line);
+      if (goes) return cleanPlace(goes[1]);
+      const at = HAPPENS_AT.exec(line);
+      if (at) return cleanPlace(at[1]);
+      const venue = venueFrom([line]);
+      if (venue) return venue;
+      if (AT_THE_STAY.test(line)) {
+        const stay = stayAt(trip, day, time);
+        if (stay) return stay.address || stay.name;
+      }
     }
     return null;
   }
@@ -241,8 +296,9 @@ const Trip = (() => {
    * The label stays readable while the query is precise.
    */
   function resolveStop(stop, trip, day, ctx) {
-    if (STAY_WORD.test(stop) && day) {
-      const stay = stayAt(trip, day, ctx && ctx.time);
+    // "Hotel", or a longer phrase like "Hotel (Kinugawa Onsen) - K's House Nikko".
+    if (day && (STAY_WORD.test(stop) || /^hotel\b/i.test(stop))) {
+      const stay = stayAt(trip, day, ctx && ctx.time, ctx && ctx.arriving);
       if (stay) return { label: stay.name || stop, query: stay.address || stay.name || stop };
     }
 
@@ -277,18 +333,23 @@ const Trip = (() => {
    * what Maps returns live, so the page shows "A to B" with a link and keeps the
    * original wording on hover.
    */
-  function activityRoutes(text, trip, day, time, prevText) {
+  function activityRoutes(text, trip, day, time, earlier) {
     const lines = String(text || "").split("\n");
     const plain = lines.filter((l) => !ROUTE_STEP.test(l));
-    // You set off from wherever the last activity left you, and arrive at the place
-    // this one names — so an unnamed origin looks back a step, a destination does not.
-    const venue = venueFrom(plain);
-    const ctx = {
-      time,
-      venue,
-      originVenue:
-        venueFrom(String(prevText || "").split("\n").filter((l) => !ROUTE_STEP.test(l))) || venue,
+    // You set off from wherever the day last left you, and arrive at the place this
+    // activity names — so an unnamed origin looks back, a destination does not.
+    // Some activities ("Lunch (Ita Soba)") name nowhere, so keep looking back.
+    const before = Array.isArray(earlier) ? earlier : earlier ? [earlier] : [];
+    const lastKnownPlace = () => {
+      for (const t of before) {
+        const p = placeOf(t, trip, day, time);
+        if (p) return p;
+      }
+      return null;
     };
+
+    const venue = venueFrom(plain);
+    const ctx = { time, venue, originVenue: lastKnownPlace() || venue };
     const routes = [];
     const byKey = new Map();
 
@@ -324,13 +385,34 @@ const Trip = (() => {
       routes.push(route);
     });
 
+    // No legs written out, but the activity says where it is going — a self-drive
+    // plan mostly reads "Travel to Kitakata". Take the destination from its own
+    // wording and the start from the previous activity, and link that.
+    if (!routes.length) {
+      const goes = plain.map((l) => GOES_TO.exec(l)).find(Boolean);
+      const origin = lastKnownPlace();
+      if (goes && origin) {
+        const from = resolveStop(origin, trip, day, ctx);
+        const to = resolveStop(cleanPlace(goes[1]), trip, day, { ...ctx, arriving: true });
+        if (from.query && to.query && from.query.toLowerCase() !== to.query.toLowerCase()) {
+          routes.push({
+            from,
+            to,
+            url: mapsRoute([from.query, to.query], trip.defaultTravelMode || null, trip.destination),
+            detail: [],
+            inferred: true,
+          });
+        }
+      }
+    }
+
     return { plain, routes };
   }
 
   /** Activity text, with its travel legs collapsed into linked "A to B" summaries. */
-  function activityHtml(text, trip, day, time, prevText) {
+  function activityHtml(text, trip, day, time, earlier) {
     if (!text) return "";
-    const { plain, routes } = activityRoutes(text, trip, day, time, prevText);
+    const { plain, routes } = activityRoutes(text, trip, day, time, earlier);
 
     const prose = plain.map((l) => escapeHtml(l)).join("<br>");
     const legs = routes
@@ -676,7 +758,7 @@ const Trip = (() => {
               trip,
               day,
               it.time,
-              i > 0 ? day.items[i - 1].activity : null
+              day.items.slice(0, i).map((p) => p.activity).reverse()
             )}</div>
             ${it.remarks ? `<div class="timeline-meta">${multiline(it.remarks)}</div>` : ""}
             ${travelChip(it.travel, trip)}

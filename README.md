@@ -133,10 +133,20 @@ Endpoints are resolved rather than taken literally, so a plan can stay loosely w
 | `Store`, `Restaurant` | the venue the activity names (“Dinner at …”) | the activity |
 
 A stay word means the property in use *at that hour* — on a moving day, anything
-before the new check-in still refers to the place being left. An unnamed origin looks
-back to the previous activity, since that is where the traveller actually is; a
-destination does not. Airports match on their own name or code, never the city, so
-“Tokyo Station” is not mistaken for Tokyo Haneda.
+before the new check-in still refers to the place being left, while heading *to* the
+hotel always means tonight's. Airports match on their own name or code, never the
+city, so “Tokyo Station” is not mistaken for Tokyo Haneda.
+
+**Legs with no notation.** An activity that simply says `Travel to Kitakata` also gets
+a link: the destination comes from its own wording, and the start from the last
+activity that named a place — walking back through the day until one does, since
+`Lunch (Ita Soba)` names nowhere. `Wake up` or `Check out` counts as being at the
+accommodation. Nothing is linked unless both ends resolve; a wrong direction link is
+worse than none.
+
+Write activities so this can work: `Travel to <place>`, `Explore <place>`,
+`Dinner at <place>`. Opening hours and prices in brackets are ignored
+(`Explore Aizu Bukeyashiki Museum (8.30am - 5pm, 850JPY)` resolves to the museum).
 
 **Maps and travel times.** Any activity can carry a `travel` block
 (`from`, `to`, `mode`, `duration`, `distance`, `cost`) which renders as a line with a

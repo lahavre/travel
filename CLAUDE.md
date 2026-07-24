@@ -48,6 +48,7 @@ Static travel-itinerary site, published via GitHub Pages from `main`
 | Hotel check-in / out | `From 15:00 until 19:00` and `Until 11:00` — "until" in both, never "to" |
 | Flight check-in | 3 hours before departure by default |
 | Travel legs | `A -(Tokyo Monorail)> B -(Walk - 15 mins)> Hotel` — renders as "A to Hotel" + Maps link |
+| Activities | `Travel to X` / `Explore X` / `Dinner at X` — the wording is what makes a leg linkable |
 | Spelling | British — "traveller", "colour" |
 
 Time-of-day colour bands (morning amber, afternoon blue, evening violet) are CSS
