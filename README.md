@@ -113,6 +113,21 @@ checked; write "N/A" only once you know the property genuinely does not offer it
 `data.json`** — the repository and the published site are public. Booking confirmations
 routinely contain all of these; copy across the property details only.
 
+**Route notation.** Write a leg inside an activity as `A -(Mode)> B -(Mode)> C` and the
+day page turns that line into a Google Maps directions link, keeping the text as
+written. Number alternatives (`1.` / `2.`) and each gets its own link; a trailing
+`(500JPY)` is left out of the route.
+
+The mode words decide how Maps routes it: a rail or bus line gives transit, `Walk`
+or `Hike` gives walking, `Drive`/`Taxi` gives driving. Intermediate stops are passed
+as waypoints **except** for transit, which Google cannot route with waypoints — there
+the two ends are sent and Maps works out the connection, while the written line still
+names the intended lines.
+
+A stop written as `Hotel` or `Airbnb` resolves to the stay booked for that night from
+`accommodation`, so the link lands on the property's real address instead of searching
+for the word. Name real places at both ends: a placeholder like `Store` geocodes badly.
+
 **Maps and travel times.** Any activity can carry a `travel` block
 (`from`, `to`, `mode`, `duration`, `distance`, `cost`) which renders as a line with a
 **Directions ↗** link; the same link appears for the day's driving leg and on every

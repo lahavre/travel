@@ -182,7 +182,13 @@
         },
         {
           "time": "20:00",
-          "activity": "Check in, then dinner near the hotel",
+          "activity": "Travel to the hotel\n1. Airport (XXX) -(Metro Line)> Central Station -(Walk - 10 mins)> Hotel (500)\n2. Airport (XXX) -(Airport Bus)> Hotel (900)",
+          "costs": { "transport": 500 },
+          "remarks": "Any line written as A -(Mode)> B gets a Google Maps directions link automatically. \"Hotel\" or \"Airbnb\" resolves to that night's stay from `accommodation`."
+        },
+        {
+          "time": "21:00",
+          "activity": "Dinner near the hotel",
           "costs": { "food": 2500 },
           "remarks": null
         }

@@ -160,6 +160,94 @@ const Trip = (() => {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
   }
 
+  /**
+   * Directions through intermediate stops.
+   *
+   * Google Maps cannot route transit *with* waypoints — asking for both returns
+   * "could not calculate transit directions". For a train or bus route the
+   * interchanges are the plan's suggestion anyway, so we pass the two ends and
+   * let Maps work out the live connection; the written line still names the
+   * intended lines.
+   */
+  function mapsRoute(stops, mode, region) {
+    const q = (s) => (region && !s.toLowerCase().includes(region.toLowerCase()) ? `${s}, ${region}` : s);
+    const params = new URLSearchParams({
+      api: "1",
+      origin: q(stops[0]),
+      destination: q(stops[stops.length - 1]),
+    });
+    const via = mode === "transit" ? [] : stops.slice(1, -1);
+    if (via.length) params.set("waypoints", via.map(q).join("|"));
+    if (mode) params.set("travelmode", mode);
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
+  }
+
+  // "Haneda -(Tokyo Monorail)> Hamamatsuchō Station -(Walk - 15 mins)> Hotel (500JPY)"
+  const ROUTE_STEP = /\s*-\(([^)]*)\)>\s*/;
+
+  /**
+   * Pick a travel mode from the leg descriptions the route names. Checked in
+   * priority order: a route that mixes a train with a walk to the station is a
+   * transit route, while one that mixes a ropeway with a hike is best walked —
+   * Google cannot route an aerial ropeway at all.
+   */
+  function routeMode(modes) {
+    const all = modes.join(" ").toLowerCase();
+    if (/\b(line|train|monorail|subway|metro|shinkansen|bus|ferry|tram)\b/.test(all)) return "transit";
+    if (/\b(drive|driving|car|taxi)\b/.test(all)) return "driving";
+    if (/\b(walk|hike|hiking|trek|trekking|foot)/.test(all)) return "walking";
+    if (/\b(ropeway|cable ?car|gondola|funicular|lift)\b/.test(all)) return "transit";
+    return null;
+  }
+
+  // Words a plan uses for "the place we are staying" rather than naming it.
+  const STAY_WORD = /^(hotel|airbnb|hostel|ryokan|guest ?house|pension|apartment|accommodation|the hotel)$/i;
+
+  /**
+   * Turn one activity line written in the arrow notation into a linked route.
+   * Returns null when the line is ordinary prose. "Hotel" resolves to the stay
+   * booked for that night, so the link lands on the real address rather than
+   * searching for the word "hotel".
+   */
+  function routeLine(line, trip, day) {
+    if (!ROUTE_STEP.test(line)) return null;
+
+    // Keep any "1." / "2." numbering and a trailing "(500JPY)" out of the stops.
+    const numbering = /^\s*(\d+[.)]\s*)/.exec(line);
+    let body = numbering ? line.slice(numbering[0].length) : line;
+    let trailing = "";
+    const cost = /\s*(\([^()]*\))\s*$/.exec(body);
+    if (cost && !ROUTE_STEP.test(cost[1])) {
+      trailing = cost[1];
+      body = body.slice(0, cost.index);
+    }
+
+    const parts = body.split(ROUTE_STEP);
+    // split() with one capture group yields stop, mode, stop, mode, stop…
+    const stops = parts.filter((_, i) => i % 2 === 0).map((s) => s.trim()).filter(Boolean);
+    const modes = parts.filter((_, i) => i % 2 === 1).map((s) => s.trim());
+    if (stops.length < 2) return null;
+
+    // "Hotel" / "Airbnb" mean the stay booked for that night — send Maps to its
+    // real address rather than letting it search for the word.
+    const stay = day ? stayOn(day.date, trip.accommodation) : null;
+    const resolve = (s) => (STAY_WORD.test(s) && stay ? stay.address || stay.name || s : s);
+
+    const url = mapsRoute(stops.map(resolve), routeMode(modes), trip.destination);
+    return `${numbering ? escapeHtml(numbering[1]) : ""}${escapeHtml(body.trim())}${
+      trailing ? ` ${escapeHtml(trailing)}` : ""
+    } <a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a>`;
+  }
+
+  /** Activity text with any route lines turned into Google Maps links. */
+  function activityHtml(text, trip, day) {
+    if (!text) return "";
+    return String(text)
+      .split("\n")
+      .map((line) => routeLine(line, trip, day) || escapeHtml(line))
+      .join("<br>");
+  }
+
   /** A "Tokyo to Kinugawa Onsen" style route string, split into its two ends. */
   function splitRoute(route) {
     const m = /^(.*?)\s+to\s+(.*)$/i.exec(route || "");
@@ -486,7 +574,7 @@ const Trip = (() => {
         <tr>
           <td class="plan-time">${escapeHtml(it.time || "")}</td>
           <td class="plan-activity">
-            <div class="timeline-activity">${multiline(it.activity)}</div>
+            <div class="timeline-activity">${activityHtml(it.activity, trip, day)}</div>
             ${it.remarks ? `<div class="timeline-meta">${multiline(it.remarks)}</div>` : ""}
             ${travelChip(it.travel, trip)}
             ${
@@ -997,5 +1085,8 @@ const Trip = (() => {
     }
   }
 
-  return { page, multiline, escapeHtml, home, local, toHome, dayCosts, checkIn, placeholder, ROOT };
+  return {
+    page, multiline, escapeHtml, home, local, toHome, dayCosts, checkIn,
+    activityHtml, routeLine, placeholder, ROOT,
+  };
 })();
