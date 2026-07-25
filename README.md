@@ -83,13 +83,31 @@ empty.
 Each entry carries one forecast: `min`/`max`, `feelsMin`/`feelsMax`, `condition`,
 `wind`, `sunrise` and `sunset`. The last three columns appear only once some entry
 has them, so a trip with nothing but temperatures still renders. `note` covers a
-place with no forecast — it is never filled with a guess.
+place with no forecast — it is never filled with a guess. Each place name links to a
+full forecast (a Google weather card, readable by anyone).
 
 Rainfall totals are deliberately absent: for planning, knowing the day reads "Light
 rain" or "Rain" is what matters, not the millimetres.
 
-Fill it with `tools/fetch_weather.py` (see below), and re-run as departure nears —
-a forecast a fortnight out is barely better than a seasonal average.
+**Source and refresh.** The forecast comes from [Open-Meteo](https://open-meteo.com) —
+free, no API key, and it sends `Access-Control-Allow-Origin: *`, so the browser can
+call it directly. `tools/fetch_weather.py` bakes a forecast into `data.json` for a
+static first load; the **Refresh** button on the day page then re-fetches live and
+caches the result in `localStorage`. A static site can't write back to `data.json`,
+so a refresh updates that browser only — re-run the script and commit to change what
+everyone sees. Refresh honestly whenever, and especially as departure nears: a
+forecast a fortnight out is barely better than a seasonal average, and Open-Meteo only
+forecasts ~16 days, beyond which Refresh leaves the baked data untouched.
+
+`weatherPlaces` (a `{name: {lat, lon}}` table) and `weatherTimezone` drive that live
+fetch; the script writes them from its verified coordinates.
+
+Other sources considered: Open-Meteo won on being keyless and CORS-enabled, which a
+public static site needs. WeatherAPI, OpenWeatherMap, Visual Crossing and Tomorrow.io
+all forecast comparably but require an API key — unusable here, since a key in a public
+repo is exposed. A national service (JMA, the Met Office, NWS) is authoritative but
+single-country; Open-Meteo blends several models worldwide, so the same code serves any
+destination.
 
 **The overview table.** Each day renders as three colour-banded rows — morning,
 afternoon, evening — with the activity and its own remark sharing the band's tint. A

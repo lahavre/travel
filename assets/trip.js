@@ -626,6 +626,129 @@ const Trip = (() => {
     });
   }
 
+  // WMO weather codes, in the wording a traveller would use. Mirrors the table in
+  // tools/fetch_weather.py so a live refresh reads the same as the baked-in data.
+  const WMO = {
+    0: "Clear", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
+    45: "Fog", 48: "Freezing fog",
+    51: "Light drizzle", 53: "Drizzle", 55: "Heavy drizzle",
+    56: "Freezing drizzle", 57: "Freezing drizzle",
+    61: "Light rain", 63: "Rain", 65: "Heavy rain",
+    66: "Freezing rain", 67: "Freezing rain",
+    71: "Light snow", 73: "Snow", 75: "Heavy snow", 77: "Snow grains",
+    80: "Light showers", 81: "Showers", 82: "Heavy showers",
+    85: "Snow showers", 86: "Heavy snow showers",
+    95: "Thunderstorm", 96: "Thunderstorm with hail", 99: "Thunderstorm with hail",
+  };
+
+  const DAILY_FIELDS =
+    "weathercode,temperature_2m_max,temperature_2m_min," +
+    "apparent_temperature_max,apparent_temperature_min,windspeed_10m_max,sunrise,sunset";
+
+  function weatherCoords(trip, location) {
+    return (trip.weatherPlaces || {})[location] || null;
+  }
+
+  /** A human-readable forecast page for a place — everyone can read a Google card. */
+  function forecastLink(trip, location) {
+    const q = trip.destination && !location.toLowerCase().includes(trip.destination.toLowerCase())
+      ? `${location}, ${trip.destination}`
+      : location;
+    return `https://www.google.com/search?q=${encodeURIComponent("weather forecast " + q)}`;
+  }
+
+  // A refresh writes into localStorage, since a static page can't save back to
+  // data.json. Keyed by trip slug; each value is {fetchedAt, byKey:{"place|date":{…}}}.
+  function weatherCacheKey(trip) {
+    return `weather:${trip.slug || trip.title || "trip"}`;
+  }
+  function readWeatherCache(trip) {
+    try {
+      return JSON.parse(localStorage.getItem(weatherCacheKey(trip))) || { byKey: {} };
+    } catch (e) {
+      return { byKey: {} };
+    }
+  }
+  function writeWeatherCache(trip, cache) {
+    try {
+      localStorage.setItem(weatherCacheKey(trip), JSON.stringify(cache));
+    } catch (e) {
+      /* private mode or quota — the page still works from the baked data */
+    }
+  }
+
+  /** Overlay any refreshed forecast held for this place and date onto the entry. */
+  function withFreshWeather(trip, entry, date, cache) {
+    const fresh = cache.byKey[`${entry.location}|${date}`];
+    return fresh ? { ...entry, ...fresh } : entry;
+  }
+
+  /**
+   * Re-fetch the forecast for every place in the trip and cache it. Runs in the
+   * browser against Open-Meteo, which sends `Access-Control-Allow-Origin: *`, so no
+   * key and no proxy are needed — the forecast endpoint for dates from today on, the
+   * archive for dates already past.
+   *
+   * All places go in one request (Open-Meteo takes comma-separated coordinates and
+   * returns an array in the same order): one round-trip rather than a dozen, which
+   * also sidesteps the rate limit that dropped places when they were fetched in
+   * parallel. Beyond the ~16-day forecast horizon the whole request 400s and the
+   * baked-in data stands.
+   */
+  async function refreshWeather(trip) {
+    const names = Object.keys(trip.weatherPlaces || {});
+    const days = trip.days || [];
+    if (!names.length || !days.length) return { updated: 0 };
+
+    const start = days[0].date;
+    const end = days[days.length - 1].date;
+    const today = new Date().toISOString().slice(0, 10);
+    const base = end < today
+      ? "https://archive-api.open-meteo.com/v1/archive"
+      : "https://api.open-meteo.com/v1/forecast";
+    const tz = trip.weatherTimezone || "auto";
+    const lats = names.map((n) => trip.weatherPlaces[n].lat).join(",");
+    const lons = names.map((n) => trip.weatherPlaces[n].lon).join(",");
+
+    const res = await fetch(
+      `${base}?latitude=${lats}&longitude=${lons}` +
+        `&start_date=${start}&end_date=${end}` +
+        `&daily=${DAILY_FIELDS}&timezone=${encodeURIComponent(tz)}`
+    );
+    // 400 "out of allowed range" beyond the forecast horizon is not an error to
+    // shout about; a dropped connection rejects `fetch` itself and does surface.
+    if (!res.ok) return { updated: 0 };
+
+    const results = await res.json();
+    const list = Array.isArray(results) ? results : [results];
+    const cache = readWeatherCache(trip);
+    let updated = 0;
+
+    list.forEach((r, idx) => {
+      const name = names[idx];
+      const d = r.daily;
+      (d.time || []).forEach((date, i) => {
+        if (d.temperature_2m_max[i] === null) return;
+        cache.byKey[`${name}|${date}`] = {
+          min: Math.round(d.temperature_2m_min[i] * 10) / 10,
+          max: Math.round(d.temperature_2m_max[i] * 10) / 10,
+          feelsMin: Math.round(d.apparent_temperature_min[i] * 10) / 10,
+          feelsMax: Math.round(d.apparent_temperature_max[i] * 10) / 10,
+          condition: WMO[d.weathercode[i]] || `code ${d.weathercode[i]}`,
+          wind: Math.round(d.windspeed_10m_max[i] * 10) / 10,
+          sunrise: d.sunrise[i].slice(11, 16),
+          sunset: d.sunset[i].slice(11, 16),
+          note: null,
+        };
+        updated += 1;
+      });
+    });
+
+    cache.fetchedAt = new Date().toISOString();
+    writeWeatherCache(trip, cache);
+    return { updated };
+  }
+
   function renderOverview(trip) {
     if (!has(trip.overview)) return `<h1>High-level itinerary</h1>${placeholder("itinerary")}`;
 
@@ -761,44 +884,72 @@ const Trip = (() => {
 
     // One row per place the day passes through. A planner only ever has a forecast,
     // so there is a single set of figures rather than a comparison. Rainfall totals
-    // are left out — "Light rain" or "Rain" is what a plan turns on.
-    const anyDetail = (day.temperature || []).some((t) => t.condition || t.wind || t.sunrise);
+    // are left out — "Light rain" or "Rain" is what a plan turns on. Any forecast
+    // pulled by the Refresh button (held in localStorage) is overlaid here.
+    const cache = readWeatherCache(trip);
+    const entries = (day.temperature || []).map((t) => withFreshWeather(trip, t, day.date, cache));
+    const anyDetail = entries.some((t) => t.condition || t.wind || t.sunrise);
+    const canRefresh = Object.keys(trip.weatherPlaces || {}).length > 0;
+
+    const weatherRows = entries
+      .map((t) => {
+        const range =
+          t.min === null || t.min === undefined || t.max === null || t.max === undefined
+            ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
+            : `${t.min} to ${t.max} °C${
+                t.feelsMin !== undefined && t.feelsMin !== null
+                  ? `<span class="weather-note">feels ${t.feelsMin} to ${t.feelsMax}</span>`
+                  : ""
+              }`;
+        const place = t.location
+          ? `<a href="${forecastLink(trip, t.location)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+              t.location
+            )}</a>`
+          : "—";
+        return `<tr>
+          <td>${place}</td>
+          <td>${range}</td>
+          ${
+            anyDetail
+              ? `<td>${t.condition ? escapeHtml(t.condition) : "—"}</td>
+                 <td class="num">${t.wind ? `${t.wind} km/h` : "—"}</td>
+                 <td class="weather-note">${
+                   t.sunrise ? `${escapeHtml(t.sunrise)}–${escapeHtml(t.sunset)}` : "—"
+                 }</td>`
+              : ""
+          }
+        </tr>`;
+      })
+      .join("");
+
+    const updatedAt = cache.fetchedAt
+      ? ` · updated ${TravelSite.formatDate(cache.fetchedAt.slice(0, 10), {
+          day: "2-digit",
+          month: "short",
+        })}`
+      : "";
 
     const weather = has(day.temperature)
-      ? `<h2>Weather</h2>
+      ? `<div class="weather-head">
+           <h2>Weather</h2>
+           ${
+             canRefresh
+               ? `<button type="button" class="weather-refresh" data-weather-refresh>↻ Refresh</button>`
+               : ""
+           }
+         </div>
          <div class="table-wrap">
            <table class="weather-table">
              <thead><tr>
                <th>Place</th><th>Temperature</th>
                ${anyDetail ? `<th>Conditions</th><th class="num">Wind</th><th>Daylight</th>` : ""}
              </tr></thead>
-             <tbody>${day.temperature
-               .map((t) => {
-                 const range =
-                   t.min === null || t.min === undefined || t.max === null || t.max === undefined
-                     ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
-                     : `${t.min} to ${t.max} °C${
-                         t.feelsMin !== undefined && t.feelsMin !== null
-                           ? `<span class="weather-note">feels ${t.feelsMin} to ${t.feelsMax}</span>`
-                           : ""
-                       }`;
-                 return `<tr>
-                   <td>${escapeHtml(t.location || "—")}</td>
-                   <td>${range}</td>
-                   ${
-                     anyDetail
-                       ? `<td>${t.condition ? escapeHtml(t.condition) : "—"}</td>
-                          <td class="num">${t.wind ? `${t.wind} km/h` : "—"}</td>
-                          <td class="weather-note">${
-                            t.sunrise ? `${escapeHtml(t.sunrise)}–${escapeHtml(t.sunset)}` : "—"
-                          }</td>`
-                       : ""
-                   }
-                 </tr>`;
-               })
-               .join("")}</tbody>
+             <tbody>${weatherRows}</tbody>
            </table>
-         </div>`
+         </div>
+         <p class="section-note">Forecast from
+           <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
+           Place names link to a full forecast.</p>`
       : "";
 
     return `
@@ -918,12 +1069,38 @@ const Trip = (() => {
 
       main.addEventListener("click", (e) => {
         const link = e.target.closest("a[data-day]");
-        if (!link || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-        const target = trip.days.find((d) => d.day === Number(link.dataset.day));
-        if (!target) return;
-        e.preventDefault();
-        showDay(trip, target, true);
-        document.getElementById("day-panel").scrollIntoView({ block: "start" });
+        if (link && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
+          const target = trip.days.find((d) => d.day === Number(link.dataset.day));
+          if (!target) return;
+          e.preventDefault();
+          showDay(trip, target, true);
+          document.getElementById("day-panel").scrollIntoView({ block: "start" });
+          return;
+        }
+
+        const refresh = e.target.closest("[data-weather-refresh]");
+        if (refresh) {
+          e.preventDefault();
+          if (refresh.disabled) return;
+          refresh.disabled = true;
+          refresh.textContent = "Refreshing…";
+          refreshWeather(trip)
+            .then(({ updated }) => {
+              showDay(trip, dayFromUrl(trip), false);
+              const btn = document.querySelector("[data-weather-refresh]");
+              if (btn && !updated) {
+                btn.textContent = "No forecast yet";
+                setTimeout(() => (btn.textContent = "↻ Refresh"), 2500);
+              }
+            })
+            .catch(() => {
+              const btn = document.querySelector("[data-weather-refresh]");
+              if (btn) {
+                btn.disabled = false;
+                btn.textContent = "Couldn't refresh — retry";
+              }
+            });
+        }
       });
 
       window.addEventListener("popstate", () => showDay(trip, dayFromUrl(trip), false));

@@ -288,6 +288,32 @@ tfoot td {
 .weather-table {
   min-width: 460px;
 }
+.weather-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.weather-head h2 {
+  margin-right: auto;
+}
+.weather-refresh {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.weather-refresh:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.weather-refresh:disabled {
+  color: var(--text-dim);
+  cursor: default;
+}
 .weather-table .weather-note {
   display: block;
   font-size: 0.8rem;

@@ -144,6 +144,22 @@ def main(path, timezone="Asia/Tokyo"):
             entry.pop("observed", None)
             filled += 1
 
+    # A coordinate table so the page can re-fetch the forecast in the browser
+    # (the "Refresh" button) without re-running this script. Only places that
+    # appear in the trip and have verified coordinates go in.
+    used = {
+        entry["location"]
+        for day in days
+        for entry in day.get("temperature") or []
+        if entry.get("location") in PLACES
+    }
+    trip["weatherPlaces"] = {
+        name: {"lat": PLACES[name][0], "lon": PLACES[name][1]}
+        for name in PLACES
+        if name in used
+    }
+    trip["weatherTimezone"] = timezone
+
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(trip, f, ensure_ascii=False, indent=2)
         f.write("\n")

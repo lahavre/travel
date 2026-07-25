@@ -3101,5 +3101,60 @@
       "remarks": null,
       "url": null
     }
-  ]
+  ],
+  "weatherPlaces": {
+    "Tokyo": {
+      "lat": 35.6895,
+      "lon": 139.6917
+    },
+    "Kinugawa": {
+      "lat": 36.8167,
+      "lon": 139.7167
+    },
+    "Yumoto": {
+      "lat": 36.8068,
+      "lon": 139.4235
+    },
+    "Urabandai": {
+      "lat": 37.6895,
+      "lon": 140.0508
+    },
+    "Azuma": {
+      "lat": 37.7219,
+      "lon": 140.2669
+    },
+    "Fukushima": {
+      "lat": 37.75,
+      "lon": 140.4667
+    },
+    "Yonezawa": {
+      "lat": 37.91,
+      "lon": 140.1167
+    },
+    "Mt Zao": {
+      "lat": 38.1415,
+      "lon": 140.4439
+    },
+    "Yamagata": {
+      "lat": 38.2333,
+      "lon": 140.3667
+    },
+    "Naruko": {
+      "lat": 38.7631,
+      "lon": 140.716
+    },
+    "Sendai": {
+      "lat": 38.2667,
+      "lon": 140.8667
+    },
+    "Matsushima": {
+      "lat": 38.3736,
+      "lon": 141.0611
+    },
+    "Nikko": {
+      "lat": 36.75,
+      "lon": 139.6167
+    }
+  },
+  "weatherTimezone": "Asia/Tokyo"
 }
