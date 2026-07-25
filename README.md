@@ -16,7 +16,7 @@ trips/<slug>/
   index.html          Trip home — flights, hotels, jump-to-a-day
   overview.html       High-level itinerary
   day.html?day=N      One day: plan, weather, costs — day list switches in place
-  weather.html        Whole-trip weather — one row per place, monthly-outlook links
+  weather.html        Whole-trip weather — one row per place, weather.com monthly links
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
   transport.html      Travel log / getting around
@@ -77,11 +77,13 @@ everything in `budget`, `settle` and `accommodation` is in **home** currency. Om
 
 **The Weather page** is the whole-trip counterpart to the per-day weather: one row per
 place, aggregating the temperature range and conditions across every day it's visited,
-so you can pack for the trip at a glance. Each place name links to a **monthly** outlook
-for the month it falls in (a Google search), distinct from the day page's current-forecast
-link. It shares the same Open-Meteo data, cache and Refresh button. Visit dates are shown
-as they actually fall — "13–14 Oct, 28–29 Oct" for a place seen at the start and end,
-not one long span.
+so you can pack for the trip at a glance. Each place name deep-links to **The Weather
+Channel's monthly forecast** for that spot, built from the stored coordinates so it lands
+on the forecast with no search step (weather.com has no constructable search URL, so the
+handful of places without verified coordinates are shown unlinked rather than sent
+somewhere broken). It shares the same Open-Meteo data, cache and Refresh button. Visit
+dates are shown as they actually fall — "13–14 Oct, 28–29 Oct" for a place seen at the
+start and end, not one long span.
 
 **The day page.** A sticky list of days sits beside the plan; clicking one swaps the
 panel without reloading, and the URL, title and back button follow. The panel runs

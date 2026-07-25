@@ -659,16 +659,15 @@ const Trip = (() => {
     return `https://www.google.com/search?q=${encodeURIComponent("weather forecast " + q)}`;
   }
 
-  /** A monthly-outlook search for a place, aimed at the month it's visited in. */
-  function monthlyForecastLink(trip, location, date) {
-    const where =
-      trip.destination && !location.toLowerCase().includes(trip.destination.toLowerCase())
-        ? `${location}, ${trip.destination}`
-        : location;
-    const month = date ? ` ${TravelSite.formatDate(date, { month: "long", year: "numeric" })}` : "";
-    return `https://www.google.com/search?q=${encodeURIComponent(
-      `monthly weather forecast ${where}${month}`
-    )}`;
+  /**
+   * The Weather Channel's monthly page for a place, deep-linked from its
+   * coordinates so it opens the forecast with no search step. Returns null for a
+   * place with no verified coordinates — weather.com has no constructable search
+   * URL, so those names are shown unlinked rather than sent somewhere broken.
+   */
+  function monthlyForecastLink(trip, location) {
+    const coords = weatherCoords(trip, location);
+    return coords ? `https://weather.com/weather/monthly/l/${coords.lat},${coords.lon}` : null;
   }
 
   // A refresh writes into localStorage, since a static page can't save back to
@@ -1244,9 +1243,10 @@ const Trip = (() => {
               r.historical ? '<span class="weather-note weather-lastyear">last year</span>' : ""
             }`
           : `<span class="weather-note">${escapeHtml(r.note || "—")}</span>`;
-        const link = `<a href="${monthlyForecastLink(trip, name, dates[0])}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-          name
-        )}</a>`;
+        const url = monthlyForecastLink(trip, name);
+        const link = url
+          ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>`
+          : escapeHtml(name);
         return `<tr${r.historical ? ' class="is-historical"' : ""}>
           <td>${link}</td>
           <td class="weather-note">${when}</td>
@@ -1279,7 +1279,8 @@ const Trip = (() => {
       </div>
       <p class="section-note">Forecast data from
         <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
-        Each place name opens a monthly outlook on Google.${
+        Each place name opens a monthly outlook on
+        <a href="https://weather.com" target="_blank" rel="noopener noreferrer">weather.com</a>.${
           anyHistorical
             ? " Ranges marked <em>last year</em> use the same dates a year ago until the forecast is in range (~16 days out)."
             : ""
