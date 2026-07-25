@@ -163,7 +163,7 @@
       "date": "2026-01-01",
       "city": "Arrival city",
       "weekday": "Thursday",
-      "_temperature": "Forecast per place the day passes through, in Celsius. `min`/`max` and the rest are filled by tools/fetch_weather.py from Open-Meteo (free, no key) — re-run it as departure nears. `note` covers a place with no forecast yet; the extra columns appear only once some entry has them.",
+      "_temperature": "Forecast per place the day passes through, in Celsius. `min`/`max` and the rest are filled by tools/fetch_weather.py from Open-Meteo (free, no key) — re-run it as departure nears. `note` covers a place with no forecast yet; the extra columns appear only once some entry has them. A date beyond the ~16-day forecast is filled from the same date a year earlier and tagged `basis`:\"historical\" with `basisDate`; the page marks it \"last year\".",
       "temperature": [
         {
           "location": "Arrival city",

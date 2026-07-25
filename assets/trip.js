@@ -690,59 +690,88 @@ const Trip = (() => {
    * archive for dates already past.
    *
    * All places go in one request (Open-Meteo takes comma-separated coordinates and
-   * returns an array in the same order): one round-trip rather than a dozen, which
-   * also sidesteps the rate limit that dropped places when they were fetched in
-   * parallel. Beyond the ~16-day forecast horizon the whole request 400s and the
-   * baked-in data stands.
+   * returns an array in the same order): one round-trip per source rather than a
+   * dozen, which also sidesteps the rate limit that dropped places when they were
+   * fetched in parallel.
+   *
+   * Dates split by source the same way the offline tool does: archive for the past,
+   * forecast for the next ~16 days, and — for anything further out, where no forecast
+   * exists yet — the same dates a year ago, flagged as a stand-in.
    */
+  const ARCHIVE_URL = "https://archive-api.open-meteo.com/v1/archive";
+  const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
+
+  function shiftYearIso(iso, delta) {
+    const [y, m, d] = iso.split("-").map(Number);
+    const date = new Date(Date.UTC(y + delta, m - 1, d));
+    // Roll 29 Feb back to the 28th in a non-leap year.
+    if (date.getUTCMonth() !== m - 1) date.setUTCDate(0);
+    return date.toISOString().slice(0, 10);
+  }
+
   async function refreshWeather(trip) {
     const names = Object.keys(trip.weatherPlaces || {});
     const days = trip.days || [];
     if (!names.length || !days.length) return { updated: 0 };
 
-    const start = days[0].date;
-    const end = days[days.length - 1].date;
-    const today = new Date().toISOString().slice(0, 10);
-    const base = end < today
-      ? "https://archive-api.open-meteo.com/v1/archive"
-      : "https://api.open-meteo.com/v1/forecast";
     const tz = trip.weatherTimezone || "auto";
     const lats = names.map((n) => trip.weatherPlaces[n].lat).join(",");
     const lons = names.map((n) => trip.weatherPlaces[n].lon).join(",");
+    const today = new Date().toISOString().slice(0, 10);
+    const horizon = (() => {
+      const h = new Date();
+      h.setUTCDate(h.getUTCDate() + 15);
+      return h.toISOString().slice(0, 10);
+    })();
 
-    const res = await fetch(
-      `${base}?latitude=${lats}&longitude=${lons}` +
-        `&start_date=${start}&end_date=${end}` +
-        `&daily=${DAILY_FIELDS}&timezone=${encodeURIComponent(tz)}`
-    );
-    // 400 "out of allowed range" beyond the forecast horizon is not an error to
-    // shout about; a dropped connection rejects `fetch` itself and does surface.
-    if (!res.ok) return { updated: 0 };
+    const wanted = [...new Set(days.map((d) => d.date))].sort();
+    const past = wanted.filter((d) => d < today);
+    const near = wanted.filter((d) => d >= today && d <= horizon);
+    const far = wanted.filter((d) => d > horizon);
 
-    const results = await res.json();
-    const list = Array.isArray(results) ? results : [results];
     const cache = readWeatherCache(trip);
     let updated = 0;
 
-    list.forEach((r, idx) => {
-      const name = names[idx];
-      const d = r.daily;
-      (d.time || []).forEach((date, i) => {
-        if (d.temperature_2m_max[i] === null) return;
-        cache.byKey[`${name}|${date}`] = {
-          min: Math.round(d.temperature_2m_min[i] * 10) / 10,
-          max: Math.round(d.temperature_2m_max[i] * 10) / 10,
-          feelsMin: Math.round(d.apparent_temperature_min[i] * 10) / 10,
-          feelsMax: Math.round(d.apparent_temperature_max[i] * 10) / 10,
-          condition: WMO[d.weathercode[i]] || `code ${d.weathercode[i]}`,
-          wind: Math.round(d.windspeed_10m_max[i] * 10) / 10,
-          sunrise: d.sunrise[i].slice(11, 16),
-          sunset: d.sunset[i].slice(11, 16),
-          note: null,
-        };
-        updated += 1;
+    // Fetch one contiguous range from one endpoint and store each day. `histShift`
+    // (+1) marks last-year rows and maps their date back to this year.
+    async function pull(base, s, e, { historical = false } = {}) {
+      const res = await fetch(
+        `${base}?latitude=${lats}&longitude=${lons}` +
+          `&start_date=${s}&end_date=${e}` +
+          `&daily=${DAILY_FIELDS}&timezone=${encodeURIComponent(tz)}`
+      );
+      if (!res.ok) return; // 400 beyond horizon etc. — leave the baked data
+      const results = await res.json();
+      (Array.isArray(results) ? results : [results]).forEach((r, idx) => {
+        const name = names[idx];
+        const d = r.daily;
+        (d.time || []).forEach((date, i) => {
+          if (d.temperature_2m_max[i] === null) return;
+          const key = historical ? shiftYearIso(date, 1) : date;
+          cache.byKey[`${name}|${key}`] = {
+            min: Math.round(d.temperature_2m_min[i] * 10) / 10,
+            max: Math.round(d.temperature_2m_max[i] * 10) / 10,
+            feelsMin: Math.round(d.apparent_temperature_min[i] * 10) / 10,
+            feelsMax: Math.round(d.apparent_temperature_max[i] * 10) / 10,
+            condition: WMO[d.weathercode[i]] || `code ${d.weathercode[i]}`,
+            wind: Math.round(d.windspeed_10m_max[i] * 10) / 10,
+            sunrise: d.sunrise[i].slice(11, 16),
+            sunset: d.sunset[i].slice(11, 16),
+            note: null,
+            ...(historical ? { basis: "historical", basisDate: date } : { basis: null, basisDate: null }),
+          };
+          updated += 1;
+        });
       });
-    });
+    }
+
+    if (past.length) await pull(ARCHIVE_URL, past[0], past[past.length - 1]);
+    if (near.length) await pull(FORECAST_URL, near[0], near[near.length - 1]);
+    if (far.length) {
+      await pull(ARCHIVE_URL, shiftYearIso(far[0], -1), shiftYearIso(far[far.length - 1], -1), {
+        historical: true,
+      });
+    }
 
     cache.fetchedAt = new Date().toISOString();
     writeWeatherCache(trip, cache);
@@ -889,10 +918,21 @@ const Trip = (() => {
     const cache = readWeatherCache(trip);
     const entries = (day.temperature || []).map((t) => withFreshWeather(trip, t, day.date, cache));
     const anyDetail = entries.some((t) => t.condition || t.wind || t.sunrise);
+    const anyHistorical = entries.some((t) => t.basis === "historical");
     const canRefresh = Object.keys(trip.weatherPlaces || {}).length > 0;
 
     const weatherRows = entries
       .map((t) => {
+        // A forecast this far out doesn't exist yet, so the same date a year ago
+        // stands in — flagged, never passed off as a forecast.
+        const lastYear =
+          t.basis === "historical"
+            ? `<span class="weather-note weather-lastyear">last year${
+                t.basisDate
+                  ? ` · ${TravelSite.formatDate(t.basisDate, { day: "2-digit", month: "short", year: "numeric" })}`
+                  : ""
+              }</span>`
+            : "";
         const range =
           t.min === null || t.min === undefined || t.max === null || t.max === undefined
             ? `<span class="weather-note">${escapeHtml(t.note || "—")}</span>`
@@ -900,13 +940,13 @@ const Trip = (() => {
                 t.feelsMin !== undefined && t.feelsMin !== null
                   ? `<span class="weather-note">feels ${t.feelsMin} to ${t.feelsMax}</span>`
                   : ""
-              }`;
+              }${lastYear}`;
         const place = t.location
           ? `<a href="${forecastLink(trip, t.location)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
               t.location
             )}</a>`
           : "—";
-        return `<tr>
+        return `<tr${t.basis === "historical" ? ' class="is-historical"' : ""}>
           <td>${place}</td>
           <td>${range}</td>
           ${
@@ -952,7 +992,11 @@ const Trip = (() => {
          </div>
          <p class="section-note">Forecast data from
            <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
-           Each place name links to its forecast card on Google.</p>`
+           Each place name links to its forecast card on Google.${
+             anyHistorical
+               ? " Rows marked <em>last year</em> show that date a year ago, standing in until the forecast is available (~16 days out) — Refresh nearer the trip."
+               : ""
+           }</p>`
       : "";
 
     return `

@@ -99,50 +99,98 @@ def main(path, timezone="Asia/Tokyo"):
         return
     start, end = days[0]["date"], days[-1]["date"]
 
-    today = datetime.date.today().isoformat()
-    base = ARCHIVE if end < today else FORECAST
-    print(f"{start} to {end} -> {'archive' if base is ARCHIVE else 'forecast'}")
+    today = datetime.date.today()
+    horizon = today + datetime.timedelta(days=15)  # Open-Meteo forecasts ~16 days
+    wanted = sorted({d["date"] for d in days})
 
-    series = {}
-    for name, (lat, lon, source) in PLACES.items():
-        data = fetch(base, lat, lon, start, end, timezone)
-        daily = data["daily"]
-        series[name] = {
-            date: {
-                "code": daily["weathercode"][i],
-                "max": round_or_none(daily["temperature_2m_max"][i]),
-                "min": round_or_none(daily["temperature_2m_min"][i]),
-                "feelsMax": round_or_none(daily["apparent_temperature_max"][i]),
-                "feelsMin": round_or_none(daily["apparent_temperature_min"][i]),
-                "wind": round_or_none(daily["windspeed_10m_max"][i]),
-                "sunrise": daily["sunrise"][i][11:16],
-                "sunset": daily["sunset"][i][11:16],
+    def fetch_series(base, s, e):
+        out = {}
+        for name, (lat, lon, source) in PLACES.items():
+            daily = fetch(base, lat, lon, s, e, timezone)["daily"]
+            out[name] = {
+                date: {
+                    "code": daily["weathercode"][i],
+                    "max": round_or_none(daily["temperature_2m_max"][i]),
+                    "min": round_or_none(daily["temperature_2m_min"][i]),
+                    "feelsMax": round_or_none(daily["apparent_temperature_max"][i]),
+                    "feelsMin": round_or_none(daily["apparent_temperature_min"][i]),
+                    "wind": round_or_none(daily["windspeed_10m_max"][i]),
+                    "sunrise": daily["sunrise"][i][11:16],
+                    "sunset": daily["sunset"][i][11:16],
+                }
+                for i, date in enumerate(daily["time"])
             }
-            for i, date in enumerate(daily["time"])
-        }
-        print(f"  fetched {name:<14} ({source}), elevation {data.get('elevation')} m")
-        time.sleep(0.4)
+            time.sleep(0.4)
+        return out
 
-    filled = skipped = 0
+    def shift_year(iso, delta):
+        y, m, d = (int(x) for x in iso.split("-"))
+        try:
+            return datetime.date(y + delta, m, d).isoformat()
+        except ValueError:  # 29 Feb in a non-leap year
+            return datetime.date(y + delta, m, 28).isoformat()
+
+    # Split the trip's dates by where each one's weather can come from: the archive
+    # for dates already past, the forecast for the next ~16 days, and — for anything
+    # further out, where no forecast exists yet — the same dates a year ago.
+    past = [d for d in wanted if d < today.isoformat()]
+    near = [d for d in wanted if today.isoformat() <= d <= horizon.isoformat()]
+    far = [d for d in wanted if d > horizon.isoformat()]
+
+    series = {name: {} for name in PLACES}
+    historical = {name: {} for name in PLACES}
+
+    def merge(target, s):
+        for name, by_date in s.items():
+            target[name].update(by_date)
+
+    if past:
+        print(f"  archive   {past[0]} to {past[-1]}")
+        merge(series, fetch_series(ARCHIVE, past[0], past[-1]))
+    if near:
+        print(f"  forecast  {near[0]} to {near[-1]}")
+        merge(series, fetch_series(FORECAST, near[0], near[-1]))
+    if far:
+        ly_s, ly_e = shift_year(far[0], -1), shift_year(far[-1], -1)
+        print(f"  last year {ly_s} to {ly_e} (stand-in for {far[0]} to {far[-1]})")
+        for name, by_date in fetch_series(ARCHIVE, ly_s, ly_e).items():
+            for ly_date, obs in by_date.items():
+                historical[name][shift_year(ly_date, 1)] = {**obs, "basisDate": ly_date}
+
+    def good(o):
+        return o and o["max"] is not None
+
+    filled = historic = skipped = 0
     for day in days:
         for entry in day.get("temperature") or []:
             name = entry.get("location")
             obs = series.get(name, {}).get(day["date"])
-            if not obs:
+            hist = historical.get(name, {}).get(day["date"])
+            chosen = obs if good(obs) else (hist if good(hist) else None)
+            if not chosen:
                 skipped += 1
+                entry.pop("basis", None)
+                entry.pop("basisDate", None)
                 continue
             # Real figures replace whatever was typed in, including a vague note.
-            entry["min"] = obs["min"]
-            entry["max"] = obs["max"]
+            entry["min"] = chosen["min"]
+            entry["max"] = chosen["max"]
             entry["note"] = None
-            entry["feelsMin"] = obs["feelsMin"]
-            entry["feelsMax"] = obs["feelsMax"]
-            entry["condition"] = CONDITIONS.get(obs["code"], f"code {obs['code']}")
-            entry["wind"] = obs["wind"]
-            entry["sunrise"] = obs["sunrise"]
-            entry["sunset"] = obs["sunset"]
+            entry["feelsMin"] = chosen["feelsMin"]
+            entry["feelsMax"] = chosen["feelsMax"]
+            entry["condition"] = CONDITIONS.get(chosen["code"], f"code {chosen['code']}")
+            entry["wind"] = chosen["wind"]
+            entry["sunrise"] = chosen["sunrise"]
+            entry["sunset"] = chosen["sunset"]
             entry.pop("observed", None)
-            filled += 1
+            if chosen is hist:
+                entry["basis"] = "historical"
+                entry["basisDate"] = chosen["basisDate"]
+                historic += 1
+            else:
+                entry.pop("basis", None)
+                entry.pop("basisDate", None)
+                filled += 1
 
     # A coordinate table so the page can re-fetch the forecast in the browser
     # (the "Refresh" button) without re-running this script. Only places that
@@ -166,7 +214,10 @@ def main(path, timezone="Asia/Tokyo"):
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(trip, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"\nweather filled for {filled} entries, {skipped} left as recorded")
+    print(
+        f"\nweather filled for {filled} entries"
+        f"{f', {historic} from last year' if historic else ''}, {skipped} left as recorded"
+    )
 
 
 if __name__ == "__main__":

@@ -37,7 +37,9 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   the geocoder's answer has been checked against the region it should be in — an
   onsen or a summit often resolves to a same-named town elsewhere, or a valley
   hundreds of metres below, and a few hundred metres of altitude is a few degrees.
-  Four Japan places are deliberately left blank for exactly this reason.
+  Four Japan places are deliberately left blank for exactly this reason. Dates beyond
+  the ~16-day forecast fall back to the same dates a year earlier, flagged "last year"
+  — a stand-in, never presented as a forecast.
 - **Every section is optional.** Missing or empty sections must render a placeholder,
   never throw. Test a sparse trip after touching a renderer.
 - **The repo and the site are public.** Booking confirmations carry door codes,

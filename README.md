@@ -95,6 +95,15 @@ split doesn't read as an accident.
 Rainfall totals are deliberately absent: for planning, knowing the day reads "Light
 rain" or "Rain" is what matters, not the millimetres.
 
+**When the forecast doesn't exist yet.** Open-Meteo only forecasts ~16 days, so a trip
+planned further out has no forecast for its later dates. Those dates fall back to the
+**same dates a year earlier** (from the archive), tagged `basis: "historical"` with the
+`basisDate` they came from. The page marks them "last year" and never passes them off
+as a forecast; a Refresh nearer the trip replaces each one with the real forecast as it
+comes into range. Dates are bucketed by source — archive for the past, forecast for the
+next ~16 days, last-year for the rest — so a trip straddling the horizon gets a real
+forecast for its near days and stand-ins only for the far ones.
+
 **Source and refresh.** The forecast comes from [Open-Meteo](https://open-meteo.com) —
 free, no API key, and it sends `Access-Control-Allow-Origin: *`, so the browser can
 call it directly. `tools/fetch_weather.py` bakes a forecast into `data.json` for a

@@ -314,6 +314,13 @@ tfoot td {
   color: var(--text-dim);
   cursor: default;
 }
+/* A last-year stand-in, until the real forecast is in range. */
+.weather-lastyear {
+  color: var(--slot-morning-fg);
+}
+.is-historical td {
+  background: var(--slot-morning-bg);
+}
 .weather-table .weather-note {
   display: block;
   font-size: 0.8rem;
