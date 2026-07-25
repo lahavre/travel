@@ -947,9 +947,9 @@ const Trip = (() => {
              <tbody>${weatherRows}</tbody>
            </table>
          </div>
-         <p class="section-note">Forecast from
-           <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
-           Place names link to a full forecast.</p>`
+         <p class="section-note">Forecast data from
+           <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a> — free, no key${updatedAt}.
+           Each place name opens a fuller forecast card on Google.</p>`
       : "";
 
     return `

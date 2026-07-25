@@ -83,8 +83,14 @@ empty.
 Each entry carries one forecast: `min`/`max`, `feelsMin`/`feelsMax`, `condition`,
 `wind`, `sunrise` and `sunset`. The last three columns appear only once some entry
 has them, so a trip with nothing but temperatures still renders. `note` covers a
-place with no forecast — it is never filled with a guess. Each place name links to a
-full forecast (a Google weather card, readable by anyone).
+place with no forecast — it is never filled with a guess.
+
+Two providers, on purpose: **Open-Meteo supplies the numbers** (it is keyless and
+CORS-enabled, which a browser on a static site needs), and **each place name links out
+to a readable Google weather card** for a fuller view. Google can't be the data source
+— its search card is not a fetchable API, and its Maps-Platform weather API needs a
+billing key that a public repo would expose. The source note states both roles so the
+split doesn't read as an accident.
 
 Rainfall totals are deliberately absent: for planning, knowing the day reads "Light
 rain" or "Rain" is what matters, not the millimetres.
