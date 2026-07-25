@@ -44,6 +44,25 @@ PLACES = {
     "Nikko": (36.7500, 139.6167, "Nikko, Tochigi"),
 }
 
+# tenki.jp prefecture forecast pages, grouped by the prefecture each place sits in.
+# Verified from tenki.jp's own forecast index. Prefecture level is as fine as a place
+# name reaches — tenki.jp has no coordinate or romaji lookup. Places without verified
+# coordinates (Zao Onsen, Chuzenji, Aizu, Ginzan Onsen) still get a link this way,
+# since a prefecture link needs no coordinates.
+_TOKYO = "https://tenki.jp/forecast/3/16/"
+_TOCHIGI = "https://tenki.jp/forecast/3/12/"
+_FUKUSHIMA = "https://tenki.jp/forecast/2/10/"
+_YAMAGATA = "https://tenki.jp/forecast/2/9/"
+_MIYAGI = "https://tenki.jp/forecast/2/7/"
+TENKI = {
+    "Tokyo": _TOKYO,
+    "Kinugawa": _TOCHIGI, "Yumoto": _TOCHIGI, "Nikko": _TOCHIGI, "Chuzenji": _TOCHIGI,
+    "Urabandai": _FUKUSHIMA, "Azuma": _FUKUSHIMA, "Fukushima": _FUKUSHIMA, "Aizu": _FUKUSHIMA,
+    "Yonezawa": _YAMAGATA, "Mt Zao": _YAMAGATA, "Zao Onsen": _YAMAGATA,
+    "Yamagata": _YAMAGATA, "Ginzan Onsen": _YAMAGATA,
+    "Naruko": _MIYAGI, "Sendai": _MIYAGI, "Matsushima": _MIYAGI,
+}
+
 # Deliberately absent: Zao Onsen, Chuzenji, Aizu and Ginzan Onsen. The geocoder
 # returned nothing for the first two, a same-named town in another prefecture for
 # Chuzenji, and for Ginzan Onsen only Obanazawa in the valley some 450 m below it.
@@ -207,6 +226,15 @@ def main(path, timezone="Asia/Tokyo"):
         if name in used
     }
     trip["weatherTimezone"] = timezone
+
+    # Which forecast page each place name opens. tenki.jp (Japan Weather Association)
+    # is the local source, but it addresses by prefecture area code, not coordinates,
+    # so the links are set here explicitly — at prefecture level, the finest a place
+    # name alone can reach. A place with no entry falls back to a point-exact link the
+    # page builds from its coordinates; that's how a non-Japan trip would work.
+    all_used = {e["location"] for day in days for e in (day.get("temperature") or []) if e.get("location")}
+    trip["weatherLinks"] = {name: TENKI[name] for name in sorted(all_used) if name in TENKI}
+
     # When this forecast was pulled, so the page can show "(updated …)" on first
     # load. A browser Refresh writes a newer date into localStorage.
     trip["weatherUpdated"] = datetime.date.today().isoformat()

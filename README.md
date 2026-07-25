@@ -16,7 +16,7 @@ trips/<slug>/
   index.html          Trip home — flights, hotels, jump-to-a-day
   overview.html       High-level itinerary
   day.html?day=N      One day: plan, weather, costs — day list switches in place
-  weather.html        Whole-trip weather — one row per place, weather.com monthly links
+  weather.html        Whole-trip weather — one row per place, local-forecast links
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
   transport.html      Travel log / getting around
@@ -77,13 +77,20 @@ everything in `budget`, `settle` and `accommodation` is in **home** currency. Om
 
 **The Weather page** is the whole-trip counterpart to the per-day weather: one row per
 place, aggregating the temperature range and conditions across every day it's visited,
-so you can pack for the trip at a glance. Each place name deep-links to **The Weather
-Channel's monthly forecast** for that spot, built from the stored coordinates so it lands
-on the forecast with no search step (weather.com has no constructable search URL, so the
-handful of places without verified coordinates are shown unlinked rather than sent
-somewhere broken). It shares the same Open-Meteo data, cache and Refresh button. Visit
-dates are shown as they actually fall — "13–14 Oct, 28–29 Oct" for a place seen at the
-start and end, not one long span.
+so you can pack for the trip at a glance. Each place name opens its **local forecast**
+(same on the day page). Which site that is comes from `weatherLinks` in the data: a trip
+can pin a country's own service — Japan uses **tenki.jp**, which addresses by prefecture
+area code rather than coordinates, so those links are set by `fetch_weather.py` at
+prefecture level (the finest a name alone reaches, and it covers even the places without
+coordinates). A place with no pinned link falls back to a point-exact **yr.no** page
+built from its coordinates — fast, ad-free, and works for any country. It shares the
+same Open-Meteo data, cache and Refresh button. Visit dates are shown as they actually
+fall — "13–14 Oct, 28–29 Oct" for a place seen at the start and end, not one long span.
+
+Why not a search on Google, AccuWeather or weather.com: those either land on a search
+results page (AccuWeather and tenki.jp both address forecasts by an internal
+location/area code, reachable only through their own search or a paid API) or load
+slowly. tenki.jp and yr.no open the forecast directly and fast.
 
 **The day page.** A sticky list of days sits beside the plan; clicking one swaps the
 panel without reloading, and the URL, title and back button follow. The panel runs

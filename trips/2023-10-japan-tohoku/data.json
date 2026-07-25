@@ -3157,5 +3157,24 @@
     }
   },
   "weatherTimezone": "Asia/Tokyo",
-  "weatherUpdated": "2026-07-25"
+  "weatherUpdated": "2026-07-26",
+  "weatherLinks": {
+    "Aizu": "https://tenki.jp/forecast/2/10/",
+    "Azuma": "https://tenki.jp/forecast/2/10/",
+    "Chuzenji": "https://tenki.jp/forecast/3/12/",
+    "Fukushima": "https://tenki.jp/forecast/2/10/",
+    "Ginzan Onsen": "https://tenki.jp/forecast/2/9/",
+    "Kinugawa": "https://tenki.jp/forecast/3/12/",
+    "Matsushima": "https://tenki.jp/forecast/2/7/",
+    "Mt Zao": "https://tenki.jp/forecast/2/9/",
+    "Naruko": "https://tenki.jp/forecast/2/7/",
+    "Nikko": "https://tenki.jp/forecast/3/12/",
+    "Sendai": "https://tenki.jp/forecast/2/7/",
+    "Tokyo": "https://tenki.jp/forecast/3/16/",
+    "Urabandai": "https://tenki.jp/forecast/2/10/",
+    "Yamagata": "https://tenki.jp/forecast/2/9/",
+    "Yonezawa": "https://tenki.jp/forecast/2/9/",
+    "Yumoto": "https://tenki.jp/forecast/3/12/",
+    "Zao Onsen": "https://tenki.jp/forecast/2/9/"
+  }
 }

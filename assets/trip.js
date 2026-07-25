@@ -651,23 +651,20 @@ const Trip = (() => {
     return (trip.weatherPlaces || {})[location] || null;
   }
 
-  /** A human-readable forecast page for a place — everyone can read a Google card. */
-  function forecastLink(trip, location) {
-    const q = trip.destination && !location.toLowerCase().includes(trip.destination.toLowerCase())
-      ? `${location}, ${trip.destination}`
-      : location;
-    return `https://www.google.com/search?q=${encodeURIComponent("weather forecast " + q)}`;
-  }
-
   /**
-   * The Weather Channel's monthly page for a place, deep-linked from its
-   * coordinates so it opens the forecast with no search step. Returns null for a
-   * place with no verified coordinates — weather.com has no constructable search
-   * URL, so those names are shown unlinked rather than sent somewhere broken.
+   * The forecast page a place name opens.
+   *
+   * A trip can pin an explicit URL per place in `weatherLinks` — that's how a
+   * country's own service is used (Japan links to tenki.jp, which addresses by
+   * prefecture area code, not coordinates). With no explicit link, a point-exact
+   * page is built on yr.no from the stored coordinates — fast, ad-free, and it
+   * works anywhere. Null when a place has neither, so its name shows unlinked.
    */
-  function monthlyForecastLink(trip, location) {
+  function forecastPageLink(trip, location) {
+    const explicit = (trip.weatherLinks || {})[location];
+    if (explicit) return explicit;
     const coords = weatherCoords(trip, location);
-    return coords ? `https://weather.com/weather/monthly/l/${coords.lat},${coords.lon}` : null;
+    return coords ? `https://www.yr.no/en/forecast/daily-table/${coords.lat},${coords.lon}` : null;
   }
 
   // A refresh writes into localStorage, since a static page can't save back to
@@ -954,11 +951,12 @@ const Trip = (() => {
                   ? `<span class="weather-note">feels ${t.feelsMin} to ${t.feelsMax}</span>`
                   : ""
               }${lastYear}`;
-        const place = t.location
-          ? `<a href="${forecastLink(trip, t.location)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-              t.location
-            )}</a>`
-          : "—";
+        const purl = t.location ? forecastPageLink(trip, t.location) : null;
+        const place = !t.location
+          ? "—"
+          : purl
+          ? `<a href="${purl}" target="_blank" rel="noopener noreferrer">${escapeHtml(t.location)}</a>`
+          : escapeHtml(t.location);
         return `<tr${t.basis === "historical" ? ' class="is-historical"' : ""}>
           <td>${place}</td>
           <td>${range}</td>
@@ -1005,7 +1003,7 @@ const Trip = (() => {
          </div>
          <p class="section-note">Forecast data from
            <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
-           Each place name links to its forecast card on Google.${
+           Each place name opens its local forecast.${
              anyHistorical
                ? " Rows marked <em>last year</em> show that date a year ago, standing in until the forecast is available (~16 days out) — Refresh nearer the trip."
                : ""
@@ -1243,7 +1241,7 @@ const Trip = (() => {
               r.historical ? '<span class="weather-note weather-lastyear">last year</span>' : ""
             }`
           : `<span class="weather-note">${escapeHtml(r.note || "—")}</span>`;
-        const url = monthlyForecastLink(trip, name);
+        const url = forecastPageLink(trip, name);
         const link = url
           ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>`
           : escapeHtml(name);
@@ -1279,8 +1277,7 @@ const Trip = (() => {
       </div>
       <p class="section-note">Forecast data from
         <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
-        Each place name opens a monthly outlook on
-        <a href="https://weather.com" target="_blank" rel="noopener noreferrer">weather.com</a>.${
+        Each place name opens its local forecast — tenki.jp in Japan, yr.no elsewhere.${
           anyHistorical
             ? " Ranges marked <em>last year</em> use the same dates a year ago until the forecast is in range (~16 days out)."
             : ""

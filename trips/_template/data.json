@@ -20,6 +20,11 @@
   "weatherTimezone": "Asia/Tokyo",
   "weatherUpdated": "2026-01-01",
 
+  "_weatherLinks": "Which forecast page each place name opens. Set one here to use a country's own service (Japan uses tenki.jp, which links by prefecture, not coordinates — tools/fetch_weather.py fills these). A place with no entry falls back to a point-exact yr.no page built from its coordinates, so most trips need not set this at all.",
+  "weatherLinks": {
+    "Arrival city": "https://tenki.jp/forecast/3/16/"
+  },
+
   "_exchangeRate": "rate = homeCurrency units per `per` units of tripCurrency. Japan quotes per 100 JPY; somewhere like Europe would use per: 1. Omit this whole block for a domestic trip and cost columns collapse to one currency.",
   "exchangeRate": {
     "per": 100,
