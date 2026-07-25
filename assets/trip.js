@@ -19,6 +19,7 @@ const Trip = (() => {
     { key: "index", label: "Trip", href: "index.html" },
     { key: "overview", label: "Overview", href: "overview.html" },
     { key: "day", label: "Days", href: "day.html?day=1" },
+    { key: "weather", label: "Weather", href: "weather.html" },
     { key: "budget", label: "Budget", href: "budget.html" },
     { key: "accommodation", label: "Accommodation", href: "accommodation.html" },
     { key: "transport", label: "Transport", href: "transport.html" },
@@ -29,6 +30,7 @@ const Trip = (() => {
     index: null,
     overview: "Overview",
     day: "Day-by-day",
+    weather: "Weather",
     budget: "Budget",
     accommodation: "Accommodation",
     transport: "Transport",
@@ -657,6 +659,18 @@ const Trip = (() => {
     return `https://www.google.com/search?q=${encodeURIComponent("weather forecast " + q)}`;
   }
 
+  /** A monthly-outlook search for a place, aimed at the month it's visited in. */
+  function monthlyForecastLink(trip, location, date) {
+    const where =
+      trip.destination && !location.toLowerCase().includes(trip.destination.toLowerCase())
+        ? `${location}, ${trip.destination}`
+        : location;
+    const month = date ? ` ${TravelSite.formatDate(date, { month: "long", year: "numeric" })}` : "";
+    return `https://www.google.com/search?q=${encodeURIComponent(
+      `monthly weather forecast ${where}${month}`
+    )}`;
+  }
+
   // A refresh writes into localStorage, since a static page can't save back to
   // data.json. Keyed by trip slug; each value is {fetchedAt, byKey:{"place|date":{…}}}.
   function weatherCacheKey(trip) {
@@ -1161,6 +1175,145 @@ const Trip = (() => {
       </div>`;
   }
 
+  /**
+   * The whole trip's weather in one table — one row per place, aggregated across
+   * every day it's visited, for packing and planning. The per-day breakdown lives
+   * on the Days page; this is the overview. Each place links to a monthly outlook
+   * for the month it falls in.
+   */
+  function weatherHtml(trip) {
+    const cache = readWeatherCache(trip);
+
+    // Gather every temperature entry by place, keeping the order places first appear.
+    const order = [];
+    const byPlace = new Map();
+    (trip.days || []).forEach((day) => {
+      (day.temperature || []).forEach((t0) => {
+        if (!t0.location) return;
+        const t = withFreshWeather(trip, t0, day.date, cache);
+        let rec = byPlace.get(t.location);
+        if (!rec) {
+          rec = { location: t.location, dates: [], mins: [], maxs: [], conditions: [], note: null, historical: false };
+          byPlace.set(t.location, rec);
+          order.push(t.location);
+        }
+        rec.dates.push(day.date);
+        if (t.min != null && t.max != null) {
+          rec.mins.push(t.min);
+          rec.maxs.push(t.max);
+        } else if (t.note && !rec.note) {
+          rec.note = t.note;
+        }
+        if (t.condition && !rec.conditions.includes(t.condition)) rec.conditions.push(t.condition);
+        if (t.basis === "historical") rec.historical = true;
+      });
+    });
+
+    if (!order.length) return `<h1>Weather</h1>${placeholder("weather")}`;
+
+    const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short" });
+    // "13 Oct, 28–29 Oct" — group only the consecutive dates, so a place visited at
+    // the start and end of a trip doesn't read as one long stay.
+    const compactDates = (isoList) => {
+      const uniq = [...new Set(isoList)].sort();
+      const runs = [];
+      uniq.forEach((iso) => {
+        const last = runs[runs.length - 1];
+        const prevDay = last && new Date(last[1] + "T00:00:00");
+        if (prevDay && new Date(iso + "T00:00:00") - prevDay === 86400000) last[1] = iso;
+        else runs.push([iso, iso]);
+      });
+      return runs
+        .map(([a, b]) =>
+          a === b
+            ? short(a)
+            : `${TravelSite.formatDate(a, { day: "2-digit" })}–${short(b)}`
+        )
+        .join(", ");
+    };
+    const anyHistorical = order.some((p) => byPlace.get(p).historical);
+    const canRefresh = Object.keys(trip.weatherPlaces || {}).length > 0;
+
+    const rows = order
+      .map((name) => {
+        const r = byPlace.get(name);
+        const dates = [...r.dates].sort();
+        const when = compactDates(dates);
+        const temp = r.mins.length
+          ? `${Math.min(...r.mins)} to ${Math.max(...r.maxs)} °C${
+              r.historical ? '<span class="weather-note weather-lastyear">last year</span>' : ""
+            }`
+          : `<span class="weather-note">${escapeHtml(r.note || "—")}</span>`;
+        const link = `<a href="${monthlyForecastLink(trip, name, dates[0])}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+          name
+        )}</a>`;
+        return `<tr${r.historical ? ' class="is-historical"' : ""}>
+          <td>${link}</td>
+          <td class="weather-note">${when}</td>
+          <td>${temp}</td>
+          <td>${r.conditions.length ? escapeHtml(r.conditions.join(", ")) : "—"}</td>
+        </tr>`;
+      })
+      .join("");
+
+    const updatedIso = [cache.fetchedAt && cache.fetchedAt.slice(0, 10), trip.weatherUpdated]
+      .filter(Boolean)
+      .sort()
+      .pop();
+    const updatedAt = updatedIso
+      ? ` (updated ${TravelSite.formatDate(updatedIso, { day: "2-digit", month: "short" })})`
+      : "";
+
+    return `
+      <div class="weather-head">
+        <h1>Weather</h1>
+        ${canRefresh ? `<button type="button" class="weather-refresh" data-weather-refresh>↻ Refresh</button>` : ""}
+      </div>
+      <p class="subtitle">Every place on the trip, for packing and planning — the day-by-day is on the
+        <a href="day.html?day=1">Days page</a>.</p>
+      <div class="table-wrap">
+        <table class="weather-table weather-trip">
+          <thead><tr><th>Place</th><th>When</th><th>Temperature</th><th>Conditions</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <p class="section-note">Forecast data from
+        <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
+        Each place name opens a monthly outlook on Google.${
+          anyHistorical
+            ? " Ranges marked <em>last year</em> use the same dates a year ago until the forecast is in range (~16 days out)."
+            : ""
+        }</p>`;
+  }
+
+  function renderWeather(trip) {
+    // The Refresh button re-fetches into localStorage, then re-renders this page.
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (!main || main.dataset.wxWired) return;
+      main.dataset.wxWired = "1";
+      main.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-weather-refresh]");
+        if (!btn || btn.disabled) return;
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = "Refreshing…";
+        refreshWeather(trip)
+          .then(() => {
+            main.innerHTML = weatherHtml(trip);
+          })
+          .catch(() => {
+            const b = document.querySelector("[data-weather-refresh]");
+            if (b) {
+              b.disabled = false;
+              b.textContent = "Couldn't refresh — retry";
+            }
+          });
+      });
+    }, 0);
+    return weatherHtml(trip);
+  }
+
   function renderBudget(trip) {
     const categories = (trip.budget && trip.budget.categories) || [];
     const fx = trip.exchangeRate || {};
@@ -1565,6 +1718,7 @@ const Trip = (() => {
     index: renderIndex,
     overview: renderOverview,
     day: renderDay,
+    weather: renderWeather,
     budget: renderBudget,
     accommodation: renderAccommodation,
     transport: renderTransport,

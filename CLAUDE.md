@@ -6,8 +6,9 @@ Static travel-itinerary site, published via GitHub Pages from `main`
 
 ## Ground rules
 
-- **Never edit the per-trip HTML.** All seven pages in a trip folder are identical
-  17-line stubs that call `Trip.page("<section>")`. Every renderer lives in
+- **Never edit the per-trip HTML.** Every page in a trip folder is an identical
+  17-line stub that calls `Trip.page("<section>")` (add one with
+  `tools/new_trip_pages.py`). Every renderer lives in
   `assets/trip.js`, so a fix there lands on every trip at once. If a page needs new
   markup, change the renderer, not the trip.
 - **`data.json` is the single source of truth.** Totals, percentages, currency

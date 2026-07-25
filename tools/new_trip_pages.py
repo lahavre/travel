@@ -16,6 +16,7 @@ PAGES = {
     "index": "Trip",
     "overview": "Overview",
     "day": "Day-by-day",
+    "weather": "Weather",
     "budget": "Budget",
     "accommodation": "Accommodation",
     "transport": "Transport",
