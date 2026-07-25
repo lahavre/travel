@@ -922,11 +922,14 @@ const Trip = (() => {
       })
       .join("");
 
-    const updatedAt = cache.fetchedAt
-      ? ` · updated ${TravelSite.formatDate(cache.fetchedAt.slice(0, 10), {
-          day: "2-digit",
-          month: "short",
-        })}`
+    // The later of the baked-in fetch date and any browser Refresh — string
+    // compare works on ISO dates.
+    const updatedIso = [cache.fetchedAt && cache.fetchedAt.slice(0, 10), trip.weatherUpdated]
+      .filter(Boolean)
+      .sort()
+      .pop();
+    const updatedAt = updatedIso
+      ? ` (updated ${TravelSite.formatDate(updatedIso, { day: "2-digit", month: "short" })})`
       : "";
 
     const weather = has(day.temperature)
@@ -948,8 +951,8 @@ const Trip = (() => {
            </table>
          </div>
          <p class="section-note">Forecast data from
-           <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a> — free, no key${updatedAt}.
-           Each place name opens a fuller forecast card on Google.</p>`
+           <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
+           Each place name links to its forecast card on Google.</p>`
       : "";
 
     return `

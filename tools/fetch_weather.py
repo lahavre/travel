@@ -159,6 +159,9 @@ def main(path, timezone="Asia/Tokyo"):
         if name in used
     }
     trip["weatherTimezone"] = timezone
+    # When this forecast was pulled, so the page can show "(updated …)" on first
+    # load. A browser Refresh writes a newer date into localStorage.
+    trip["weatherUpdated"] = datetime.date.today().isoformat()
 
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(trip, f, ensure_ascii=False, indent=2)

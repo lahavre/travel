@@ -18,6 +18,7 @@
     "Arrival city": { "lat": 35.6895, "lon": 139.6917 }
   },
   "weatherTimezone": "Asia/Tokyo",
+  "weatherUpdated": "2026-01-01",
 
   "_exchangeRate": "rate = homeCurrency units per `per` units of tripCurrency. Japan quotes per 100 JPY; somewhere like Europe would use per: 1. Omit this whole block for a domestic trip and cost columns collapse to one currency.",
   "exchangeRate": {
