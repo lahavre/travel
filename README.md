@@ -66,7 +66,7 @@ breaking, so a half-planned trip still renders.
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
 | `accommodation` | Stays — booking, address, room, times, meal/parking/laundry, payment, optional `perPerson` split |
 | `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
-| `todo` | Pre-trip checklist; `status: "Done"` renders as complete. Optional `category` + `subcategory` group the list (see below) |
+| `todo` | Pre-trip checklist; `status` is `"Done"` or `"Open"`. Optional `category` + `subcategory` group the list (see below) |
 
 **Currency.** `exchangeRate.rate` is how many *home* currency units you get per
 `exchangeRate.per` units of *trip* currency — Japan quotes `per: 100` (3.305 MYR per
@@ -249,6 +249,15 @@ done/total count. Only groups that actually contain items appear (an unused
 subcategory is never shown as an empty scaffold), and a trip that sets no category at
 all still renders as the plain flat table — the fields are fully optional and
 backward-compatible.
+
+Each row's **status** is a two-state dropdown (`Open` / `Done`) and its **remarks**
+have an Edit button. Because the site is static, these edits can't be written back to
+`data.json`; they are saved in the **browser's `localStorage`** (keyed by trip slug),
+exactly like the weather Refresh. So an edit is **per-browser and not shared** — it
+won't appear on another device, and clearing browser data resets it. The baked
+`data.json` values are the shared defaults; to change what everyone sees, edit
+`data.json` and commit. (Sharing edits across the group would need a backend, which a
+GitHub Pages site doesn't have.)
 
 ## Local preview
 

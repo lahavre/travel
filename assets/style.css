@@ -285,6 +285,67 @@ tfoot td {
   color: var(--text-dim);
   padding-left: 18px;
 }
+.todo-note {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: -6px;
+}
+.todo-status {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--text);
+  cursor: pointer;
+}
+.todo-status:hover {
+  border-color: var(--accent);
+}
+.todo-remarks-cell {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.todo-remarks-text {
+  white-space: normal;
+}
+.todo-edit-btn {
+  margin-top: 6px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--accent);
+  cursor: pointer;
+}
+.todo-edit-btn:hover {
+  border-color: var(--accent);
+}
+.todo-edit-cancel {
+  color: var(--text-dim);
+}
+.todo-remarks-input {
+  width: 100%;
+  min-width: 180px;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--text);
+  resize: vertical;
+  box-sizing: border-box;
+}
+.todo-edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
 
 /* ---- Day page nav ---- */
 /* Three slots, so "All days" stays centred even when there is no previous or

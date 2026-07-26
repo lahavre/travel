@@ -3053,8 +3053,8 @@
       "task": "Torikatsu - Sukiyaki (Yonezawa Wagyu)",
       "category": "Booking",
       "subcategory": "Restaurant",
-      "status": "Not available",
-      "remarks": "20th Oct 2023 from 12.00pm (4 person)",
+      "status": "Open",
+      "remarks": "20th Oct 2023 from 12.00pm (4 person)\nNot available",
       "url": "https://yonezawa-torikatu.com/contact/"
     },
     {
@@ -3069,16 +3069,16 @@
       "task": "Maboya",
       "category": "Booking",
       "subcategory": "Restaurant",
-      "status": "Can't book online",
-      "remarks": "24th Oct 2023 from 6.00pm (3 person)\nNeed to book using local number",
+      "status": "Open",
+      "remarks": "24th Oct 2023 from 6.00pm (3 person)\nCan't book online — need to book using local number",
       "url": "https://maboya.owst.jp/"
     },
     {
       "task": "Ghibli Museum Ticket",
       "category": "Booking",
       "subcategory": "Attractions",
-      "status": "Not available",
-      "remarks": "29th Oct 2023 - 10am slot (WY to book ticket on 10th Sep 2023)",
+      "status": "Open",
+      "remarks": "29th Oct 2023 - 10am slot (WY to book ticket on 10th Sep 2023)\nNot available",
       "url": null
     },
     {

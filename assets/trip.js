@@ -1700,31 +1700,67 @@ const Trip = (() => {
       .map((pair) => pair[0]);
   }
 
-  function renderTodo(trip) {
+  // Status and remark edits are saved per-browser in localStorage, since a static
+  // page can't write back to data.json. Keyed by trip slug; the value overlays the
+  // baked data at render time. Keyed on category|subcategory|task so it survives
+  // reordering. (Shared-across-the-group editing would need a backend — see README.)
+  function todoStoreKey(trip) {
+    return `todo:${trip.slug || trip.title || "trip"}`;
+  }
+  function todoOverlay(trip) {
+    try {
+      return JSON.parse(localStorage.getItem(todoStoreKey(trip))) || { byKey: {} };
+    } catch (e) {
+      return { byKey: {} };
+    }
+  }
+  function saveTodoOverlay(trip, overlay) {
+    try {
+      localStorage.setItem(todoStoreKey(trip), JSON.stringify(overlay));
+    } catch (e) {
+      /* storage full or blocked — edit stays on screen for this render only */
+    }
+  }
+  function todoItemKey(t) {
+    return [t.category || "", t.subcategory || "", t.task || ""].join("|");
+  }
+  // The effective status is binary: "Done", or "Open" for anything else.
+  function todoEffective(t, overlay) {
+    const o = overlay.byKey[todoItemKey(t)] || {};
+    const status = o.status !== undefined ? o.status : t.status;
+    const remarks = o.remarks !== undefined ? o.remarks : t.remarks;
+    return { done: status === "Done", remarks: remarks };
+  }
+
+  function todoHtml(trip) {
     const todo = trip.todo || [];
     if (!todo.length) return `<h1>Pre-trip to-do</h1>${placeholder("to-do items")}`;
 
-    const done = todo.filter((t) => t.status === "Done").length;
+    const overlay = todoOverlay(trip);
+    const isDone = (t) => todoEffective(t, overlay).done;
+    const done = todo.filter(isDone).length;
 
-    // Number in display order (1..N top to bottom), so grouping never leaves the
-    // "#" column looking scrambled. Items carry no stored number of their own.
-    let seq = 0;
-    const todoRow = (t) => `<tr>
-        <td>${++seq}</td>
+    const todoRow = (t) => {
+      const e = todoEffective(t, overlay);
+      const idx = todo.indexOf(t);
+      return `<tr>
         <td>${escapeHtml(t.task)}${
-      t.url
-        ? `<br><a href="${escapeHtml(
-            t.url
-          )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(t.url)}</a>`
-        : ""
-    }</td>
-        <td>${
-          t.status
-            ? `<span class="badge${t.status === "Done" ? "" : " past"}">${escapeHtml(t.status)}</span>`
-            : ""
-        }</td>
-        <td style="color:var(--text-dim);font-size:.85rem">${multiline(t.remarks)}</td>
+        t.url
+          ? `<br><a href="${escapeHtml(
+              t.url
+            )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(t.url)}</a>`
+          : ""
+      }</td>
+        <td><select class="todo-status" data-todo-idx="${idx}" aria-label="Status">
+          <option value="Open"${e.done ? "" : " selected"}>Open</option>
+          <option value="Done"${e.done ? " selected" : ""}>Done</option>
+        </select></td>
+        <td class="todo-remarks-cell" data-todo-idx="${idx}">
+          <div class="todo-remarks-text">${multiline(e.remarks)}</div>
+          <button type="button" class="todo-edit-btn" data-todo-edit>Edit</button>
+        </td>
       </tr>`;
+    };
 
     let bodyRows;
     if (todo.some((t) => t.category)) {
@@ -1737,8 +1773,8 @@ const Trip = (() => {
       bodyRows = cats
         .map((cat) => {
           const items = todo.filter((t) => (t.category || "Other") === cat);
-          const catDone = items.filter((t) => t.status === "Done").length;
-          const band = `<tr class="todo-cat-row"><td colspan="4"><span class="todo-cat-name">${escapeHtml(
+          const catDone = items.filter(isDone).length;
+          const band = `<tr class="todo-cat-row"><td colspan="3"><span class="todo-cat-name">${escapeHtml(
             cat
           )}</span><span class="todo-cat-count">${catDone}/${items.length}</span></td></tr>`;
           // "" (no subcategory) sorts first, so those rows sit directly under
@@ -1755,7 +1791,7 @@ const Trip = (() => {
                 .map(todoRow)
                 .join("");
               const subBand = sub
-                ? `<tr class="todo-subcat-row"><td colspan="4">${escapeHtml(sub)}</td></tr>`
+                ? `<tr class="todo-subcat-row"><td colspan="3">${escapeHtml(sub)}</td></tr>`
                 : "";
               return subBand + rows;
             })
@@ -1770,12 +1806,74 @@ const Trip = (() => {
     return `
       <h1>Pre-trip to-do</h1>
       <p class="subtitle">${done} of ${todo.length} done — bookings, reservations and paperwork before departure.</p>
+      <p class="todo-note">Status and remark edits are saved in this browser only.</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>Task</th><th>Status</th><th>Notes</th></tr></thead>
+          <thead><tr><th>Task</th><th>Status</th><th>Remarks</th></tr></thead>
           <tbody>${bodyRows}</tbody>
         </table>
       </div>`;
+  }
+
+  function renderTodo(trip) {
+    // Wire the status dropdowns and Edit buttons once, via delegation on #main —
+    // it survives the innerHTML re-renders each edit triggers (to refresh counts).
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (!main || main.dataset.todoWired) return;
+      main.dataset.todoWired = "1";
+      const rerender = () => {
+        main.innerHTML = todoHtml(trip);
+      };
+
+      main.addEventListener("change", (e) => {
+        const sel = e.target.closest(".todo-status");
+        if (!sel) return;
+        const item = trip.todo[+sel.dataset.todoIdx];
+        if (!item) return;
+        const overlay = todoOverlay(trip);
+        const key = todoItemKey(item);
+        overlay.byKey[key] = { ...(overlay.byKey[key] || {}), status: sel.value };
+        saveTodoOverlay(trip, overlay);
+        rerender();
+      });
+
+      main.addEventListener("click", (e) => {
+        const editBtn = e.target.closest("[data-todo-edit]");
+        const saveBtn = e.target.closest("[data-todo-save]");
+        const cancelBtn = e.target.closest("[data-todo-cancel]");
+        if (editBtn) {
+          const cell = editBtn.closest(".todo-remarks-cell");
+          const item = trip.todo[+cell.dataset.todoIdx];
+          const cur = todoEffective(item, todoOverlay(trip)).remarks || "";
+          cell.innerHTML = `<textarea class="todo-remarks-input" rows="3">${escapeHtml(
+            cur
+          )}</textarea>
+            <div class="todo-edit-actions">
+              <button type="button" class="todo-edit-btn" data-todo-save>Save</button>
+              <button type="button" class="todo-edit-btn todo-edit-cancel" data-todo-cancel>Cancel</button>
+            </div>`;
+          const ta = cell.querySelector("textarea");
+          ta.focus();
+          ta.setSelectionRange(ta.value.length, ta.value.length);
+          return;
+        }
+        if (saveBtn) {
+          const cell = saveBtn.closest(".todo-remarks-cell");
+          const item = trip.todo[+cell.dataset.todoIdx];
+          const val = cell.querySelector("textarea").value.trim();
+          const overlay = todoOverlay(trip);
+          const key = todoItemKey(item);
+          overlay.byKey[key] = { ...(overlay.byKey[key] || {}), remarks: val };
+          saveTodoOverlay(trip, overlay);
+          rerender();
+          return;
+        }
+        if (cancelBtn) rerender();
+      });
+    }, 0);
+
+    return todoHtml(trip);
   }
 
   const RENDERERS = {

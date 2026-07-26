@@ -313,7 +313,7 @@
       "task": "Book hotel",
       "category": "Booking",
       "subcategory": "Accommodation",
-      "status": null,
+      "status": "Open",
       "remarks": null,
       "url": null
     },
@@ -321,7 +321,7 @@
       "task": "Book museum tickets",
       "category": "Booking",
       "subcategory": "Attractions",
-      "status": null,
+      "status": "Open",
       "remarks": null,
       "url": null
     },
@@ -329,14 +329,14 @@
       "task": "Reserve dinner",
       "category": "Booking",
       "subcategory": "Restaurant",
-      "status": null,
+      "status": "Open",
       "remarks": null,
       "url": null
     },
     {
       "task": "Check passport validity (6 months)",
       "category": "Travel preparation",
-      "status": null,
+      "status": "Open",
       "remarks": null,
       "url": null
     }
