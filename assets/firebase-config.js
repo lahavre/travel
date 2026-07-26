@@ -11,12 +11,12 @@
 // Until the real apiKey is in place, the site stays fully public: the sign-in
 // button is hidden and nothing calls Firebase.
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID",
+  apiKey: "AIzaSyA7krlffa7yk9hR0HGZdSjGy0NeWdvCDik",
+  authDomain: "travel-planner-40c11.firebaseapp.com",
+  projectId: "travel-planner-40c11",
+  storageBucket: "travel-planner-40c11.firebasestorage.app",
+  messagingSenderId: "310717734987",
+  appId: "1:310717734987:web:842fcb1012281f4a5a6dce",
 };
 
 // Whether the config above has been filled in. The app checks this before
