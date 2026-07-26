@@ -302,7 +302,6 @@
   "_todo": "Pre-trip checklist. `status` of exactly \"Done\" renders as a completed badge; anything else renders as pending.",
   "todo": [
     {
-      "ref": "1",
       "task": "Book flights",
       "category": "Booking",
       "subcategory": "Transport",
@@ -311,7 +310,6 @@
       "url": null
     },
     {
-      "ref": "2",
       "task": "Book hotel",
       "category": "Booking",
       "subcategory": "Accommodation",
@@ -320,7 +318,6 @@
       "url": null
     },
     {
-      "ref": "3",
       "task": "Book museum tickets",
       "category": "Booking",
       "subcategory": "Attractions",
@@ -329,7 +326,6 @@
       "url": null
     },
     {
-      "ref": "4",
       "task": "Reserve dinner",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -338,7 +334,6 @@
       "url": null
     },
     {
-      "ref": "5",
       "task": "Check passport validity (6 months)",
       "category": "Travel preparation",
       "status": null,

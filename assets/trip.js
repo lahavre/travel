@@ -1706,8 +1706,11 @@ const Trip = (() => {
 
     const done = todo.filter((t) => t.status === "Done").length;
 
+    // Number in display order (1..N top to bottom), so grouping never leaves the
+    // "#" column looking scrambled. Items carry no stored number of their own.
+    let seq = 0;
     const todoRow = (t) => `<tr>
-        <td>${escapeHtml(t.ref || "")}</td>
+        <td>${++seq}</td>
         <td>${escapeHtml(t.task)}${
       t.url
         ? `<br><a href="${escapeHtml(

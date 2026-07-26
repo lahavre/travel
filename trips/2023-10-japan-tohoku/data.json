@@ -3018,7 +3018,6 @@
   },
   "todo": [
     {
-      "ref": "1",
       "task": "Car Rental Reservation",
       "category": "Booking",
       "subcategory": "Transport",
@@ -3027,16 +3026,6 @@
       "url": "https://rent.toyota.co.jp/eng/"
     },
     {
-      "ref": "2",
-      "task": "Restaurant Reservation",
-      "category": "Booking",
-      "subcategory": "Restaurant",
-      "status": null,
-      "remarks": "Kalai to reserve for us (a-e)",
-      "url": null
-    },
-    {
-      "ref": "a",
       "task": "Yuki?",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -3045,7 +3034,6 @@
       "url": "https://yuki-restaurant.business.site/"
     },
     {
-      "ref": "b",
       "task": "Misawaya - Negi Soba",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -3054,7 +3042,6 @@
       "url": "http://www.misawaya.jp/mail.php"
     },
     {
-      "ref": "c",
       "task": "Takino - Wappa Meshi",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -3063,7 +3050,6 @@
       "url": "http://www.takino.jp/reservation/"
     },
     {
-      "ref": "d",
       "task": "Torikatsu - Sukiyaki (Yonezawa Wagyu)",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -3072,7 +3058,6 @@
       "url": "https://yonezawa-torikatu.com/contact/"
     },
     {
-      "ref": "e",
       "task": "Yamagyu",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -3081,7 +3066,6 @@
       "url": "http://www.yamagyu.com/"
     },
     {
-      "ref": "f",
       "task": "Maboya",
       "category": "Booking",
       "subcategory": "Restaurant",
@@ -3090,7 +3074,6 @@
       "url": "https://maboya.owst.jp/"
     },
     {
-      "ref": "3",
       "task": "Ghibli Museum Ticket",
       "category": "Booking",
       "subcategory": "Attractions",
@@ -3099,7 +3082,6 @@
       "url": null
     },
     {
-      "ref": "4",
       "task": "Exchange another 100000JPY",
       "category": "Travel preparation",
       "status": "Done",
@@ -3107,7 +3089,6 @@
       "url": null
     },
     {
-      "ref": "5",
       "task": "Renew Passport",
       "category": "Travel preparation",
       "status": "Done",
@@ -3115,7 +3096,6 @@
       "url": null
     },
     {
-      "ref": "6",
       "task": "International Driving Permit",
       "category": "Travel preparation",
       "status": "Done",
