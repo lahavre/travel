@@ -1700,19 +1700,25 @@ const Trip = (() => {
       .map((pair) => pair[0]);
   }
 
-  // Status and remark edits are saved per-browser in localStorage, since a static
-  // page can't write back to data.json. Keyed by trip slug; the value overlays the
-  // baked data at render time. Keyed on category|subcategory|task so it survives
-  // reordering. (Shared-across-the-group editing would need a backend — see README.)
+  // All to-do edits — status, remarks, and items added or removed on the page —
+  // are saved per-browser in localStorage, since a static page can't write back to
+  // data.json. Keyed by trip slug; the value overlays the baked data at render time:
+  //   byKey   status/remark overrides for baked items, keyed category|subcategory|task
+  //   added   items created on the page, each with its own id
+  //   removed keys of baked items hidden on the page (a tombstone, since we can't
+  //           delete from data.json)
+  // (Shared-across-the-group editing would need a backend — see README.)
   function todoStoreKey(trip) {
     return `todo:${trip.slug || trip.title || "trip"}`;
   }
   function todoOverlay(trip) {
+    let o;
     try {
-      return JSON.parse(localStorage.getItem(todoStoreKey(trip))) || { byKey: {} };
+      o = JSON.parse(localStorage.getItem(todoStoreKey(trip))) || {};
     } catch (e) {
-      return { byKey: {} };
+      o = {};
     }
+    return { byKey: o.byKey || {}, added: o.added || [], removed: o.removed || [] };
   }
   function saveTodoOverlay(trip, overlay) {
     try {
@@ -1724,74 +1730,129 @@ const Trip = (() => {
   function todoItemKey(t) {
     return [t.category || "", t.subcategory || "", t.task || ""].join("|");
   }
-  // The effective status is binary: "Done", or "Open" for anything else.
-  function todoEffective(t, overlay) {
-    const o = overlay.byKey[todoItemKey(t)] || {};
-    const status = o.status !== undefined ? o.status : t.status;
-    const remarks = o.remarks !== undefined ? o.remarks : t.remarks;
-    return { done: status === "Done", remarks: remarks };
+
+  // The list actually rendered: baked items (minus any tombstoned) with their
+  // status/remark overrides applied, then items added on the page. Each carries a
+  // source tag so a handler knows whether to update byKey (baked) or the added
+  // entry. Status is binary — "Done", or "Open" for anything else.
+  function mergedTodo(trip) {
+    const overlay = todoOverlay(trip);
+    const removed = new Set(overlay.removed);
+    const baked = (trip.todo || [])
+      .filter((t) => !removed.has(todoItemKey(t)))
+      .map((t) => {
+        const o = overlay.byKey[todoItemKey(t)] || {};
+        return {
+          task: t.task,
+          url: t.url || null,
+          category: t.category || "",
+          subcategory: t.subcategory || "",
+          status: (o.status !== undefined ? o.status : t.status) === "Done" ? "Done" : "Open",
+          remarks: o.remarks !== undefined ? o.remarks : t.remarks,
+          _src: "baked",
+          _key: todoItemKey(t),
+        };
+      });
+    const added = overlay.added.map((a) => ({
+      task: a.task,
+      url: a.url || null,
+      category: a.category || "",
+      subcategory: a.subcategory || "",
+      status: a.status === "Done" ? "Done" : "Open",
+      remarks: a.remarks || null,
+      _src: "added",
+      _id: a.id,
+    }));
+    return baked.concat(added);
   }
 
+  const TODO_ADD_FORM = `
+    <div class="todo-add">
+      <button type="button" class="todo-edit-btn" data-todo-add-toggle>+ Add item</button>
+      <form class="todo-add-form" data-todo-add-form hidden>
+        <input type="text" class="todo-add-task" placeholder="Task" aria-label="Task" />
+        <select class="todo-add-category" aria-label="Category">
+          ${TODO_CATEGORY_ORDER.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("")}
+        </select>
+        <select class="todo-add-subcategory" aria-label="Subcategory">
+          ${TODO_SUBCATEGORY_ORDER.Booking.map(
+            (s) => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`
+          ).join("")}
+        </select>
+        <input type="text" class="todo-add-url" placeholder="Link (optional)" aria-label="Link" />
+        <input type="text" class="todo-add-remarks" placeholder="Remarks (optional)" aria-label="Remarks" />
+        <div class="todo-add-actions">
+          <button type="button" class="todo-edit-btn" data-todo-add-save>Add</button>
+          <button type="button" class="todo-edit-btn todo-edit-cancel" data-todo-add-cancel>Cancel</button>
+        </div>
+      </form>
+    </div>`;
+
   function todoHtml(trip) {
-    const todo = trip.todo || [];
-    if (!todo.length) return `<h1>Pre-trip to-do</h1>${placeholder("to-do items")}`;
+    const merged = mergedTodo(trip);
+    const done = merged.filter((m) => m.status === "Done").length;
+    const note = `<p class="todo-note">Adds, removals and edits here are saved in this browser only.</p>`;
 
-    const overlay = todoOverlay(trip);
-    const isDone = (t) => todoEffective(t, overlay).done;
-    const done = todo.filter(isDone).length;
+    if (!merged.length) {
+      return `
+        <h1>Pre-trip to-do</h1>
+        <p class="subtitle">Nothing on the list yet — add the first item below.</p>
+        ${note}
+        ${TODO_ADD_FORM}`;
+    }
 
-    const todoRow = (t) => {
-      const e = todoEffective(t, overlay);
-      const idx = todo.indexOf(t);
+    const todoRow = (m) => {
+      const idx = merged.indexOf(m);
       return `<tr>
-        <td>${escapeHtml(t.task)}${
-        t.url
+        <td>${escapeHtml(m.task)}${
+        m.url
           ? `<br><a href="${escapeHtml(
-              t.url
-            )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(t.url)}</a>`
+              m.url
+            )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(m.url)}</a>`
           : ""
       }</td>
         <td><select class="todo-status" data-todo-idx="${idx}" aria-label="Status">
-          <option value="Open"${e.done ? "" : " selected"}>Open</option>
-          <option value="Done"${e.done ? " selected" : ""}>Done</option>
+          <option value="Open"${m.status === "Done" ? "" : " selected"}>Open</option>
+          <option value="Done"${m.status === "Done" ? " selected" : ""}>Done</option>
         </select></td>
         <td class="todo-remarks-cell" data-todo-idx="${idx}">
-          <div class="todo-remarks-text">${multiline(e.remarks)}</div>
+          <div class="todo-remarks-text">${multiline(m.remarks)}</div>
           <button type="button" class="todo-edit-btn" data-todo-edit>Edit</button>
         </td>
+        <td class="todo-actions"><button type="button" class="todo-remove-btn" data-todo-remove data-todo-idx="${idx}" title="Remove item">Remove</button></td>
       </tr>`;
     };
 
     let bodyRows;
-    if (todo.some((t) => t.category)) {
+    if (merged.some((m) => m.category)) {
       // Grouped: category bands, and subcategory sub-bands within each.
       const cats = orderKeys(
-        [...new Set(todo.map((t) => t.category || "Other"))],
+        [...new Set(merged.map((m) => m.category || "Other"))],
         TODO_CATEGORY_ORDER,
         "Other"
       );
       bodyRows = cats
         .map((cat) => {
-          const items = todo.filter((t) => (t.category || "Other") === cat);
-          const catDone = items.filter(isDone).length;
-          const band = `<tr class="todo-cat-row"><td colspan="3"><span class="todo-cat-name">${escapeHtml(
+          const items = merged.filter((m) => (m.category || "Other") === cat);
+          const catDone = items.filter((m) => m.status === "Done").length;
+          const band = `<tr class="todo-cat-row"><td colspan="4"><span class="todo-cat-name">${escapeHtml(
             cat
           )}</span><span class="todo-cat-count">${catDone}/${items.length}</span></td></tr>`;
           // "" (no subcategory) sorts first, so those rows sit directly under
           // the category heading before any sub-band.
           const subs = orderKeys(
-            [...new Set(items.map((t) => t.subcategory || ""))],
+            [...new Set(items.map((m) => m.subcategory || ""))],
             ["", ...(TODO_SUBCATEGORY_ORDER[cat] || [])],
             null
           );
           const groups = subs
             .map((sub) => {
               const rows = items
-                .filter((t) => (t.subcategory || "") === sub)
+                .filter((m) => (m.subcategory || "") === sub)
                 .map(todoRow)
                 .join("");
               const subBand = sub
-                ? `<tr class="todo-subcat-row"><td colspan="3">${escapeHtml(sub)}</td></tr>`
+                ? `<tr class="todo-subcat-row"><td colspan="4">${escapeHtml(sub)}</td></tr>`
                 : "";
               return subBand + rows;
             })
@@ -1800,24 +1861,25 @@ const Trip = (() => {
         })
         .join("");
     } else {
-      bodyRows = todo.map(todoRow).join("");
+      bodyRows = merged.map(todoRow).join("");
     }
 
     return `
       <h1>Pre-trip to-do</h1>
-      <p class="subtitle">${done} of ${todo.length} done — bookings, reservations and paperwork before departure.</p>
-      <p class="todo-note">Status and remark edits are saved in this browser only.</p>
+      <p class="subtitle">${done} of ${merged.length} done — bookings, reservations and paperwork before departure.</p>
+      ${note}
+      ${TODO_ADD_FORM}
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Task</th><th>Status</th><th>Remarks</th></tr></thead>
+          <thead><tr><th>Task</th><th>Status</th><th>Remarks</th><th></th></tr></thead>
           <tbody>${bodyRows}</tbody>
         </table>
       </div>`;
   }
 
   function renderTodo(trip) {
-    // Wire the status dropdowns and Edit buttons once, via delegation on #main —
-    // it survives the innerHTML re-renders each edit triggers (to refresh counts).
+    // Wire the controls once, via delegation on #main — it survives the innerHTML
+    // re-renders each edit triggers (to refresh counts and the grouped layout).
     setTimeout(() => {
       const main = document.getElementById("main");
       if (!main || main.dataset.todoWired) return;
@@ -1825,27 +1887,49 @@ const Trip = (() => {
       const rerender = () => {
         main.innerHTML = todoHtml(trip);
       };
+      // Apply a status/remark override to whichever store the row came from.
+      const patch = (m, fields) => {
+        const overlay = todoOverlay(trip);
+        if (m._src === "added") {
+          const entry = overlay.added.find((a) => a.id === m._id);
+          if (entry) Object.assign(entry, fields);
+        } else {
+          overlay.byKey[m._key] = { ...(overlay.byKey[m._key] || {}), ...fields };
+        }
+        saveTodoOverlay(trip, overlay);
+      };
 
       main.addEventListener("change", (e) => {
         const sel = e.target.closest(".todo-status");
-        if (!sel) return;
-        const item = trip.todo[+sel.dataset.todoIdx];
-        if (!item) return;
-        const overlay = todoOverlay(trip);
-        const key = todoItemKey(item);
-        overlay.byKey[key] = { ...(overlay.byKey[key] || {}), status: sel.value };
-        saveTodoOverlay(trip, overlay);
-        rerender();
+        if (sel) {
+          const m = mergedTodo(trip)[+sel.dataset.todoIdx];
+          if (m) {
+            patch(m, { status: sel.value });
+            rerender();
+          }
+          return;
+        }
+        const cat = e.target.closest(".todo-add-category");
+        if (cat) {
+          // Subcategory only applies to Booking.
+          const sub = main.querySelector(".todo-add-subcategory");
+          if (sub) sub.disabled = cat.value !== "Booking";
+        }
       });
 
       main.addEventListener("click", (e) => {
         const editBtn = e.target.closest("[data-todo-edit]");
         const saveBtn = e.target.closest("[data-todo-save]");
         const cancelBtn = e.target.closest("[data-todo-cancel]");
+        const removeBtn = e.target.closest("[data-todo-remove]");
+        const addToggle = e.target.closest("[data-todo-add-toggle]");
+        const addSave = e.target.closest("[data-todo-add-save]");
+        const addCancel = e.target.closest("[data-todo-add-cancel]");
+
         if (editBtn) {
           const cell = editBtn.closest(".todo-remarks-cell");
-          const item = trip.todo[+cell.dataset.todoIdx];
-          const cur = todoEffective(item, todoOverlay(trip)).remarks || "";
+          const m = mergedTodo(trip)[+cell.dataset.todoIdx];
+          const cur = (m && m.remarks) || "";
           cell.innerHTML = `<textarea class="todo-remarks-input" rows="3">${escapeHtml(
             cur
           )}</textarea>
@@ -1860,16 +1944,63 @@ const Trip = (() => {
         }
         if (saveBtn) {
           const cell = saveBtn.closest(".todo-remarks-cell");
-          const item = trip.todo[+cell.dataset.todoIdx];
-          const val = cell.querySelector("textarea").value.trim();
+          const m = mergedTodo(trip)[+cell.dataset.todoIdx];
+          if (m) patch(m, { remarks: cell.querySelector("textarea").value.trim() });
+          rerender();
+          return;
+        }
+        if (cancelBtn) {
+          rerender();
+          return;
+        }
+        if (removeBtn) {
+          const m = mergedTodo(trip)[+removeBtn.dataset.todoIdx];
+          if (!m || !window.confirm(`Remove "${m.task}" from the list?`)) return;
           const overlay = todoOverlay(trip);
-          const key = todoItemKey(item);
-          overlay.byKey[key] = { ...(overlay.byKey[key] || {}), remarks: val };
+          if (m._src === "added") {
+            overlay.added = overlay.added.filter((a) => a.id !== m._id);
+          } else {
+            if (!overlay.removed.includes(m._key)) overlay.removed.push(m._key);
+            delete overlay.byKey[m._key];
+          }
           saveTodoOverlay(trip, overlay);
           rerender();
           return;
         }
-        if (cancelBtn) rerender();
+        if (addToggle) {
+          const form = main.querySelector("[data-todo-add-form]");
+          if (form) {
+            form.hidden = false;
+            addToggle.hidden = true;
+            const task = form.querySelector(".todo-add-task");
+            if (task) task.focus();
+          }
+          return;
+        }
+        if (addSave) {
+          const form = addSave.closest("[data-todo-add-form]");
+          const task = form.querySelector(".todo-add-task").value.trim();
+          if (!task) {
+            form.querySelector(".todo-add-task").focus();
+            return;
+          }
+          const category = form.querySelector(".todo-add-category").value;
+          const subEl = form.querySelector(".todo-add-subcategory");
+          const overlay = todoOverlay(trip);
+          overlay.added.push({
+            id: "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+            task: task,
+            category: category,
+            subcategory: category === "Booking" ? subEl.value : "",
+            status: "Open",
+            url: form.querySelector(".todo-add-url").value.trim() || null,
+            remarks: form.querySelector(".todo-add-remarks").value.trim() || null,
+          });
+          saveTodoOverlay(trip, overlay);
+          rerender();
+          return;
+        }
+        if (addCancel) rerender();
       });
     }, 0);
 

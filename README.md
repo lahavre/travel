@@ -250,14 +250,18 @@ subcategory is never shown as an empty scaffold), and a trip that sets no catego
 all still renders as the plain flat table — the fields are fully optional and
 backward-compatible.
 
-Each row's **status** is a two-state dropdown (`Open` / `Done`) and its **remarks**
-have an Edit button. Because the site is static, these edits can't be written back to
-`data.json`; they are saved in the **browser's `localStorage`** (keyed by trip slug),
-exactly like the weather Refresh. So an edit is **per-browser and not shared** — it
-won't appear on another device, and clearing browser data resets it. The baked
-`data.json` values are the shared defaults; to change what everyone sees, edit
-`data.json` and commit. (Sharing edits across the group would need a backend, which a
-GitHub Pages site doesn't have.)
+The page is **editable in the browser**: each row's **status** is a two-state
+dropdown (`Open` / `Done`), its **remarks** have an Edit button, every row has a
+**Remove** button, and an **Add item** form appends new tasks (task, category,
+Booking subcategory, optional link and remarks). Because the site is static, none of
+this can be written back to `data.json`; it is saved in the **browser's
+`localStorage`** (keyed by trip slug), exactly like the weather Refresh. The overlay
+holds three things over the baked data: status/remark overrides, added items, and
+tombstones that hide a removed baked item (the data itself can't be deleted). So every
+edit is **per-browser and not shared** — it won't appear on another device, and
+clearing browser data resets it. The baked `data.json` values are the shared
+defaults; to change what everyone sees, edit `data.json` and commit. (Sharing edits
+across the group would need a backend, which a GitHub Pages site doesn't have.)
 
 ## Local preview
 

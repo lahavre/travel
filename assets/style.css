@@ -346,6 +346,60 @@ tfoot td {
   gap: 8px;
   margin-top: 6px;
 }
+.todo-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+.todo-remove-btn {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.todo-remove-btn:hover {
+  border-color: var(--badge-past);
+  color: var(--text);
+}
+.todo-add {
+  margin: 4px 0 18px;
+}
+.todo-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+}
+.todo-add-form input,
+.todo-add-form select {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+}
+.todo-add-form .todo-add-task {
+  flex: 1 1 200px;
+}
+.todo-add-form select:disabled {
+  opacity: 0.5;
+}
+.todo-add-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
 
 /* ---- Day page nav ---- */
 /* Three slots, so "All days" stays centred even when there is no previous or
