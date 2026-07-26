@@ -1,5 +1,17 @@
 /* Shared helpers for the travel site: header/nav injection, formatting, budget math. */
 const TravelSite = (() => {
+  // Absolute URL of the assets/ folder, captured from this script's own src so
+  // dynamic import() of firebase-config.js resolves the same from a trip page
+  // (trips/<slug>/) or the root index.html. import() alone would resolve against
+  // the document, which differs by page depth.
+  const ASSETS_BASE = (() => {
+    try {
+      return new URL(".", document.currentScript.src).href;
+    } catch (e) {
+      return "./";
+    }
+  })();
+
   function renderHeader({ root = ".", siteTitle = "Travel", tripTitle, tripHome, navLinks = [] } = {}) {
     const mount = document.getElementById("site-header");
     if (!mount) return;
@@ -19,8 +31,87 @@ const TravelSite = (() => {
       <div class="site-header-inner">
         <div class="site-title">${titleHtml}</div>
         <nav class="trip-nav">${navHtml}</nav>
+        <div class="site-auth" id="site-auth"></div>
       </div>`;
+
+    initAuth();
   }
+
+  // ---- Google sign-in (Firebase Auth) --------------------------------------
+  // Loaded lazily and only when firebase-config.js has real values, so the
+  // public site is unaffected until Firebase is set up. Access itself (who can
+  // read/write remarks and files) is enforced by security rules on the server,
+  // not here — this only drives the sign-in button and lets other code react to
+  // who is signed in.
+  let fb = null; // { auth, mod } once loaded
+  let authState = { ready: false, user: null };
+  const authListeners = [];
+
+  function onAuthChange(fn) {
+    authListeners.push(fn);
+    if (authState.ready) fn(authState.user);
+  }
+  function currentUser() {
+    return authState.user;
+  }
+
+  let authStarted = false;
+  async function initAuth() {
+    if (authStarted) {
+      renderAuthControl();
+      return;
+    }
+    authStarted = true;
+    let cfg;
+    try {
+      cfg = await import(ASSETS_BASE + "firebase-config.js");
+    } catch (e) {
+      authStarted = false;
+      return; // no config file — stay public
+    }
+    if (!cfg.firebaseReady) return; // placeholder config — stay public
+
+    try {
+      const [appMod, authMod] = await Promise.all([
+        import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"),
+        import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"),
+      ]);
+      const app = appMod.initializeApp(cfg.firebaseConfig);
+      const auth = authMod.getAuth(app);
+      fb = { app, auth, mod: authMod };
+      authMod.onAuthStateChanged(auth, (user) => {
+        authState = { ready: true, user };
+        renderAuthControl();
+        authListeners.forEach((fn) => fn(user));
+      });
+    } catch (e) {
+      console.warn("Firebase auth failed to load:", e);
+    }
+  }
+
+  function renderAuthControl() {
+    const slot = document.getElementById("site-auth");
+    if (!slot || !fb) return;
+    const user = authState.user;
+    slot.innerHTML = user
+      ? `<span class="auth-who" title="${user.email || ""}">${user.email || "signed in"}</span>
+         <button type="button" class="auth-btn" data-auth-signout>Sign out</button>`
+      : `<button type="button" class="auth-btn" data-auth-signin>Sign in</button>`;
+  }
+
+  document.addEventListener("click", async (e) => {
+    if (e.target.closest("[data-auth-signin]") && fb) {
+      const provider = new fb.mod.GoogleAuthProvider();
+      try {
+        await fb.mod.signInWithPopup(fb.auth, provider);
+      } catch (err) {
+        console.warn("Sign-in cancelled or failed:", err);
+      }
+    }
+    if (e.target.closest("[data-auth-signout]") && fb) {
+      await fb.mod.signOut(fb.auth);
+    }
+  });
 
   async function fetchJSON(path) {
     const res = await fetch(path);
@@ -100,5 +191,8 @@ const TravelSite = (() => {
     sortTripsByDate,
     toHomeCurrency,
     computeBudgetSummary,
+    onAuthChange,
+    currentUser,
+    ASSETS_BASE,
   };
 })();
