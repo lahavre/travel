@@ -250,18 +250,53 @@ subcategory is never shown as an empty scaffold), and a trip that sets no catego
 all still renders as the plain flat table — the fields are fully optional and
 backward-compatible.
 
-The page is **editable in the browser**: each row's **status** is a two-state
-dropdown (`Open` / `Done`), its **remarks** have an Edit button, every row has a
-**Remove** button, and an **Add item** form appends new tasks (task, category,
-Booking subcategory, optional link and remarks). Because the site is static, none of
-this can be written back to `data.json`; it is saved in the **browser's
-`localStorage`** (keyed by trip slug), exactly like the weather Refresh. The overlay
-holds three things over the baked data: status/remark overrides, added items, and
-tombstones that hide a removed baked item (the data itself can't be deleted). So every
-edit is **per-browser and not shared** — it won't appear on another device, and
-clearing browser data resets it. The baked `data.json` values are the shared
-defaults; to change what everyone sees, edit `data.json` and commit. (Sharing edits
-across the group would need a backend, which a GitHub Pages site doesn't have.)
+The page is **editable in the browser, shared across the group via Firebase**: each
+row's **status** is a two-state dropdown (`Open` / `Done`), its **remarks** have an
+Edit button, every row has a **Remove** button, and an **Add item** form appends new
+tasks (task, category, Booking subcategory, optional link and remarks).
+
+Editing requires **Google sign-in** (the button in the header). Signed-in changes are
+stored in **Cloud Firestore** — one document per trip at `todoOverlays/<slug>` — and
+stream live to every other signed-in traveller via `onSnapshot`. The document is an
+overlay over the baked `data.json`, holding three things: status/remark overrides
+(`byKey`, keyed `category|subcategory|task`), added items (`added`), and tombstones
+that hide a removed baked item (`removed` — the data itself can't be deleted). Reads
+and writes are gated to an allow-list of Google accounts by the security rules in
+[`firestore.rules`](firestore.rules); a **signed-out** (or not-allow-listed) visitor
+sees the baked list **read-only**. The baked `data.json` values are the seed everyone
+starts from; to change those defaults, edit `data.json` and commit.
+
+See **Firebase / private data** below for how sign-in and the config are wired.
+
+## Firebase / private data
+
+The public itinerary (plan, hotels, budget, weather) stays a static site on GitHub
+Pages. A separate **private layer**, gated by Google sign-in, holds the group's shared,
+editable data — currently the to-do overlay, with a booking-file vault planned next.
+
+- **Project:** `travel-planner-40c11` (Firebase). The web config in
+  [`assets/firebase-config.js`](assets/firebase-config.js) is the **public** client
+  config — safe to commit, because access is enforced by security rules on Google's
+  servers, not by hiding it. Until that file holds real values (not the `PASTE_…`
+  placeholders), the whole Firebase layer stays dormant and the site is fully public.
+- **Auth:** Google sign-in, loaded lazily in [`assets/common.js`](assets/common.js) by
+  dynamically importing the Firebase SDK (v10.12.0) from gstatic — so no build step and
+  no change to the per-trip HTML stubs. The header shows a Sign in / Sign out control;
+  `TravelSite.onAuthChange()` and `TravelSite.currentUser()` let renderers react to who
+  is signed in, and `TravelSite.watchDoc()` / `writeDoc()` wrap Firestore.
+- **Who can read/write:** an allow-list of Google accounts in
+  [`firestore.rules`](firestore.rules). Reads *and* writes are gated (viewing is
+  private, not just editing). **These rules only take effect once pasted into the
+  Firebase console** (Build → Firestore Database → Rules → Publish); keep the file and
+  the console in sync. Add a traveller by adding their email and re-publishing.
+- **Live-site setup done once in the console:** enable Google sign-in, add
+  `lahavre.github.io` to Authentication → Authorized domains, and create Firestore in
+  production mode. For the file vault, the project also needs the **Blaze** plan (a card
+  on file; ~$0 at this scale) to enable Cloud Storage.
+- **Not yet built:** the booking-file vault (Firebase Storage) and adding the other
+  three travellers to the allow-list. If the *itinerary itself* ever needs to be
+  private too, that's a separate follow-up (wrap the whole site in Cloudflare Access
+  and move off public Pages) — deliberately not done, since the itinerary is public.
 
 ## Local preview
 

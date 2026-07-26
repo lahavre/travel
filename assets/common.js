@@ -181,6 +181,44 @@ const TravelSite = (() => {
     return `${(fraction * 100).toFixed(1)}%`;
   }
 
+  // ---- Firestore (shared, private data) ------------------------------------
+  // Lazy-loaded on the same Firebase app as auth. watchDoc streams live updates
+  // (onSnapshot) so an edit by one signed-in traveller appears for the others
+  // without a refresh; writeDoc saves. Both no-op / reject when Firebase isn't
+  // configured, and the security rules deny everything to non-allow-listed users.
+  let fs = null;
+  async function getFirestore() {
+    if (fs) return fs;
+    if (!fb) return null;
+    const mod = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    fs = { db: mod.getFirestore(fb.app), mod };
+    return fs;
+  }
+  function watchDoc(path, onData, onError) {
+    let unsub = null;
+    let cancelled = false;
+    getFirestore()
+      .then((f) => {
+        if (!f || cancelled) return;
+        const ref = f.mod.doc(f.db, path);
+        unsub = f.mod.onSnapshot(
+          ref,
+          (snap) => onData(snap.exists() ? snap.data() : null),
+          (err) => onError && onError(err)
+        );
+      })
+      .catch((e) => onError && onError(e));
+    return () => {
+      cancelled = true;
+      if (unsub) unsub();
+    };
+  }
+  async function writeDoc(path, data) {
+    const f = await getFirestore();
+    if (!f) throw new Error("Firestore not available");
+    await f.mod.setDoc(f.mod.doc(f.db, path), data);
+  }
+
   return {
     renderHeader,
     fetchJSON,
@@ -193,6 +231,8 @@ const TravelSite = (() => {
     computeBudgetSummary,
     onAuthChange,
     currentUser,
+    watchDoc,
+    writeDoc,
     ASSETS_BASE,
   };
 })();
