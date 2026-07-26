@@ -259,6 +259,33 @@ tfoot td {
   white-space: nowrap;
 }
 
+/* ---- To-do groupings ---- */
+.todo-cat-row td {
+  border-top: 2px solid var(--border);
+  padding-top: 14px;
+}
+.todo-cat-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.todo-cat-count {
+  margin-left: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+.todo-subcat-row td {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  padding-left: 18px;
+}
+
 /* ---- Day page nav ---- */
 /* Three slots, so "All days" stays centred even when there is no previous or
    next day to show. */

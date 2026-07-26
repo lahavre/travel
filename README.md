@@ -66,7 +66,7 @@ breaking, so a half-planned trip still renders.
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
 | `accommodation` | Stays — booking, address, room, times, meal/parking/laundry, payment, optional `perPerson` split |
 | `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
-| `todo` | Pre-trip checklist; `status: "Done"` renders as complete |
+| `todo` | Pre-trip checklist; `status: "Done"` renders as complete. Optional `category` + `subcategory` group the list (see below) |
 
 **Currency.** `exchangeRate.rate` is how many *home* currency units you get per
 `exchangeRate.per` units of *trip* currency — Japan quotes `per: 100` (3.305 MYR per
@@ -239,6 +239,16 @@ local to their own airport; set `arrivesNextDay` on a red-eye.
 `misc`. Override with a `costCategories` object mapping key to label; the keys you use
 in `costs` must match. Day totals and the budget page's "planned spend" table roll up
 from these automatically.
+
+**The to-do page.** A flat checklist by default. Give items an optional `category`
+and the list renders in grouped bands; `Booking` items can add a `subcategory` —
+`Accommodation`, `Transport`, `Attractions` or `Restaurant` — which render as
+sub-bands in that fixed order. Categories render `Booking` then `Travel preparation`
+first, then any others in the order they appear, with each band showing its own
+done/total count. Only groups that actually contain items appear (an unused
+subcategory is never shown as an empty scaffold), and a trip that sets no category at
+all still renders as the plain flat table — the fields are fully optional and
+backward-compatible.
 
 ## Local preview
 

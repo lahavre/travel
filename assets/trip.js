@@ -1676,11 +1676,93 @@ const Trip = (() => {
       }`;
   }
 
+  // Categories and, within Booking, subcategories render in this fixed order;
+  // anything not listed falls in after, in the order it first appears in the
+  // data. Uncategorised items collect under "Other" at the very end, so a trip
+  // that never sets a category still renders as a plain flat list.
+  const TODO_CATEGORY_ORDER = ["Booking", "Travel preparation"];
+  const TODO_SUBCATEGORY_ORDER = {
+    Booking: ["Accommodation", "Transport", "Attractions", "Restaurant"],
+  };
+
+  // Stable ordering by a preferred list: listed keys first in their given
+  // order, the rest after in first-seen order, with `last` (e.g. "Other")
+  // always pinned to the end.
+  function orderKeys(keys, preferred, last) {
+    const rank = (k) => {
+      if (k === last) return Number.MAX_SAFE_INTEGER;
+      const i = preferred.indexOf(k);
+      return i === -1 ? preferred.length : i;
+    };
+    return keys
+      .map((k, i) => [k, i])
+      .sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1])
+      .map((pair) => pair[0]);
+  }
+
   function renderTodo(trip) {
     const todo = trip.todo || [];
     if (!todo.length) return `<h1>Pre-trip to-do</h1>${placeholder("to-do items")}`;
 
     const done = todo.filter((t) => t.status === "Done").length;
+
+    const todoRow = (t) => `<tr>
+        <td>${escapeHtml(t.ref || "")}</td>
+        <td>${escapeHtml(t.task)}${
+      t.url
+        ? `<br><a href="${escapeHtml(
+            t.url
+          )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(t.url)}</a>`
+        : ""
+    }</td>
+        <td>${
+          t.status
+            ? `<span class="badge${t.status === "Done" ? "" : " past"}">${escapeHtml(t.status)}</span>`
+            : ""
+        }</td>
+        <td style="color:var(--text-dim);font-size:.85rem">${multiline(t.remarks)}</td>
+      </tr>`;
+
+    let bodyRows;
+    if (todo.some((t) => t.category)) {
+      // Grouped: category bands, and subcategory sub-bands within each.
+      const cats = orderKeys(
+        [...new Set(todo.map((t) => t.category || "Other"))],
+        TODO_CATEGORY_ORDER,
+        "Other"
+      );
+      bodyRows = cats
+        .map((cat) => {
+          const items = todo.filter((t) => (t.category || "Other") === cat);
+          const catDone = items.filter((t) => t.status === "Done").length;
+          const band = `<tr class="todo-cat-row"><td colspan="4"><span class="todo-cat-name">${escapeHtml(
+            cat
+          )}</span><span class="todo-cat-count">${catDone}/${items.length}</span></td></tr>`;
+          // "" (no subcategory) sorts first, so those rows sit directly under
+          // the category heading before any sub-band.
+          const subs = orderKeys(
+            [...new Set(items.map((t) => t.subcategory || ""))],
+            ["", ...(TODO_SUBCATEGORY_ORDER[cat] || [])],
+            null
+          );
+          const groups = subs
+            .map((sub) => {
+              const rows = items
+                .filter((t) => (t.subcategory || "") === sub)
+                .map(todoRow)
+                .join("");
+              const subBand = sub
+                ? `<tr class="todo-subcat-row"><td colspan="4">${escapeHtml(sub)}</td></tr>`
+                : "";
+              return subBand + rows;
+            })
+            .join("");
+          return band + groups;
+        })
+        .join("");
+    } else {
+      bodyRows = todo.map(todoRow).join("");
+    }
 
     return `
       <h1>Pre-trip to-do</h1>
@@ -1688,26 +1770,7 @@ const Trip = (() => {
       <div class="table-wrap">
         <table>
           <thead><tr><th>#</th><th>Task</th><th>Status</th><th>Notes</th></tr></thead>
-          <tbody>${todo
-            .map(
-              (t) => `<tr>
-                <td>${escapeHtml(t.ref || "")}</td>
-                <td>${escapeHtml(t.task)}${
-                t.url
-                  ? `<br><a href="${escapeHtml(
-                      t.url
-                    )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(t.url)}</a>`
-                  : ""
-              }</td>
-                <td>${
-                  t.status
-                    ? `<span class="badge${t.status === "Done" ? "" : " past"}">${escapeHtml(t.status)}</span>`
-                    : ""
-                }</td>
-                <td style="color:var(--text-dim);font-size:.85rem">${multiline(t.remarks)}</td>
-              </tr>`
-            )
-            .join("")}</tbody>
+          <tbody>${bodyRows}</tbody>
         </table>
       </div>`;
   }

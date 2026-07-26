@@ -304,6 +304,8 @@
     {
       "ref": "1",
       "task": "Book flights",
+      "category": "Booking",
+      "subcategory": "Transport",
       "status": "Done",
       "remarks": "Booked 12 Nov",
       "url": null
@@ -311,6 +313,7 @@
     {
       "ref": "2",
       "task": "Check passport validity (6 months)",
+      "category": "Travel preparation",
       "status": null,
       "remarks": null,
       "url": null
