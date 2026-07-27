@@ -396,7 +396,7 @@ tfoot td {
 .todo-add {
   margin: 4px 0 18px;
 }
-.todo-add-form {
+.todo-add-form:not([hidden]) {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
