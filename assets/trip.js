@@ -24,6 +24,7 @@ const Trip = (() => {
     { key: "accommodation", label: "Accommodation", href: "accommodation.html" },
     { key: "transport", label: "Transport", href: "transport.html" },
     { key: "todo", label: "To-do", href: "todo.html" },
+    { key: "files", label: "Files", href: "files.html" },
   ];
 
   const PAGE_TITLES = {
@@ -35,6 +36,7 @@ const Trip = (() => {
     accommodation: "Accommodation",
     transport: "Transport",
     todo: "To-do",
+    files: "Files",
   };
 
   // ---------------------------------------------------------------- helpers
@@ -2058,6 +2060,194 @@ const Trip = (() => {
     return todoHtml(trip);
   }
 
+  // ---------------------------------------------------------------- files vault
+
+  // Booking confirmations, tickets and vouchers, in Firebase Storage under
+  // trips/<slug>/. Private: viewing and uploading need sign-in + the allow-list
+  // (Storage security rules). Storage has no live sync, so the list refreshes on
+  // load and after each upload/delete.
+  const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25 MB per file
+  const filesState = {
+    trip: null,
+    files: [],
+    access: "none", // none (signed out) | ok | denied/error
+    error: "",
+    loading: false,
+    wired: false,
+  };
+  function filesPrefix(trip) {
+    return "trips/" + (trip.slug || trip.title || "trip") + "/";
+  }
+  function formatBytes(n) {
+    if (n === null || n === undefined || isNaN(n)) return "";
+    if (n < 1024) return n + " B";
+    if (n < 1024 * 1024) return Math.round(n / 1024) + " KB";
+    return (n / 1024 / 1024).toFixed(1) + " MB";
+  }
+
+  function fileRow(f) {
+    const when = f.uploadedAt
+      ? new Date(f.uploadedAt).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : "";
+    const who = f.uploadedBy ? escapeHtml(f.uploadedBy.split("@")[0]) : "";
+    return `<tr>
+      <td><a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+      f.name
+    )}</a><br><span style="color:var(--text-dim);font-size:.8rem">${formatBytes(f.size)}</span></td>
+      <td style="color:var(--text-dim);font-size:.85rem">${when}${who ? " · " + who : ""}</td>
+      <td class="todo-actions"><button type="button" class="todo-remove-btn" data-files-delete data-files-path="${escapeHtml(
+        f.fullPath
+      )}" data-files-name="${escapeHtml(f.name)}">Delete</button></td>
+    </tr>`;
+  }
+
+  function filesHtml(trip) {
+    if (filesState.access === "none") {
+      return `<h1>Booking files</h1><div class="empty-state">These files are private. Sign in (top right) to view and upload booking confirmations and tickets.</div>`;
+    }
+    if (filesState.access === "denied") {
+      return `<h1>Booking files</h1><div class="empty-state">${escapeHtml(
+        filesState.error ||
+          "Couldn't load the files. Your account may not be on the trip's access list."
+      )}</div>`;
+    }
+
+    const upload = `
+      <div class="files-upload">
+        <input type="file" id="files-input" class="files-input" multiple />
+        <button type="button" class="auth-btn" data-files-upload>Upload</button>
+        <span class="files-status" data-files-status></span>
+      </div>`;
+
+    let list;
+    if (filesState.loading) {
+      list = `<p class="subtitle">Loading…</p>`;
+    } else if (!filesState.files.length) {
+      list = `<div class="empty-state">No files yet. Upload a booking confirmation or ticket above.</div>`;
+    } else {
+      list = `<div class="table-wrap">
+        <table>
+          <thead><tr><th>File</th><th>Uploaded</th><th></th></tr></thead>
+          <tbody>${filesState.files.map(fileRow).join("")}</tbody>
+        </table>
+      </div>`;
+    }
+
+    return `<h1>Booking files</h1>
+      <p class="todo-note">Private to signed-in travellers — booking confirmations, tickets and vouchers.</p>
+      ${upload}
+      ${list}`;
+  }
+
+  function renderFilesMain() {
+    const main = document.getElementById("main");
+    if (main) main.innerHTML = filesHtml(filesState.trip);
+  }
+
+  function loadFiles() {
+    filesState.loading = true;
+    filesState.access = "ok";
+    renderFilesMain();
+    TravelSite.listFiles(filesPrefix(filesState.trip))
+      .then((files) => {
+        files.sort((a, b) => String(b.uploadedAt).localeCompare(String(a.uploadedAt)));
+        filesState.files = files;
+        filesState.access = "ok";
+        filesState.loading = false;
+        renderFilesMain();
+      })
+      .catch((e) => {
+        filesState.loading = false;
+        filesState.access = "denied";
+        filesState.error =
+          "Couldn't load the files. If Storage was just enabled, give it a moment; otherwise this account may not be on the access list.";
+        console.warn("listFiles failed:", e);
+        renderFilesMain();
+      });
+  }
+
+  function wireFilesOnce() {
+    const main = document.getElementById("main");
+    if (!main || filesState.wired) return;
+    filesState.wired = true;
+
+    main.addEventListener("click", (e) => {
+      const uploadBtn = e.target.closest("[data-files-upload]");
+      const deleteBtn = e.target.closest("[data-files-delete]");
+      const status = main.querySelector("[data-files-status]");
+
+      if (uploadBtn) {
+        const input = main.querySelector("#files-input");
+        if (!input || !input.files.length) {
+          if (status) status.textContent = "Choose a file first.";
+          return;
+        }
+        const files = [...input.files];
+        const tooBig = files.find((f) => f.size > MAX_FILE_BYTES);
+        if (tooBig) {
+          if (status) status.textContent = `"${tooBig.name}" is over 25 MB.`;
+          return;
+        }
+        if (status) status.textContent = "Uploading…";
+        uploadBtn.disabled = true;
+        Promise.all(
+          files.map((f) =>
+            TravelSite.uploadFile(
+              filesPrefix(filesState.trip) +
+                Date.now().toString(36) +
+                Math.random().toString(36).slice(2, 6),
+              f
+            )
+          )
+        )
+          .then(() => loadFiles())
+          .catch((err) => {
+            uploadBtn.disabled = false;
+            if (status) status.textContent = "Upload failed: " + err.message;
+          });
+        return;
+      }
+
+      if (deleteBtn) {
+        const path = deleteBtn.dataset.filesPath;
+        const name = deleteBtn.dataset.filesName;
+        if (!window.confirm(`Delete "${name}"? This can't be undone.`)) return;
+        deleteBtn.disabled = true;
+        TravelSite.deleteFile(path)
+          .then(() => loadFiles())
+          .catch((err) => {
+            deleteBtn.disabled = false;
+            if (status) status.textContent = "Delete failed: " + err.message;
+          });
+        return;
+      }
+    });
+  }
+
+  function renderFiles(trip) {
+    filesState.trip = trip;
+    filesState.files = [];
+    filesState.error = "";
+    filesState.access = TravelSite.currentUser() ? "ok" : "none";
+    setTimeout(wireFilesOnce, 0);
+
+    TravelSite.onAuthChange((user) => {
+      if (user) {
+        loadFiles();
+      } else {
+        filesState.access = "none";
+        filesState.files = [];
+        renderFilesMain();
+      }
+    });
+
+    return filesHtml(trip);
+  }
+
   const RENDERERS = {
     index: renderIndex,
     overview: renderOverview,
@@ -2067,6 +2257,7 @@ const Trip = (() => {
     accommodation: renderAccommodation,
     transport: renderTransport,
     todo: renderTodo,
+    files: renderFiles,
   };
 
   // ---------------------------------------------------------------- entry point

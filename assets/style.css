@@ -451,6 +451,28 @@ tfoot td {
   gap: 8px;
   margin-left: auto;
 }
+.files-upload {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 18px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+}
+.files-input {
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--text);
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.files-status {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
 
 /* ---- Day page nav ---- */
 /* Three slots, so "All days" stays centred even when there is no previous or

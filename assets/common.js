@@ -219,6 +219,58 @@ const TravelSite = (() => {
     await f.mod.setDoc(f.mod.doc(f.db, path), data);
   }
 
+  // ---- Firebase Storage (private files) ------------------------------------
+  // The booking-file vault. Lazy-loaded like Firestore, on the same app. Gated
+  // to the allow-list by Storage security rules. Needs the project on the Blaze
+  // plan (Cloud Storage isn't available on the free Spark plan).
+  let st = null;
+  async function getStorage() {
+    if (st) return st;
+    if (!fb) return null;
+    const mod = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js");
+    st = { store: mod.getStorage(fb.app), mod };
+    return st;
+  }
+  async function uploadFile(path, file) {
+    const s = await getStorage();
+    if (!s) throw new Error("Storage not available");
+    const metadata = {
+      customMetadata: {
+        uploadedBy: (currentUser() && currentUser().email) || "",
+        uploadedAt: new Date().toISOString(),
+        originalName: file.name,
+      },
+    };
+    await s.mod.uploadBytes(s.mod.ref(s.store, path), file, metadata);
+  }
+  async function listFiles(prefix) {
+    const s = await getStorage();
+    if (!s) return [];
+    const res = await s.mod.listAll(s.mod.ref(s.store, prefix));
+    return Promise.all(
+      res.items.map(async (itemRef) => {
+        const [url, meta] = await Promise.all([
+          s.mod.getDownloadURL(itemRef),
+          s.mod.getMetadata(itemRef),
+        ]);
+        const cm = meta.customMetadata || {};
+        return {
+          name: cm.originalName || itemRef.name,
+          fullPath: itemRef.fullPath,
+          url: url,
+          size: meta.size,
+          uploadedBy: cm.uploadedBy || "",
+          uploadedAt: cm.uploadedAt || meta.timeCreated || "",
+        };
+      })
+    );
+  }
+  async function deleteFile(path) {
+    const s = await getStorage();
+    if (!s) throw new Error("Storage not available");
+    await s.mod.deleteObject(s.mod.ref(s.store, path));
+  }
+
   return {
     renderHeader,
     fetchJSON,
@@ -233,6 +285,9 @@ const TravelSite = (() => {
     currentUser,
     watchDoc,
     writeDoc,
+    uploadFile,
+    listFiles,
+    deleteFile,
     ASSETS_BASE,
   };
 })();

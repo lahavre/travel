@@ -1,0 +1,28 @@
+rules_version = '2';
+
+// Security rules for the booking-file vault (Firebase Storage). Reads AND writes
+// are restricted to the same allow-list of Google accounts as the Firestore data —
+// the files (booking confirmations, tickets) are private, so viewing needs sign-in
+// too. Enforced on Google's servers, so it holds even though the site is public.
+//
+// Kept in the repo for version control; they only take effect once pasted into the
+// Firebase console: Build -> Storage -> Rules -> (replace all) -> Publish. Storage
+// needs the project on the Blaze plan. Keep this file and the console in sync, and
+// keep the allow-list identical to firestore.rules.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isEditor() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+             'chew.mun.chun@gmail.com'
+           ];
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if isEditor();
+    }
+  }
+}

@@ -20,7 +20,8 @@ trips/<slug>/
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
   transport.html      Travel log / getting around
-  todo.html           Pre-trip bookings and paperwork
+  todo.html           Pre-trip bookings and paperwork (private, sign-in to view)
+  files.html          Booking-file vault (private, sign-in to view)
 ```
 
 Trip slugs are `YYYY-MM-destination`, so folders sort chronologically.
@@ -39,7 +40,7 @@ consistent the same way the old spreadsheet formulas did.
    `startDate`, `endDate`. The landing page sorts by `startDate` descending and derives
    the Upcoming/In progress/Past badge from today's date.
 
-The seven HTML pages are identical for every trip and contain no trip-specific content —
+The nine HTML pages are identical for every trip and contain no trip-specific content —
 never edit them per trip. `_template/` is not listed in `trips.json`, so it stays off the
 landing page while remaining previewable at `/trips/_template/`.
 
@@ -270,7 +271,7 @@ See **Firebase / private data** below for how sign-in and the config are wired.
 
 The public itinerary (plan, hotels, budget, weather) stays a static site on GitHub
 Pages. A separate **private layer**, gated by Google sign-in, holds the group's shared,
-editable data — currently the to-do overlay, with a booking-file vault planned next.
+editable data — the to-do list and a booking-file vault (both sign-in to view).
 
 - **Project:** `travel-planner-40c11` (Firebase). The web config in
   [`assets/firebase-config.js`](assets/firebase-config.js) is the **public** client
@@ -281,19 +282,26 @@ editable data — currently the to-do overlay, with a booking-file vault planned
   dynamically importing the Firebase SDK (v10.12.0) from gstatic — so no build step and
   no change to the per-trip HTML stubs. The header shows a Sign in / Sign out control;
   `TravelSite.onAuthChange()` and `TravelSite.currentUser()` let renderers react to who
-  is signed in, and `TravelSite.watchDoc()` / `writeDoc()` wrap Firestore.
-- **Who can read/write:** an allow-list of Google accounts in
-  [`firestore.rules`](firestore.rules). Reads *and* writes are gated (viewing is
-  private, not just editing). **These rules only take effect once pasted into the
-  Firebase console** (Build → Firestore Database → Rules → Publish); keep the file and
-  the console in sync. Add a traveller by adding their email and re-publishing.
+  is signed in, and `TravelSite.watchDoc()` / `writeDoc()` wrap Firestore while
+  `uploadFile()` / `listFiles()` / `deleteFile()` wrap Storage.
+- **The file vault (`files.html`):** booking confirmations, tickets and vouchers in
+  Firebase Storage under `trips/<slug>/`, listed on load (Storage has no live sync).
+  Uploading and viewing both need sign-in + the allow-list. The original filename,
+  uploader and timestamp are kept in each object's custom metadata; a 25 MB per-file cap
+  is enforced client-side.
+- **Who can read/write:** an allow-list of Google accounts, kept **identical** in
+  [`firestore.rules`](firestore.rules) and [`storage.rules`](storage.rules). Reads *and*
+  writes are gated (viewing is private, not just editing). **These rules only take effect
+  once pasted into the Firebase console** (Firestore: Build → Firestore Database → Rules;
+  Storage: Build → Storage → Rules → Publish); keep the files and the console in sync.
+  Add a traveller by adding their email to both and re-publishing.
 - **Live-site setup done once in the console:** enable Google sign-in, add
-  `lahavre.github.io` to Authentication → Authorized domains, and create Firestore in
-  production mode. For the file vault, the project also needs the **Blaze** plan (a card
-  on file; ~$0 at this scale) to enable Cloud Storage.
-- **Not yet built:** the booking-file vault (Firebase Storage) and adding the other
-  three travellers to the allow-list. If the *itinerary itself* ever needs to be
-  private too, that's a separate follow-up (wrap the whole site in Cloudflare Access
+  `lahavre.github.io` to Authentication → Authorized domains, create Firestore in
+  production mode, upgrade to the **Blaze** plan (a card on file; ~$0 at this scale) and
+  enable Cloud Storage.
+- **Not yet built:** adding the other three travellers to the allow-list. If the
+  *itinerary itself* ever needs to be private too, that's a separate follow-up (wrap the
+  whole site in Cloudflare Access
   and move off public Pages) — deliberately not done, since the itinerary is public.
 
 ## Local preview
@@ -316,7 +324,7 @@ Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned 
 
 `tools/` holds scripts that are not part of the site:
 
-- `new_trip_pages.py [slug...]` — (re)writes the seven boilerplate pages into trip
+- `new_trip_pages.py [slug...]` — (re)writes the nine boilerplate pages into trip
   folders. Copying `trips/_template/` does the same for a single new trip; this is for
   updating every trip at once if the boilerplate changes.
 - `fetch_weather.py <data.json>` — fills each day's `temperature[]` from Open-Meteo,
