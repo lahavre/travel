@@ -255,20 +255,14 @@ row's **status** is a two-state dropdown (`Open` / `Done`), its **remarks** have
 Edit button, every row has a **Remove** button, and an **Add item** form appends new
 tasks (task, category, Booking subcategory, optional link and remarks).
 
-The whole list lives in **Cloud Firestore** and streams live to every signed-in
-traveller via `onSnapshot`; `data.json`'s `todo` is only the **seed** (it initialises
-Firestore on the first signed-in load, and is the fallback shown before that). Because
-Firestore read rules are per-document, the list is split so that **task + status are
-public but remarks are private** (remarks may hold booking numbers):
-
-- `todoPublic/<slug>` — `{ items: [{id, task, category, subcategory, status, url}] }`,
-  **public read**, allow-list write.
-- `todoRemarks/<slug>` — `{ byId: { itemId: "remark" } }`, allow-list **read and write**.
-
-So a **signed-out** visitor sees every item's task and status read-only, with remarks
-shown as "Sign in to view"; a **signed-in allow-listed** traveller sees and edits
-everything. Editing requires **Google sign-in** (header button). The allow-list and the
-public/private split are enforced by [`firestore.rules`](firestore.rules).
+The whole list is **private**: it lives in one Cloud Firestore document per trip,
+`todoList/<slug>` — `{ items: [{id, task, category, subcategory, status, url, remarks}] }`
+— readable and writable **only by the allow-list**, and streamed live to every
+signed-in traveller via `onSnapshot`. `data.json`'s `todo` is only the **seed** that
+initialises the document on the first signed-in load. So a **signed-out** visitor sees
+a "sign in to view" prompt (nothing leaks — not even task names); a **signed-in
+allow-listed** traveller sees and edits the full list. The itinerary tabs stay public;
+only this one is behind sign-in. Enforced by [`firestore.rules`](firestore.rules).
 
 See **Firebase / private data** below for how sign-in and the config are wired.
 

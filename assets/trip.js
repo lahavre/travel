@@ -1700,25 +1700,17 @@ const Trip = (() => {
       .map((pair) => pair[0]);
   }
 
-  // To-do items live in Firestore so the signed-in group shares one live list,
-  // seeded from data.json (which a static page can't write back to). Firestore read
-  // rules are per-document, so to keep task+status public but remarks (which may
-  // hold booking numbers) private, the list is split across two documents:
-  //   todoPublic/<slug>   { items: [{id, task, category, subcategory, status, url}] }
-  //                       public read, allow-list write
-  //   todoRemarks/<slug>  { byId: { <itemId>: "remark" } }
-  //                       allow-list read AND write
-  // data.json's `todo` is the seed: it initialises both docs on the first signed-in
-  // load, and is the fallback shown before that (or if Firestore can't be read).
-  // Signed-out visitors see task+status; remarks need sign-in.
+  // The whole to-do list lives in one Firestore document per trip
+  // (todoList/<slug> = { items: [{id, task, category, subcategory, status, url,
+  // remarks}] }), shared live across the signed-in group. data.json's `todo` is
+  // the seed that initialises it on the first signed-in load. The list is private:
+  // only the allow-list can read or write it (security rules), so a signed-out
+  // visitor sees a sign-in prompt, not the list.
   const todoState = {
     trip: null,
-    publicDoc: null, // { items } from Firestore, or null -> use the data.json seed
-    remarksDoc: null, // { byId } from Firestore, or null
-    signedIn: false,
-    remarksDenied: false, // signed in but can't read the private remarks doc
-    unsubPublic: null,
-    unsubRemarks: null,
+    doc: null, // { items } from Firestore, or null before it loads / is seeded
+    access: "none", // none (signed out) | ok (allow-listed) | denied (signed in, not listed)
+    unsub: null,
     seeded: false,
     wired: false,
   };
@@ -1726,72 +1718,42 @@ const Trip = (() => {
   function todoItemKey(t) {
     return [t.category || "", t.subcategory || "", t.task || ""].join("|");
   }
-  function todoPublicPath(trip) {
-    return "todoPublic/" + (trip.slug || trip.title || "trip");
-  }
-  function todoRemarksPath(trip) {
-    return "todoRemarks/" + (trip.slug || trip.title || "trip");
+  function todoDocPath(trip) {
+    return "todoList/" + (trip.slug || trip.title || "trip");
   }
   function newTodoId() {
     return "a" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   }
 
-  // The seed from data.json: public items and remarks, sharing ids (the
-  // category|subcategory|task key, stable across renders so remarks line up).
+  // The seed derived from data.json — the initial items, remarks included.
   function todoSeed(trip) {
-    const items = [];
-    const byId = {};
-    (trip.todo || []).forEach((t) => {
-      const id = todoItemKey(t);
-      items.push({
-        id: id,
-        task: t.task,
-        category: t.category || "",
-        subcategory: t.subcategory || "",
-        status: t.status === "Done" ? "Done" : "Open",
-        url: t.url || null,
-      });
-      if (t.remarks) byId[id] = t.remarks;
-    });
-    return { items: items, byId: byId };
+    return (trip.todo || []).map((t) => ({
+      id: todoItemKey(t),
+      task: t.task,
+      category: t.category || "",
+      subcategory: t.subcategory || "",
+      status: t.status === "Done" ? "Done" : "Open",
+      url: t.url || null,
+      remarks: t.remarks || null,
+    }));
   }
-
   // Current items to render: the Firestore list if present, else the seed.
   function todoItems() {
-    const p = todoState.publicDoc;
-    if (p && Array.isArray(p.items)) return p.items;
-    return todoSeed(todoState.trip).items;
+    const d = todoState.doc;
+    if (d && Array.isArray(d.items)) return d.items;
+    return todoSeed(todoState.trip);
   }
-  // Current remarks map: Firestore's if present, else the seed.
-  function todoRemarksMap() {
-    const r = todoState.remarksDoc;
-    if (r && r.byId) return r.byId;
-    return todoSeed(todoState.trip).byId;
-  }
-  function todoRemarkFor(id) {
-    if (!todoState.signedIn) return undefined; // hidden when logged out
-    return todoRemarksMap()[id];
-  }
-
-  function writeTodoPublic(items) {
-    todoState.publicDoc = { items: items }; // optimistic
-    TravelSite.writeDoc(todoPublicPath(todoState.trip), { items: items }).catch((e) =>
+  function writeTodoItems(items) {
+    todoState.doc = { items: items }; // optimistic
+    TravelSite.writeDoc(todoDocPath(todoState.trip), { items: items }).catch((e) =>
       console.warn("Couldn't save the to-do list:", e)
     );
   }
-  function writeTodoRemarks(byId) {
-    todoState.remarksDoc = { byId: byId }; // optimistic
-    TravelSite.writeDoc(todoRemarksPath(todoState.trip), { byId: byId }).catch((e) =>
-      console.warn("Couldn't save the remark:", e)
-    );
-  }
-  // First signed-in visit with no Firestore list yet: seed both docs from data.json.
+  // First signed-in visit with no Firestore list yet: seed it from data.json.
   function maybeSeedTodo() {
-    if (todoState.signedIn && !todoState.seeded && todoState.publicDoc === null) {
+    if (todoState.access === "ok" && !todoState.seeded && todoState.doc === null) {
       todoState.seeded = true;
-      const seed = todoSeed(todoState.trip);
-      writeTodoPublic(seed.items);
-      writeTodoRemarks(seed.byId);
+      writeTodoItems(todoSeed(todoState.trip));
     }
   }
 
@@ -1818,57 +1780,48 @@ const Trip = (() => {
     </div>`;
 
   function todoHtml(trip) {
+    if (todoState.access !== "ok") {
+      const msg =
+        todoState.access === "denied"
+          ? "Your Google account isn't on this trip's access list."
+          : "This to-do list is private. Sign in (top right) to view and edit it — it's shared across your group.";
+      return `<h1>Pre-trip to-do</h1><div class="empty-state">${msg}</div>`;
+    }
+
     const items = todoItems();
     const done = items.filter((it) => it.status === "Done").length;
-    const editable = todoState.signedIn && !todoState.remarksDenied;
-
-    let note;
-    if (editable) {
-      note = `<p class="todo-note">Shared list — changes save for everyone signed in. Remarks stay private to signed-in travellers.</p>`;
-    } else if (todoState.signedIn) {
-      note = `<p class="todo-note">Your account can see the list but isn't on the trip's edit list.</p>`;
-    } else {
-      note = `<p class="todo-note">Sign in (top right) to edit and to see the private remarks — the list is shared across your group.</p>`;
-    }
-    const addForm = editable ? TODO_ADD_FORM : "";
+    const note = `<p class="todo-note">Shared list — changes save for everyone signed in.</p>`;
 
     if (!items.length) {
       return `
         <h1>Pre-trip to-do</h1>
-        <p class="subtitle">${
-          editable ? "Nothing on the list yet — add the first item below." : "Nothing on the list yet."
-        }</p>
+        <p class="subtitle">Nothing on the list yet — add the first item below.</p>
         ${note}
-        ${addForm}`;
+        ${TODO_ADD_FORM}`;
     }
 
     const todoRow = (it) => {
       const isDone = it.status === "Done";
-      const taskCell = `<td>${escapeHtml(it.task)}${
+      return `<tr>
+        <td>${escapeHtml(it.task)}${
         it.url
           ? `<br><a href="${escapeHtml(
               it.url
             )}" target="_blank" rel="noopener noreferrer" style="font-size:.82rem">${escapeHtml(it.url)}</a>`
           : ""
-      }</td>`;
-      const statusCell = editable
-        ? `<td><select class="todo-status" data-todo-id="${escapeHtml(it.id)}" aria-label="Status">
-            <option value="Open"${isDone ? "" : " selected"}>Open</option>
-            <option value="Done"${isDone ? " selected" : ""}>Done</option>
-          </select></td>`
-        : `<td><span class="badge${isDone ? "" : " past"}">${it.status}</span></td>`;
-      const remarksCell = editable
-        ? `<td class="todo-remarks-cell" data-todo-id="${escapeHtml(it.id)}">
-            <div class="todo-remarks-text">${multiline(todoRemarkFor(it.id))}</div>
-            <button type="button" class="todo-edit-btn" data-todo-edit>Edit</button>
-          </td>`
-        : `<td class="todo-remarks-cell todo-remarks-locked">Sign in to view</td>`;
-      const actionCell = editable
-        ? `<td class="todo-actions"><button type="button" class="todo-remove-btn" data-todo-remove data-todo-id="${escapeHtml(
-            it.id
-          )}" title="Remove item">Remove</button></td>`
-        : `<td class="todo-actions"></td>`;
-      return `<tr>${taskCell}${statusCell}${remarksCell}${actionCell}</tr>`;
+      }</td>
+        <td><select class="todo-status" data-todo-id="${escapeHtml(it.id)}" aria-label="Status">
+          <option value="Open"${isDone ? "" : " selected"}>Open</option>
+          <option value="Done"${isDone ? " selected" : ""}>Done</option>
+        </select></td>
+        <td class="todo-remarks-cell" data-todo-id="${escapeHtml(it.id)}">
+          <div class="todo-remarks-text">${multiline(it.remarks)}</div>
+          <button type="button" class="todo-edit-btn" data-todo-edit>Edit</button>
+        </td>
+        <td class="todo-actions"><button type="button" class="todo-remove-btn" data-todo-remove data-todo-id="${escapeHtml(
+          it.id
+        )}" title="Remove item">Remove</button></td>
+      </tr>`;
     };
 
     let bodyRows;
@@ -1916,7 +1869,7 @@ const Trip = (() => {
       <h1>Pre-trip to-do</h1>
       <p class="subtitle">${done} of ${items.length} done — bookings, reservations and paperwork before departure.</p>
       ${note}
-      ${addForm}
+      ${TODO_ADD_FORM}
       <div class="table-wrap">
         <table>
           <thead><tr><th>Task</th><th>Status</th><th>Remarks</th><th></th></tr></thead>
@@ -1934,7 +1887,7 @@ const Trip = (() => {
     const main = document.getElementById("main");
     if (!main || todoState.wired) return;
     todoState.wired = true;
-    const editable = () => todoState.signedIn && !todoState.remarksDenied;
+    const editable = () => todoState.access === "ok";
     // A fresh shallow copy of the current items, safe to mutate before writing.
     const itemsCopy = () => todoItems().map((it) => ({ ...it }));
 
@@ -1946,7 +1899,7 @@ const Trip = (() => {
         const it = items.find((x) => x.id === sel.dataset.todoId);
         if (it) {
           it.status = sel.value;
-          writeTodoPublic(items);
+          writeTodoItems(items);
           renderTodoMain();
         }
         return;
@@ -1959,7 +1912,7 @@ const Trip = (() => {
     });
 
     main.addEventListener("click", (e) => {
-      if (!editable()) return; // controls only render when editable
+      if (!editable()) return;
       const editBtn = e.target.closest("[data-todo-edit]");
       const saveBtn = e.target.closest("[data-todo-save]");
       const cancelBtn = e.target.closest("[data-todo-cancel]");
@@ -1970,7 +1923,8 @@ const Trip = (() => {
 
       if (editBtn) {
         const cell = editBtn.closest(".todo-remarks-cell");
-        const cur = todoRemarksMap()[cell.dataset.todoId] || "";
+        const it = todoItems().find((x) => x.id === cell.dataset.todoId);
+        const cur = (it && it.remarks) || "";
         cell.innerHTML = `<textarea class="todo-remarks-input" rows="3">${escapeHtml(
           cur
         )}</textarea>
@@ -1985,12 +1939,12 @@ const Trip = (() => {
       }
       if (saveBtn) {
         const cell = saveBtn.closest(".todo-remarks-cell");
-        const id = cell.dataset.todoId;
-        const val = cell.querySelector("textarea").value.trim();
-        const byId = { ...todoRemarksMap() };
-        if (val) byId[id] = val;
-        else delete byId[id];
-        writeTodoRemarks(byId);
+        const items = itemsCopy();
+        const it = items.find((x) => x.id === cell.dataset.todoId);
+        if (it) {
+          it.remarks = cell.querySelector("textarea").value.trim() || null;
+          writeTodoItems(items);
+        }
         renderTodoMain();
         return;
       }
@@ -2002,12 +1956,7 @@ const Trip = (() => {
         const id = removeBtn.dataset.todoId;
         const it = todoItems().find((x) => x.id === id);
         if (!it || !window.confirm(`Remove "${it.task}" from the list?`)) return;
-        writeTodoPublic(todoItems().filter((x) => x.id !== id));
-        const byId = { ...todoRemarksMap() };
-        if (byId[id] !== undefined) {
-          delete byId[id];
-          writeTodoRemarks(byId);
-        }
+        writeTodoItems(todoItems().filter((x) => x.id !== id));
         renderTodoMain();
         return;
       }
@@ -2030,23 +1979,17 @@ const Trip = (() => {
         }
         const category = form.querySelector(".todo-add-category").value;
         const subEl = form.querySelector(".todo-add-subcategory");
-        const id = newTodoId();
         const items = itemsCopy();
         items.push({
-          id: id,
+          id: newTodoId(),
           task: task,
           category: category,
           subcategory: category === "Booking" ? subEl.value : "",
           status: "Open",
           url: form.querySelector(".todo-add-url").value.trim() || null,
+          remarks: form.querySelector(".todo-add-remarks").value.trim() || null,
         });
-        writeTodoPublic(items);
-        const remark = form.querySelector(".todo-add-remarks").value.trim();
-        if (remark) {
-          const byId = { ...todoRemarksMap() };
-          byId[id] = remark;
-          writeTodoRemarks(byId);
-        }
+        writeTodoItems(items);
         renderTodoMain();
         return;
       }
@@ -2056,53 +1999,41 @@ const Trip = (() => {
 
   function renderTodo(trip) {
     todoState.trip = trip;
-    todoState.publicDoc = null;
-    todoState.remarksDoc = null;
-    todoState.signedIn = !!TravelSite.currentUser();
-    todoState.remarksDenied = false;
+    todoState.doc = null;
+    todoState.access = TravelSite.currentUser() ? "ok" : "none";
     todoState.seeded = false;
     setTimeout(wireTodoOnce, 0);
 
-    // The public list streams for everyone (once rules allow public read); the
-    // private remarks stream only when signed in. A permission error on either
-    // means the rules deny this viewer — fall back gracefully.
+    // The list is private: subscribe when signed in (live via onSnapshot). A
+    // permission error means signed in but not on the allow-list; signed out
+    // shows a sign-in prompt.
     TravelSite.onAuthChange((user) => {
-      todoState.signedIn = !!user;
-      if (!todoState.unsubPublic) {
-        todoState.unsubPublic = TravelSite.watchDoc(
-          todoPublicPath(trip),
+      if (todoState.unsub) {
+        todoState.unsub();
+        todoState.unsub = null;
+      }
+      if (user) {
+        todoState.access = "ok";
+        todoState.doc = null;
+        todoState.unsub = TravelSite.watchDoc(
+          todoDocPath(trip),
           (data) => {
-            todoState.publicDoc = data;
+            todoState.doc = data;
+            todoState.access = "ok";
             maybeSeedTodo();
             renderTodoMain();
           },
           () => {
-            todoState.publicDoc = null; // fall back to the data.json seed
+            todoState.doc = null;
+            todoState.access = "denied";
             renderTodoMain();
           }
         );
+      } else {
+        todoState.access = "none";
+        todoState.doc = null;
+        renderTodoMain();
       }
-      if (todoState.unsubRemarks) {
-        todoState.unsubRemarks();
-        todoState.unsubRemarks = null;
-      }
-      todoState.remarksDoc = null;
-      todoState.remarksDenied = false;
-      if (user) {
-        todoState.unsubRemarks = TravelSite.watchDoc(
-          todoRemarksPath(trip),
-          (data) => {
-            todoState.remarksDoc = data;
-            renderTodoMain();
-          },
-          () => {
-            todoState.remarksDoc = null;
-            todoState.remarksDenied = true;
-            renderTodoMain();
-          }
-        );
-      }
-      renderTodoMain();
     });
 
     return todoHtml(trip);
