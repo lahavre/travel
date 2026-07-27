@@ -1803,7 +1803,7 @@ const Trip = (() => {
     const todoRow = (it) => {
       const isDone = it.status === "Done";
       return `<tr>
-        <td>${escapeHtml(it.task)}${
+        <td class="todo-task-cell">${escapeHtml(it.task)}${
         it.url
           ? `<br><a href="${escapeHtml(
               it.url
@@ -1923,10 +1923,16 @@ const Trip = (() => {
 
       if (editBtn) {
         const cell = editBtn.closest(".todo-remarks-cell");
+        const row = cell.closest("tr");
         const it = todoItems().find((x) => x.id === cell.dataset.todoId);
-        const cur = (it && it.remarks) || "";
+        const taskCell = row.querySelector(".todo-task-cell");
+        if (taskCell) {
+          taskCell.innerHTML = `<input type="text" class="todo-edit-task" value="${escapeHtml(
+            (it && it.task) || ""
+          )}" aria-label="Task" />`;
+        }
         cell.innerHTML = `<textarea class="todo-remarks-input" rows="3">${escapeHtml(
-          cur
+          (it && it.remarks) || ""
         )}</textarea>
           <div class="todo-edit-actions">
             <button type="button" class="todo-edit-btn" data-todo-save>Save</button>
@@ -1939,9 +1945,17 @@ const Trip = (() => {
       }
       if (saveBtn) {
         const cell = saveBtn.closest(".todo-remarks-cell");
+        const row = cell.closest("tr");
+        const taskInput = row.querySelector(".todo-edit-task");
+        const newTask = taskInput ? taskInput.value.trim() : null;
+        if (taskInput && !newTask) {
+          taskInput.focus(); // a task can't be left blank
+          return;
+        }
         const items = itemsCopy();
         const it = items.find((x) => x.id === cell.dataset.todoId);
         if (it) {
+          if (taskInput) it.task = newTask;
           it.remarks = cell.querySelector("textarea").value.trim() || null;
           writeTodoItems(items);
         }

@@ -356,6 +356,17 @@ tfoot td {
 .todo-edit-cancel {
   color: var(--text-dim);
 }
+.todo-edit-task {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--text);
+  box-sizing: border-box;
+}
 .todo-remarks-input {
   width: 100%;
   min-width: 180px;
