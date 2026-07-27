@@ -338,6 +338,11 @@ tfoot td {
 .todo-remarks-text {
   white-space: normal;
 }
+.todo-remarks-locked {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  font-style: italic;
+}
 .todo-edit-btn {
   margin-top: 6px;
   font: inherit;

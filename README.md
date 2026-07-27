@@ -255,16 +255,20 @@ row's **status** is a two-state dropdown (`Open` / `Done`), its **remarks** have
 Edit button, every row has a **Remove** button, and an **Add item** form appends new
 tasks (task, category, Booking subcategory, optional link and remarks).
 
-Editing requires **Google sign-in** (the button in the header). Signed-in changes are
-stored in **Cloud Firestore** — one document per trip at `todoOverlays/<slug>` — and
-stream live to every other signed-in traveller via `onSnapshot`. The document is an
-overlay over the baked `data.json`, holding three things: status/remark overrides
-(`byKey`, keyed `category|subcategory|task`), added items (`added`), and tombstones
-that hide a removed baked item (`removed` — the data itself can't be deleted). Reads
-and writes are gated to an allow-list of Google accounts by the security rules in
-[`firestore.rules`](firestore.rules); a **signed-out** (or not-allow-listed) visitor
-sees the baked list **read-only**. The baked `data.json` values are the seed everyone
-starts from; to change those defaults, edit `data.json` and commit.
+The whole list lives in **Cloud Firestore** and streams live to every signed-in
+traveller via `onSnapshot`; `data.json`'s `todo` is only the **seed** (it initialises
+Firestore on the first signed-in load, and is the fallback shown before that). Because
+Firestore read rules are per-document, the list is split so that **task + status are
+public but remarks are private** (remarks may hold booking numbers):
+
+- `todoPublic/<slug>` — `{ items: [{id, task, category, subcategory, status, url}] }`,
+  **public read**, allow-list write.
+- `todoRemarks/<slug>` — `{ byId: { itemId: "remark" } }`, allow-list **read and write**.
+
+So a **signed-out** visitor sees every item's task and status read-only, with remarks
+shown as "Sign in to view"; a **signed-in allow-listed** traveller sees and edits
+everything. Editing requires **Google sign-in** (header button). The allow-list and the
+public/private split are enforced by [`firestore.rules`](firestore.rules).
 
 See **Firebase / private data** below for how sign-in and the config are wired.
 
