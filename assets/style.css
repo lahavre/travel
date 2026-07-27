@@ -367,6 +367,18 @@ tfoot td {
   color: var(--text);
   box-sizing: border-box;
 }
+.todo-edit-url {
+  width: 100%;
+  margin-top: 6px;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--text);
+  box-sizing: border-box;
+}
 .todo-remarks-input {
   width: 100%;
   min-width: 180px;

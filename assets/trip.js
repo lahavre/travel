@@ -1929,7 +1929,10 @@ const Trip = (() => {
         if (taskCell) {
           taskCell.innerHTML = `<input type="text" class="todo-edit-task" value="${escapeHtml(
             (it && it.task) || ""
-          )}" aria-label="Task" />`;
+          )}" aria-label="Task" />
+            <input type="text" class="todo-edit-url" value="${escapeHtml(
+              (it && it.url) || ""
+            )}" placeholder="Link (optional)" aria-label="Link" />`;
         }
         cell.innerHTML = `<textarea class="todo-remarks-input" rows="3">${escapeHtml(
           (it && it.remarks) || ""
@@ -1952,10 +1955,12 @@ const Trip = (() => {
           taskInput.focus(); // a task can't be left blank
           return;
         }
+        const urlInput = row.querySelector(".todo-edit-url");
         const items = itemsCopy();
         const it = items.find((x) => x.id === cell.dataset.todoId);
         if (it) {
           if (taskInput) it.task = newTask;
+          if (urlInput) it.url = urlInput.value.trim() || null;
           it.remarks = cell.querySelector("textarea").value.trim() || null;
           writeTodoItems(items);
         }
