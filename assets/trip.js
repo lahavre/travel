@@ -2250,6 +2250,7 @@ const Trip = (() => {
     trip: null,
     groups: [], // [{kind, key}] the page has registered
     files: {}, // "kind/key" -> [{name, fullPath, url, size, uploadedBy, uploadedAt}]
+    pending: {}, // "kind/key" -> [File] chosen but not yet uploaded
     signedIn: false,
     error: "",
     rerender: null, // set by the page renderer
@@ -2326,11 +2327,43 @@ const Trip = (() => {
     }</div>
       ${files.length ? `<ul class="attach-list">${list}</ul>` : `<p class="attach-empty">None attached yet.</p>`}
       <div class="attach-actions">
-        <input type="file" class="attach-input" multiple aria-label="Choose a file to attach" />
+        <input type="file" class="attach-input" multiple aria-label="Choose files to attach" />
         <button type="button" class="todo-edit-btn" data-attach-upload>Attach</button>
+        <button type="button" class="attach-del" data-attach-clear hidden>Clear</button>
         <span class="attach-status"></span>
       </div>
+      <p class="attach-hint">Pick several at once, or drop files here.</p>
     </div>`;
+  }
+
+  // Files chosen but not yet uploaded, per group. Held outside the DOM so picking
+  // again *adds* to the queue instead of replacing it — the native input discards
+  // the previous selection each time it is used.
+  function pendingFor(id) {
+    if (!attachState.pending[id]) attachState.pending[id] = [];
+    return attachState.pending[id];
+  }
+  function addPending(box, fileList) {
+    const id = box.dataset.attachGroup;
+    const queue = pendingFor(id);
+    [...fileList].forEach((f) => {
+      const dupe = queue.some((x) => x.name === f.name && x.size === f.size);
+      if (!dupe) queue.push(f);
+    });
+    showPending(box);
+  }
+  function showPending(box) {
+    const queue = pendingFor(box.dataset.attachGroup);
+    const status = box.querySelector(".attach-status");
+    const clearBtn = box.querySelector("[data-attach-clear]");
+    if (clearBtn) clearBtn.hidden = !queue.length;
+    if (!status) return;
+    if (!queue.length) {
+      status.textContent = "";
+      return;
+    }
+    const names = queue.map((f) => f.name).join(", ");
+    status.textContent = `${queue.length} file${queue.length > 1 ? "s" : ""} ready: ${names}`;
   }
 
   // One delegated listener for every attach box on the page.
@@ -2339,39 +2372,85 @@ const Trip = (() => {
     if (!main || attachState.wired) return;
     attachState.wired = true;
 
+    // Picking files adds them to the queue rather than replacing it, so several
+    // rounds of picking (or a mix of picking and dropping) upload together.
+    main.addEventListener("change", (e) => {
+      const input = e.target.closest(".attach-input");
+      if (!input) return;
+      const box = input.closest(".attach-box");
+      addPending(box, input.files);
+      input.value = ""; // let the same file be re-picked, and keep the queue ours
+    });
+
+    // Drag and drop onto a box.
+    main.addEventListener("dragover", (e) => {
+      const box = e.target.closest(".attach-box");
+      if (!box) return;
+      e.preventDefault();
+      box.classList.add("attach-dragging");
+    });
+    main.addEventListener("dragleave", (e) => {
+      const box = e.target.closest(".attach-box");
+      if (box && !box.contains(e.relatedTarget)) box.classList.remove("attach-dragging");
+    });
+    main.addEventListener("drop", (e) => {
+      const box = e.target.closest(".attach-box");
+      if (!box) return;
+      e.preventDefault();
+      box.classList.remove("attach-dragging");
+      if (e.dataTransfer && e.dataTransfer.files.length) addPending(box, e.dataTransfer.files);
+    });
+
     main.addEventListener("click", (e) => {
       const uploadBtn = e.target.closest("[data-attach-upload]");
       const deleteBtn = e.target.closest("[data-attach-delete]");
-      if (!uploadBtn && !deleteBtn) return;
-      const box = (uploadBtn || deleteBtn).closest(".attach-box");
+      const clearBtn = e.target.closest("[data-attach-clear]");
+      if (!uploadBtn && !deleteBtn && !clearBtn) return;
+      const box = (uploadBtn || deleteBtn || clearBtn).closest(".attach-box");
       const status = box.querySelector(".attach-status");
-      const [kind, key] = box.dataset.attachGroup.split("/");
+      const id = box.dataset.attachGroup;
+      const [kind, key] = id.split("/");
+
+      if (clearBtn) {
+        attachState.pending[id] = [];
+        showPending(box);
+        return;
+      }
 
       if (uploadBtn) {
-        const input = box.querySelector(".attach-input");
-        if (!input || !input.files.length) {
-          status.textContent = "Choose a file first.";
+        const queue = pendingFor(id);
+        if (!queue.length) {
+          status.textContent = "Choose or drop a file first.";
           return;
         }
-        const chosen = [...input.files];
-        const tooBig = chosen.find((f) => f.size > ATTACH_MAX_BYTES);
+        const tooBig = queue.find((f) => f.size > ATTACH_MAX_BYTES);
         if (tooBig) {
           status.textContent = `"${tooBig.name}" is over 25 MB.`;
           return;
         }
-        status.textContent = "Uploading…";
+        const total = queue.length;
+        let done = 0;
+        const tick = () => {
+          done += 1;
+          status.textContent = `Uploading ${done} of ${total}…`;
+        };
+        status.textContent = `Uploading 0 of ${total}…`;
         uploadBtn.disabled = true;
+        const stamp = Date.now().toString(36);
         Promise.all(
-          chosen.map((f) =>
+          // Index the id as well as the timestamp: files picked together share a
+          // millisecond, so a random suffix alone could collide.
+          queue.map((f, i) =>
             TravelSite.uploadFile(
-              attachPrefix(kind, key) +
-                Date.now().toString(36) +
-                Math.random().toString(36).slice(2, 6),
+              attachPrefix(kind, key) + stamp + "-" + i + Math.random().toString(36).slice(2, 6),
               f
-            )
+            ).then(tick)
           )
         )
-          .then(() => loadAttachments())
+          .then(() => {
+            attachState.pending[id] = [];
+            loadAttachments();
+          })
           .catch((err) => {
             uploadBtn.disabled = false;
             status.textContent = "Upload failed: " + err.message;
@@ -2397,6 +2476,7 @@ const Trip = (() => {
     attachState.trip = trip;
     attachState.groups = groups;
     attachState.files = {};
+    attachState.pending = {};
     attachState.rerender = rerender;
     attachState.signedIn = !!TravelSite.currentUser();
     setTimeout(wireAttachmentsOnce, 0);

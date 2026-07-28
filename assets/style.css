@@ -522,6 +522,17 @@ tfoot td {
 .attach-status {
   color: var(--text-dim);
   font-size: 0.82rem;
+  flex-basis: 100%;
+  word-break: break-word;
+}
+.attach-hint {
+  margin: 6px 0 0;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+.attach-box.attach-dragging {
+  border-color: var(--accent);
+  background: var(--bg-elev);
 }
 
 /* ---- Day page nav ---- */

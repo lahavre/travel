@@ -307,7 +307,10 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   `accommodation` or `flight`, and `<key>` is the hotel name + check-in, or the flight
   number + date, so a repeated property or route stays separate. Both are seeded from
   that item's `remarks` in `data.json`. Storage has no live sync, so a list is fetched on
-  sign-in and re-fetched after each upload or delete. Original filename, uploader and
+  sign-in and re-fetched after each upload or delete. Several files can go up at once —
+  pick multiple, drop them on the box, or pick repeatedly (each round **adds** to the
+  queue rather than replacing it, which a bare file input does not do); the queue is
+  listed before you commit it, with Clear to start over. Original filename, uploader and
   timestamp are kept in each object's custom metadata; a 25 MB per-file cap is enforced
   client-side. The modules (`setupAttachments` / `attachmentsHtml` / `setupStayNotes` in
   `assets/trip.js`) are generic, so the transport page can reuse them.
