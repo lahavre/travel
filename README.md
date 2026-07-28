@@ -21,7 +21,6 @@ trips/<slug>/
   accommodation.html  Stays, nightly rates, per-person split
   transport.html      Travel log / getting around
   todo.html           Pre-trip bookings and paperwork (private, sign-in to view)
-  files.html          Booking-file vault (private, sign-in to view)
 ```
 
 Trip slugs are `YYYY-MM-destination`, so folders sort chronologically.
@@ -40,7 +39,7 @@ consistent the same way the old spreadsheet formulas did.
    `startDate`, `endDate`. The landing page sorts by `startDate` descending and derives
    the Upcoming/In progress/Past badge from today's date.
 
-The nine HTML pages are identical for every trip and contain no trip-specific content —
+The eight HTML pages are identical for every trip and contain no trip-specific content —
 never edit them per trip. `_template/` is not listed in `trips.json`, so it stays off the
 landing page while remaining previewable at `/trips/_template/`.
 
@@ -163,6 +162,11 @@ renders as "Paid (JPY 1,000 / night)".
 Each row states its fact once. `remarks` is for what no other row covers — don't
 repeat the payment, meal or parking there.
 
+Signed-in travellers also get an **Attach** box on each stay for that booking's
+confirmation or voucher (see **Firebase / private data**). The files are private and
+live in Firebase Storage, never in `data.json` or the repo — which is what keeps door
+codes and personal details off the public site while still having the document to hand.
+
 Full field list per stay: `city`, `name`, `reservation` (`site`, `bookingNo`, `refs`),
 `address`, `phone`, `checkIn`, `checkOut`, `nights`, `persons`, `rooms`, `roomType`,
 `checkInFrom`, `checkInTo`, `checkOutUntil`, `laundry`, `meal`, `parking`,
@@ -271,7 +275,7 @@ See **Firebase / private data** below for how sign-in and the config are wired.
 
 The public itinerary (plan, hotels, budget, weather) stays a static site on GitHub
 Pages. A separate **private layer**, gated by Google sign-in, holds the group's shared,
-editable data — the to-do list and a booking-file vault (both sign-in to view).
+editable data — the to-do list, and files attached to a stay (both sign-in to view).
 
 - **Project:** `travel-planner-40c11` (Firebase). The web config in
   [`assets/firebase-config.js`](assets/firebase-config.js) is the **public** client
@@ -284,11 +288,17 @@ editable data — the to-do list and a booking-file vault (both sign-in to view)
   `TravelSite.onAuthChange()` and `TravelSite.currentUser()` let renderers react to who
   is signed in, and `TravelSite.watchDoc()` / `writeDoc()` wrap Firestore while
   `uploadFile()` / `listFiles()` / `deleteFile()` wrap Storage.
-- **The file vault (`files.html`):** booking confirmations, tickets and vouchers in
-  Firebase Storage under `trips/<slug>/`, listed on load (Storage has no live sync).
-  Uploading and viewing both need sign-in + the allow-list. The original filename,
-  uploader and timestamp are kept in each object's custom metadata; a 25 MB per-file cap
-  is enforced client-side.
+- **Attached files:** documents attach to **the thing they belong to**, not to a separate
+  files page — a booking confirmation sits on its own hotel card on the accommodation
+  page. Each stay gets an "Attach" box (upload, open, delete) that renders **only when
+  signed in**, so the public page is unchanged. Files live in Firebase Storage under
+  `trips/<slug>/<kind>/<key>/` — for a stay, `<kind>` is `accommodation` and `<key>` is
+  the hotel name + check-in date, so the same property on two dates stays separate.
+  Storage has no live sync, so a list is fetched on sign-in and re-fetched after each
+  upload or delete. Original filename, uploader and timestamp are kept in each object's
+  custom metadata; a 25 MB per-file cap is enforced client-side. The module
+  (`setupAttachments` / `attachmentsHtml` in `assets/trip.js`) is generic, so transport
+  legs and flights can reuse it.
 - **Who can read/write:** an allow-list of Google accounts, kept **identical** in
   [`firestore.rules`](firestore.rules) and [`storage.rules`](storage.rules). Reads *and*
   writes are gated (viewing is private, not just editing). **These rules only take effect
@@ -324,7 +334,7 @@ Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned 
 
 `tools/` holds scripts that are not part of the site:
 
-- `new_trip_pages.py [slug...]` — (re)writes the nine boilerplate pages into trip
+- `new_trip_pages.py [slug...]` — (re)writes the eight boilerplate pages into trip
   folders. Copying `trips/_template/` does the same for a single new trip; this is for
   updating every trip at once if the boilerplate changes.
 - `fetch_weather.py <data.json>` — fills each day's `temperature[]` from Open-Meteo,

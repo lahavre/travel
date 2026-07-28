@@ -21,7 +21,6 @@ PAGES = {
     "accommodation": "Accommodation",
     "transport": "Transport",
     "todo": "To-do",
-    "files": "Files",
 }
 
 TEMPLATE = """<!doctype html>

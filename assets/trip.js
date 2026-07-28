@@ -24,7 +24,6 @@ const Trip = (() => {
     { key: "accommodation", label: "Accommodation", href: "accommodation.html" },
     { key: "transport", label: "Transport", href: "transport.html" },
     { key: "todo", label: "To-do", href: "todo.html" },
-    { key: "files", label: "Files", href: "files.html" },
   ];
 
   const PAGE_TITLES = {
@@ -36,7 +35,6 @@ const Trip = (() => {
     accommodation: "Accommodation",
     transport: "Transport",
     todo: "To-do",
-    files: "Files",
   };
 
   // ---------------------------------------------------------------- helpers
@@ -1463,7 +1461,13 @@ const Trip = (() => {
     return out;
   }
 
-  function renderAccommodation(trip) {
+  // Each stay's own key for attached files — name + check-in, so two stays at the
+  // same property on different dates keep separate folders.
+  function stayAttachKey(a) {
+    return attachSlug(`${a.name || a.city || "stay"}-${a.checkIn || ""}`);
+  }
+
+  function accommodationHtml(trip) {
     const stays = trip.accommodation || [];
     if (!stays.length) return `<h1>Accommodation</h1>${placeholder("stays")}`;
 
@@ -1569,6 +1573,7 @@ const Trip = (() => {
                     .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
                     .join("")}</dl>
                   ${a.remarks ? `<div class="stay-remark">${multiline(a.remarks)}</div>` : ""}
+                  ${attachmentsHtml("accommodation", stayAttachKey(a), "Booking files")}
                 </td>
               </tr>`
             )
@@ -1612,6 +1617,20 @@ const Trip = (() => {
     }
 
     return out;
+  }
+
+  function renderAccommodation(trip) {
+    // Register one attach group per stay, then redraw as sign-in state and the
+    // file lists arrive.
+    setupAttachments(
+      trip,
+      (trip.accommodation || []).map((a) => ({ kind: "accommodation", key: stayAttachKey(a) })),
+      () => {
+        const main = document.getElementById("main");
+        if (main) main.innerHTML = accommodationHtml(trip);
+      }
+    );
+    return accommodationHtml(trip);
   }
 
   function renderTransport(trip) {
@@ -2060,23 +2079,41 @@ const Trip = (() => {
     return todoHtml(trip);
   }
 
-  // ---------------------------------------------------------------- files vault
+  // ---------------------------------------------------------------- attachments
 
-  // Booking confirmations, tickets and vouchers, in Firebase Storage under
-  // trips/<slug>/. Private: viewing and uploading need sign-in + the allow-list
-  // (Storage security rules). Storage has no live sync, so the list refreshes on
-  // load and after each upload/delete.
-  const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25 MB per file
-  const filesState = {
+  // Files attached to a specific thing on a page -- a stay, later a travel leg --
+  // rather than to a separate files page, so a booking confirmation sits with the
+  // hotel it belongs to. Stored in Firebase Storage under
+  // trips/<slug>/<kind>/<key>/, private: viewing and uploading both need sign-in
+  // and the allow-list (Storage rules). Storage has no live sync, so a group's
+  // list is fetched on sign-in and re-fetched after each upload or delete.
+  const ATTACH_MAX_BYTES = 25 * 1024 * 1024; // 25 MB per file
+  const attachState = {
     trip: null,
-    files: [],
-    access: "none", // none (signed out) | ok | denied/error
+    groups: [], // [{kind, key}] the page has registered
+    files: {}, // "kind/key" -> [{name, fullPath, url, size, uploadedBy, uploadedAt}]
+    signedIn: false,
     error: "",
-    loading: false,
+    rerender: null, // set by the page renderer
     wired: false,
   };
-  function filesPrefix(trip) {
-    return "trips/" + (trip.slug || trip.title || "trip") + "/";
+
+  // A stable, path-safe key for a thing being attached to.
+  function attachSlug(value) {
+    return (
+      String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 60) || "item"
+    );
+  }
+  function attachGroupId(kind, key) {
+    return kind + "/" + key;
+  }
+  function attachPrefix(kind, key) {
+    const slug = attachState.trip.slug || attachState.trip.title || "trip";
+    return `trips/${slug}/${kind}/${key}/`;
   }
   function formatBytes(n) {
     if (n === null || n === undefined || isNaN(n)) return "";
@@ -2085,167 +2122,132 @@ const Trip = (() => {
     return (n / 1024 / 1024).toFixed(1) + " MB";
   }
 
-  function fileRow(f) {
-    const when = f.uploadedAt
-      ? new Date(f.uploadedAt).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
-      : "";
-    const who = f.uploadedBy ? escapeHtml(f.uploadedBy.split("@")[0]) : "";
-    return `<tr>
-      <td><a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-      f.name
-    )}</a><br><span style="color:var(--text-dim);font-size:.8rem">${formatBytes(f.size)}</span></td>
-      <td style="color:var(--text-dim);font-size:.85rem">${when}${who ? " · " + who : ""}</td>
-      <td class="todo-actions"><button type="button" class="todo-remove-btn" data-files-delete data-files-path="${escapeHtml(
-        f.fullPath
-      )}" data-files-name="${escapeHtml(f.name)}">Delete</button></td>
-    </tr>`;
-  }
-
-  function filesHtml(trip) {
-    if (filesState.access === "none") {
-      return `<h1>Booking files</h1><div class="empty-state">These files are private. Sign in (top right) to view and upload booking confirmations and tickets.</div>`;
-    }
-    if (filesState.access === "denied") {
-      return `<h1>Booking files</h1><div class="empty-state">${escapeHtml(
-        filesState.error ||
-          "Couldn't load the files. Your account may not be on the trip's access list."
-      )}</div>`;
-    }
-
-    const upload = `
-      <div class="files-upload">
-        <input type="file" id="files-input" class="files-input" multiple />
-        <button type="button" class="auth-btn" data-files-upload>Upload</button>
-        <span class="files-status" data-files-status></span>
-      </div>`;
-
-    let list;
-    if (filesState.loading) {
-      list = `<p class="subtitle">Loading…</p>`;
-    } else if (!filesState.files.length) {
-      list = `<div class="empty-state">No files yet. Upload a booking confirmation or ticket above.</div>`;
-    } else {
-      list = `<div class="table-wrap">
-        <table>
-          <thead><tr><th>File</th><th>Uploaded</th><th></th></tr></thead>
-          <tbody>${filesState.files.map(fileRow).join("")}</tbody>
-        </table>
-      </div>`;
-    }
-
-    return `<h1>Booking files</h1>
-      <p class="todo-note">Private to signed-in travellers — booking confirmations, tickets and vouchers.</p>
-      ${upload}
-      ${list}`;
-  }
-
-  function renderFilesMain() {
-    const main = document.getElementById("main");
-    if (main) main.innerHTML = filesHtml(filesState.trip);
-  }
-
-  function loadFiles() {
-    filesState.loading = true;
-    filesState.access = "ok";
-    renderFilesMain();
-    TravelSite.listFiles(filesPrefix(filesState.trip))
-      .then((files) => {
-        files.sort((a, b) => String(b.uploadedAt).localeCompare(String(a.uploadedAt)));
-        filesState.files = files;
-        filesState.access = "ok";
-        filesState.loading = false;
-        renderFilesMain();
-      })
-      .catch((e) => {
-        filesState.loading = false;
-        filesState.access = "denied";
-        filesState.error =
-          "Couldn't load the files. If Storage was just enabled, give it a moment; otherwise this account may not be on the access list.";
-        console.warn("listFiles failed:", e);
-        renderFilesMain();
+  // Fetch every registered group's files. Storage lists per prefix, so this is one
+  // call per group -- fine for a handful of stays.
+  function loadAttachments() {
+    if (!attachState.signedIn || !attachState.groups.length) return;
+    Promise.all(
+      attachState.groups.map((g) =>
+        TravelSite.listFiles(attachPrefix(g.kind, g.key))
+          .then((files) => [attachGroupId(g.kind, g.key), files])
+          .catch(() => [attachGroupId(g.kind, g.key), []])
+      )
+    ).then((pairs) => {
+      const next = {};
+      pairs.forEach(([id, files]) => {
+        files.sort((a, b) => String(a.uploadedAt).localeCompare(String(b.uploadedAt)));
+        next[id] = files;
       });
+      attachState.files = next;
+      if (attachState.rerender) attachState.rerender();
+    });
   }
 
-  function wireFilesOnce() {
+  // The attach box for one thing. Renders nothing at all when signed out, so the
+  // public page is untouched.
+  function attachmentsHtml(kind, key, label) {
+    if (!attachState.signedIn) return "";
+    const id = attachGroupId(kind, key);
+    const files = attachState.files[id] || [];
+    const list = files
+      .map(
+        (f) => `<li class="attach-file">
+          <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+          f.name
+        )}</a>
+          <span class="attach-size">${formatBytes(f.size)}</span>
+          <button type="button" class="attach-del" data-attach-delete data-attach-path="${escapeHtml(
+            f.fullPath
+          )}" data-attach-name="${escapeHtml(f.name)}" title="Delete file">Delete</button>
+        </li>`
+      )
+      .join("");
+    return `<div class="attach-box" data-attach-group="${escapeHtml(id)}">
+      <div class="attach-head">${escapeHtml(label || "Booking file")}${
+      files.length ? ` <span class="attach-count">${files.length}</span>` : ""
+    }</div>
+      ${files.length ? `<ul class="attach-list">${list}</ul>` : `<p class="attach-empty">None attached yet.</p>`}
+      <div class="attach-actions">
+        <input type="file" class="attach-input" multiple aria-label="Choose a file to attach" />
+        <button type="button" class="todo-edit-btn" data-attach-upload>Attach</button>
+        <span class="attach-status"></span>
+      </div>
+    </div>`;
+  }
+
+  // One delegated listener for every attach box on the page.
+  function wireAttachmentsOnce() {
     const main = document.getElementById("main");
-    if (!main || filesState.wired) return;
-    filesState.wired = true;
+    if (!main || attachState.wired) return;
+    attachState.wired = true;
 
     main.addEventListener("click", (e) => {
-      const uploadBtn = e.target.closest("[data-files-upload]");
-      const deleteBtn = e.target.closest("[data-files-delete]");
-      const status = main.querySelector("[data-files-status]");
+      const uploadBtn = e.target.closest("[data-attach-upload]");
+      const deleteBtn = e.target.closest("[data-attach-delete]");
+      if (!uploadBtn && !deleteBtn) return;
+      const box = (uploadBtn || deleteBtn).closest(".attach-box");
+      const status = box.querySelector(".attach-status");
+      const [kind, key] = box.dataset.attachGroup.split("/");
 
       if (uploadBtn) {
-        const input = main.querySelector("#files-input");
+        const input = box.querySelector(".attach-input");
         if (!input || !input.files.length) {
-          if (status) status.textContent = "Choose a file first.";
+          status.textContent = "Choose a file first.";
           return;
         }
-        const files = [...input.files];
-        const tooBig = files.find((f) => f.size > MAX_FILE_BYTES);
+        const chosen = [...input.files];
+        const tooBig = chosen.find((f) => f.size > ATTACH_MAX_BYTES);
         if (tooBig) {
-          if (status) status.textContent = `"${tooBig.name}" is over 25 MB.`;
+          status.textContent = `"${tooBig.name}" is over 25 MB.`;
           return;
         }
-        if (status) status.textContent = "Uploading…";
+        status.textContent = "Uploading…";
         uploadBtn.disabled = true;
         Promise.all(
-          files.map((f) =>
+          chosen.map((f) =>
             TravelSite.uploadFile(
-              filesPrefix(filesState.trip) +
+              attachPrefix(kind, key) +
                 Date.now().toString(36) +
                 Math.random().toString(36).slice(2, 6),
               f
             )
           )
         )
-          .then(() => loadFiles())
+          .then(() => loadAttachments())
           .catch((err) => {
             uploadBtn.disabled = false;
-            if (status) status.textContent = "Upload failed: " + err.message;
+            status.textContent = "Upload failed: " + err.message;
           });
         return;
       }
 
-      if (deleteBtn) {
-        const path = deleteBtn.dataset.filesPath;
-        const name = deleteBtn.dataset.filesName;
-        if (!window.confirm(`Delete "${name}"? This can't be undone.`)) return;
-        deleteBtn.disabled = true;
-        TravelSite.deleteFile(path)
-          .then(() => loadFiles())
-          .catch((err) => {
-            deleteBtn.disabled = false;
-            if (status) status.textContent = "Delete failed: " + err.message;
-          });
-        return;
-      }
+      const path = deleteBtn.dataset.attachPath;
+      const name = deleteBtn.dataset.attachName;
+      if (!window.confirm(`Delete "${name}"? This can't be undone.`)) return;
+      deleteBtn.disabled = true;
+      TravelSite.deleteFile(path)
+        .then(() => loadAttachments())
+        .catch((err) => {
+          deleteBtn.disabled = false;
+          status.textContent = "Delete failed: " + err.message;
+        });
     });
   }
 
-  function renderFiles(trip) {
-    filesState.trip = trip;
-    filesState.files = [];
-    filesState.error = "";
-    filesState.access = TravelSite.currentUser() ? "ok" : "none";
-    setTimeout(wireFilesOnce, 0);
-
+  // Called by a page renderer: declare what can be attached to, and how to redraw.
+  function setupAttachments(trip, groups, rerender) {
+    attachState.trip = trip;
+    attachState.groups = groups;
+    attachState.files = {};
+    attachState.rerender = rerender;
+    attachState.signedIn = !!TravelSite.currentUser();
+    setTimeout(wireAttachmentsOnce, 0);
     TravelSite.onAuthChange((user) => {
-      if (user) {
-        loadFiles();
-      } else {
-        filesState.access = "none";
-        filesState.files = [];
-        renderFilesMain();
-      }
+      attachState.signedIn = !!user;
+      attachState.files = {};
+      if (user) loadAttachments();
+      if (attachState.rerender) attachState.rerender();
     });
-
-    return filesHtml(trip);
   }
 
   const RENDERERS = {
@@ -2257,7 +2259,6 @@ const Trip = (() => {
     accommodation: renderAccommodation,
     transport: renderTransport,
     todo: renderTodo,
-    files: renderFiles,
   };
 
   // ---------------------------------------------------------------- entry point

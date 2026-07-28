@@ -451,27 +451,77 @@ tfoot td {
   gap: 8px;
   margin-left: auto;
 }
-.files-upload {
+/* ---- Attached files (booking confirmations on a stay, etc.) ---- */
+.attach-box {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+}
+.attach-head {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+.attach-count {
+  color: var(--accent);
+}
+.attach-empty {
+  margin: 6px 0 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.attach-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+}
+.attach-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 0.88rem;
+}
+.attach-size {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+.attach-del {
+  margin-left: auto;
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-elev);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.attach-del:hover {
+  border-color: var(--badge-past);
+  color: var(--text);
+}
+.attach-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  margin: 4px 0 18px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-elev);
+  gap: 8px;
+  margin-top: 8px;
 }
-.files-input {
+.attach-input {
   font: inherit;
-  font-size: 0.88rem;
-  color: var(--text);
-  flex: 1 1 220px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  flex: 1 1 180px;
   min-width: 0;
 }
-.files-status {
+.attach-status {
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 /* ---- Day page nav ---- */
