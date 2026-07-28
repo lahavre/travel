@@ -1467,6 +1467,120 @@ const Trip = (() => {
     return attachSlug(`${a.name || a.city || "stay"}-${a.checkIn || ""}`);
   }
 
+  // A stay's remark, editable in place. Like the to-do list it lives in Firestore
+  // (stayNotes/<slug> = { byKey: { <stayKey>: "text" } }), seeded from data.json's
+  // `remarks`, shared live across the signed-in group and private to the
+  // allow-list — a booking note often carries payment or arrival detail, so it is
+  // treated like the rest of the private layer rather than left on the public page.
+  const stayNotesState = {
+    trip: null,
+    doc: null,
+    signedIn: false,
+    seeded: false,
+    unsub: null,
+    rerender: null,
+  };
+  function stayNotesPath(trip) {
+    return "stayNotes/" + (trip.slug || trip.title || "trip");
+  }
+  function stayNotesSeed(trip) {
+    const byKey = {};
+    (trip.accommodation || []).forEach((a) => {
+      if (a.remarks) byKey[stayAttachKey(a)] = a.remarks;
+    });
+    return byKey;
+  }
+  function stayNotesMap() {
+    const d = stayNotesState.doc;
+    if (d && d.byKey) return d.byKey;
+    return stayNotesSeed(stayNotesState.trip);
+  }
+  function writeStayNotes(byKey) {
+    stayNotesState.doc = { byKey: byKey }; // optimistic
+    TravelSite.writeDoc(stayNotesPath(stayNotesState.trip), { byKey: byKey }).catch((e) =>
+      console.warn("Couldn't save the stay note:", e)
+    );
+  }
+  function maybeSeedStayNotes() {
+    if (stayNotesState.signedIn && !stayNotesState.seeded && stayNotesState.doc === null) {
+      stayNotesState.seeded = true;
+      writeStayNotes(stayNotesSeed(stayNotesState.trip));
+    }
+  }
+  // Renders nothing when signed out, so the public page is unchanged.
+  function stayNoteHtml(key) {
+    if (!stayNotesState.signedIn) return "";
+    const text = stayNotesMap()[key];
+    return `<div class="stay-note" data-stay-key="${escapeHtml(key)}">
+      <div class="stay-note-text">${
+        text ? multiline(text) : `<span class="attach-empty">No remarks yet.</span>`
+      }</div>
+      <button type="button" class="todo-edit-btn" data-stay-note-edit>Edit</button>
+    </div>`;
+  }
+  function wireStayNotes(main) {
+    main.addEventListener("click", (e) => {
+      const editBtn = e.target.closest("[data-stay-note-edit]");
+      const saveBtn = e.target.closest("[data-stay-note-save]");
+      const cancelBtn = e.target.closest("[data-stay-note-cancel]");
+      if (!editBtn && !saveBtn && !cancelBtn) return;
+      if (!stayNotesState.signedIn) return;
+      const box = (editBtn || saveBtn || cancelBtn).closest(".stay-note");
+      const key = box.dataset.stayKey;
+
+      if (editBtn) {
+        const cur = stayNotesMap()[key] || "";
+        box.innerHTML = `<textarea class="todo-remarks-input" rows="3">${escapeHtml(cur)}</textarea>
+          <div class="todo-edit-actions">
+            <button type="button" class="todo-edit-btn" data-stay-note-save>Save</button>
+            <button type="button" class="todo-edit-btn todo-edit-cancel" data-stay-note-cancel>Cancel</button>
+          </div>`;
+        const ta = box.querySelector("textarea");
+        ta.focus();
+        ta.setSelectionRange(ta.value.length, ta.value.length);
+        return;
+      }
+      if (saveBtn) {
+        const val = box.querySelector("textarea").value.trim();
+        const byKey = { ...stayNotesMap() };
+        if (val) byKey[key] = val;
+        else delete byKey[key];
+        writeStayNotes(byKey);
+      }
+      if (stayNotesState.rerender) stayNotesState.rerender();
+    });
+  }
+  function setupStayNotes(trip, rerender) {
+    stayNotesState.trip = trip;
+    stayNotesState.doc = null;
+    stayNotesState.seeded = false;
+    stayNotesState.rerender = rerender;
+    stayNotesState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (stayNotesState.unsub) {
+        stayNotesState.unsub();
+        stayNotesState.unsub = null;
+      }
+      stayNotesState.signedIn = !!user;
+      stayNotesState.doc = null;
+      if (user) {
+        stayNotesState.unsub = TravelSite.watchDoc(
+          stayNotesPath(trip),
+          (data) => {
+            stayNotesState.doc = data;
+            maybeSeedStayNotes();
+            if (rerender) rerender();
+          },
+          () => {
+            stayNotesState.doc = null;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
+  }
+
   function accommodationHtml(trip) {
     const stays = trip.accommodation || [];
     if (!stays.length) return `<h1>Accommodation</h1>${placeholder("stays")}`;
@@ -1572,7 +1686,7 @@ const Trip = (() => {
                   <dl>${detailRows(a)
                     .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
                     .join("")}</dl>
-                  ${a.remarks ? `<div class="stay-remark">${multiline(a.remarks)}</div>` : ""}
+                  ${stayNoteHtml(stayAttachKey(a))}
                   ${attachmentsHtml("accommodation", stayAttachKey(a), "Booking files")}
                 </td>
               </tr>`
@@ -1620,16 +1734,25 @@ const Trip = (() => {
   }
 
   function renderAccommodation(trip) {
-    // Register one attach group per stay, then redraw as sign-in state and the
-    // file lists arrive.
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = accommodationHtml(trip);
+    };
+    // Register one attach group per stay, and the editable notes; both redraw the
+    // page as sign-in state, the note doc and the file lists arrive.
     setupAttachments(
       trip,
       (trip.accommodation || []).map((a) => ({ kind: "accommodation", key: stayAttachKey(a) })),
-      () => {
-        const main = document.getElementById("main");
-        if (main) main.innerHTML = accommodationHtml(trip);
-      }
+      redraw
     );
+    setupStayNotes(trip, redraw);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main && !main.dataset.stayNotesWired) {
+        main.dataset.stayNotesWired = "1";
+        wireStayNotes(main);
+      }
+    }, 0);
     return accommodationHtml(trip);
   }
 

@@ -852,6 +852,17 @@ tfoot td {
   color: var(--text-dim);
   font-size: 0.85rem;
 }
+/* The editable version of the same note, shown to signed-in travellers. */
+.stay-note {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.stay-note-text {
+  margin-bottom: 6px;
+}
 
 @media (max-width: 620px) {
   /* Stack the two cells so nothing has to scroll sideways. */

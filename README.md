@@ -162,10 +162,13 @@ renders as "Paid (JPY 1,000 / night)".
 Each row states its fact once. `remarks` is for what no other row covers — don't
 repeat the payment, meal or parking there.
 
-Signed-in travellers also get an **Attach** box on each stay for that booking's
-confirmation or voucher (see **Firebase / private data**). The files are private and
-live in Firebase Storage, never in `data.json` or the repo — which is what keeps door
-codes and personal details off the public site while still having the document to hand.
+Signed-in travellers also get, on each stay, an **editable remark** and an **Attach**
+box for that booking's confirmation or voucher (see **Firebase / private data**). Both
+are private: the remark lives in Firestore (`stayNotes/<slug>`, seeded from each stay's
+`remarks`) and the files in Firebase Storage — never in `data.json` or the repo, which
+is what keeps door codes and personal details off the public site while still having
+them to hand. A signed-out visitor sees neither, so `remarks` in `data.json` is the
+**seed** for the private note rather than public page text.
 
 Full field list per stay: `city`, `name`, `reservation` (`site`, `bookingNo`, `refs`),
 `address`, `phone`, `checkIn`, `checkOut`, `nights`, `persons`, `rooms`, `roomType`,
@@ -275,7 +278,8 @@ See **Firebase / private data** below for how sign-in and the config are wired.
 
 The public itinerary (plan, hotels, budget, weather) stays a static site on GitHub
 Pages. A separate **private layer**, gated by Google sign-in, holds the group's shared,
-editable data — the to-do list, and files attached to a stay (both sign-in to view).
+editable data — the to-do list, and each stay's remark and attached files (all sign-in
+to view).
 
 - **Project:** `travel-planner-40c11` (Firebase). The web config in
   [`assets/firebase-config.js`](assets/firebase-config.js) is the **public** client
