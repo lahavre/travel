@@ -460,11 +460,25 @@ tfoot td {
   background: var(--bg);
 }
 .attach-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-dim);
+}
+.attach-check {
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex: none;
+}
+.attach-del-selected {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: nowrap;
 }
 .attach-count {
   color: var(--accent);

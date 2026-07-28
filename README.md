@@ -313,6 +313,11 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   listed before you commit it, with Clear to start over. A file is keyed by its own
   name, so **one name means one file per item** — re-uploading `voucher.pdf` asks first,
   then replaces the copy that's there rather than leaving two identical-looking rows.
+  With two or more files attached, each row gains a tick box (plus a select-all in the
+  header); ticking any of them swaps the per-row `Delete` for a single
+  `Delete selected (n)`, so only one delete control is ever live. That takes one
+  confirmation listing the names, deletes in parallel, and names anything that failed
+  rather than dropping it silently.
   Original filename, uploader and timestamp are kept in each object's custom metadata; a
   25 MB per-file cap is enforced client-side. The modules (`setupAttachments` / `attachmentsHtml` / `setupStayNotes` in
   `assets/trip.js`) are generic, so the transport page can reuse them.

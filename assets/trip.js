@@ -2251,6 +2251,8 @@ const Trip = (() => {
     groups: [], // [{kind, key}] the page has registered
     files: {}, // "kind/key" -> [{name, fullPath, url, size, uploadedBy, uploadedAt}]
     pending: {}, // "kind/key" -> [File] chosen but not yet uploaded
+    selected: {}, // "kind/key" -> Set of fullPath ticked for deletion
+    notice: {}, // "kind/key" -> a message that must survive the next redraw
     signedIn: false,
     error: "",
     rerender: null, // set by the page renderer
@@ -2308,32 +2310,85 @@ const Trip = (() => {
     if (!attachState.signedIn) return "";
     const id = attachGroupId(kind, key);
     const files = attachState.files[id] || [];
+    // Tick boxes only earn their space once there is a choice to make; with one
+    // file its own Delete is quicker. While anything is ticked the per-row Delete
+    // gives way to "Delete selected", so only one delete control is ever live.
+    const multi = files.length >= 2;
+    const chosen = selectedFor(id);
+    const anyChosen = chosen.size > 0;
     const list = files
       .map(
         (f) => `<li class="attach-file">
+          ${
+            multi
+              ? `<input type="checkbox" class="attach-check" data-attach-check data-attach-path="${escapeHtml(
+                  f.fullPath
+                )}"${chosen.has(f.fullPath) ? " checked" : ""} aria-label="Select ${escapeHtml(
+                  f.name
+                )}" />`
+              : ""
+          }
           <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
           f.name
         )}</a>
           <span class="attach-size">${formatBytes(f.size)}</span>
-          <button type="button" class="attach-del" data-attach-delete data-attach-path="${escapeHtml(
-            f.fullPath
-          )}" data-attach-name="${escapeHtml(f.name)}" title="Delete file">Delete</button>
+          ${
+            anyChosen
+              ? ""
+              : `<button type="button" class="attach-del" data-attach-delete data-attach-path="${escapeHtml(
+                  f.fullPath
+                )}" data-attach-name="${escapeHtml(f.name)}" title="Delete file">Delete</button>`
+          }
         </li>`
       )
       .join("");
+    const queue = attachState.pending[id] || [];
+    // A notice (e.g. a delete that failed) outlives the redraw that follows the
+    // action, which would otherwise wipe it before it could be read.
+    const queueLabel = attachState.notice[id]
+      ? escapeHtml(attachState.notice[id])
+      : queue.length
+      ? `${queue.length} file${queue.length > 1 ? "s" : ""} ready: ${escapeHtml(
+          queue.map((f) => f.name).join(", ")
+        )}`
+      : "";
+    const allChecked = multi && chosen.size === files.length;
     return `<div class="attach-box" data-attach-group="${escapeHtml(id)}">
-      <div class="attach-head">${escapeHtml(label || "Booking file")}${
+      <div class="attach-head">
+        ${
+          multi
+            ? `<input type="checkbox" class="attach-check attach-check-all" data-attach-check-all${
+                allChecked ? " checked" : ""
+              } aria-label="Select all files" />`
+            : ""
+        }
+        ${escapeHtml(label || "Booking file")}${
       files.length ? ` <span class="attach-count">${files.length}</span>` : ""
-    }</div>
+    }
+        ${
+          anyChosen
+            ? `<button type="button" class="attach-del attach-del-selected" data-attach-delete-selected>Delete selected (${chosen.size})</button>`
+            : ""
+        }
+      </div>
       ${files.length ? `<ul class="attach-list">${list}</ul>` : `<p class="attach-empty">None attached yet.</p>`}
       <div class="attach-actions">
         <input type="file" class="attach-input" multiple aria-label="Choose files to attach" />
         <button type="button" class="todo-edit-btn" data-attach-upload>Attach</button>
-        <button type="button" class="attach-del" data-attach-clear hidden>Clear</button>
-        <span class="attach-status"></span>
+        <button type="button" class="attach-del" data-attach-clear${
+          queue.length ? "" : " hidden"
+        }>Clear</button>
+        <span class="attach-status">${queueLabel}</span>
       </div>
       <p class="attach-hint">Pick several at once, or drop files here.</p>
     </div>`;
+  }
+
+  // Which files are ticked, per group. Kept in state so a redraw (an upload
+  // finishing, a note saving) doesn't silently drop the selection.
+  function selectedFor(id) {
+    if (!attachState.selected[id]) attachState.selected[id] = new Set();
+    return attachState.selected[id];
   }
 
   // Files chosen but not yet uploaded, per group. Held outside the DOM so picking
@@ -2376,10 +2431,27 @@ const Trip = (() => {
     // rounds of picking (or a mix of picking and dropping) upload together.
     main.addEventListener("change", (e) => {
       const input = e.target.closest(".attach-input");
-      if (!input) return;
-      const box = input.closest(".attach-box");
-      addPending(box, input.files);
-      input.value = ""; // let the same file be re-picked, and keep the queue ours
+      if (input) {
+        const box = input.closest(".attach-box");
+        addPending(box, input.files);
+        input.value = ""; // let the same file be re-picked, and keep the queue ours
+        return;
+      }
+      const all = e.target.closest("[data-attach-check-all]");
+      const one = e.target.closest("[data-attach-check]");
+      if (!all && !one) return;
+      const box = (all || one).closest(".attach-box");
+      const id = box.dataset.attachGroup;
+      const chosen = selectedFor(id);
+      if (all) {
+        chosen.clear();
+        if (all.checked) (attachState.files[id] || []).forEach((f) => chosen.add(f.fullPath));
+      } else if (one.checked) {
+        chosen.add(one.dataset.attachPath);
+      } else {
+        chosen.delete(one.dataset.attachPath);
+      }
+      if (attachState.rerender) attachState.rerender();
     });
 
     // Drag and drop onto a box.
@@ -2405,15 +2477,52 @@ const Trip = (() => {
       const uploadBtn = e.target.closest("[data-attach-upload]");
       const deleteBtn = e.target.closest("[data-attach-delete]");
       const clearBtn = e.target.closest("[data-attach-clear]");
-      if (!uploadBtn && !deleteBtn && !clearBtn) return;
-      const box = (uploadBtn || deleteBtn || clearBtn).closest(".attach-box");
+      const delSelBtn = e.target.closest("[data-attach-delete-selected]");
+      if (!uploadBtn && !deleteBtn && !clearBtn && !delSelBtn) return;
+      const box = (uploadBtn || deleteBtn || clearBtn || delSelBtn).closest(".attach-box");
       const status = box.querySelector(".attach-status");
       const id = box.dataset.attachGroup;
       const [kind, key] = id.split("/");
 
       if (clearBtn) {
         attachState.pending[id] = [];
+        attachState.notice[id] = "";
         showPending(box);
+        return;
+      }
+
+      if (delSelBtn) {
+        const chosen = selectedFor(id);
+        const targets = (attachState.files[id] || []).filter((f) => chosen.has(f.fullPath));
+        if (!targets.length) return;
+        const names = targets.map((f) => f.name).join(", ");
+        if (
+          !window.confirm(
+            `Delete ${targets.length} file${targets.length > 1 ? "s" : ""}? ${names}. This can't be undone.`
+          )
+        )
+          return;
+        delSelBtn.disabled = true;
+        let gone = 0;
+        const failed = [];
+        attachState.notice[id] = "";
+        status.textContent = `Deleting 0 of ${targets.length}…`;
+        // Settle rather than race: one failure shouldn't strand the others, and
+        // the ones that didn't go are worth naming.
+        Promise.all(
+          targets.map((f) =>
+            TravelSite.deleteFile(f.fullPath)
+              .then(() => {
+                gone += 1;
+                status.textContent = `Deleting ${gone} of ${targets.length}…`;
+              })
+              .catch(() => failed.push(f.name))
+          )
+        ).then(() => {
+          attachState.selected[id] = new Set();
+          attachState.notice[id] = failed.length ? `Couldn't delete: ${failed.join(", ")}` : "";
+          loadAttachments();
+        });
         return;
       }
 
@@ -2445,6 +2554,7 @@ const Trip = (() => {
         }
 
         const total = queue.length;
+        attachState.notice[id] = "";
         let done = 0;
         const tick = () => {
           done += 1;
@@ -2493,6 +2603,8 @@ const Trip = (() => {
     attachState.groups = groups;
     attachState.files = {};
     attachState.pending = {};
+    attachState.selected = {};
+    attachState.notice = {};
     attachState.rerender = rerender;
     attachState.signedIn = !!TravelSite.currentUser();
     setTimeout(wireAttachmentsOnce, 0);
