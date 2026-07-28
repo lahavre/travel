@@ -2428,6 +2428,22 @@ const Trip = (() => {
           status.textContent = `"${tooBig.name}" is over 25 MB.`;
           return;
         }
+        // A name already attached here would otherwise land beside its twin, since
+        // each upload used to get its own key — two identical-looking rows, and no
+        // way to tell which is current. One file per name per item instead: ask,
+        // then overwrite the one that's there.
+        const existing = new Set((attachState.files[id] || []).map((f) => f.name));
+        const clashes = queue.filter((f) => existing.has(f.name));
+        if (clashes.length) {
+          const names = clashes.map((f) => `"${f.name}"`).join(", ");
+          const ok = window.confirm(
+            clashes.length === 1
+              ? `${names} is already attached here. Replace it with the new version?`
+              : `${clashes.length} files are already attached here (${names}). Replace them with the new versions?`
+          );
+          if (!ok) return;
+        }
+
         const total = queue.length;
         let done = 0;
         const tick = () => {
@@ -2436,13 +2452,13 @@ const Trip = (() => {
         };
         status.textContent = `Uploading 0 of ${total}…`;
         uploadBtn.disabled = true;
-        const stamp = Date.now().toString(36);
         Promise.all(
-          // Index the id as well as the timestamp: files picked together share a
-          // millisecond, so a random suffix alone could collide.
-          queue.map((f, i) =>
+          // Key on the file's own name, so re-uploading replaces rather than
+          // duplicating. Encoded because a name may hold "/" or "?", which would
+          // otherwise carve up the storage path.
+          queue.map((f) =>
             TravelSite.uploadFile(
-              attachPrefix(kind, key) + stamp + "-" + i + Math.random().toString(36).slice(2, 6),
+              attachPrefix(kind, key) + encodeURIComponent(f.name),
               f
             ).then(tick)
           )
