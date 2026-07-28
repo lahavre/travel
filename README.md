@@ -243,6 +243,11 @@ departure — override per flight with `checkInTime` (an exact time) or
 departure correctly rolls check-in back to the previous evening. Flight times are
 local to their own airport; set `arrivesNextDay` on a red-eye.
 
+Signed-in travellers also get an editable **remark** and a **Tickets & documents** box
+on each flight card, for boarding passes and e-tickets — the same private, in-context
+pattern as a stay's (see **Firebase / private data**). A flight's `remarks` in
+`data.json` is the seed for that note, not public page text.
+
 **Cost categories.** Default buckets are `transport`, `fuel`, `food`, `sightseeing`,
 `misc`. Override with a `costCategories` object mapping key to label; the keys you use
 in `costs` must match. Day totals and the budget page's "planned spend" table roll up
@@ -278,8 +283,8 @@ See **Firebase / private data** below for how sign-in and the config are wired.
 
 The public itinerary (plan, hotels, budget, weather) stays a static site on GitHub
 Pages. A separate **private layer**, gated by Google sign-in, holds the group's shared,
-editable data — the to-do list, and each stay's remark and attached files (all sign-in
-to view).
+editable data — the to-do list, and each stay's and flight's remark and attached files
+(all sign-in to view).
 
 - **Project:** `travel-planner-40c11` (Firebase). The web config in
   [`assets/firebase-config.js`](assets/firebase-config.js) is the **public** client
@@ -292,17 +297,20 @@ to view).
   `TravelSite.onAuthChange()` and `TravelSite.currentUser()` let renderers react to who
   is signed in, and `TravelSite.watchDoc()` / `writeDoc()` wrap Firestore while
   `uploadFile()` / `listFiles()` / `deleteFile()` wrap Storage.
-- **Attached files:** documents attach to **the thing they belong to**, not to a separate
-  files page — a booking confirmation sits on its own hotel card on the accommodation
-  page. Each stay gets an "Attach" box (upload, open, delete) that renders **only when
-  signed in**, so the public page is unchanged. Files live in Firebase Storage under
-  `trips/<slug>/<kind>/<key>/` — for a stay, `<kind>` is `accommodation` and `<key>` is
-  the hotel name + check-in date, so the same property on two dates stays separate.
-  Storage has no live sync, so a list is fetched on sign-in and re-fetched after each
-  upload or delete. Original filename, uploader and timestamp are kept in each object's
-  custom metadata; a 25 MB per-file cap is enforced client-side. The module
-  (`setupAttachments` / `attachmentsHtml` in `assets/trip.js`) is generic, so transport
-  legs and flights can reuse it.
+- **Notes and attached files, in context:** a remark and its documents belong to **the
+  thing they describe**, not to a separate page — a booking confirmation sits on its own
+  hotel card, a boarding pass on its flight card. Each stay (accommodation page) and
+  each flight (trip home) gets an editable **remark** and an **Attach** box (upload,
+  open, delete), both rendering **only when signed in**, so the public pages are
+  unchanged. Notes live in Firestore (`stayNotes/<slug>`, one flat `byKey` map);
+  files live in Firebase Storage under `trips/<slug>/<kind>/<key>/` — `<kind>` is
+  `accommodation` or `flight`, and `<key>` is the hotel name + check-in, or the flight
+  number + date, so a repeated property or route stays separate. Both are seeded from
+  that item's `remarks` in `data.json`. Storage has no live sync, so a list is fetched on
+  sign-in and re-fetched after each upload or delete. Original filename, uploader and
+  timestamp are kept in each object's custom metadata; a 25 MB per-file cap is enforced
+  client-side. The modules (`setupAttachments` / `attachmentsHtml` / `setupStayNotes` in
+  `assets/trip.js`) are generic, so the transport page can reuse them.
 - **Who can read/write:** an allow-list of Google accounts, kept **identical** in
   [`firestore.rules`](firestore.rules) and [`storage.rules`](storage.rules). Reads *and*
   writes are gated (viewing is private, not just editing). **These rules only take effect

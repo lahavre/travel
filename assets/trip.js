@@ -477,7 +477,7 @@ const Trip = (() => {
 
   // ---------------------------------------------------------------- renderers
 
-  function renderIndex(trip) {
+  function indexHtml(trip) {
     const stays = trip.accommodation || [];
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
     const flights = trip.flights || [];
@@ -532,7 +532,8 @@ const Trip = (() => {
                   : ""
               }
             </div>
-            ${f.remarks ? `<div class="flight-remarks">${multiline(f.remarks)}</div>` : ""}
+            ${stayNoteHtml(flightAttachKey(f))}
+            ${attachmentsHtml("flight", flightAttachKey(f), "Tickets & documents")}
           </div>
         </div>`;
     };
@@ -605,6 +606,29 @@ const Trip = (() => {
               .join("")}</div>`
           : placeholder("days")
       }`;
+  }
+
+  function renderIndex(trip) {
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = indexHtml(trip);
+    };
+    // Each flight can carry its own note and documents (boarding passes, e-tickets),
+    // on the same private, signed-in-only basis as a stay's.
+    setupAttachments(
+      trip,
+      (trip.flights || []).map((f) => ({ kind: "flight", key: flightAttachKey(f) })),
+      redraw
+    );
+    setupStayNotes(trip, redraw);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main && !main.dataset.stayNotesWired) {
+        main.dataset.stayNotesWired = "1";
+        wireStayNotes(main);
+      }
+    }, 0);
+    return indexHtml(trip);
   }
 
   /** The stay covering a given night: check-in on or before it, check-out after it. */
@@ -1467,11 +1491,19 @@ const Trip = (() => {
     return attachSlug(`${a.name || a.city || "stay"}-${a.checkIn || ""}`);
   }
 
-  // A stay's remark, editable in place. Like the to-do list it lives in Firestore
-  // (stayNotes/<slug> = { byKey: { <stayKey>: "text" } }), seeded from data.json's
-  // `remarks`, shared live across the signed-in group and private to the
-  // allow-list — a booking note often carries payment or arrival detail, so it is
-  // treated like the rest of the private layer rather than left on the public page.
+  // A flight's own key for notes and attached files — flight number + date, so a
+  // return leg or a repeated route stays separate.
+  function flightAttachKey(f) {
+    return attachSlug(`flight-${f.flightNo || f.airline || "leg"}-${f.date || ""}-${f.from || ""}`);
+  }
+
+  // A stay's or flight's remark, editable in place. Like the to-do list it lives in
+  // Firestore (stayNotes/<slug> = { byKey: { <key>: "text" } }, the doc name kept
+  // from when only stays had notes), seeded from data.json's `remarks`, shared live
+  // across the signed-in group and private to the allow-list — a booking note often
+  // carries payment or arrival detail, so it is treated like the rest of the private
+  // layer rather than left on the public page. Stay and flight keys can't collide,
+  // so one flat map serves both.
   const stayNotesState = {
     trip: null,
     doc: null,
@@ -1487,6 +1519,9 @@ const Trip = (() => {
     const byKey = {};
     (trip.accommodation || []).forEach((a) => {
       if (a.remarks) byKey[stayAttachKey(a)] = a.remarks;
+    });
+    (trip.flights || []).forEach((f) => {
+      if (f.remarks) byKey[flightAttachKey(f)] = f.remarks;
     });
     return byKey;
   }

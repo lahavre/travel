@@ -1101,11 +1101,6 @@ tfoot td {
 .flight-checkin {
   color: var(--text);
 }
-.flight-remarks {
-  margin-top: 8px;
-  color: var(--text-dim);
-  font-size: 0.85rem;
-}
 
 /* ---- Day tiles: every day the same size, however long the place name ---- */
 .day-grid {
