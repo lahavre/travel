@@ -163,6 +163,20 @@ const Trip = (() => {
   }
 
   /**
+   * A stay's name linked to Maps. The address is searched alongside the name when
+   * there is one, since a property name on its own is often ambiguous. Shared by
+   * the accommodation page and the overview's "Staying in" column so both resolve
+   * a hotel the same way.
+   */
+  function hotelLink(stay) {
+    if (!stay || !stay.name) return "";
+    const query = stay.address ? `${stay.name}, ${stay.address}` : stay.name;
+    return `<a href="${mapsSearch(query)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+      stay.name
+    )}</a>`;
+  }
+
+  /**
    * Directions through intermediate stops.
    *
    * Google Maps cannot route transit *with* waypoints — asking for both returns
@@ -833,7 +847,7 @@ const Trip = (() => {
 
         const stayingIn = `
           ${stay && stay.name
-            ? `${escapeHtml(location)}<span class="stay-hotel">(${escapeHtml(stay.name)})</span>`
+            ? `${escapeHtml(location)}<span class="stay-hotel">${hotelLink(stay)}</span>`
             : escapeHtml(cityName(o.city))}
           ${
             temps.length
@@ -1662,13 +1676,7 @@ const Trip = (() => {
 
     // Hotel name links to Maps — search the address when we have one, since a
     // property name alone can be ambiguous.
-    const hotelValue = (a) => {
-      if (!a.name) return "—";
-      const query = a.address ? `${a.name}, ${a.address}` : a.name;
-      return `<a href="${mapsSearch(query)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
-        a.name
-      )}</a>`;
-    };
+    const hotelValue = (a) => hotelLink(a) || "—";
 
     const roomValue = (a) => {
       const count = [];

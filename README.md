@@ -146,7 +146,9 @@ destination.
 afternoon, evening — with the activity and its own remark sharing the band's tint. A
 `remarks` value applies to the whole day and gets its own row underneath. The hotel in
 the "Staying in" column is resolved from `accommodation` by date rather than typed
-twice, so correcting a stay updates the overview too. Temperatures are always Celsius
+twice, so correcting a stay updates the overview too, and its name links to Maps the
+same way the accommodation page does — name plus address, since a property name alone
+is often ambiguous. Temperatures are always Celsius
 and read `City: 18 to 25 °C`: one `{location, min, max}` entry per place a day passes
 through, or `note` when there is no firm range.
 
