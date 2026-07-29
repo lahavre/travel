@@ -147,7 +147,11 @@ afternoon, evening — with the activity and its own remark sharing the band's t
 per-slot **Remarks column only appears once some slot actually has one** (the same rule
 the weather page uses for its optional columns): a header over a column of blanks just
 squeezes the activities for nothing. A `remarks` value applies to the whole day and gets
-its own row underneath, which is independent of that column and always shown. The hotel in
+its own **Remarks** row underneath, independent of that column. Signed in, that row is
+**editable** and appears on every day — including ones with nothing written yet, which
+would otherwise offer nowhere to write it — on the same private, shared basis as a
+stay's or flight's note (see **Firebase / private data**). It is keyed by the day's
+date, so inserting a day later doesn't shift every note onto the wrong one. The hotel in
 the "Staying in" column is resolved from `accommodation` by date rather than typed
 twice, so correcting a stay updates the overview too, and its name links to Maps the
 same way the accommodation page does — name plus address, since a property name alone
@@ -306,8 +310,8 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   thing they describe**, not to a separate page — a booking confirmation sits on its own
   hotel card, a boarding pass on its flight card. Each stay (accommodation page) and
   each flight (trip home) gets an editable **remark** and an **Attach** box (upload,
-  open, delete), both rendering **only when signed in**, so the public pages are
-  unchanged. Notes live in Firestore (`stayNotes/<slug>`, one flat `byKey` map);
+  open, delete), and each overview day gets an editable **Remarks** row, all rendering
+  **only when signed in**, so the public pages are unchanged. Notes live in Firestore (`stayNotes/<slug>`, one flat `byKey` map);
   files live in Firebase Storage under `trips/<slug>/<kind>/<key>/` — `<kind>` is
   `accommodation` or `flight`, and `<key>` is the hotel name + check-in, or the flight
   number + date, so a repeated property or route stays separate. Both are seeded from

@@ -826,7 +826,7 @@ const Trip = (() => {
     return { updated };
   }
 
-  function renderOverview(trip) {
+  function overviewHtml(trip) {
     if (!has(trip.overview)) return `<h1>High-level itinerary</h1>${placeholder("itinerary")}`;
 
     const SLOTS = [
@@ -849,8 +849,13 @@ const Trip = (() => {
         const location = stay ? stay.city : cityName(o.city);
         const temps = temperatureLines(o.temperature);
         const slotRemarks = o.slotRemarks || {};
-        // A whole-day note has no single slot to sit in, so it gets its own row.
-        const dayNote = o.remarks ? 1 : 0;
+        // The day's remarks have no single slot to sit in, so they get their own
+        // row. Signed in, that row is always there — otherwise a day with nothing
+        // written yet would offer nowhere to write it.
+        const noteKey = dayNoteKey(o);
+        const signedIn = stayNotesState.signedIn;
+        const noteText = signedIn ? stayNotesMap()[noteKey] : o.remarks;
+        const dayNote = signedIn || o.remarks ? 1 : 0;
         const span = 3 + dayNote;
 
         const stayingIn = `
@@ -887,9 +892,19 @@ const Trip = (() => {
 
         const noteRow = dayNote
           ? `<tr class="ov-note-row">
-               <td colspan="${anySlotRemarks ? 3 : 2}"><span class="ov-note-label">All day</span> ${multiline(
-              o.remarks
-            )}</td>
+               <td colspan="${anySlotRemarks ? 3 : 2}">${
+              signedIn
+                ? `<div class="stay-note ov-note-edit" data-stay-key="${escapeHtml(noteKey)}">
+                     <span class="ov-note-label">Remarks</span>
+                     <span class="stay-note-text">${
+                       noteText
+                         ? multiline(noteText)
+                         : `<span class="attach-empty">No remarks yet.</span>`
+                     }</span>
+                     <button type="button" class="todo-edit-btn" data-stay-note-edit>Edit</button>
+                   </div>`
+                : `<span class="ov-note-label">Remarks</span> ${multiline(o.remarks)}`
+            }</td>
              </tr>`
           : "";
 
@@ -910,6 +925,22 @@ const Trip = (() => {
           <tbody>${rows}</tbody>
         </table>
       </div>`;
+  }
+
+  function renderOverview(trip) {
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = overviewHtml(trip);
+    };
+    setupStayNotes(trip, redraw);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main && !main.dataset.stayNotesWired) {
+        main.dataset.stayNotesWired = "1";
+        wireStayNotes(main);
+      }
+    }, 0);
+    return overviewHtml(trip);
   }
 
   /** The panel for one day: heading, pager, plan and costs. */
@@ -1521,6 +1552,12 @@ const Trip = (() => {
     return attachSlug(`flight-${f.flightNo || f.airline || "leg"}-${f.date || ""}-${f.from || ""}`);
   }
 
+  // An overview day's key for its remarks. Keyed on the date rather than the day
+  // number, so inserting a day later doesn't shift every note onto the wrong day.
+  function dayNoteKey(o) {
+    return attachSlug(`day-${o.date || o.day}`);
+  }
+
   // A stay's or flight's remark, editable in place. Like the to-do list it lives in
   // Firestore (stayNotes/<slug> = { byKey: { <key>: "text" } }, the doc name kept
   // from when only stays had notes), seeded from data.json's `remarks`, shared live
@@ -1546,6 +1583,9 @@ const Trip = (() => {
     });
     (trip.flights || []).forEach((f) => {
       if (f.remarks) byKey[flightAttachKey(f)] = f.remarks;
+    });
+    (trip.overview || []).forEach((o) => {
+      if (o.remarks) byKey[dayNoteKey(o)] = o.remarks;
     });
     return byKey;
   }

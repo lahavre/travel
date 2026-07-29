@@ -888,6 +888,21 @@ tfoot td {
 .stay-note-text {
   margin-bottom: 6px;
 }
+/* In the overview's table cell the note is a row, not a block: no divider, and
+   label, text and Edit sit on one line. */
+.ov-note-edit {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+.ov-note-edit .stay-note-text {
+  margin-bottom: 0;
+  flex: 1 1 260px;
+}
 
 @media (max-width: 620px) {
   /* Stack the two cells so nothing has to scroll sideways. */
