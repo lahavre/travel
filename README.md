@@ -315,7 +315,12 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   files live in Firebase Storage under `trips/<slug>/<kind>/<key>/` — `<kind>` is
   `accommodation` or `flight`, and `<key>` is the hotel name + check-in, or the flight
   number + date, so a repeated property or route stays separate. Both are seeded from
-  that item's `remarks` in `data.json`. Storage has no live sync, so a list is fetched on
+  that item's `remarks` in `data.json`. Seeding **backfills**: any item whose text the
+  stored document has never seen is filled in on the next signed-in load, so extending
+  the seed later (flights and overview days were both added after the document existed)
+  doesn't leave those notes blank for signed-in travellers while still showing publicly.
+  A note you clear is stored as an empty string rather than removed, so the backfill can
+  tell "never had one" from "emptied on purpose" and won't put the old text back. Storage has no live sync, so a list is fetched on
   sign-in and re-fetched after each upload or delete. Several files can go up at once —
   pick multiple, drop them on the box, or pick repeatedly (each round **adds** to the
   queue rather than replacing it, which a bare file input does not do); the queue is

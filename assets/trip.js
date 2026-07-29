@@ -1600,11 +1600,27 @@ const Trip = (() => {
       console.warn("Couldn't save the stay note:", e)
     );
   }
+  // Backfill any seed text the stored doc has never seen, rather than seeding only
+  // when the doc is missing entirely. The doc is created the first time anyone
+  // signs in, so anything added to the seed afterwards — flights and overview days
+  // were — would otherwise stay invisible to signed-in travellers while still
+  // showing on the public page. A note the user cleared is stored as "" rather
+  // than removed, so backfilling can tell "never had one" from "emptied on
+  // purpose" and won't resurrect it.
   function maybeSeedStayNotes() {
-    if (stayNotesState.signedIn && !stayNotesState.seeded && stayNotesState.doc === null) {
-      stayNotesState.seeded = true;
-      writeStayNotes(stayNotesSeed(stayNotesState.trip));
-    }
+    if (!stayNotesState.signedIn || stayNotesState.seeded) return;
+    stayNotesState.seeded = true;
+    const seed = stayNotesSeed(stayNotesState.trip);
+    const current = (stayNotesState.doc && stayNotesState.doc.byKey) || {};
+    const merged = { ...current };
+    let added = 0;
+    Object.keys(seed).forEach((k) => {
+      if (merged[k] === undefined) {
+        merged[k] = seed[k];
+        added += 1;
+      }
+    });
+    if (added || stayNotesState.doc === null) writeStayNotes(merged);
   }
   // Renders nothing when signed out, so the public page is unchanged.
   function stayNoteHtml(key) {
@@ -1640,10 +1656,10 @@ const Trip = (() => {
         return;
       }
       if (saveBtn) {
-        const val = box.querySelector("textarea").value.trim();
         const byKey = { ...stayNotesMap() };
-        if (val) byKey[key] = val;
-        else delete byKey[key];
+        // "" records an intentionally empty note, so the backfill above won't put
+        // the data.json text back the next time the page loads.
+        byKey[key] = box.querySelector("textarea").value.trim();
         writeStayNotes(byKey);
       }
       if (stayNotesState.rerender) stayNotesState.rerender();
