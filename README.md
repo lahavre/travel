@@ -13,13 +13,13 @@ tools/                One-off scripts (Excel migration, page scaffolding)
 trips/_template/      Copy this folder to start a new trip
 trips/<slug>/
   data.json           Single source of truth for the trip
-  index.html          Trip home — flights, hotels, jump-to-a-day
+  index.html          Trip home — flight summary, hotels, jump-to-a-day
   overview.html       High-level itinerary
   day.html?day=N      One day: plan, weather, costs — day list switches in place
   weather.html        Whole-trip weather — one row per place, local-forecast links
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
-  transport.html      Travel log / getting around
+  transport.html      Flights, car rental, public transport, driving log
   todo.html           Pre-trip bookings and paperwork (private, sign-in to view)
 ```
 
@@ -54,7 +54,7 @@ breaking, so a half-planned trip still renders.
 | `title`, `destination`, `emoji`, `notes` | Identity, shown on the trip home page |
 | `startDate`, `endDate` | ISO `YYYY-MM-DD` |
 | `travelers` | Names used as column headers in the settle-up and per-person split tables |
-| `flights` | Outbound / return / internal legs, shown as cards on the trip home page |
+| `flights` | Outbound / return / internal legs — summarised on the trip home page, in full on the transport page |
 | `checkInLeadHours` | Hours before departure to show as check-in (default 3) |
 | `homeCurrency` / `tripCurrency` | ISO codes, e.g. `MYR` / `JPY` |
 | `exchangeRate` | `{ per, rate, history }` — see below |
@@ -238,16 +238,19 @@ Write activities so this can work: `Travel to <place>`, `Explore <place>`,
 **The transport page.** Four sections, each optional and each showing a placeholder
 rather than breaking when a trip has nothing of that kind:
 
-- **Flights** — a summary table read from the trip's own top-level `flights`, never
-  retyped. Check-in times and per-flight tickets stay on the trip home page, so the
-  flight is described in exactly one place.
+- **Flights** — the full cards: terminals, duration, derived check-in time, and each
+  flight's own note and tickets. The trip home page carries only a summary table
+  (type, route, date, departure) and links here, so the booking detail lives in one
+  place with the rest of the transport.
 - **Car rental** — one card per hire: company, vehicle, reservation (same
   `site`/`bookingNo`/`refs` shape as an accommodation booking), pick-up and drop-off
   each with place, address, phone, date and time, and the total in home currency. The
   pick-up/drop-off place links to Maps when an address is given.
 - **Public transport** — one card per booked bus, train or boat leg: `mode`, `from`/`to`
   (with optional `fromStation`/`toStation`), date, departure and arrival times,
-  `company` and `operatedBy`, the reservation, and the fare with `persons`.
+  `company` and `operatedBy`, the reservation, and the fare with `persons`. A leg may
+  set its own `currency` — a bus booked in euros on a trip whose home currency is
+  ringgit would otherwise be labelled in the wrong one.
 - **Driving log** — the day-by-day `legs` with distances and refuel stops, as before.
 
 Every car hire and booked leg also carries its own editable **remark** and an **Attach**
@@ -267,15 +270,15 @@ secret in a public static site, so the link is the honest way to get live number
 Distances already recorded per day live in `transport.legs[].km`; note these are the
 whole day's driving, so they read higher than a point-to-point Maps estimate.
 
-**Flights and check-in.** Each flight card shows a check-in time so you can work
-backwards to when you need to leave for the airport. It defaults to 3 hours before
+**Flights and check-in.** Each flight card — on the transport page — shows a check-in
+time so you can work backwards to when you need to leave for the airport. It defaults to 3 hours before
 departure — override per flight with `checkInTime` (an exact time) or
 `checkInLeadHours`, or trip-wide with a top-level `checkInLeadHours`. An early
 departure correctly rolls check-in back to the previous evening. Flight times are
 local to their own airport; set `arrivesNextDay` on a red-eye.
 
 Signed-in travellers also get an editable **remark** and a **Tickets & documents** box
-on each flight card, for boarding passes and e-tickets — the same private, in-context
+on each flight card (on the transport page), for boarding passes and e-tickets — the same private, in-context
 pattern as a stay's (see **Firebase / private data**). A flight's `remarks` in
 `data.json` is the seed for that note, not public page text.
 

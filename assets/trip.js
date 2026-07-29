@@ -502,65 +502,30 @@ const Trip = (() => {
       stays.length ? { label: "Nights booked", value: nights } : null,
     ].filter(Boolean);
 
-    const anyDerivedCheckIn = flights.some((f) => {
-      const c = checkIn(f, trip.checkInLeadHours);
-      return c && c.derived;
-    });
-
-    const flightCard = (f) => {
-      const c = checkIn(f, trip.checkInLeadHours);
-      const stop = (time, name, terminal, extraNote) => `
-        <div class="flight-stop">
-          <div class="flight-time">${escapeHtml(time || "—")}</div>
-          <div>
-            <div class="flight-port">${escapeHtml(name || "")}</div>
-            ${terminal ? `<div class="flight-terminal">${escapeHtml(terminal)}</div>` : ""}
-            ${extraNote ? `<div class="flight-nextday">${extraNote}</div>` : ""}
-          </div>
-        </div>`;
-
-      return `
-        <div class="flight-card">
-          <div class="flight-card-head">
-            <span class="flight-type">${escapeHtml(f.type || "Flight")}</span>
-            <span class="flight-date">${longDate(f.date)}</span>
-            ${f.duration ? `<span class="flight-duration">${escapeHtml(f.duration)}</span>` : ""}
-          </div>
-          <div class="flight-card-body">
-            ${stop(f.departTime, f.from, f.fromTerminal, null)}
-            ${stop(
-              f.arriveTime,
-              f.to,
-              f.toTerminal,
-              f.arrivesNextDay ? "Arrives next day" : null
-            )}
-            <div class="flight-card-foot">
-              <span>${escapeHtml(f.airline || "")}${
-        f.flightNo ? ` · <strong>${escapeHtml(f.flightNo)}</strong>` : ""
-      }</span>
-              ${
-                c
-                  ? `<span class="flight-checkin">Check-in from <strong>${escapeHtml(c.time)}</strong>${
-                      c.dayOffset < 0 ? " (prev day)" : ""
-                    }</span>`
-                  : ""
-              }
-            </div>
-            ${stayNoteHtml(flightAttachKey(f))}
-            ${attachmentsHtml("flight", flightAttachKey(f), "Tickets & documents")}
-          </div>
-        </div>`;
-    };
-
+    // The home page states the shape of the trip; the full flight cards — terminals,
+    // check-in, notes and tickets — live on the transport page with the rest of the
+    // booking detail, so a flight is described in one place.
     const flightSection = flights.length
       ? `<h2>Flights</h2>
-         <div class="flight-list">${flights.map(flightCard).join("")}</div>
-         ${
-           anyDerivedCheckIn
-             ? `<p class="section-note">Check-in times shown are
-                ${trip.checkInLeadHours || 3} hours before departure.</p>`
-             : ""
-         }`
+         <div class="table-wrap">
+           <table>
+             <thead><tr><th>Flight</th><th>Route</th><th>Date</th><th>Departs</th></tr></thead>
+             <tbody>${flights
+               .map(
+                 (f) => `<tr>
+                   <td><strong>${escapeHtml(f.type || "Flight")}</strong>${
+                   f.flightNo ? ` <span class="stay-refs">${escapeHtml(f.flightNo)}</span>` : ""
+                 }</td>
+                   <td>${escapeHtml(f.from || "")} → ${escapeHtml(f.to || "")}</td>
+                   <td>${short(f.date)}</td>
+                   <td>${escapeHtml(f.departTime || "—")}</td>
+                 </tr>`
+               )
+               .join("")}</tbody>
+           </table>
+         </div>
+         <p class="section-note">Terminals, check-in times, tickets and notes are on the
+           <a href="transport.html">transport page</a>.</p>`
       : "";
 
     const hotelSection = stays.length
@@ -622,26 +587,9 @@ const Trip = (() => {
       }`;
   }
 
+  // The home page is a summary only — the notes and tickets it used to host moved
+  // to the transport page with the full flight cards.
   function renderIndex(trip) {
-    const redraw = () => {
-      const main = document.getElementById("main");
-      if (main) main.innerHTML = indexHtml(trip);
-    };
-    // Each flight can carry its own note and documents (boarding passes, e-tickets),
-    // on the same private, signed-in-only basis as a stay's.
-    setupAttachments(
-      trip,
-      (trip.flights || []).map((f) => ({ kind: "flight", key: flightAttachKey(f) })),
-      redraw
-    );
-    setupStayNotes(trip, redraw);
-    setTimeout(() => {
-      const main = document.getElementById("main");
-      if (main && !main.dataset.stayNotesWired) {
-        main.dataset.stayNotesWired = "1";
-        wireStayNotes(main);
-      }
-    }, 0);
     return indexHtml(trip);
   }
 
@@ -1545,6 +1493,47 @@ const Trip = (() => {
     return attachSlug(`day-${o.date || o.day}`);
   }
 
+  /** A flight in full — terminals, check-in, its note and its tickets. */
+  function flightCard(f, trip) {
+    const c = checkIn(f, trip.checkInLeadHours);
+    const stop = (time, name, terminal, extraNote) => `
+      <div class="flight-stop">
+        <div class="flight-time">${escapeHtml(time || "—")}</div>
+        <div>
+          <div class="flight-port">${escapeHtml(name || "")}</div>
+          ${terminal ? `<div class="flight-terminal">${escapeHtml(terminal)}</div>` : ""}
+          ${extraNote ? `<div class="flight-nextday">${extraNote}</div>` : ""}
+        </div>
+      </div>`;
+
+    return `
+      <div class="flight-card">
+        <div class="flight-card-head">
+          <span class="flight-type">${escapeHtml(f.type || "Flight")}</span>
+          <span class="flight-date">${longDate(f.date)}</span>
+          ${f.duration ? `<span class="flight-duration">${escapeHtml(f.duration)}</span>` : ""}
+        </div>
+        <div class="flight-card-body">
+          ${stop(f.departTime, f.from, f.fromTerminal, null)}
+          ${stop(f.arriveTime, f.to, f.toTerminal, f.arrivesNextDay ? "Arrives next day" : null)}
+          <div class="flight-card-foot">
+            <span>${escapeHtml(f.airline || "")}${
+      f.flightNo ? ` · <strong>${escapeHtml(f.flightNo)}</strong>` : ""
+    }</span>
+            ${
+              c
+                ? `<span class="flight-checkin">Check-in from <strong>${escapeHtml(c.time)}</strong>${
+                    c.dayOffset < 0 ? " (prev day)" : ""
+                  }</span>`
+                : ""
+            }
+          </div>
+          ${stayNoteHtml(flightAttachKey(f))}
+          ${attachmentsHtml("flight", flightAttachKey(f), "Tickets & documents")}
+        </div>
+      </div>`;
+  }
+
   // A stay's or flight's remark, editable in place. Like the to-do list it lives in
   // Firestore (stayNotes/<slug> = { byKey: { <key>: "text" } }, the doc name kept
   // from when only stays had notes), seeded from data.json's `remarks`, shared live
@@ -1922,32 +1911,22 @@ const Trip = (() => {
       }${p.phone ? `<br><span class="stay-refs">${escapeHtml(p.phone)}</span>` : ""}`;
     };
 
-    // ---- Flights: summarised from the trip's own `flights`, never retyped.
-    const flightSection = flights.length
-      ? `<h2>Flights</h2>
-         <div class="table-wrap">
-           <table>
-             <thead><tr><th>Flight</th><th>Route</th><th>Date</th><th>Times</th></tr></thead>
-             <tbody>${flights
-               .map(
-                 (f) => `<tr>
-                   <td><strong>${escapeHtml(f.type || "Flight")}</strong>${
-                   f.flightNo ? `<br><span class="stay-refs">${escapeHtml(f.flightNo)}</span>` : ""
-                 }${f.airline ? `<br><span class="stay-refs">${escapeHtml(f.airline)}</span>` : ""}</td>
-                   <td>${escapeHtml(f.from || "")} → ${escapeHtml(f.to || "")}</td>
-                   <td>${shortDate(f.date)}</td>
-                   <td>${dash(f.departTime)} – ${dash(f.arriveTime)}${
-                   f.arrivesNextDay ? ' <span class="stay-refs">(+1)</span>' : ""
-                 }</td>
-                 </tr>`
-               )
-               .join("")}</tbody>
-           </table>
-         </div>
-         <p class="section-note">Check-in times and full details are on the
-           <a href="index.html">trip home page</a>, where each flight also takes its
-           own tickets and notes.</p>`
-      : `<h2>Flights</h2>${placeholder("flights")}`;
+    // ---- Flights in full: the home page carries only a summary.
+    const anyDerivedCheckIn = flights.some((f) => {
+      const c = checkIn(f, trip.checkInLeadHours);
+      return c && c.derived;
+    });
+    const flightSection = `<h2>Flights</h2>${
+      flights.length
+        ? `<div class="flight-list">${flights.map((f) => flightCard(f, trip)).join("")}</div>
+           ${
+             anyDerivedCheckIn
+               ? `<p class="section-note">Check-in times shown are
+                  ${trip.checkInLeadHours || 3} hours before departure.</p>`
+               : ""
+           }`
+        : placeholder("flights")
+    }`;
 
     // ---- Car rental
     const carSection = `<h2>Car rental</h2>${
@@ -2000,8 +1979,12 @@ const Trip = (() => {
                 ["Reservation", reservationValue(p.reservation)],
                 [
                   "Fare",
+                  // A leg can be booked in a currency that is neither the trip's
+                  // home nor its main destination one, so it may state its own.
                   p.total != null
-                    ? `${home(p.total, trip)}${p.persons ? ` <span class="stay-refs">(${p.persons} pax)</span>` : ""}`
+                    ? `${
+                        p.currency ? TravelSite.formatMoney(p.total, p.currency) : home(p.total, trip)
+                      }${p.persons ? ` <span class="stay-refs">(${p.persons} pax)</span>` : ""}`
                     : "—",
                 ],
               ];
@@ -2089,8 +2072,9 @@ const Trip = (() => {
     };
     setupAttachments(
       trip,
-      (t.carRental || [])
-        .map((c) => ({ kind: "carRental", key: carRentalKey(c) }))
+      (trip.flights || [])
+        .map((f) => ({ kind: "flight", key: flightAttachKey(f) }))
+        .concat((t.carRental || []).map((c) => ({ kind: "carRental", key: carRentalKey(c) })))
         .concat((t.publicTransport || []).map((p) => ({ kind: "publicTransport", key: ptKey(p) }))),
       redraw
     );

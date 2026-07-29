@@ -2933,7 +2933,160 @@
         "remarks": null
       }
     ],
-    "publicTransport": [],
+    "publicTransport": [
+      {
+        "mode": "Bus",
+        "from": "Bled",
+        "to": "Ljubljana",
+        "fromStation": null,
+        "toStation": null,
+        "date": "2025-10-06",
+        "departTime": null,
+        "arriveTime": null,
+        "company": null,
+        "operatedBy": null,
+        "reservation": {
+          "site": null,
+          "bookingNo": null,
+          "refs": []
+        },
+        "persons": null,
+        "total": null,
+        "currency": "EUR",
+        "remarks": "Ticket is a scanned image — times, operator and fare not transcribed."
+      },
+      {
+        "mode": "Bus",
+        "from": "Ljubljana",
+        "to": "Postojna",
+        "fromStation": null,
+        "toStation": null,
+        "date": "2025-10-07",
+        "departTime": null,
+        "arriveTime": null,
+        "company": null,
+        "operatedBy": null,
+        "reservation": {
+          "site": null,
+          "bookingNo": null,
+          "refs": []
+        },
+        "persons": null,
+        "total": null,
+        "currency": "EUR",
+        "remarks": "Ticket is a scanned image — times, operator and fare not transcribed."
+      },
+      {
+        "mode": "Bus",
+        "from": "Postojna",
+        "to": "Ljubljana",
+        "fromStation": null,
+        "toStation": null,
+        "date": "2025-10-07",
+        "departTime": null,
+        "arriveTime": null,
+        "company": null,
+        "operatedBy": null,
+        "reservation": {
+          "site": null,
+          "bookingNo": null,
+          "refs": []
+        },
+        "persons": null,
+        "total": null,
+        "currency": "EUR",
+        "remarks": "Ticket is a scanned image — times, operator and fare not transcribed."
+      },
+      {
+        "mode": "Bus",
+        "from": "Ljubljana",
+        "to": "Zagreb",
+        "fromStation": "Ljubljana bus station",
+        "toStation": "Zagreb (bus station)",
+        "date": "2025-10-09",
+        "departTime": "10:30",
+        "arriveTime": "12:50",
+        "company": "FlixBus",
+        "operatedBy": "FlixBus Italia S.r.l.",
+        "reservation": {
+          "site": "https://global.flixbus.com/",
+          "bookingNo": "327 601 2964",
+          "refs": []
+        },
+        "persons": 3,
+        "total": 35.46,
+        "currency": "EUR",
+        "remarks": "Route N482. Gate 29 & 30; passenger fee included in the ticket price."
+      },
+      {
+        "mode": "Bus",
+        "from": "Zagreb",
+        "to": "Plitvička Jezera",
+        "fromStation": "Zagreb (bus station)",
+        "toStation": "Plitvička Jezera",
+        "date": "2025-10-11",
+        "departTime": "08:00",
+        "arriveTime": "10:22",
+        "company": "FlixBus",
+        "operatedBy": "Prijevoz Knežević d.o.o.",
+        "reservation": {
+          "site": "https://global.flixbus.com/",
+          "bookingNo": "327 601 5061",
+          "refs": []
+        },
+        "persons": 3,
+        "total": 51.96,
+        "currency": "EUR",
+        "remarks": "Route CHR933. Bus does not carry FlixBus branding."
+      },
+      {
+        "mode": "Bus",
+        "from": "Plitvička Jezera",
+        "to": "Split",
+        "fromStation": "Plitvička Jezera",
+        "toStation": "Split bus station",
+        "date": "2025-10-12",
+        "departTime": "16:20",
+        "arriveTime": "20:45",
+        "company": "FlixBus",
+        "operatedBy": "Prijevoz Knežević d.o.o.",
+        "reservation": {
+          "site": "https://global.flixbus.com/",
+          "bookingNo": "327 601 5535",
+          "refs": []
+        },
+        "persons": 3,
+        "total": 78.99,
+        "currency": "EUR",
+        "remarks": "Route CHR934. Bus does not carry FlixBus branding."
+      },
+      {
+        "mode": "Boat",
+        "from": "Split",
+        "to": "Dubrovnik",
+        "fromStation": null,
+        "toStation": null,
+        "date": "2025-10-16",
+        "departTime": "08:00",
+        "arriveTime": "12:30",
+        "company": "Kapetan Luka (Krilo)",
+        "operatedBy": null,
+        "reservation": {
+          "site": "https://krilo.hr/",
+          "bookingNo": "85022/15/1",
+          "refs": [
+            {
+              "label": "Tickets",
+              "value": "32TJ0251006–008"
+            }
+          ]
+        },
+        "persons": 3,
+        "total": 150.0,
+        "currency": "EUR",
+        "remarks": "Catamaran. Luggage up to 23 kg; port tax included in the fare."
+      }
+    ],
     "totalKm": 1956.5,
     "rentalTotal": 6433.23,
     "legs": [
