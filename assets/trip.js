@@ -835,6 +835,14 @@ const Trip = (() => {
       { key: "evening", label: "Evening", cls: "slot-evening" },
     ];
 
+    // The per-slot Remarks column earns its width only if some slot actually has
+    // one; otherwise it is a header over a column of blanks, squeezing the
+    // activities for nothing. Whole-day notes are unaffected — they get their own
+    // row regardless.
+    const anySlotRemarks = trip.overview.some((o) =>
+      Object.values(o.slotRemarks || {}).some((v) => v)
+    );
+
     const rows = trip.overview
       .map((o) => {
         const stay = stayOn(o.date, trip.accommodation);
@@ -873,13 +881,15 @@ const Trip = (() => {
             ${lead}
             <td class="ov-slot">${slot.label}</td>
             <td class="ov-activity">${multiline(o[slot.key])}</td>
-            <td class="ov-remarks">${multiline(slotRemarks[slot.key])}</td>
+            ${anySlotRemarks ? `<td class="ov-remarks">${multiline(slotRemarks[slot.key])}</td>` : ""}
           </tr>`;
         }).join("");
 
         const noteRow = dayNote
           ? `<tr class="ov-note-row">
-               <td colspan="3"><span class="ov-note-label">All day</span> ${multiline(o.remarks)}</td>
+               <td colspan="${anySlotRemarks ? 3 : 2}"><span class="ov-note-label">All day</span> ${multiline(
+              o.remarks
+            )}</td>
              </tr>`
           : "";
 
@@ -895,7 +905,7 @@ const Trip = (() => {
           <thead><tr>
             <th>Day</th><th>Staying in</th>
             <th colspan="2">Activity</th>
-            <th>Remarks</th>
+            ${anySlotRemarks ? "<th>Remarks</th>" : ""}
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>

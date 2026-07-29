@@ -143,8 +143,11 @@ single-country; Open-Meteo blends several models worldwide, so the same code ser
 destination.
 
 **The overview table.** Each day renders as three colour-banded rows — morning,
-afternoon, evening — with the activity and its own remark sharing the band's tint. A
-`remarks` value applies to the whole day and gets its own row underneath. The hotel in
+afternoon, evening — with the activity and its own remark sharing the band's tint. The
+per-slot **Remarks column only appears once some slot actually has one** (the same rule
+the weather page uses for its optional columns): a header over a column of blanks just
+squeezes the activities for nothing. A `remarks` value applies to the whole day and gets
+its own row underneath, which is independent of that column and always shown. The hotel in
 the "Staying in" column is resolved from `accommodation` by date rather than typed
 twice, so correcting a stay updates the overview too, and its name links to Maps the
 same way the accommodation page does — name plus address, since a property name alone
