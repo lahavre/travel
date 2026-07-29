@@ -835,28 +835,19 @@ const Trip = (() => {
       { key: "evening", label: "Evening", cls: "slot-evening" },
     ];
 
-    // The per-slot Remarks column earns its width only if some slot actually has
-    // one; otherwise it is a header over a column of blanks, squeezing the
-    // activities for nothing. Whole-day notes are unaffected — they get their own
-    // row regardless.
-    const anySlotRemarks = trip.overview.some((o) =>
-      Object.values(o.slotRemarks || {}).some((v) => v)
-    );
-
     const rows = trip.overview
       .map((o) => {
         const stay = stayOn(o.date, trip.accommodation);
         const location = stay ? stay.city : cityName(o.city);
         const temps = temperatureLines(o.temperature);
-        const slotRemarks = o.slotRemarks || {};
-        // The day's remarks have no single slot to sit in, so they get their own
-        // row. Signed in, that row is always there — otherwise a day with nothing
-        // written yet would offer nowhere to write it.
+        // One remarks row per day, private like every other note: it exists only
+        // when signed in, so a signed-out visitor sees no remarks at all. Signed
+        // in it is always there, since a day with nothing written yet would
+        // otherwise offer nowhere to write it.
         const noteKey = dayNoteKey(o);
         const signedIn = stayNotesState.signedIn;
-        const noteText = signedIn ? stayNotesMap()[noteKey] : o.remarks;
-        const dayNote = signedIn || o.remarks ? 1 : 0;
-        const span = 3 + dayNote;
+        const noteText = stayNotesMap()[noteKey];
+        const span = 3 + (signedIn ? 1 : 0);
 
         const stayingIn = `
           ${stay && stay.name
@@ -886,25 +877,22 @@ const Trip = (() => {
             ${lead}
             <td class="ov-slot">${slot.label}</td>
             <td class="ov-activity">${multiline(o[slot.key])}</td>
-            ${anySlotRemarks ? `<td class="ov-remarks">${multiline(slotRemarks[slot.key])}</td>` : ""}
           </tr>`;
         }).join("");
 
-        const noteRow = dayNote
+        const noteRow = signedIn
           ? `<tr class="ov-note-row">
-               <td colspan="${anySlotRemarks ? 3 : 2}">${
-              signedIn
-                ? `<div class="stay-note ov-note-edit" data-stay-key="${escapeHtml(noteKey)}">
-                     <span class="ov-note-label">Remarks</span>
-                     <span class="stay-note-text">${
-                       noteText
-                         ? multiline(noteText)
-                         : `<span class="attach-empty">No remarks yet.</span>`
-                     }</span>
-                     <button type="button" class="todo-edit-btn" data-stay-note-edit>Edit</button>
-                   </div>`
-                : `<span class="ov-note-label">Remarks</span> ${multiline(o.remarks)}`
-            }</td>
+               <td colspan="2">
+                 <div class="stay-note ov-note-edit" data-stay-key="${escapeHtml(noteKey)}">
+                   <span class="ov-note-label">Remarks</span>
+                   <span class="stay-note-text">${
+                     noteText
+                       ? multiline(noteText)
+                       : `<span class="attach-empty">No remarks yet.</span>`
+                   }</span>
+                   <button type="button" class="todo-edit-btn" data-stay-note-edit>Edit</button>
+                 </div>
+               </td>
              </tr>`
           : "";
 
@@ -920,7 +908,6 @@ const Trip = (() => {
           <thead><tr>
             <th>Day</th><th>Staying in</th>
             <th colspan="2">Activity</th>
-            ${anySlotRemarks ? "<th>Remarks</th>" : ""}
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
@@ -1584,8 +1571,21 @@ const Trip = (() => {
     (trip.flights || []).forEach((f) => {
       if (f.remarks) byKey[flightAttachKey(f)] = f.remarks;
     });
+    // A day had two places to write a remark — the whole-day `remarks` and a
+    // per-slot one. They are one note now, so the seed folds any slot remark in
+    // under its slot's name rather than losing it.
     (trip.overview || []).forEach((o) => {
-      if (o.remarks) byKey[dayNoteKey(o)] = o.remarks;
+      const parts = [];
+      if (o.remarks) parts.push(o.remarks);
+      const sr = o.slotRemarks || {};
+      [
+        ["morning", "Morning"],
+        ["afternoon", "Afternoon"],
+        ["evening", "Evening"],
+      ].forEach(([k, label]) => {
+        if (sr[k]) parts.push(`${label}: ${sr[k]}`);
+      });
+      if (parts.length) byKey[dayNoteKey(o)] = parts.join("\n");
     });
     return byKey;
   }

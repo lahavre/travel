@@ -62,7 +62,7 @@ breaking, so a half-planned trip still renders.
 | `summary` | `totalDays` and an optional `note` shown atop the budget page |
 | `budget.categories` | `category`, `perDay`, `budget`, `actual` — in **home** currency |
 | `settle` | Group cost-splitting rows; `amounts` keys must match `travelers` |
-| `overview` | One row per day; `morning`/`afternoon`/`evening` activities, `slotRemarks` per slot, `remarks` for a whole-day note, `temperature` list in Celsius |
+| `overview` | One row per day; `morning`/`afternoon`/`evening` activities, `remarks` (and legacy `slotRemarks`) seeding the day's private note, `temperature` list in Celsius |
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
 | `accommodation` | Stays — booking, address, room, times, meal/parking/laundry, payment, optional `perPerson` split |
 | `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
@@ -143,15 +143,17 @@ single-country; Open-Meteo blends several models worldwide, so the same code ser
 destination.
 
 **The overview table.** Each day renders as three colour-banded rows — morning,
-afternoon, evening — with the activity and its own remark sharing the band's tint. The
-per-slot **Remarks column only appears once some slot actually has one** (the same rule
-the weather page uses for its optional columns): a header over a column of blanks just
-squeezes the activities for nothing. A `remarks` value applies to the whole day and gets
-its own **Remarks** row underneath, independent of that column. Signed in, that row is
-**editable** and appears on every day — including ones with nothing written yet, which
-would otherwise offer nowhere to write it — on the same private, shared basis as a
-stay's or flight's note (see **Firebase / private data**). It is keyed by the day's
-date, so inserting a day later doesn't shift every note onto the wrong one. The hotel in
+afternoon, evening — showing that slot's activity.
+
+A day has **one** remarks note, not two. `remarks` and the older per-slot
+`slotRemarks` are both just **seeds** for it: they are folded into a single note (a slot
+remark keeps its slot's name, "Morning: …"), and the per-slot Remarks column is gone —
+it was a column of blanks squeezing the activities. That note is **private**: it renders
+only when signed in, so a signed-out visitor sees no remarks anywhere on the page. Signed
+in it is **editable** and appears on every day, including ones with nothing written yet
+which would otherwise offer nowhere to write it, on the same shared basis as a stay's or
+flight's note (see **Firebase / private data**). It is keyed by the day's date, so
+inserting a day later doesn't shift every note onto the wrong one. The hotel in
 the "Staying in" column is resolved from `accommodation` by date rather than typed
 twice, so correcting a stay updates the overview too, and its name links to Maps the
 same way the accommodation page does — name plus address, since a property name alone
