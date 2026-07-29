@@ -65,7 +65,7 @@ breaking, so a half-planned trip still renders.
 | `overview` | One row per day; `morning`/`afternoon`/`evening` activities, `remarks` (and legacy `slotRemarks`) seeding the day's private note, `temperature` list in Celsius |
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
 | `accommodation` | Stays — booking, address, room, times, meal/parking/laundry, payment, optional `perPerson` split |
-| `transport` | `mode`, plus optional `legs`, `totalKm`, `rentalTotal` |
+| `transport` | `mode`, plus optional `carRental`, `publicTransport`, `legs`, `totalKm`, `rentalTotal` |
 | `todo` | Pre-trip checklist; `status` is `"Done"` or `"Open"`. Optional `category` + `subcategory` group the list (see below) |
 
 **Currency.** `exchangeRate.rate` is how many *home* currency units you get per
@@ -234,6 +234,26 @@ worse than none.
 Write activities so this can work: `Travel to <place>`, `Explore <place>`,
 `Dinner at <place>`. Opening hours and prices in brackets are ignored
 (`Explore Aizu Bukeyashiki Museum (8.30am - 5pm, 850JPY)` resolves to the museum).
+
+**The transport page.** Four sections, each optional and each showing a placeholder
+rather than breaking when a trip has nothing of that kind:
+
+- **Flights** — a summary table read from the trip's own top-level `flights`, never
+  retyped. Check-in times and per-flight tickets stay on the trip home page, so the
+  flight is described in exactly one place.
+- **Car rental** — one card per hire: company, vehicle, reservation (same
+  `site`/`bookingNo`/`refs` shape as an accommodation booking), pick-up and drop-off
+  each with place, address, phone, date and time, and the total in home currency. The
+  pick-up/drop-off place links to Maps when an address is given.
+- **Public transport** — one card per booked bus, train or boat leg: `mode`, `from`/`to`
+  (with optional `fromStation`/`toStation`), date, departure and arrival times,
+  `company` and `operatedBy`, the reservation, and the fare with `persons`.
+- **Driving log** — the day-by-day `legs` with distances and refuel stops, as before.
+
+Every car hire and booked leg also carries its own editable **remark** and an **Attach**
+box for the rental agreement or ticket, on the same private, signed-in-only basis as a
+stay's (see **Firebase / private data**). Leave any field `null` rather than guessing —
+it renders as an em dash.
 
 **Maps and travel times.** Any activity can carry a `travel` block
 (`from`, `to`, `mode`, `duration`, `distance`, `cost`) which renders as a line with a

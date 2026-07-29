@@ -451,6 +451,35 @@ tfoot td {
   gap: 8px;
   margin-left: auto;
 }
+/* ---- Transport: one card per car hire or booked leg ---- */
+.transport-card {
+  margin: 12px 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  box-shadow: var(--shadow);
+}
+.transport-card-head {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.transport-card dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 12px;
+  margin: 0;
+}
+.transport-card dt {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.transport-card dd {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
 /* ---- Attached files (booking confirmations on a stay, etc.) ---- */
 .attach-box {
   margin-top: 12px;

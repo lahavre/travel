@@ -1571,6 +1571,13 @@ const Trip = (() => {
     (trip.flights || []).forEach((f) => {
       if (f.remarks) byKey[flightAttachKey(f)] = f.remarks;
     });
+    const tr = trip.transport || {};
+    (tr.carRental || []).forEach((c) => {
+      if (c.remarks) byKey[carRentalKey(c)] = c.remarks;
+    });
+    (tr.publicTransport || []).forEach((p) => {
+      if (p.remarks) byKey[ptKey(p)] = p.remarks;
+    });
     // A day had two places to write a remark — the whole-day `remarks` and a
     // per-slot one. They are one note now, so the seed folds any slot remark in
     // under its slot's name rather than losing it.
@@ -1865,14 +1872,155 @@ const Trip = (() => {
     return accommodationHtml(trip);
   }
 
-  function renderTransport(trip) {
+  // Keys for a car hire and a public-transport leg, so each can carry its own
+  // note and documents (rental agreement, ticket) the way a stay or flight does.
+  function carRentalKey(c) {
+    return attachSlug(`car-${c.company || "hire"}-${(c.pickUp && c.pickUp.date) || ""}`);
+  }
+  function ptKey(p) {
+    return attachSlug(`${p.mode || "leg"}-${p.from || ""}-${p.to || ""}-${p.date || ""}`);
+  }
+
+  function transportHtml(trip) {
     const t = trip.transport;
     if (!t) return `<h1>Transport</h1>${placeholder("transport details")}`;
 
     const legs = t.legs || [];
+    const flights = trip.flights || [];
+    const cars = t.carRental || [];
+    const pts = t.publicTransport || [];
+    const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
+    const shortDate = (iso) =>
+      iso ? TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" }) : "—";
+
+    // Same shape as the accommodation page's, so a booking reads the same
+    // wherever it appears.
+    const reservationValue = (r) => {
+      if (!r || (!r.site && !r.bookingNo)) return "—";
+      const numbers = [];
+      if (r.bookingNo) numbers.push(`Booking No: ${escapeHtml(r.bookingNo)}`);
+      (r.refs || []).forEach((x) => {
+        if (x && x.value) numbers.push(`${escapeHtml(x.label || "Ref")}: ${escapeHtml(x.value)}`);
+      });
+      const site = r.site
+        ? `<a href="${escapeHtml(r.site)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+            r.site.replace(/^https?:\/\//, "").replace(/\/$/, "")
+          )}</a>`
+        : "";
+      return `${site}${numbers.length ? ` <span class="stay-refs">(${numbers.join(" · ")})</span>` : ""}`;
+    };
+    const placeValue = (p) => {
+      if (!p || !p.place) return "—";
+      const when = [shortDate(p.date), p.time].filter((v) => v && v !== "—").join(" at ");
+      const where = p.address
+        ? `<a href="${mapsSearch(`${p.place}, ${p.address}`)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+            p.place
+          )}</a>`
+        : escapeHtml(p.place);
+      return `${where}${when ? ` — ${when}` : ""}${
+        p.address ? `<br><span class="stay-refs">${escapeHtml(p.address)}</span>` : ""
+      }${p.phone ? `<br><span class="stay-refs">${escapeHtml(p.phone)}</span>` : ""}`;
+    };
+
+    // ---- Flights: summarised from the trip's own `flights`, never retyped.
+    const flightSection = flights.length
+      ? `<h2>Flights</h2>
+         <div class="table-wrap">
+           <table>
+             <thead><tr><th>Flight</th><th>Route</th><th>Date</th><th>Times</th></tr></thead>
+             <tbody>${flights
+               .map(
+                 (f) => `<tr>
+                   <td><strong>${escapeHtml(f.type || "Flight")}</strong>${
+                   f.flightNo ? `<br><span class="stay-refs">${escapeHtml(f.flightNo)}</span>` : ""
+                 }${f.airline ? `<br><span class="stay-refs">${escapeHtml(f.airline)}</span>` : ""}</td>
+                   <td>${escapeHtml(f.from || "")} → ${escapeHtml(f.to || "")}</td>
+                   <td>${shortDate(f.date)}</td>
+                   <td>${dash(f.departTime)} – ${dash(f.arriveTime)}${
+                   f.arrivesNextDay ? ' <span class="stay-refs">(+1)</span>' : ""
+                 }</td>
+                 </tr>`
+               )
+               .join("")}</tbody>
+           </table>
+         </div>
+         <p class="section-note">Check-in times and full details are on the
+           <a href="index.html">trip home page</a>, where each flight also takes its
+           own tickets and notes.</p>`
+      : `<h2>Flights</h2>${placeholder("flights")}`;
+
+    // ---- Car rental
+    const carSection = `<h2>Car rental</h2>${
+      cars.length
+        ? cars
+            .map((c) => {
+              const rows = [
+                ["Company", dash(c.company)],
+                ["Vehicle", dash(c.vehicle)],
+                ["Reservation", reservationValue(c.reservation)],
+                ["Pick-up", placeValue(c.pickUp)],
+                ["Drop-off", placeValue(c.dropOff)],
+                ["Total", c.total != null ? home(c.total, trip) : "—"],
+              ];
+              return `<div class="transport-card">
+                <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
+                ${stayNoteHtml(carRentalKey(c))}
+                ${attachmentsHtml("carRental", carRentalKey(c), "Rental documents")}
+              </div>`;
+            })
+            .join("")
+        : placeholder("car rental")
+    }`;
+
+    // ---- Public transport
+    const ptSection = `<h2>Public transport</h2>${
+      pts.length
+        ? pts
+            .map((p) => {
+              const rows = [
+                ["Type", dash(p.mode)],
+                [
+                  "Route",
+                  `${escapeHtml(p.from || "—")} → ${escapeHtml(p.to || "—")}${
+                    p.fromStation || p.toStation
+                      ? `<br><span class="stay-refs">${escapeHtml(p.fromStation || "—")} → ${escapeHtml(
+                          p.toStation || "—"
+                        )}</span>`
+                      : ""
+                  }`,
+                ],
+                ["Date", shortDate(p.date)],
+                ["Times", `${dash(p.departTime)} – ${dash(p.arriveTime)}`],
+                [
+                  "Company",
+                  `${dash(p.company)}${
+                    p.operatedBy ? `<br><span class="stay-refs">Operated by ${escapeHtml(p.operatedBy)}</span>` : ""
+                  }`,
+                ],
+                ["Reservation", reservationValue(p.reservation)],
+                [
+                  "Fare",
+                  p.total != null
+                    ? `${home(p.total, trip)}${p.persons ? ` <span class="stay-refs">(${p.persons} pax)</span>` : ""}`
+                    : "—",
+                ],
+              ];
+              return `<div class="transport-card">
+                <div class="transport-card-head">${escapeHtml(p.mode || "Leg")} · ${escapeHtml(
+                p.from || ""
+              )} → ${escapeHtml(p.to || "")}</div>
+                <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
+                ${stayNoteHtml(ptKey(p))}
+                ${attachmentsHtml("publicTransport", ptKey(p), "Tickets")}
+              </div>`;
+            })
+            .join("")
+        : placeholder("public transport bookings")
+    }`;
+
     const facts = [
       t.totalKm ? { label: "Total distance", value: `${t.totalKm.toLocaleString()} km` } : null,
-      legs.length ? { label: "Travel days", value: legs.length } : null,
+      legs.length ? { label: "Driving days", value: legs.length } : null,
       legs.length ? { label: "Refuel stops", value: legs.filter((l) => l.refuel).length } : null,
       t.rentalTotal ? { label: "Rental total", value: home(t.rentalTotal, trip) } : null,
     ].filter(Boolean);
@@ -1880,6 +2028,10 @@ const Trip = (() => {
     return `
       <h1>Transport</h1>
       ${t.mode ? `<p class="subtitle">${escapeHtml(t.mode)}</p>` : ""}
+
+      ${flightSection}
+      ${carSection}
+      ${ptSection}
 
       ${
         facts.length
@@ -1891,7 +2043,7 @@ const Trip = (() => {
           : ""
       }
 
-      <h2>Travel log</h2>
+      <h2>Driving log</h2>
       ${
         legs.length
           ? `<div class="table-wrap">
@@ -1927,6 +2079,30 @@ const Trip = (() => {
               <a href="budget.html">budget page</a>.</p>`
           : placeholder("travel legs")
       }`;
+  }
+
+  function renderTransport(trip) {
+    const t = trip.transport || {};
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = transportHtml(trip);
+    };
+    setupAttachments(
+      trip,
+      (t.carRental || [])
+        .map((c) => ({ kind: "carRental", key: carRentalKey(c) }))
+        .concat((t.publicTransport || []).map((p) => ({ kind: "publicTransport", key: ptKey(p) }))),
+      redraw
+    );
+    setupStayNotes(trip, redraw);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main && !main.dataset.stayNotesWired) {
+        main.dataset.stayNotesWired = "1";
+        wireStayNotes(main);
+      }
+    }, 0);
+    return transportHtml(trip);
   }
 
   // Categories and, within Booking, subcategories render in this fixed order;

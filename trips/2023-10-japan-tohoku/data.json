@@ -2906,6 +2906,34 @@
   ],
   "transport": {
     "mode": "Self-drive — Toyota Corolla Touring, collected in Hamamatsucho, returned in Nakano/Shinjuku",
+    "carRental": [
+      {
+        "company": "Toyota Rent a Car",
+        "vehicle": "C3 Corolla Touring Hybrid",
+        "reservation": {
+          "site": "https://rent.toyota.co.jp/eng/",
+          "bookingNo": "99993613700",
+          "refs": []
+        },
+        "pickUp": {
+          "place": "Hamamatsucho Shop",
+          "address": "1-3-11 Shibadaimon, Minato-ku, Tokyo 105-0012",
+          "phone": "03-3432-1100",
+          "date": "2023-10-14",
+          "time": "13:30"
+        },
+        "dropOff": {
+          "place": "Nakano Station Shop",
+          "address": "2-8-6 Nakano, Nakano-ku, Tokyo 164-0001",
+          "phone": null,
+          "date": "2023-10-28",
+          "time": "20:00"
+        },
+        "total": 6433.23,
+        "remarks": null
+      }
+    ],
+    "publicTransport": [],
     "totalKm": 1956.5,
     "rentalTotal": 6433.23,
     "legs": [

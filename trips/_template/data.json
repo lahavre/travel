@@ -1,46 +1,49 @@
 {
   "_readme": "Copy this folder to trips/YYYY-MM-destination/ and replace the values below. Every page renders from this file — never edit the HTML. Field reference: README.md. Delete any section you don't need; pages show a placeholder instead of breaking. Delete this _readme key too.",
-
   "slug": "YYYY-MM-destination",
   "title": "Destination — short descriptor",
   "destination": "Country",
   "emoji": "🧳",
   "startDate": "2026-01-01",
   "endDate": "2026-01-03",
-  "travelers": ["You", "Travel buddy"],
+  "travelers": [
+    "You",
+    "Travel buddy"
+  ],
   "notes": "Optional free-text intro shown on the trip home page.",
-
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
-
   "_weatherPlaces": "Coordinates for the day page's Refresh button, which re-fetches the forecast live in the browser. tools/fetch_weather.py writes this from its verified PLACES table — you rarely edit it by hand. Names must match the `location` values used in days[].temperature.",
   "weatherPlaces": {
-    "Arrival city": { "lat": 35.6895, "lon": 139.6917 }
+    "Arrival city": {
+      "lat": 35.6895,
+      "lon": 139.6917
+    }
   },
   "weatherTimezone": "Asia/Tokyo",
   "weatherUpdated": "2026-01-01",
-
   "_weatherLinks": "Which forecast page each place name opens. Set one here to use a country's own service (Japan uses tenki.jp, which links by prefecture, not coordinates — tools/fetch_weather.py fills these). A place with no entry falls back to a point-exact yr.no page built from its coordinates, so most trips need not set this at all.",
   "weatherLinks": {
     "Arrival city": "https://tenki.jp/forecast/3/16/"
   },
-
   "_exchangeRate": "rate = homeCurrency units per `per` units of tripCurrency. Japan quotes per 100 JPY; somewhere like Europe would use per: 1. Omit this whole block for a domestic trip and cost columns collapse to one currency.",
   "exchangeRate": {
     "per": 100,
     "rate": 3.3,
     "history": [
-      { "date": "2025-12-01", "home": 1650.0, "local": 50000, "rate": 3.3 }
+      {
+        "date": "2025-12-01",
+        "home": 1650.0,
+        "local": 50000,
+        "rate": 3.3
+      }
     ]
   },
-
   "_costCategories": "Optional. Overrides the default buckets (transport, fuel, food, sightseeing, misc) used by day costs. Keys must match the keys used in days[].items[].costs.",
-
   "summary": {
     "totalDays": 3,
     "note": "Optional caveat shown at the top of the budget page — e.g. whether figures are one person's share or the whole group's."
   },
-
   "_flights": "Shown as cards on the trip home page — outbound, return, and any internal legs. `type` is free text (Outbound / Return / Internal). All times are local to their own airport. Set `arrivesNextDay` true for a red-eye. Check-in is shown automatically as 3 hours before departure; set `checkInTime` to pin an exact time, or `checkInLeadHours` to change the offset for one flight (a top-level `checkInLeadHours` changes it for the whole trip).",
   "flights": [
     {
@@ -92,28 +95,58 @@
       "remarks": "Overnight flight — checkInTime here is pinned rather than derived."
     }
   ],
-
   "_budget": "Amounts in homeCurrency. `perDay` and `actual` are optional; leave actual null while planning and fill it in after the trip.",
   "budget": {
     "categories": [
-      { "category": "Flights", "perDay": null, "budget": 1800.0, "actual": null },
-      { "category": "Accommodation", "perDay": 200.0, "budget": 600.0, "actual": null },
-      { "category": "Food", "perDay": 150.0, "budget": 450.0, "actual": null },
-      { "category": "Transport", "perDay": 100.0, "budget": 300.0, "actual": null },
-      { "category": "Sightseeing", "perDay": 50.0, "budget": 150.0, "actual": null },
-      { "category": "Miscellaneous", "perDay": 0.0, "budget": 0.0, "actual": null }
+      {
+        "category": "Flights",
+        "perDay": null,
+        "budget": 1800.0,
+        "actual": null
+      },
+      {
+        "category": "Accommodation",
+        "perDay": 200.0,
+        "budget": 600.0,
+        "actual": null
+      },
+      {
+        "category": "Food",
+        "perDay": 150.0,
+        "budget": 450.0,
+        "actual": null
+      },
+      {
+        "category": "Transport",
+        "perDay": 100.0,
+        "budget": 300.0,
+        "actual": null
+      },
+      {
+        "category": "Sightseeing",
+        "perDay": 50.0,
+        "budget": 150.0,
+        "actual": null
+      },
+      {
+        "category": "Miscellaneous",
+        "perDay": 0.0,
+        "budget": 0.0,
+        "actual": null
+      }
     ]
   },
-
   "_settle": "Optional — only for group trips where one person pays up front. Keys inside `amounts` must match the names in `travelers`. Use null where a traveller isn't part of that line.",
   "settle": [
     {
       "label": "Accommodation",
-      "amounts": { "You": 300.0, "Travel buddy": 300.0 },
+      "amounts": {
+        "You": 300.0,
+        "Travel buddy": 300.0
+      },
       "remarks": "Charged to one card, split evenly."
     }
   ],
-
   "_overview": "One row per day. Each day renders as three colour-banded rows — morning, afternoon, evening — with its own remark per slot. `remarks` is a whole-day note shown on its own row underneath. `temperature` is a list in Celsius; give one entry per place the day passes through, and use `note` instead of min/max when it isn't a plain range. The hotel shown in the Staying in column is matched automatically from `accommodation` by date.",
   "overview": [
     {
@@ -130,7 +163,14 @@
         "evening": "Hotel reception closes at 11pm."
       },
       "remarks": "Optional note that applies to the whole day.",
-      "temperature": [{ "location": "Arrival city", "min": 8, "max": 15, "note": null }]
+      "temperature": [
+        {
+          "location": "Arrival city",
+          "min": 8,
+          "max": 15,
+          "note": null
+        }
+      ]
     },
     {
       "day": 2,
@@ -140,11 +180,25 @@
       "morning": "Breakfast\nMuseum",
       "afternoon": "Lunch\nOld town walk",
       "evening": "Dinner",
-      "slotRemarks": { "morning": "Museum closed Mondays.", "afternoon": null, "evening": null },
+      "slotRemarks": {
+        "morning": "Museum closed Mondays.",
+        "afternoon": null,
+        "evening": null
+      },
       "remarks": null,
       "temperature": [
-        { "location": "Arrival city", "min": 7, "max": 14, "note": null },
-        { "location": "Hill town", "min": null, "max": null, "note": "Colder — no forecast yet" }
+        {
+          "location": "Arrival city",
+          "min": 7,
+          "max": 14,
+          "note": null
+        },
+        {
+          "location": "Hill town",
+          "min": null,
+          "max": null,
+          "note": "Colder — no forecast yet"
+        }
       ]
     },
     {
@@ -155,12 +209,15 @@
       "morning": "Check out",
       "afternoon": "Airport",
       "evening": "Fly home",
-      "slotRemarks": { "morning": null, "afternoon": null, "evening": null },
+      "slotRemarks": {
+        "morning": null,
+        "afternoon": null,
+        "evening": null
+      },
       "remarks": null,
       "temperature": []
     }
   ],
-
   "_days": "The detailed plan — one entry per day, each with a timeline of items. `costs` keys are the cost categories, amounts in tripCurrency. Costs roll up automatically into the day total and the budget page. city/weekday/temperature are pulled from `overview` when generating, so they can be repeated here.",
   "days": [
     {
@@ -194,7 +251,9 @@
         {
           "time": "18:00",
           "activity": "Arrive and take the airport train into town",
-          "costs": { "transport": 1200 },
+          "costs": {
+            "transport": 1200
+          },
           "remarks": null,
           "_travel": "Optional. Adds a Google Maps directions link to this activity. `duration`, `distance` and `cost` are your own estimates — the page cannot compute them (see README). `mode` is driving | transit | walking | bicycling.",
           "travel": {
@@ -209,13 +268,17 @@
         {
           "time": "20:00",
           "activity": "Travel to the hotel\n1. Airport (XXX) -(Metro Line)> Central Station -(Walk - 10 mins)> Hotel (500)\n2. Airport (XXX) -(Airport Bus)> Hotel (900)",
-          "costs": { "transport": 500 },
+          "costs": {
+            "transport": 500
+          },
           "remarks": "A line written as A -(Mode)> B collapses to \"A to B\" with a Google Maps link. \"Hotel\"/\"Airbnb\" resolve from `accommodation`, an airport name or code from `flights`, and \"Store\"/\"Restaurant\" from the venue this activity names."
         },
         {
           "time": "21:00",
           "activity": "Dinner near the hotel",
-          "costs": { "food": 2500 },
+          "costs": {
+            "food": 2500
+          },
           "remarks": null
         }
       ]
@@ -225,13 +288,23 @@
       "date": "2026-01-02",
       "city": "Arrival city",
       "weekday": "Friday",
-      "temperature": [{ "location": "Arrival city", "min": 7, "max": 14, "note": null }],
+      "temperature": [
+        {
+          "location": "Arrival city",
+          "min": 7,
+          "max": 14,
+          "note": null
+        }
+      ],
       "summary": null,
       "items": [
         {
           "time": "09:00",
           "activity": "Breakfast, then the national museum",
-          "costs": { "food": 1000, "sightseeing": 800 },
+          "costs": {
+            "food": 1000,
+            "sightseeing": 800
+          },
           "remarks": "Closed Mondays"
         }
       ]
@@ -247,13 +320,14 @@
         {
           "time": "11:00",
           "activity": "Check out and head to the airport",
-          "costs": { "transport": 1200 },
+          "costs": {
+            "transport": 1200
+          },
           "remarks": null
         }
       ]
     }
   ],
-
   "_accommodation": "Each stay renders as a summary (place, dates, price) beside a labelled detail list. Prices in homeCurrency; `total` shows with `pricePerNight` in brackets on multi-night stays. Times are 24-hour: `checkInFrom`/`checkInTo` read \"From 15:00 until 19:00\" — omit `checkInTo` when the property only gives a start — and `checkOutUntil` reads \"Until 11:00\". `reservation`, `address`, `phone`, `rooms` and `roomType` come off the booking confirmation. A voucher often carries more than one number — the platform's booking ID plus a supplier or property reference — so put the platform's own in `bookingNo` and every other one in `refs`, labelled as the voucher labels it; all of them are shown. `meal`, `parking` and `laundry` are free text (\"N/A\", \"Free\", \"Paid\", \"Breakfast & dinner\", \"Washing & drying\"); null shows as \"—\". Put a parking rate or condition in `parkingNote` — it renders as \"Paid (JPY 1,000 / night)\" — rather than in `remarks`. Keep `remarks` for what no other row covers; don't repeat the payment or meal there. `prepaid` true/false drives the Paid row, with `payAtProperty` for anything owed on arrival and `cancellation` for the policy wording. NEVER put door codes, lock-box codes or personal contact details here — the site is public.",
   "accommodation": [
     {
@@ -262,7 +336,12 @@
       "reservation": {
         "site": "Agoda",
         "bookingNo": "935918893",
-        "refs": [{ "label": "Booking.com Ref", "value": "2318680570" }]
+        "refs": [
+          {
+            "label": "Booking.com Ref",
+            "value": "2318680570"
+          }
+        ]
       },
       "address": "1-2-7 Shibadaimon, Minato-ku, Tokyo, Japan, 105-0012",
       "phone": "+81 3 5472 2031",
@@ -285,20 +364,128 @@
       "pricePerNight": 300.0,
       "total": 600.0,
       "remarks": null,
-      "perPerson": { "You": 300.0, "Travel buddy": 300.0 }
+      "perPerson": {
+        "You": 300.0,
+        "Travel buddy": 300.0
+      }
     }
   ],
-
   "_transport": "Optional. `legs` is a travel log — drop it for a walk-everywhere city trip and just keep `mode`. `day` refers to the trip day number so each leg links to its day page.",
   "transport": {
     "mode": "Trains and metro — 3-day city pass",
+    "_carRental": "One entry per car hire. `reservation` matches the accommodation shape (site, bookingNo, refs). pickUp/dropOff each take place, address, phone, date and time. `total` is in homeCurrency.",
+    "carRental": [
+      {
+        "company": "Example Rent a Car",
+        "vehicle": "Compact estate, automatic",
+        "reservation": {
+          "site": "https://example-rentacar.com/",
+          "bookingNo": "RC-123456",
+          "refs": [
+            {
+              "label": "Voucher",
+              "value": "V-98765"
+            }
+          ]
+        },
+        "pickUp": {
+          "place": "Airport desk",
+          "address": "Terminal 2 arrivals",
+          "phone": "+00 1234 5678",
+          "date": "2026-01-01",
+          "time": "10:00"
+        },
+        "dropOff": {
+          "place": "City centre branch",
+          "address": "1 Example Street",
+          "phone": null,
+          "date": "2026-01-05",
+          "time": "18:00"
+        },
+        "total": 420.0,
+        "remarks": "Full-to-full fuel policy; excess waived."
+      }
+    ],
+    "_publicTransport": "One entry per booked bus / train / boat leg. `mode` is Bus, Train or Boat. Leave a field null rather than guessing — it renders as an em dash.",
+    "publicTransport": [
+      {
+        "mode": "Bus",
+        "from": "Ljubljana",
+        "to": "Zagreb",
+        "fromStation": "Ljubljana bus station",
+        "toStation": "Zagreb bus station",
+        "date": "2026-01-02",
+        "departTime": "10:30",
+        "arriveTime": "12:50",
+        "company": "FlixBus",
+        "operatedBy": "FlixBus Italia S.r.l.",
+        "reservation": {
+          "site": "https://global.flixbus.com/",
+          "bookingNo": "327 601 2964",
+          "refs": []
+        },
+        "persons": 3,
+        "total": 35.46,
+        "remarks": "Gate 29 & 30. Passenger fee included in ticket price."
+      },
+      {
+        "mode": "Boat",
+        "from": "Split",
+        "to": "Dubrovnik",
+        "fromStation": "Split ferry port",
+        "toStation": "Dubrovnik (Gruz)",
+        "date": "2026-01-06",
+        "departTime": "08:00",
+        "arriveTime": "12:30",
+        "company": "Kapetan Luka (Krilo)",
+        "operatedBy": null,
+        "reservation": {
+          "site": "https://krilo.hr/",
+          "bookingNo": "85022/15/1",
+          "refs": [
+            {
+              "label": "Ticket",
+              "value": "32TJ0251006"
+            }
+          ]
+        },
+        "persons": 3,
+        "total": 150.0,
+        "remarks": "Catamaran. Luggage up to 23 kg; port tax included."
+      },
+      {
+        "mode": "Train",
+        "from": "City centre",
+        "to": "Airport",
+        "fromStation": "Central station",
+        "toStation": "Airport terminal",
+        "date": "2026-01-07",
+        "departTime": "06:15",
+        "arriveTime": "06:45",
+        "company": "Example Rail",
+        "operatedBy": null,
+        "reservation": {
+          "site": null,
+          "bookingNo": null,
+          "refs": []
+        },
+        "persons": 3,
+        "total": null,
+        "remarks": "Tickets bought at the machine on the day."
+      }
+    ],
     "totalKm": null,
     "rentalTotal": null,
     "legs": [
-      { "day": 1, "date": "2026-01-01", "route": "Airport to city centre", "km": 40, "refuel": false }
+      {
+        "day": 1,
+        "date": "2026-01-01",
+        "route": "Airport to city centre",
+        "km": 40,
+        "refuel": false
+      }
     ]
   },
-
   "_todo": "Pre-trip checklist. `status` of exactly \"Done\" renders as a completed badge; anything else renders as pending.",
   "todo": [
     {
