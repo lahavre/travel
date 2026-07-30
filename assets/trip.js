@@ -1977,23 +1977,24 @@ const Trip = (() => {
       pts.length
         ? pts
             .map((p) => {
+              // "City (Station) — 10:30", the station linking to Maps when the
+              // ticket gave an address for it.
+              const endpoint = (city, station, address, time) => {
+                const named = station
+                  ? address
+                    ? ` (<a href="${mapsSearch(`${station}, ${address}`)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+                        station
+                      )}</a>)`
+                    : ` (${escapeHtml(station)})`
+                  : "";
+                // An open ticket prints no time; "Bled — —" reads worse than "Bled".
+                return `${escapeHtml(city || "—")}${named}${time ? ` — ${escapeHtml(time)}` : ""}`;
+              };
               const rows = [
                 ["Type", dash(p.mode)],
-                [
-                  "Route",
-                  // The stations line only earns its place when it says something
-                  // the towns don't; a half-known pair falls back to the town name
-                  // rather than showing a dangling dash.
-                  `${escapeHtml(p.from || "—")} → ${escapeHtml(p.to || "—")}${
-                    p.fromStation || p.toStation
-                      ? `<br><span class="stay-refs">${escapeHtml(
-                          p.fromStation || p.from || "—"
-                        )} → ${escapeHtml(p.toStation || p.to || "—")}</span>`
-                      : ""
-                  }`,
-                ],
                 ["Date", shortDate(p.date)],
-                ["Times", `${dash(p.departTime)} – ${dash(p.arriveTime)}`],
+                ["Departure", endpoint(p.from, p.fromStation, p.fromAddress, p.departTime)],
+                ["Arrival", endpoint(p.to, p.toStation, p.toAddress, p.arriveTime)],
                 [
                   "Company",
                   `${dash(p.company)}${

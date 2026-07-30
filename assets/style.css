@@ -518,7 +518,9 @@ tfoot td {
 }
 .transport-card dl {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  /* minmax(0,…) so the value column may shrink below its content: a booking's
+     tracking URL is one unbreakable token and would otherwise widen the page. */
+  grid-template-columns: max-content minmax(0, 1fr);
   gap: 4px 12px;
   margin: 0;
 }
@@ -530,6 +532,7 @@ tfoot td {
 .transport-card dd {
   margin: 0;
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
 }
 
 /* ---- Attached files (booking confirmations on a stay, etc.) ---- */

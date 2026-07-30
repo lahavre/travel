@@ -251,9 +251,12 @@ and a hire is one long-running arrangement rather than a series of legs.
   `site`/`bookingNo`/`refs` shape as an accommodation booking), pick-up and drop-off
   each with place, address, phone, date and time, and the total in home currency. The
   pick-up/drop-off place links to Maps when an address is given.
-- **Public transport** — one card per booked bus, train or boat leg: `mode`, `from`/`to`
-  (with optional `fromStation`/`toStation`), date, departure and arrival times,
-  `company` and `operatedBy`, the reservation, and the fare with `persons`. A leg may
+- **Public transport** — one card per booked bus, train or boat leg. Departure and
+  arrival each read `City (Station) — time`, the station linking to Maps when
+  `fromAddress`/`toAddress` is given; an open ticket with no time printed simply omits
+  it. Then `company` and `operatedBy`, the reservation — use `reservation.site` for the
+  operator's **per-trip tracking page** when the ticket gives one, rather than their
+  home page — and the fare with `persons`. A leg may
   set its own `currency` — a bus booked in euros on a trip whose home currency is
   ringgit would otherwise be labelled in the wrong one.
 - **Driving log** — the day-by-day `legs` with distances and refuel stops, with the

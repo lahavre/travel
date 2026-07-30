@@ -406,14 +406,16 @@
         "remarks": "Full-to-full fuel policy; excess waived."
       }
     ],
-    "_publicTransport": "One entry per booked bus / train / boat leg. `mode` is Bus, Train or Boat. Leave a field null rather than guessing — it renders as an em dash.",
+    "_publicTransport": "One entry per booked bus / train / boat leg. `mode` is Bus, Train or Boat. The card reads 'City (Station) — time' for departure and arrival; give `fromAddress`/`toAddress` and the station name links to Maps. Use `reservation.site` for the operator's per-trip tracking page when the ticket gives one. A leg may set its own `currency`. Leave a field null rather than guessing — it renders as an em dash, and a missing time is simply omitted.",
     "publicTransport": [
       {
         "mode": "Bus",
         "from": "Ljubljana",
-        "to": "Zagreb",
         "fromStation": "Ljubljana bus station",
+        "fromAddress": "Trg Osvobodilne fronte 4, 1000 Ljubljana",
+        "to": "Zagreb",
         "toStation": "Zagreb bus station",
+        "toAddress": "Avenija Marina Držića 4, 10000 Zagreb",
         "date": "2026-01-02",
         "departTime": "10:30",
         "arriveTime": "12:50",
@@ -431,9 +433,11 @@
       {
         "mode": "Boat",
         "from": "Split",
-        "to": "Dubrovnik",
         "fromStation": "Split ferry port",
+        "fromAddress": null,
+        "to": "Dubrovnik",
         "toStation": "Dubrovnik (Gruz)",
+        "toAddress": null,
         "date": "2026-01-06",
         "departTime": "08:00",
         "arriveTime": "12:30",
@@ -456,9 +460,11 @@
       {
         "mode": "Train",
         "from": "City centre",
-        "to": "Airport",
         "fromStation": "Central station",
+        "fromAddress": null,
+        "to": "Airport",
         "toStation": "Airport terminal",
+        "toAddress": null,
         "date": "2026-01-07",
         "departTime": "06:15",
         "arriveTime": "06:45",
