@@ -250,10 +250,18 @@ and a hire is one long-running arrangement rather than a series of legs.
 - **Car rental** — one card per hire: company, vehicle, reservation (same
   `site`/`bookingNo`/`refs` shape as an accommodation booking), and pick-up and drop-off
   each with place, address, phone, date and time, the place linking to Maps when an
-  address is given. Beneath sits **what the car cost to use** — `costs` with `rental`,
-  `fuel`, `toll`, `parking` and `others` in home currency — and the card **sums those
-  into the total** rather than storing it twice. The **driving log** lives inside this
-  section, since it describes the hire car's use.
+  address is given. Beneath sits **Car rental costing**: the hire fee from
+  `costs.rental`, then fuel, road toll and parking **added up from the driving log**,
+  and an **Others** figure typed on the page. The card sums all five into Total cost
+  rather than storing it twice.
+
+  The **driving log** lives inside this section, since it describes the hire car's use.
+  Each row links to its day and its Maps directions, and — signed in — takes what that
+  day cost in fuel, tolls and parking. Those entries are shared through Firestore
+  (`carCosts/<slug>`, keyed by the leg's date so inserting a day can't shift them onto
+  another), which is why they need sign-in: a static page cannot write to `data.json`.
+  The column totals and the costing above are both derived from them, so the two can
+  never disagree.
 - **Public transport** — one card per booked bus, train or boat leg. Departure and
   arrival each read `City (Station) — time`, the station linking to Maps when
   `fromAddress`/`toAddress` is given; an open ticket with no time printed simply omits

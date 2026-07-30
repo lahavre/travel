@@ -1873,6 +1873,112 @@ const Trip = (() => {
   function ptKey(p) {
     return attachSlug(`${p.mode || "leg"}-${p.from || ""}-${p.to || ""}-${p.date || ""}`);
   }
+  // Keyed by date, so inserting a driving day can't shift costs onto another leg.
+  function drivingLegKey(l) {
+    return attachSlug(`leg-${l.date || l.day}`);
+  }
+
+  // What the hire car cost, entered on the page during the trip: fuel, tolls and
+  // parking per driving day, plus an "others" figure against the hire itself.
+  // Firestore, so the group shares one set of numbers — the same private basis as
+  // the notes, since data.json can't be written to from a static page.
+  //   carCosts/<slug> = { byLeg: { <legKey>: {fuel, toll, parking} },
+  //                       byCar: { <carKey>: {others} } }
+  const carCostState = { trip: null, doc: null, signedIn: false, unsub: null, rerender: null };
+  const CAR_LEG_FIELDS = [
+    ["fuel", "Fuel"],
+    ["toll", "Road toll"],
+    ["parking", "Parking"],
+  ];
+  function carCostsPath(trip) {
+    return "carCosts/" + (trip.slug || trip.title || "trip");
+  }
+  function carCostDoc() {
+    const d = carCostState.doc;
+    return { byLeg: (d && d.byLeg) || {}, byCar: (d && d.byCar) || {} };
+  }
+  function legCost(key, field) {
+    const v = carCostDoc().byLeg[key];
+    return v && v[field] != null ? v[field] : null;
+  }
+  function carOthers(key) {
+    const v = carCostDoc().byCar[key];
+    return v && v.others != null ? v.others : null;
+  }
+  /** Total of one field across every driving leg, or null if nothing is entered. */
+  function legCostTotal(legs, field) {
+    const vals = legs.map((l) => legCost(drivingLegKey(l), field)).filter((v) => v != null);
+    return vals.length ? vals.reduce((s, v) => s + v, 0) : null;
+  }
+  function writeCarCosts(next) {
+    carCostState.doc = next; // optimistic
+    TravelSite.writeDoc(carCostsPath(carCostState.trip), next).catch((e) =>
+      console.warn("Couldn't save the car cost:", e)
+    );
+  }
+  function setLegCost(key, field, value) {
+    const doc = carCostDoc();
+    doc.byLeg[key] = { ...(doc.byLeg[key] || {}), [field]: value };
+    if (value == null) delete doc.byLeg[key][field];
+    writeCarCosts(doc);
+  }
+  function setCarOthers(key, value) {
+    const doc = carCostDoc();
+    doc.byCar[key] = { ...(doc.byCar[key] || {}), others: value };
+    if (value == null) delete doc.byCar[key].others;
+    writeCarCosts(doc);
+  }
+  /** A money cell: an input when signed in, the figure or an em dash when not. */
+  function costCell(trip, value, attrs) {
+    if (!carCostState.signedIn) {
+      return value != null ? home(value, trip) : "—";
+    }
+    return `<input type="number" step="0.01" min="0" class="cost-input" ${attrs} value="${
+      value != null ? value : ""
+    }" aria-label="Cost" />`;
+  }
+  function setupCarCosts(trip, rerender) {
+    carCostState.trip = trip;
+    carCostState.doc = null;
+    carCostState.rerender = rerender;
+    carCostState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (carCostState.unsub) {
+        carCostState.unsub();
+        carCostState.unsub = null;
+      }
+      carCostState.signedIn = !!user;
+      carCostState.doc = null;
+      if (user) {
+        carCostState.unsub = TravelSite.watchDoc(
+          carCostsPath(trip),
+          (data) => {
+            carCostState.doc = data;
+            if (rerender) rerender();
+          },
+          () => {
+            carCostState.doc = null;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
+  }
+  function wireCarCosts(main) {
+    // `change` rather than `input`: it fires on blur, so a redraw can't steal
+    // focus mid-typing.
+    main.addEventListener("change", (e) => {
+      const el = e.target.closest(".cost-input");
+      if (!el || !carCostState.signedIn) return;
+      const raw = el.value.trim();
+      const value = raw === "" ? null : Number(raw);
+      if (value != null && !isFinite(value)) return;
+      if (el.dataset.legKey) setLegCost(el.dataset.legKey, el.dataset.field, value);
+      else if (el.dataset.carKey) setCarOthers(el.dataset.carKey, value);
+      if (carCostState.rerender) carCostState.rerender();
+    });
+  }
 
   // Which transport sections are expanded. Held outside the DOM so a redraw — an
   // upload finishing, a note saving — doesn't collapse what the reader opened.
@@ -1954,42 +2060,52 @@ const Trip = (() => {
       cars.length
         ? cars
             .map((c) => {
-              // What the car actually cost: the hire itself plus what running it
-              // added. Amounts are in home currency, like the budget page.
-              const CAR_COSTS = [
-                ["rental", "Rental"],
-                ["fuel", "Fuel"],
-                ["toll", "Road toll"],
-                ["parking", "Parking"],
-                ["others", "Others"],
-              ];
-              const costs = c.costs || {};
-              const given = CAR_COSTS.map(([k]) => costs[k]).filter((v) => v != null);
-              // Total is summed, never stored twice — `total` only stands in for a
-              // hire with no breakdown recorded.
-              const total = given.length ? given.reduce((s, v) => s + v, 0) : c.total;
+              // The hire fee comes from the booking; fuel, tolls and parking are
+              // rolled up from what was entered against each driving day, so the
+              // two can never disagree. Only "Others" is typed here.
+              const key = carRentalKey(c);
+              const rental = (c.costs && c.costs.rental) != null ? c.costs.rental : c.total;
+              const fuel = legCostTotal(legs, "fuel");
+              const toll = legCostTotal(legs, "toll");
+              const parking = legCostTotal(legs, "parking");
+              const others = carOthers(key);
+              const parts = [rental, fuel, toll, parking, others].filter((v) => v != null);
+              const total = parts.length ? parts.reduce((s, v) => s + v, 0) : null;
+
               const rows = [
                 ["Company", dash(c.company)],
                 ["Vehicle", dash(c.vehicle)],
                 ["Reservation", reservationValue(c.reservation)],
                 ["Pick-up", placeValue(c.pickUp)],
                 ["Drop-off", placeValue(c.dropOff)],
-                ["Total cost", total != null ? `<strong>${home(total, trip)}</strong>` : "—"],
               ];
-              const costRows = CAR_COSTS.map(
-                ([k, label]) =>
-                  `<dt>${label}:</dt><dd class="num">${
-                    costs[k] != null ? home(costs[k], trip) : "—"
-                  }</dd>`
-              ).join("");
+              const money = (v) => (v != null ? home(v, trip) : "—");
+              const costRows = `
+                <dt>Rental:</dt><dd class="num">${money(rental)}</dd>
+                <dt>Fuel:</dt><dd class="num">${money(fuel)}</dd>
+                <dt>Road toll:</dt><dd class="num">${money(toll)}</dd>
+                <dt>Parking:</dt><dd class="num">${money(parking)}</dd>
+                <dt>Others:</dt><dd class="num">${costCell(
+                  trip,
+                  others,
+                  `data-car-key="${escapeHtml(key)}"`
+                )}</dd>
+                <dt class="car-total">Total cost:</dt>
+                <dd class="num car-total">${total != null ? home(total, trip) : "—"}</dd>`;
               return `<div class="transport-card">
                 <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
                 <div class="car-costs">
-                  <div class="car-costs-head">Cost of using the car</div>
+                  <div class="car-costs-head">Car rental costing</div>
                   <dl>${costRows}</dl>
+                  ${
+                    legs.length
+                      ? `<p class="section-note">Fuel, road toll and parking add up from the
+                           driving log below.</p>`
+                      : ""
+                  }
                 </div>
-                ${stayNoteHtml(carRentalKey(c))}
-                ${attachmentsHtml("carRental", carRentalKey(c), "Rental documents")}
+                ${stayNoteHtml(key)}
+                ${attachmentsHtml("carRental", key, "Rental documents")}
               </div>`;
             })
             .join("")
@@ -2050,55 +2166,59 @@ const Trip = (() => {
         : placeholder("public transport bookings")
     }`);
 
-    const facts = [
-      t.totalKm ? { label: "Total distance", value: `${t.totalKm.toLocaleString()} km` } : null,
-      legs.length ? { label: "Driving days", value: legs.length } : null,
-      legs.length ? { label: "Refuel stops", value: legs.filter((l) => l.refuel).length } : null,
-      t.rentalTotal ? { label: "Rental total", value: home(t.rentalTotal, trip) } : null,
-    ].filter(Boolean);
-
+    const kmTotal = legs.reduce((s, l) => s + (l.km || 0), 0);
     const drivingBody = `
-      ${
-        facts.length
-          ? `<div class="fact-grid">${facts
-              .map(
-                (f) => `<div class="fact"><div class="label">${f.label}</div><div class="value">${f.value}</div></div>`
-              )
-              .join("")}</div>`
-          : ""
-      }
       ${
         legs.length
           ? `<div class="table-wrap">
-              <table>
-                <thead><tr><th>Day</th><th>Route</th><th class="num">Distance</th><th></th><th></th></tr></thead>
+              <table class="driving-table">
+                <thead><tr>
+                  <th>Day</th><th>Route</th><th class="num">Distance</th>
+                  ${CAR_LEG_FIELDS.map(([, label]) => `<th class="num">${label}</th>`).join("")}
+                </tr></thead>
                 <tbody>${legs
                   .map((l) => {
                     const ends = splitRoute(l.route);
                     const url = ends
                       ? mapsDirections(ends.from, ends.to, (t && t.defaultMode) || "driving")
                       : mapsSearch(l.route || "");
+                    const key = drivingLegKey(l);
                     return `<tr>
                       <td><a href="day.html?day=${l.day}">Day ${l.day}</a><br>
                         <span style="color:var(--text-dim);font-size:.82rem">${TravelSite.formatDate(l.date, {
                           day: "2-digit",
                           month: "short",
                         })}</span></td>
-                      <td>${escapeHtml(l.route || "")}</td>
+                      <td>${escapeHtml(l.route || "")}${
+                      l.refuel ? ` <span class="stay-refs">⛽ Refuel</span>` : ""
+                    }<br><a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Directions ↗</a></td>
                       <td class="num">${l.km ? l.km.toLocaleString() + " km" : "—"}</td>
-                      <td>${l.refuel ? "⛽ Refuel" : ""}</td>
-                      <td><a href="${url}" target="_blank" rel="noopener noreferrer" class="travel-link">Map ↗</a></td>
+                      ${CAR_LEG_FIELDS.map(
+                        ([f]) =>
+                          `<td class="num">${costCell(
+                            trip,
+                            legCost(key, f),
+                            `data-leg-key="${escapeHtml(key)}" data-field="${f}"`
+                          )}</td>`
+                      ).join("")}
                     </tr>`;
                   })
                   .join("")}</tbody>
-                ${
-                  t.totalKm
-                    ? `<tfoot><tr><td colspan="2">Total</td><td class="num">${t.totalKm.toLocaleString()} km</td><td></td><td></td></tr></tfoot>`
-                    : ""
-                }
+                <tfoot><tr>
+                  <td colspan="2">Total</td>
+                  <td class="num">${(t.totalKm || kmTotal).toLocaleString()} km</td>
+                  ${CAR_LEG_FIELDS.map(([f]) => {
+                    const v = legCostTotal(legs, f);
+                    return `<td class="num">${v != null ? home(v, trip) : "—"}</td>`;
+                  }).join("")}
+                </tr></tfoot>
               </table>
             </div>
-            <p class="section-note">Fuel, parking and tolls are split between travellers on the
+            <p class="section-note">${
+              carCostState.signedIn
+                ? "Enter what each day cost; the totals feed the costing above."
+                : "Sign in to record what each day cost."
+            } Shared spending is split between travellers on the
               <a href="budget.html">budget page</a>.</p>`
           : placeholder("travel legs")
       }`;
@@ -2141,6 +2261,7 @@ const Trip = (() => {
       redraw
     );
     setupStayNotes(trip, redraw);
+    setupCarCosts(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (!main) return;
@@ -2150,6 +2271,7 @@ const Trip = (() => {
       }
       if (!main.dataset.transportWired) {
         main.dataset.transportWired = "1";
+        wireCarCosts(main);
         // `toggle` doesn't bubble, so listen on the capture phase.
         main.addEventListener(
           "toggle",

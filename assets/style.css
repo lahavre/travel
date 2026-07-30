@@ -556,9 +556,45 @@ tfoot td {
 .car-costs dd.num {
   text-align: right;
 }
+.car-costs .car-total {
+  padding-top: 6px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--text);
+}
 .car-log-head {
   margin: 22px 0 0;
   font-size: 1rem;
+}
+/* Money a traveller types in — per driving day, and the hire's "others". */
+.cost-input {
+  width: 6.5em;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: right;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+.cost-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+/* Spinners steal width in a narrow column and invite mis-clicks. */
+.cost-input::-webkit-outer-spin-button,
+.cost-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cost-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.driving-table tfoot td {
+  font-weight: 700;
 }
 
 /* ---- Attached files (booking confirmations on a stay, etc.) ---- */
