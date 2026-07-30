@@ -2939,63 +2939,78 @@
         "from": "Bled",
         "to": "Ljubljana",
         "fromStation": null,
-        "toStation": null,
+        "toStation": "Ljubljana avtobusna postaja",
         "date": "2025-10-06",
         "departTime": null,
         "arriveTime": null,
-        "company": null,
+        "company": "AP Ljubljana d.d.",
         "operatedBy": null,
         "reservation": {
           "site": null,
-          "bookingNo": null,
-          "refs": []
+          "bookingNo": "5672665-1",
+          "refs": [
+            {
+              "label": "Print code",
+              "value": "99717-66728"
+            }
+          ]
         },
-        "persons": null,
-        "total": null,
+        "persons": 1,
+        "total": 6.5,
         "currency": "EUR",
-        "remarks": "Ticket is a scanned image — times, operator and fare not transcribed."
+        "remarks": "IJPP integrated ticket, issued by AP Ljubljana for the Ministry of the Environment. Single, Osnovna MT. No times printed on the ticket. Bought 20 Sep 2025 08:01. Must be printed and handed to the driver."
       },
       {
         "mode": "Bus",
         "from": "Ljubljana",
         "to": "Postojna",
-        "fromStation": null,
-        "toStation": null,
+        "fromStation": "Ljubljana avtobusna postaja",
+        "toStation": "Postojnska jama",
         "date": "2025-10-07",
         "departTime": null,
         "arriveTime": null,
-        "company": null,
+        "company": "AP Ljubljana d.d.",
         "operatedBy": null,
         "reservation": {
           "site": null,
-          "bookingNo": null,
-          "refs": []
+          "bookingNo": "5672677-1",
+          "refs": [
+            {
+              "label": "Print code",
+              "value": "00569-05135"
+            }
+          ]
         },
-        "persons": null,
-        "total": null,
+        "persons": 1,
+        "total": 6.5,
         "currency": "EUR",
-        "remarks": "Ticket is a scanned image — times, operator and fare not transcribed."
+        "remarks": "IJPP integrated ticket, issued by AP Ljubljana for the Ministry of the Environment. Single, Osnovna MT. No times printed on the ticket. Bought 20 Sep 2025 08:05. Must be printed and handed to the driver."
       },
       {
         "mode": "Bus",
         "from": "Postojna",
         "to": "Ljubljana",
-        "fromStation": null,
-        "toStation": null,
+        "fromStation": "Postojnska jama",
+        "toStation": "Ljubljana avtobusna postaja",
         "date": "2025-10-07",
         "departTime": null,
         "arriveTime": null,
-        "company": null,
+        "company": "AP Ljubljana d.d.",
         "operatedBy": null,
         "reservation": {
           "site": null,
-          "bookingNo": null,
-          "refs": []
+          "bookingNo": "5672690-1",
+          "refs": [
+            {
+              "label": "Print code",
+              "value": "01135-38147"
+            }
+          ]
         },
-        "persons": null,
-        "total": null,
+        "persons": 1,
+        "total": 6.5,
         "currency": "EUR",
-        "remarks": "Ticket is a scanned image — times, operator and fare not transcribed."
+        "remarks": "IJPP integrated ticket, issued by AP Ljubljana for the Ministry of the Environment. Single, Osnovna MT. No times printed on the ticket. Bought 20 Sep 2025 08:07. Must be printed and handed to the driver."
       },
       {
         "mode": "Bus",

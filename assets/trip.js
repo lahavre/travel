@@ -1900,7 +1900,8 @@ const Trip = (() => {
             r.site.replace(/^https?:\/\//, "").replace(/\/$/, "")
           )}</a>`
         : "";
-      return `${site}${numbers.length ? ` <span class="stay-refs">(${numbers.join(" · ")})</span>` : ""}`;
+      const refs = numbers.length ? `<span class="stay-refs">(${numbers.join(" · ")})</span>` : "";
+      return [site, refs].filter(Boolean).join(" ");
     };
     const placeValue = (p) => {
       if (!p || !p.place) return "—";
@@ -1964,11 +1965,14 @@ const Trip = (() => {
                 ["Type", dash(p.mode)],
                 [
                   "Route",
+                  // The stations line only earns its place when it says something
+                  // the towns don't; a half-known pair falls back to the town name
+                  // rather than showing a dangling dash.
                   `${escapeHtml(p.from || "—")} → ${escapeHtml(p.to || "—")}${
                     p.fromStation || p.toStation
-                      ? `<br><span class="stay-refs">${escapeHtml(p.fromStation || "—")} → ${escapeHtml(
-                          p.toStation || "—"
-                        )}</span>`
+                      ? `<br><span class="stay-refs">${escapeHtml(
+                          p.fromStation || p.from || "—"
+                        )} → ${escapeHtml(p.toStation || p.to || "—")}</span>`
                       : ""
                   }`,
                 ],
