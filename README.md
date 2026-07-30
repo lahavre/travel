@@ -235,8 +235,13 @@ Write activities so this can work: `Travel to <place>`, `Explore <place>`,
 `Dinner at <place>`. Opening hours and prices in brackets are ignored
 (`Explore Aizu Bukeyashiki Museum (8.30am - 5pm, 850JPY)` resolves to the museum).
 
-**The transport page.** Four sections, each optional and each showing a placeholder
-rather than breaking when a trip has nothing of that kind:
+**The transport page.** Four **collapsible** sections — Flights, Public transport, Car
+rental, Driving log — each optional and each showing a placeholder rather than breaking
+when a trip has nothing of that kind. All start closed, with the number of items in the
+summary, since every booking rendered in full makes for a long scroll to reach the one
+you wanted; which sections are open survives the redraws an upload or note-save
+triggers. Public transport sits above car rental: most trips book more of the former,
+and a hire is one long-running arrangement rather than a series of legs.
 
 - **Flights** — the full cards: terminals, duration, derived check-in time, and each
   flight's own note and tickets. The trip home page carries only a summary table
@@ -251,7 +256,8 @@ rather than breaking when a trip has nothing of that kind:
   `company` and `operatedBy`, the reservation, and the fare with `persons`. A leg may
   set its own `currency` — a bus booked in euros on a trip whose home currency is
   ringgit would otherwise be labelled in the wrong one.
-- **Driving log** — the day-by-day `legs` with distances and refuel stops, as before.
+- **Driving log** — the day-by-day `legs` with distances and refuel stops, with the
+  distance/refuel/rental-total summary inside it.
 
 Every car hire and booked leg also carries its own editable **remark** and an **Attach**
 box for the rental agreement or ticket, on the same private, signed-in-only basis as a

@@ -451,6 +451,58 @@ tfoot td {
   gap: 8px;
   margin-left: auto;
 }
+/* ---- Transport: collapsible section per category ---- */
+.transport-section {
+  margin: 14px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+}
+.transport-section > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.transport-section > summary::-webkit-details-marker {
+  display: none;
+}
+/* Own marker, so it rotates with the section rather than varying by browser. */
+.transport-section > summary::before {
+  content: "▸";
+  color: var(--accent);
+  font-size: 0.9rem;
+  transition: transform 0.15s ease;
+}
+.transport-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+.transport-section > summary:hover .transport-section-name {
+  color: var(--accent);
+}
+.transport-section-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1px 10px;
+}
+.transport-section-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.transport-section-body > .fact-grid:first-child,
+.transport-section-body > *:first-child {
+  margin-top: 14px;
+}
+
 /* ---- Transport: one card per car hire or booked leg ---- */
 .transport-card {
   margin: 12px 0 18px;

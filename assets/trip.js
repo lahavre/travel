@@ -1874,9 +1874,25 @@ const Trip = (() => {
     return attachSlug(`${p.mode || "leg"}-${p.from || ""}-${p.to || ""}-${p.date || ""}`);
   }
 
+  // Which transport sections are expanded. Held outside the DOM so a redraw — an
+  // upload finishing, a note saving — doesn't collapse what the reader opened.
+  // All start closed: the page carries four sections and every booking in full,
+  // which is a lot to scroll past to reach the one you wanted.
+  const transportOpen = {};
+
   function transportHtml(trip) {
     const t = trip.transport;
     if (!t) return `<h1>Transport</h1>${placeholder("transport details")}`;
+
+    // A collapsible section. The count sits in the summary so the page still says
+    // what it holds while shut.
+    const section = (key, label, count, body) => `
+      <details class="transport-section" data-section="${key}"${transportOpen[key] ? " open" : ""}>
+        <summary><span class="transport-section-name">${escapeHtml(label)}</span>${
+      count ? `<span class="transport-section-count">${count}</span>` : ""
+    }</summary>
+        <div class="transport-section-body">${body}</div>
+      </details>`;
 
     const legs = t.legs || [];
     const flights = trip.flights || [];
@@ -1921,7 +1937,7 @@ const Trip = (() => {
       const c = checkIn(f, trip.checkInLeadHours);
       return c && c.derived;
     });
-    const flightSection = `<h2>Flights</h2>${
+    const flightSection = section("flights", "Flights", flights.length, `${
       flights.length
         ? `<div class="flight-list">${flights.map((f) => flightCard(f, trip)).join("")}</div>
            ${
@@ -1931,10 +1947,10 @@ const Trip = (() => {
                : ""
            }`
         : placeholder("flights")
-    }`;
+    }`);
 
     // ---- Car rental
-    const carSection = `<h2>Car rental</h2>${
+    const carSection = section("carRental", "Car rental", cars.length, `${
       cars.length
         ? cars
             .map((c) => {
@@ -1954,10 +1970,10 @@ const Trip = (() => {
             })
             .join("")
         : placeholder("car rental")
-    }`;
+    }`);
 
     // ---- Public transport
-    const ptSection = `<h2>Public transport</h2>${
+    const ptSection = section("publicTransport", "Public transport", pts.length, `${
       pts.length
         ? pts
             .map((p) => {
@@ -2007,7 +2023,7 @@ const Trip = (() => {
             })
             .join("")
         : placeholder("public transport bookings")
-    }`;
+    }`);
 
     const facts = [
       t.totalKm ? { label: "Total distance", value: `${t.totalKm.toLocaleString()} km` } : null,
@@ -2016,14 +2032,7 @@ const Trip = (() => {
       t.rentalTotal ? { label: "Rental total", value: home(t.rentalTotal, trip) } : null,
     ].filter(Boolean);
 
-    return `
-      <h1>Transport</h1>
-      ${t.mode ? `<p class="subtitle">${escapeHtml(t.mode)}</p>` : ""}
-
-      ${flightSection}
-      ${carSection}
-      ${ptSection}
-
+    const drivingBody = `
       ${
         facts.length
           ? `<div class="fact-grid">${facts
@@ -2033,8 +2042,6 @@ const Trip = (() => {
               .join("")}</div>`
           : ""
       }
-
-      <h2>Driving log</h2>
       ${
         legs.length
           ? `<div class="table-wrap">
@@ -2070,6 +2077,15 @@ const Trip = (() => {
               <a href="budget.html">budget page</a>.</p>`
           : placeholder("travel legs")
       }`;
+
+    // Public transport before car rental: most trips book more of the former, and
+    // the hire is one long-running arrangement rather than a series of legs.
+    return `
+      <h1>Transport</h1>
+      ${flightSection}
+      ${ptSection}
+      ${carSection}
+      ${section("driving", "Driving log", legs.length, drivingBody)}`;
   }
 
   function renderTransport(trip) {
@@ -2089,9 +2105,22 @@ const Trip = (() => {
     setupStayNotes(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
-      if (main && !main.dataset.stayNotesWired) {
+      if (!main) return;
+      if (!main.dataset.stayNotesWired) {
         main.dataset.stayNotesWired = "1";
         wireStayNotes(main);
+      }
+      if (!main.dataset.transportWired) {
+        main.dataset.transportWired = "1";
+        // `toggle` doesn't bubble, so listen on the capture phase.
+        main.addEventListener(
+          "toggle",
+          (e) => {
+            const d = e.target.closest("details.transport-section");
+            if (d) transportOpen[d.dataset.section] = d.open;
+          },
+          true
+        );
       }
     }, 0);
     return transportHtml(trip);
