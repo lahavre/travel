@@ -535,6 +535,32 @@ tfoot td {
   overflow-wrap: anywhere;
 }
 
+/* What running the hire car cost, broken out under its booking. */
+.car-costs {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.car-costs-head {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.car-costs dl {
+  grid-template-columns: max-content minmax(0, 1fr);
+  max-width: 320px;
+}
+.car-costs dd.num {
+  text-align: right;
+}
+.car-log-head {
+  margin: 22px 0 0;
+  font-size: 1rem;
+}
+
 /* ---- Attached files (booking confirmations on a stay, etc.) ---- */
 .attach-box {
   margin-top: 12px;

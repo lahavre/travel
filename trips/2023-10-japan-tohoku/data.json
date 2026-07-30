@@ -2929,7 +2929,13 @@
           "date": "2023-10-28",
           "time": "20:00"
         },
-        "total": 6433.23,
+        "costs": {
+          "rental": 6433.23,
+          "fuel": null,
+          "toll": null,
+          "parking": null,
+          "others": null
+        },
         "remarks": null
       }
     ],

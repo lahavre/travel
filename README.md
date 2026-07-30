@@ -248,9 +248,12 @@ and a hire is one long-running arrangement rather than a series of legs.
   (type, route, date, departure) and links here, so the booking detail lives in one
   place with the rest of the transport.
 - **Car rental** — one card per hire: company, vehicle, reservation (same
-  `site`/`bookingNo`/`refs` shape as an accommodation booking), pick-up and drop-off
-  each with place, address, phone, date and time, and the total in home currency. The
-  pick-up/drop-off place links to Maps when an address is given.
+  `site`/`bookingNo`/`refs` shape as an accommodation booking), and pick-up and drop-off
+  each with place, address, phone, date and time, the place linking to Maps when an
+  address is given. Beneath sits **what the car cost to use** — `costs` with `rental`,
+  `fuel`, `toll`, `parking` and `others` in home currency — and the card **sums those
+  into the total** rather than storing it twice. The **driving log** lives inside this
+  section, since it describes the hire car's use.
 - **Public transport** — one card per booked bus, train or boat leg. Departure and
   arrival each read `City (Station) — time`, the station linking to Maps when
   `fromAddress`/`toAddress` is given; an open ticket with no time printed simply omits
@@ -259,8 +262,6 @@ and a hire is one long-running arrangement rather than a series of legs.
   home page — and the fare with `persons`. A leg may
   set its own `currency` — a bus booked in euros on a trip whose home currency is
   ringgit would otherwise be labelled in the wrong one.
-- **Driving log** — the day-by-day `legs` with distances and refuel stops, with the
-  distance/refuel/rental-total summary inside it.
 
 Every car hire and booked leg also carries its own editable **remark** and an **Attach**
 box for the rental agreement or ticket, on the same private, signed-in-only basis as a

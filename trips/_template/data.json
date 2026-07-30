@@ -373,7 +373,7 @@
   "_transport": "Optional. `legs` is a travel log — drop it for a walk-everywhere city trip and just keep `mode`. `day` refers to the trip day number so each leg links to its day page.",
   "transport": {
     "mode": "Trains and metro — 3-day city pass",
-    "_carRental": "One entry per car hire. `reservation` matches the accommodation shape (site, bookingNo, refs). pickUp/dropOff each take place, address, phone, date and time. `total` is in homeCurrency.",
+    "_carRental": "One entry per car hire. `reservation` matches the accommodation shape (site, bookingNo, refs). pickUp/dropOff each take place, address, phone, date and time. `costs` breaks down what the car cost in homeCurrency — rental, fuel, toll, parking, others; the card totals them, so don't also store a total. Leave a line null and it renders as an em dash.",
     "carRental": [
       {
         "company": "Example Rent a Car",
@@ -402,7 +402,13 @@
           "date": "2026-01-05",
           "time": "18:00"
         },
-        "total": 420.0,
+        "costs": {
+          "rental": 420.0,
+          "fuel": 180.0,
+          "toll": 45.0,
+          "parking": 30.0,
+          "others": null
+        },
         "remarks": "Full-to-full fuel policy; excess waived."
       }
     ],

@@ -1950,27 +1950,51 @@ const Trip = (() => {
     }`);
 
     // ---- Car rental
-    const carSection = section("carRental", "Car rental", cars.length, `${
+    const carBody = `${
       cars.length
         ? cars
             .map((c) => {
+              // What the car actually cost: the hire itself plus what running it
+              // added. Amounts are in home currency, like the budget page.
+              const CAR_COSTS = [
+                ["rental", "Rental"],
+                ["fuel", "Fuel"],
+                ["toll", "Road toll"],
+                ["parking", "Parking"],
+                ["others", "Others"],
+              ];
+              const costs = c.costs || {};
+              const given = CAR_COSTS.map(([k]) => costs[k]).filter((v) => v != null);
+              // Total is summed, never stored twice — `total` only stands in for a
+              // hire with no breakdown recorded.
+              const total = given.length ? given.reduce((s, v) => s + v, 0) : c.total;
               const rows = [
                 ["Company", dash(c.company)],
                 ["Vehicle", dash(c.vehicle)],
                 ["Reservation", reservationValue(c.reservation)],
                 ["Pick-up", placeValue(c.pickUp)],
                 ["Drop-off", placeValue(c.dropOff)],
-                ["Total", c.total != null ? home(c.total, trip) : "—"],
+                ["Total cost", total != null ? `<strong>${home(total, trip)}</strong>` : "—"],
               ];
+              const costRows = CAR_COSTS.map(
+                ([k, label]) =>
+                  `<dt>${label}:</dt><dd class="num">${
+                    costs[k] != null ? home(costs[k], trip) : "—"
+                  }</dd>`
+              ).join("");
               return `<div class="transport-card">
                 <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
+                <div class="car-costs">
+                  <div class="car-costs-head">Cost of using the car</div>
+                  <dl>${costRows}</dl>
+                </div>
                 ${stayNoteHtml(carRentalKey(c))}
                 ${attachmentsHtml("carRental", carRentalKey(c), "Rental documents")}
               </div>`;
             })
             .join("")
         : placeholder("car rental")
-    }`);
+    }`;
 
     // ---- Public transport
     const ptSection = section("publicTransport", "Public transport", pts.length, `${
@@ -2081,12 +2105,25 @@ const Trip = (() => {
 
     // Public transport before car rental: most trips book more of the former, and
     // the hire is one long-running arrangement rather than a series of legs.
+    // The driving log describes the hire car's use, so it belongs inside that
+    // section rather than standing alongside it.
+    const carSection = section(
+      "carRental",
+      "Car rental",
+      cars.length,
+      `${carBody}
+       ${
+         legs.length
+           ? `<h3 class="car-log-head">Driving log</h3>${drivingBody}`
+           : ""
+       }`
+    );
+
     return `
       <h1>Transport</h1>
       ${flightSection}
       ${ptSection}
-      ${carSection}
-      ${section("driving", "Driving log", legs.length, drivingBody)}`;
+      ${carSection}`;
   }
 
   function renderTransport(trip) {
