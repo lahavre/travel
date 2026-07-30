@@ -509,7 +509,7 @@ const Trip = (() => {
       ? `<h2>Flights</h2>
          <div class="table-wrap">
            <table>
-             <thead><tr><th>Flight</th><th>Route</th><th>Date</th><th>Departs</th></tr></thead>
+             <thead><tr><th>Flight</th><th>Route</th><th>Date</th><th>Departs</th><th>Arrives</th></tr></thead>
              <tbody>${flights
                .map(
                  (f) => `<tr>
@@ -519,6 +519,10 @@ const Trip = (() => {
                    <td>${escapeHtml(f.from || "")} → ${escapeHtml(f.to || "")}</td>
                    <td>${short(f.date)}</td>
                    <td>${escapeHtml(f.departTime || "—")}</td>
+                   <td>${escapeHtml(f.arriveTime || "—")}${
+                   // A red-eye lands on the date after the one in the Date column.
+                   f.arrivesNextDay ? ` <span class="stay-refs">(+1 day)</span>` : ""
+                 }</td>
                  </tr>`
                )
                .join("")}</tbody>
