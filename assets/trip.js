@@ -2197,7 +2197,10 @@ const Trip = (() => {
               return `<div class="transport-card">
                 <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
                 <div class="car-costs">
-                  <div class="car-costs-head">Car rental costing</div>
+                  <div class="car-costs-head">
+                    <span>Car rental costing</span>
+                    ${costEditControls()}
+                  </div>
                   ${costTable}
                   ${
                     legs.length

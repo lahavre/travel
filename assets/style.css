@@ -542,12 +542,21 @@ tfoot td {
   border-top: 1px dashed var(--border);
 }
 .car-costs-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-dim);
   margin-bottom: 6px;
+}
+/* Edit / Save / Cancel sit right, and keep sentence case against the heading. */
+.car-costs-head .cost-actions {
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: normal;
 }
 .cost-table {
   width: auto;
