@@ -88,6 +88,13 @@ const Trip = (() => {
     return (amount / (fx.per || 1)) * fx.rate;
   }
 
+  /** Home currency back into the destination's — the inverse of toHome. */
+  function toLocal(amountHome, trip) {
+    const fx = trip.exchangeRate;
+    if (!fx || !fx.rate) return null;
+    return (amountHome / fx.rate) * (fx.per || 1);
+  }
+
   /** Both currencies as two table cells, or one cell when no rate is defined. */
   function moneyCells(amountLocal, trip) {
     const converted = toHome(amountLocal, trip);
@@ -1884,7 +1891,14 @@ const Trip = (() => {
   // the notes, since data.json can't be written to from a static page.
   //   carCosts/<slug> = { byLeg: { <legKey>: {fuel, toll, parking} },
   //                       byCar: { <carKey>: {others} } }
-  const carCostState = { trip: null, doc: null, signedIn: false, unsub: null, rerender: null };
+  const carCostState = {
+    trip: null,
+    doc: null,
+    signedIn: false,
+    unsub: null,
+    rerender: null,
+    editing: false, // costs are read-only until asked for, so a stray key can't change a figure
+  };
   const CAR_LEG_FIELDS = [
     ["fuel", "Fuel"],
     ["toll", "Road toll"],
@@ -1930,17 +1944,31 @@ const Trip = (() => {
   }
   /** A money cell: an input when signed in, the figure or an em dash when not. */
   function costCell(trip, value, attrs) {
-    if (!carCostState.signedIn) {
-      return value != null ? home(value, trip) : "—";
+    if (!carCostState.signedIn || !carCostState.editing) {
+      return value != null ? local(value, trip) : "—";
     }
-    return `<input type="number" step="0.01" min="0" class="cost-input" ${attrs} value="${
+    return `<input type="number" step="1" min="0" class="cost-input" ${attrs} value="${
       value != null ? value : ""
     }" aria-label="Cost" />`;
+  }
+
+  /** Edit / Save / Cancel for the car's costs. */
+  function costEditControls() {
+    if (!carCostState.signedIn) return "";
+    return carCostState.editing
+      ? `<span class="cost-actions">
+           <button type="button" class="todo-edit-btn" data-costs-save>Save</button>
+           <button type="button" class="todo-edit-btn todo-edit-cancel" data-costs-cancel>Cancel</button>
+         </span>`
+      : `<span class="cost-actions">
+           <button type="button" class="todo-edit-btn" data-costs-edit>Edit costs</button>
+         </span>`;
   }
   function setupCarCosts(trip, rerender) {
     carCostState.trip = trip;
     carCostState.doc = null;
     carCostState.rerender = rerender;
+    carCostState.editing = false;
     carCostState.signedIn = !!TravelSite.currentUser();
     TravelSite.onAuthChange((user) => {
       if (carCostState.unsub) {
@@ -1966,16 +1994,38 @@ const Trip = (() => {
     });
   }
   function wireCarCosts(main) {
-    // `change` rather than `input`: it fires on blur, so a redraw can't steal
-    // focus mid-typing.
-    main.addEventListener("change", (e) => {
-      const el = e.target.closest(".cost-input");
-      if (!el || !carCostState.signedIn) return;
-      const raw = el.value.trim();
-      const value = raw === "" ? null : Number(raw);
-      if (value != null && !isFinite(value)) return;
-      if (el.dataset.legKey) setLegCost(el.dataset.legKey, el.dataset.field, value);
-      else if (el.dataset.carKey) setCarOthers(el.dataset.carKey, value);
+    main.addEventListener("click", (e) => {
+      if (!carCostState.signedIn) return;
+      if (e.target.closest("[data-costs-edit]")) {
+        carCostState.editing = true;
+      } else if (e.target.closest("[data-costs-cancel]")) {
+        carCostState.editing = false; // typed values are simply dropped
+      } else if (e.target.closest("[data-costs-save]")) {
+        // One write for the whole table rather than one per cell.
+        const doc = carCostDoc();
+        main.querySelectorAll(".cost-input").forEach((el) => {
+          const raw = el.value.trim();
+          const value = raw === "" ? null : Number(raw);
+          if (value != null && !isFinite(value)) return;
+          if (el.dataset.legKey) {
+            const k = el.dataset.legKey;
+            doc.byLeg[k] = { ...(doc.byLeg[k] || {}) };
+            if (value == null) delete doc.byLeg[k][el.dataset.field];
+            else doc.byLeg[k][el.dataset.field] = value;
+            if (!Object.keys(doc.byLeg[k]).length) delete doc.byLeg[k];
+          } else if (el.dataset.carKey) {
+            const k = el.dataset.carKey;
+            doc.byCar[k] = { ...(doc.byCar[k] || {}) };
+            if (value == null) delete doc.byCar[k].others;
+            else doc.byCar[k].others = value;
+            if (!Object.keys(doc.byCar[k]).length) delete doc.byCar[k];
+          }
+        });
+        writeCarCosts(doc);
+        carCostState.editing = false;
+      } else {
+        return;
+      }
       if (carCostState.rerender) carCostState.rerender();
     });
   }
@@ -2079,24 +2129,76 @@ const Trip = (() => {
                 ["Pick-up", placeValue(c.pickUp)],
                 ["Drop-off", placeValue(c.dropOff)],
               ];
-              const money = (v) => (v != null ? home(v, trip) : "—");
-              const costRows = `
-                <dt>Rental:</dt><dd class="num">${money(rental)}</dd>
-                <dt>Fuel:</dt><dd class="num">${money(fuel)}</dd>
-                <dt>Road toll:</dt><dd class="num">${money(toll)}</dd>
-                <dt>Parking:</dt><dd class="num">${money(parking)}</dd>
-                <dt>Others:</dt><dd class="num">${costCell(
-                  trip,
-                  others,
-                  `data-car-key="${escapeHtml(key)}"`
-                )}</dd>
-                <dt class="car-total">Total cost:</dt>
-                <dd class="num car-total">${total != null ? home(total, trip) : "—"}</dd>`;
+              // The hire is billed in home currency, but fuel, tolls and parking
+              // get paid on the road in the destination's — so each line states
+              // both, converted through the trip's own rate.
+              const hasFx = !!(trip.exchangeRate && trip.exchangeRate.rate);
+              const cell = (v, fmt) => `<td class="num">${v != null ? fmt(v, trip) : "—"}</td>`;
+              // `homeAmt` is in home currency, `localAmt` in the destination's;
+              // whichever is missing is converted from the other.
+              const costLine = (label, homeAmt, localAmt, editCell) => {
+                // With no rate there is only one currency, so whichever amount the
+                // line carries is simply it — otherwise the hire would drop out of
+                // a domestic trip's only column.
+                const l = hasFx
+                  ? localAmt != null
+                    ? localAmt
+                    : homeAmt != null
+                    ? toLocal(homeAmt, trip)
+                    : null
+                  : localAmt != null
+                  ? localAmt
+                  : homeAmt;
+                const h = homeAmt != null ? homeAmt : hasFx && localAmt != null ? toHome(localAmt, trip) : null;
+                return `<tr>
+                  <td>${label}</td>
+                  ${editCell || cell(l, local)}
+                  ${hasFx ? cell(h, home) : ""}
+                </tr>`;
+              };
+              const running = [fuel, toll, parking, others].filter((v) => v != null);
+              const runningLocal = running.length ? running.reduce((s, v) => s + v, 0) : null;
+              const anyCost = rental != null || runningLocal != null;
+              let totalHome = null;
+              let totalLocal = null;
+              if (anyCost) {
+                if (hasFx) {
+                  totalHome = (rental || 0) + (runningLocal != null ? toHome(runningLocal, trip) : 0);
+                  totalLocal = (runningLocal || 0) + (rental != null ? toLocal(rental, trip) : 0);
+                } else {
+                  totalHome = totalLocal = (rental || 0) + (runningLocal || 0);
+                }
+              }
+
+              const costTable = `
+                <table class="cost-table">
+                  <thead><tr><th></th>
+                    <th class="num">${escapeHtml(trip.tripCurrency || trip.homeCurrency || "Cost")}</th>
+                    ${hasFx ? `<th class="num">${escapeHtml(trip.homeCurrency || "Home")}</th>` : ""}
+                  </tr></thead>
+                  <tbody>
+                    ${costLine("Rental", rental, null)}
+                    ${costLine("Fuel", null, fuel)}
+                    ${costLine("Road toll", null, toll)}
+                    ${costLine("Parking", null, parking)}
+                    ${costLine(
+                      "Others",
+                      null,
+                      others,
+                      `<td class="num">${costCell(trip, others, `data-car-key="${escapeHtml(key)}"`)}</td>`
+                    )}
+                  </tbody>
+                  <tfoot><tr>
+                    <td>Total cost</td>
+                    <td class="num">${totalLocal != null ? local(totalLocal, trip) : "—"}</td>
+                    ${hasFx ? `<td class="num">${totalHome != null ? home(totalHome, trip) : "—"}</td>` : ""}
+                  </tr></tfoot>
+                </table>`;
               return `<div class="transport-card">
                 <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
                 <div class="car-costs">
                   <div class="car-costs-head">Car rental costing</div>
-                  <dl>${costRows}</dl>
+                  ${costTable}
                   ${
                     legs.length
                       ? `<p class="section-note">Fuel, road toll and parking add up from the
@@ -2168,13 +2270,19 @@ const Trip = (() => {
 
     const kmTotal = legs.reduce((s, l) => s + (l.km || 0), 0);
     const drivingBody = `
+      ${carCostState.signedIn ? `<div class="cost-toolbar">${costEditControls()}</div>` : ""}
       ${
         legs.length
           ? `<div class="table-wrap">
               <table class="driving-table">
                 <thead><tr>
                   <th>Day</th><th>Route</th><th class="num">Distance</th>
-                  ${CAR_LEG_FIELDS.map(([, label]) => `<th class="num">${label}</th>`).join("")}
+                  ${CAR_LEG_FIELDS.map(
+                    ([, label]) =>
+                      `<th class="num">${label}${
+                        trip.tripCurrency ? ` <span class="stay-refs">${escapeHtml(trip.tripCurrency)}</span>` : ""
+                      }</th>`
+                  ).join("")}
                 </tr></thead>
                 <tbody>${legs
                   .map((l) => {
@@ -2209,14 +2317,16 @@ const Trip = (() => {
                   <td class="num">${(t.totalKm || kmTotal).toLocaleString()} km</td>
                   ${CAR_LEG_FIELDS.map(([f]) => {
                     const v = legCostTotal(legs, f);
-                    return `<td class="num">${v != null ? home(v, trip) : "—"}</td>`;
+                    return `<td class="num">${v != null ? local(v, trip) : "—"}</td>`;
                   }).join("")}
                 </tr></tfoot>
               </table>
             </div>
             <p class="section-note">${
               carCostState.signedIn
-                ? "Enter what each day cost; the totals feed the costing above."
+                ? carCostState.editing
+                  ? "Enter what each day cost, then Save. The totals feed the costing above."
+                  : "Use Edit costs to record what each day cost; the totals feed the costing above."
                 : "Sign in to record what each day cost."
             } Shared spending is split between travellers on the
               <a href="budget.html">budget page</a>.</p>`

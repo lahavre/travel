@@ -253,11 +253,16 @@ and a hire is one long-running arrangement rather than a series of legs.
   address is given. Beneath sits **Car rental costing**: the hire fee from
   `costs.rental`, then fuel, road toll and parking **added up from the driving log**,
   and an **Others** figure typed on the page. The card sums all five into Total cost
-  rather than storing it twice.
+  rather than storing it twice, and states every line **in both currencies** — the hire
+  is billed in home currency while fuel and tolls are paid on the road in the
+  destination's, so each is converted through the trip's own `exchangeRate`. A trip
+  with no rate (a domestic one) simply shows the single column.
 
   The **driving log** lives inside this section, since it describes the hire car's use.
-  Each row links to its day and its Maps directions, and — signed in — takes what that
-  day cost in fuel, tolls and parking. Those entries are shared through Firestore
+  Each row links to its day and its Maps directions, and — signed in, after pressing
+  **Edit costs** — takes what that day cost in fuel, tolls and parking, entered in the
+  **destination's** currency. The cells are read-only until then, so a stray keystroke
+  cannot change a figure, and Save writes the whole table at once while Cancel drops it. Those entries are shared through Firestore
   (`carCosts/<slug>`, keyed by the leg's date so inserting a day can't shift them onto
   another), which is why they need sign-in: a static page cannot write to `data.json`.
   The column totals and the costing above are both derived from them, so the two can
