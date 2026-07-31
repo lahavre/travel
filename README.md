@@ -13,8 +13,7 @@ tools/                One-off scripts (Excel migration, page scaffolding)
 trips/_template/      Copy this folder to start a new trip
 trips/<slug>/
   data.json           Single source of truth for the trip
-  index.html          Trip home — flight summary, hotels, jump-to-a-day
-  overview.html       High-level itinerary
+  index.html          Overview — the trip at a glance: flights, hotels, day by day
   day.html?day=N      One day: plan, weather, costs — day list switches in place
   weather.html        Whole-trip weather — one row per place, local-forecast links
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
@@ -39,7 +38,7 @@ consistent the same way the old spreadsheet formulas did.
    `startDate`, `endDate`. The landing page sorts by `startDate` descending and derives
    the Upcoming/In progress/Past badge from today's date.
 
-The eight HTML pages are identical for every trip and contain no trip-specific content —
+The seven HTML pages are identical for every trip and contain no trip-specific content —
 never edit them per trip. `_template/` is not listed in `trips.json`, so it stays off the
 landing page while remaining previewable at `/trips/_template/`.
 
@@ -142,7 +141,11 @@ repo is exposed. A national service (JMA, the Met Office, NWS) is authoritative 
 single-country; Open-Meteo blends several models worldwide, so the same code serves any
 destination.
 
-**The overview table.** Each day renders as three colour-banded rows — morning,
+**The Overview page** (`index.html`) is the trip at a glance: its dates and headline
+facts, the flight summary, the hotel list, then the day-by-day table. It was two pages —
+a trip home and a separate overview — which said much the same thing twice.
+
+Each day of that table renders as three colour-banded rows — morning,
 afternoon, evening — showing that slot's activity.
 
 A day has **one** remarks note, not two. `remarks` and the older per-slot
@@ -418,7 +421,7 @@ Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned 
 
 `tools/` holds scripts that are not part of the site:
 
-- `new_trip_pages.py [slug...]` — (re)writes the eight boilerplate pages into trip
+- `new_trip_pages.py [slug...]` — (re)writes the seven boilerplate pages into trip
   folders. Copying `trips/_template/` does the same for a single new trip; this is for
   updating every trip at once if the boilerplate changes.
 - `fetch_weather.py <data.json>` — fills each day's `temperature[]` from Open-Meteo,

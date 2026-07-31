@@ -16,8 +16,7 @@ const Trip = (() => {
   };
 
   const SECTIONS = [
-    { key: "index", label: "Trip", href: "index.html" },
-    { key: "overview", label: "Overview", href: "overview.html" },
+    { key: "index", label: "Overview", href: "index.html" },
     { key: "day", label: "Days", href: "day.html?day=1" },
     { key: "weather", label: "Weather", href: "weather.html" },
     { key: "budget", label: "Budget", href: "budget.html" },
@@ -27,8 +26,7 @@ const Trip = (() => {
   ];
 
   const PAGE_TITLES = {
-    index: null,
-    overview: "Overview",
+    index: null, // the trip's own name is title enough for its landing page
     day: "Day-by-day",
     weather: "Weather",
     budget: "Budget",
@@ -583,24 +581,39 @@ const Trip = (() => {
       ${trip.transport && trip.transport.mode ? `<h2>Getting around</h2><p>${escapeHtml(trip.transport.mode)}</p>` : ""}
       ${trip.notes ? `<h2>Notes</h2><p>${multiline(trip.notes)}</p>` : ""}
 
-      <h2>Jump to a day</h2>
+      ${overviewHtml(trip, true)}
+
       ${
         has(trip.days)
-          ? `<div class="day-grid">${trip.days
-              .map(
-                (d) =>
-                  `<a href="day.html?day=${d.day}"><span class="day-grid-n">Day ${d.day}</span><span class="day-grid-city">${escapeHtml(
-                    cityName(d.city).split(" (")[0]
-                  )}</span></a>`
-              )
-              .join("")}</div>`
-          : placeholder("days")
+          ? `<h2>Jump to a day</h2>
+             <div class="day-grid">${trip.days
+               .map(
+                 (d) =>
+                   `<a href="day.html?day=${d.day}"><span class="day-grid-n">Day ${d.day}</span><span class="day-grid-city">${escapeHtml(
+                     cityName(d.city).split(" (")[0]
+                   )}</span></a>`
+               )
+               .join("")}</div>`
+          : ""
       }`;
   }
 
-  // The home page is a summary only — the notes and tickets it used to host moved
-  // to the transport page with the full flight cards.
+  // The trip's landing page and its day-by-day itinerary are one page: both say
+  // what the trip is at a glance. It carries the itinerary's editable remarks, so
+  // it needs the notes wiring the standalone overview page used to do.
   function renderIndex(trip) {
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = indexHtml(trip);
+    };
+    setupStayNotes(trip, redraw);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main && !main.dataset.stayNotesWired) {
+        main.dataset.stayNotesWired = "1";
+        wireStayNotes(main);
+      }
+    }, 0);
     return indexHtml(trip);
   }
 
@@ -785,8 +798,12 @@ const Trip = (() => {
     return { updated };
   }
 
-  function overviewHtml(trip) {
-    if (!has(trip.overview)) return `<h1>High-level itinerary</h1>${placeholder("itinerary")}`;
+  function overviewHtml(trip, embedded) {
+    const heading = embedded
+      ? `<h2>Day by day</h2>`
+      : `<h1>High-level itinerary</h1>
+         <p class="subtitle">The whole trip at a glance — click a day for the detailed plan.</p>`;
+    if (!has(trip.overview)) return `${heading}${placeholder("itinerary")}`;
 
     const SLOTS = [
       { key: "morning", label: "Morning", cls: "slot-morning" },
@@ -860,8 +877,7 @@ const Trip = (() => {
       .join("");
 
     return `
-      <h1>High-level itinerary</h1>
-      <p class="subtitle">The whole trip at a glance — click a day for the detailed plan.</p>
+      ${heading}
       <div class="table-wrap">
         <table class="overview-table">
           <thead><tr>
@@ -871,22 +887,6 @@ const Trip = (() => {
           <tbody>${rows}</tbody>
         </table>
       </div>`;
-  }
-
-  function renderOverview(trip) {
-    const redraw = () => {
-      const main = document.getElementById("main");
-      if (main) main.innerHTML = overviewHtml(trip);
-    };
-    setupStayNotes(trip, redraw);
-    setTimeout(() => {
-      const main = document.getElementById("main");
-      if (main && !main.dataset.stayNotesWired) {
-        main.dataset.stayNotesWired = "1";
-        wireStayNotes(main);
-      }
-    }, 0);
-    return overviewHtml(trip);
   }
 
   /** The panel for one day: heading, pager, plan and costs. */
@@ -904,7 +904,7 @@ const Trip = (() => {
         <div class="pager-slot">${
           prev ? `<a href="day.html?day=${prev.day}" data-day="${prev.day}">← Day ${prev.day}</a>` : ""
         }</div>
-        <a href="overview.html">All days</a>
+        <a href="index.html">All days</a>
         <div class="pager-slot end">${
           next ? `<a href="day.html?day=${next.day}" data-day="${next.day}">Day ${next.day} →</a>` : ""
         }</div>
@@ -3162,7 +3162,6 @@ const Trip = (() => {
 
   const RENDERERS = {
     index: renderIndex,
-    overview: renderOverview,
     day: renderDay,
     weather: renderWeather,
     budget: renderBudget,

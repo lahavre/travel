@@ -13,8 +13,7 @@ import os
 import sys
 
 PAGES = {
-    "index": "Trip",
-    "overview": "Overview",
+    "index": "Overview",
     "day": "Day-by-day",
     "weather": "Weather",
     "budget": "Budget",
