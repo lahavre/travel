@@ -1,28 +1,45 @@
 rules_version = '2';
 
-// Security rules for the booking-file vault (Firebase Storage). Reads AND writes
-// are restricted to the same allow-list of Google accounts as the Firestore data —
-// the files (booking confirmations, tickets) are private, so viewing needs sign-in
-// too. Enforced on Google's servers, so it holds even though the site is public.
+// Security rules for the files attached around the site — booking confirmations,
+// tickets, rental agreements. They live under trips/<slug>/<kind>/<key>/, so access
+// is decided per trip, from the same config/access document the Firestore rules
+// read. Keep the OWNER below identical to the one in firestore.rules.
 //
-// Kept in the repo for version control; they only take effect once pasted into the
-// Firebase console: Build -> Storage -> Rules -> (replace all) -> Publish. Storage
-// needs the project on the Blaze plan. Keep this file and the console in sync, and
-// keep the allow-list identical to firestore.rules.
+// Storage rules can read Firestore with firestore.get(), so the list is managed on
+// the site rather than here — see firestore.rules for the document's shape.
+//
+// These rules only take effect once pasted into the Firebase console:
+// Build -> Storage -> Rules -> (replace all) -> Publish. Storage needs the project
+// on the Blaze plan.
 
 service firebase.storage {
   match /b/{bucket}/o {
 
-    function isEditor() {
+    function isOwner() {
       return request.auth != null
         && request.auth.token.email_verified == true
-        && request.auth.token.email in [
-             'chew.mun.chun@gmail.com'
-           ];
+        && request.auth.token.email == 'chew.mun.chun@gmail.com';
     }
 
+    function accessDoc() {
+      return firestore.get(/databases/(default)/documents/config/access).data;
+    }
+
+    function canAccessTrip(slug) {
+      return isOwner()
+        || (request.auth != null
+            && request.auth.token.email_verified == true
+            && request.auth.token.email in accessDoc().get('trips', {}).get(slug, []));
+    }
+
+    // Everything a trip owns sits under its slug.
+    match /trips/{slug}/{allPaths=**} {
+      allow read, write: if canAccessTrip(slug);
+    }
+
+    // Nothing else is expected; keep it closed to all but the owner.
     match /{allPaths=**} {
-      allow read, write: if isEditor();
+      allow read, write: if isOwner();
     }
   }
 }

@@ -14,11 +14,17 @@
     <p class="subtitle">Every trip, planned and researched with Claude Code.</p>
 
     <div id="trip-grid" class="trip-grid"></div>
+    <div id="access-admin"></div>
   </main>
 
   <script src="assets/common.js"></script>
+  <script src="assets/access-admin.js"></script>
   <script>
     TravelSite.renderHeader({ root: ".", siteTitle: "Travel" });
+
+    TravelSite.fetchJSON("trips.json")
+      .then((trips) => { AccessAdmin.mount(trips); })
+      .catch(() => {});
 
     TravelSite.fetchJSON("trips.json")
       .then((trips) => {

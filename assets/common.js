@@ -219,6 +219,36 @@ const TravelSite = (() => {
     await f.mod.setDoc(f.mod.doc(f.db, path), data);
   }
 
+  // ---- Who may edit, and which trips they may see --------------------------
+  // One document, config/access: { editors: [email], trips: { slug: [email] } }.
+  // The rules read the same document, so the site and the server agree; only the
+  // owner below can write it, and that is enforced in the rules, not here. This
+  // copy exists so the page can show the right thing rather than to decide access.
+  const OWNER_EMAIL = "chew.mun.chun@gmail.com";
+  function isOwner() {
+    const u = currentUser();
+    return !!u && (u.email || "").toLowerCase() === OWNER_EMAIL;
+  }
+  function watchAccess(onData, onError) {
+    return watchDoc("config/access", (data) => onData(normalizeAccess(data)), onError);
+  }
+  function normalizeAccess(data) {
+    return { editors: (data && data.editors) || [], trips: (data && data.trips) || {} };
+  }
+  async function saveAccess(access) {
+    await writeDoc("config/access", {
+      editors: access.editors || [],
+      trips: access.trips || {},
+    });
+  }
+  /** Can this signed-in address open that trip? The owner always can. */
+  function canAccessTrip(access, slug, email) {
+    if (!email) return false;
+    if (email.toLowerCase() === OWNER_EMAIL) return true;
+    const list = (access && access.trips && access.trips[slug]) || [];
+    return list.some((e) => String(e).toLowerCase() === email.toLowerCase());
+  }
+
   // ---- Firebase Storage (private files) ------------------------------------
   // The booking-file vault. Lazy-loaded like Firestore, on the same app. Gated
   // to the allow-list by Storage security rules. Needs the project on the Blaze
@@ -288,6 +318,11 @@ const TravelSite = (() => {
     uploadFile,
     listFiles,
     deleteFile,
+    isOwner,
+    watchAccess,
+    saveAccess,
+    canAccessTrip,
+    OWNER_EMAIL,
     ASSETS_BASE,
   };
 })();

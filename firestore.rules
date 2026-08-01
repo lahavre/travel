@@ -1,29 +1,71 @@
 rules_version = '2';
 
-// Security rules for the travel planner's private data (shared remarks, and
-// later file metadata). Reads AND writes are restricted to an allow-list of
-// Google accounts — this is the real gate, enforced on Google's servers, so it
-// holds even though the site's code and Firebase config are public.
+// Security rules for the travel planner's private data — the to-do list, the
+// notes on stays, flights and days, the car's running costs and the cost splits.
+// Enforced on Google's servers, so they hold even though the site's code and its
+// Firebase config are public.
 //
-// These live in the repo for version control, but they only take effect once
-// pasted into the Firebase console: Build -> Firestore Database -> Rules ->
-// (replace all) -> Publish. Keep this file and the console in sync.
+// Access is managed from the site rather than from here. One document,
+// config/access, holds it:
 //
-// To add a traveller: add their email to the list below and re-publish.
+//   { editors: ["someone@gmail.com", …],          // may sign in and edit
+//     trips:   { "2023-10-japan-tohoku": ["someone@gmail.com", …] } }  // per trip
+//
+// The OWNER below is the one thing that stays in the rules, and only the owner can
+// change that document — otherwise anyone granted access could grant it to others,
+// or remove the owner. Everything else is a matter of ticking a box on the site.
+//
+// These rules only take effect once pasted into the Firebase console:
+// Build -> Firestore Database -> Rules -> (replace all) -> Publish.
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isEditor() {
+    function isOwner() {
       return request.auth != null
         && request.auth.token.email_verified == true
-        && request.auth.token.email in [
-             'chew.mun.chun@gmail.com'
-           ];
+        && request.auth.token.email == 'chew.mun.chun@gmail.com';
     }
 
-    // All private data — the to-do list and, later, the booking-file metadata —
-    // is readable and writable only by the allow-list.
+    function accessDoc() {
+      return get(/databases/$(database)/documents/config/access).data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+
+    // On the editors list at all — enough to be shown the site's private areas.
+    function isEditor() {
+      return isOwner()
+        || (isSignedIn() && request.auth.token.email in accessDoc().get('editors', []));
+    }
+
+    // Allowed this particular trip. `trips` maps a slug to the editors who may see
+    // it; .get(slug, []) leaves a trip nobody has been added to closed rather than
+    // erroring on a missing key.
+    function canAccessTrip(slug) {
+      return isOwner()
+        || (isSignedIn()
+            && request.auth.token.email in accessDoc().get('trips', {}).get(slug, []));
+    }
+
+    // Who may edit, and which trips they may see. Readable by anyone already on the
+    // list (the site needs it to know which trips to offer); writable only by the
+    // owner, which is what stops access from being handed around.
+    match /config/access {
+      allow read: if isOwner()
+        || (isSignedIn() && request.auth.token.email in resource.data.get('editors', []));
+      allow write: if isOwner();
+    }
+
+    // Everything a trip owns is keyed by its slug, so one rule covers them all.
+    match /todoList/{slug}    { allow read, write: if canAccessTrip(slug); }
+    match /stayNotes/{slug}   { allow read, write: if canAccessTrip(slug); }
+    match /carCosts/{slug}    { allow read, write: if canAccessTrip(slug); }
+    match /costSplits/{slug}  { allow read, write: if canAccessTrip(slug); }
+
+    // Anything not named above stays shut unless you are on the editors list.
     match /{document=**} {
       allow read, write: if isEditor();
     }

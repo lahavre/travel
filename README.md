@@ -397,12 +397,17 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   Original filename, uploader and timestamp are kept in each object's custom metadata; a
   25 MB per-file cap is enforced client-side. The modules (`setupAttachments` / `attachmentsHtml` / `setupStayNotes` in
   `assets/trip.js`) are generic, so the transport page can reuse them.
-- **Who can read/write:** an allow-list of Google accounts, kept **identical** in
-  [`firestore.rules`](firestore.rules) and [`storage.rules`](storage.rules). Reads *and*
-  writes are gated (viewing is private, not just editing). **These rules only take effect
-  once pasted into the Firebase console** (Firestore: Build → Firestore Database → Rules;
-  Storage: Build → Storage → Rules → Publish); keep the files and the console in sync.
-  Add a traveller by adding their email to both and re-publishing.
+- **Who can read/write:** managed **from the site**, not from the rules. One Firestore
+  document, `config/access` — `{ editors: [email], trips: { slug: [email] } }` — says who
+  may sign in and edit, and which trips each of them may open. The **owner** email is the
+  one thing still written into [`firestore.rules`](firestore.rules) and
+  [`storage.rules`](storage.rules) (keep the two identical), and **only the owner can
+  write that document** — otherwise anyone granted access could grant it onward or remove
+  the owner. The owner always has access to everything, so there is no way to lock
+  yourself out. Manage it from the **Who can edit** panel on the landing page, which is
+  shown to the owner alone. **The rules only take effect once pasted into the Firebase
+  console** (Firestore: Build → Firestore Database → Rules; Storage: Build → Storage →
+  Rules → Publish).
 - **Live-site setup done once in the console:** enable Google sign-in, add
   `lahavre.github.io` to Authentication → Authorized domains, create Firestore in
   production mode, upgrade to the **Blaze** plan (a card on file; ~$0 at this scale) and
