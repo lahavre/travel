@@ -362,7 +362,13 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   config — safe to commit, because access is enforced by security rules on Google's
   servers, not by hiding it. Until that file holds real values (not the `PASTE_…`
   placeholders), the whole Firebase layer stays dormant and the site is fully public.
-- **Auth:** Google sign-in, loaded lazily in [`assets/common.js`](assets/common.js) by
+- **Auth:** two ways in — **Google sign-in**, or an **emailed sign-in link** for anyone
+  who would rather not have a Google account. The link verifies the address as part of
+  signing in, so both routes arrive with a verified email and the rules treat them the
+  same; the allow-list matches on the address either way. The link is bound to the
+  address it was sent to, so forwarding it does not let someone else in. Enable both in
+  the console under Authentication → Sign-in method (*Email/Password*, then *Email link
+  (passwordless sign-in)* beneath it). Loaded lazily in [`assets/common.js`](assets/common.js) by
   dynamically importing the Firebase SDK (v10.12.0) from gstatic — so no build step and
   no change to the per-trip HTML stubs. The header shows a Sign in / Sign out control;
   `TravelSite.onAuthChange()` and `TravelSite.currentUser()` let renderers react to who

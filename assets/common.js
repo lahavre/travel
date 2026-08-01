@@ -84,22 +84,112 @@ const TravelSite = (() => {
         renderAuthControl();
         authListeners.forEach((fn) => fn(user));
       });
+      // If this page was opened from an emailed link, finish the sign-in.
+      completeEmailLink();
     } catch (e) {
       console.warn("Firebase auth failed to load:", e);
     }
   }
 
+  // Two ways in, because a Google account isn't a fair thing to require of someone
+  // you're sharing a trip with. The email link verifies the address as part of
+  // signing in, so both routes arrive with a verified email and the security rules
+  // treat them identically.
+  let emailFormOpen = false;
+  let emailStatus = "";
+
   function renderAuthControl() {
     const slot = document.getElementById("site-auth");
     if (!slot || !fb) return;
     const user = authState.user;
-    slot.innerHTML = user
-      ? `<span class="auth-who" title="${user.email || ""}">${user.email || "signed in"}</span>
-         <button type="button" class="auth-btn" data-auth-signout>Sign out</button>`
-      : `<button type="button" class="auth-btn" data-auth-signin>Sign in</button>`;
+    if (user) {
+      slot.innerHTML = `<span class="auth-who" title="${user.email || ""}">${
+        user.email || "signed in"
+      }</span>
+        <button type="button" class="auth-btn" data-auth-signout>Sign out</button>`;
+      return;
+    }
+    slot.innerHTML = `
+      <button type="button" class="auth-btn" data-auth-signin>Sign in with Google</button>
+      <button type="button" class="auth-btn auth-btn-quiet" data-auth-email-toggle>Use email</button>
+      <form class="auth-email" data-auth-email-form${emailFormOpen ? "" : " hidden"}>
+        <input type="email" class="auth-email-input" data-auth-email
+          placeholder="you@example.com" aria-label="Your email address" />
+        <button type="submit" class="auth-btn" data-auth-email-send>Email me a link</button>
+      </form>
+      ${emailStatus ? `<span class="auth-status">${emailStatus}</span>` : ""}`;
+    if (emailFormOpen) {
+      const input = slot.querySelector("[data-auth-email]");
+      if (input) input.focus();
+    }
   }
 
+  /** Where the sign-in link should land: this page, minus any link parameters. */
+  function signInRedirectUrl() {
+    const url = new URL(window.location.href);
+    ["apiKey", "oobCode", "mode", "lang", "continueUrl"].forEach((p) => url.searchParams.delete(p));
+    return url.href;
+  }
+
+  async function sendEmailLink(email) {
+    emailStatus = "Sending…";
+    renderAuthControl();
+    try {
+      await fb.mod.sendSignInLinkToEmail(fb.auth, email, {
+        url: signInRedirectUrl(),
+        handleCodeInApp: true,
+      });
+      // Kept so the returning click knows who asked; Firebase requires the address
+      // to match, which is what stops a forwarded link signing in someone else.
+      window.localStorage.setItem("emailForSignIn", email);
+      emailFormOpen = false;
+      emailStatus = `Link sent to ${email} — open it on this device.`;
+    } catch (err) {
+      emailStatus = "Couldn't send: " + (err.code || err.message);
+    }
+    renderAuthControl();
+  }
+
+  /** Completes sign-in when the page is opened from an emailed link. */
+  async function completeEmailLink() {
+    if (!fb || !fb.mod.isSignInWithEmailLink(fb.auth, window.location.href)) return;
+    let email = window.localStorage.getItem("emailForSignIn");
+    if (!email) {
+      // A different browser or device than the one that asked.
+      email = window.prompt("Confirm the email address this link was sent to:");
+    }
+    if (!email) return;
+    try {
+      await fb.mod.signInWithEmailLink(fb.auth, email, window.location.href);
+      window.localStorage.removeItem("emailForSignIn");
+      // Drop the one-time code from the address bar so a refresh can't retry it.
+      window.history.replaceState({}, document.title, signInRedirectUrl());
+    } catch (err) {
+      emailStatus = "That link didn't work: " + (err.code || err.message);
+      renderAuthControl();
+    }
+  }
+
+  document.addEventListener("submit", async (e) => {
+    if (!e.target.closest("[data-auth-email-form]") || !fb) return;
+    e.preventDefault();
+    const input = e.target.querySelector("[data-auth-email]");
+    const email = (input && input.value.trim()) || "";
+    if (!email || email.indexOf("@") < 1) {
+      emailStatus = "Enter an email address.";
+      renderAuthControl();
+      return;
+    }
+    await sendEmailLink(email);
+  });
+
   document.addEventListener("click", async (e) => {
+    if (e.target.closest("[data-auth-email-toggle]")) {
+      emailFormOpen = !emailFormOpen;
+      emailStatus = "";
+      renderAuthControl();
+      return;
+    }
     if (e.target.closest("[data-auth-signin]") && fb) {
       const provider = new fb.mod.GoogleAuthProvider();
       try {

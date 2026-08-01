@@ -127,6 +127,7 @@ a:hover {
 .site-auth {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-left: 12px;
 }
@@ -151,6 +152,37 @@ a:hover {
 }
 .auth-btn:hover {
   border-color: var(--accent);
+}
+.auth-btn-quiet {
+  color: var(--text-dim);
+  font-weight: 400;
+}
+/* The email route sits under the buttons so the header keeps its shape. */
+.auth-email {
+  display: flex;
+  gap: 6px;
+  flex-basis: 100%;
+  margin-top: 6px;
+}
+.auth-email[hidden] {
+  display: none;
+}
+.auth-email-input {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 0;
+  flex: 1 1 180px;
+}
+.auth-status {
+  flex-basis: 100%;
+  margin-top: 4px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
 }
 .trip-nav {
   display: flex;
