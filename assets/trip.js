@@ -1919,6 +1919,7 @@ const Trip = (() => {
     unsub: null,
     rerender: null,
     editing: false, // costs are read-only until asked for, so a stray key can't change a figure
+    denied: false, // refused by the rules: read-only, whatever the sign-in says
   };
   const CAR_LEG_FIELDS = [
     ["fuel", "Fuel"],
@@ -1968,7 +1969,15 @@ const Trip = (() => {
   // than a set of typed amounts — each share is the total divided by however many
   // are ticked, which also means it can never drift from the total the way a
   // stored figure would. Firestore: costSplits/<slug> = { byItem: { <key>: [name] } }.
-  const splitState = { trip: null, doc: null, signedIn: false, editing: false, unsub: null, rerender: null };
+  const splitState = {
+    trip: null,
+    doc: null,
+    signedIn: false,
+    editing: false,
+    denied: false, // refused by the rules: read-only
+    unsub: null,
+    rerender: null,
+  };
   function splitPath(trip) {
     return "costSplits/" + (trip.slug || trip.title || "trip");
   }
@@ -1992,7 +2001,7 @@ const Trip = (() => {
     );
   }
   function splitEditControls() {
-    if (!splitState.signedIn) return "";
+    if (!splitState.signedIn || splitState.denied) return "";
     return splitState.editing
       ? `<span class="cost-actions">
            <button type="button" class="todo-edit-btn" data-split-save>Save</button>
@@ -2006,6 +2015,7 @@ const Trip = (() => {
     splitState.trip = trip;
     splitState.doc = null;
     splitState.editing = false;
+    splitState.denied = false;
     splitState.rerender = rerender;
     splitState.signedIn = !!TravelSite.currentUser();
     TravelSite.onAuthChange((user) => {
@@ -2015,15 +2025,19 @@ const Trip = (() => {
       }
       splitState.signedIn = !!user;
       splitState.doc = null;
+      splitState.denied = false;
+      splitState.editing = false;
       if (user) {
         splitState.unsub = TravelSite.watchDoc(
           splitPath(trip),
           (data) => {
             splitState.doc = data;
+            splitState.denied = false;
             if (rerender) rerender();
           },
           () => {
             splitState.doc = null;
+            splitState.denied = true;
             if (rerender) rerender();
           }
         );
@@ -2033,7 +2047,7 @@ const Trip = (() => {
   }
   function wireSplits(main) {
     main.addEventListener("click", (e) => {
-      if (!splitState.signedIn) return;
+      if (!splitState.signedIn || splitState.denied) return;
       if (e.target.closest("[data-split-edit]")) {
         splitState.editing = true;
       } else if (e.target.closest("[data-split-cancel]")) {
@@ -2064,7 +2078,7 @@ const Trip = (() => {
 
   /** A money cell: an input when signed in, the figure or an em dash when not. */
   function costCell(trip, value, attrs) {
-    if (!carCostState.signedIn || !carCostState.editing) {
+    if (!carCostState.signedIn || carCostState.denied || !carCostState.editing) {
       return value != null ? local(value, trip) : "—";
     }
     return `<input type="number" step="1" min="0" class="cost-input" ${attrs} value="${
@@ -2074,7 +2088,7 @@ const Trip = (() => {
 
   /** Edit / Save / Cancel for the car's costs. */
   function costEditControls() {
-    if (!carCostState.signedIn) return "";
+    if (!carCostState.signedIn || carCostState.denied) return "";
     return carCostState.editing
       ? `<span class="cost-actions">
            <button type="button" class="todo-edit-btn" data-costs-save>Save</button>
@@ -2089,6 +2103,7 @@ const Trip = (() => {
     carCostState.doc = null;
     carCostState.rerender = rerender;
     carCostState.editing = false;
+    carCostState.denied = false;
     carCostState.signedIn = !!TravelSite.currentUser();
     TravelSite.onAuthChange((user) => {
       if (carCostState.unsub) {
@@ -2097,15 +2112,19 @@ const Trip = (() => {
       }
       carCostState.signedIn = !!user;
       carCostState.doc = null;
+      carCostState.denied = false;
+      carCostState.editing = false;
       if (user) {
         carCostState.unsub = TravelSite.watchDoc(
           carCostsPath(trip),
           (data) => {
             carCostState.doc = data;
+            carCostState.denied = false;
             if (rerender) rerender();
           },
           () => {
             carCostState.doc = null;
+            carCostState.denied = true;
             if (rerender) rerender();
           }
         );
@@ -2115,7 +2134,7 @@ const Trip = (() => {
   }
   function wireCarCosts(main) {
     main.addEventListener("click", (e) => {
-      if (!carCostState.signedIn) return;
+      if (!carCostState.signedIn || carCostState.denied) return;
       if (e.target.closest("[data-costs-edit]")) {
         carCostState.editing = true;
       } else if (e.target.closest("[data-costs-cancel]")) {
@@ -2546,7 +2565,7 @@ const Trip = (() => {
 
     const kmTotal = legs.reduce((s, l) => s + (l.km || 0), 0);
     const drivingBody = `
-      ${carCostState.signedIn ? `<div class="cost-toolbar">${costEditControls()}</div>` : ""}
+      ${carCostState.signedIn && !carCostState.denied ? `<div class="cost-toolbar">${costEditControls()}</div>` : ""}
       ${
         legs.length
           ? `<div class="table-wrap">
