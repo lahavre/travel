@@ -418,6 +418,15 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   `lahavre.github.io` to Authentication → Authorized domains, create Firestore in
   production mode, upgrade to the **Blaze** plan (a card on file; ~$0 at this scale) and
   enable Cloud Storage.
+- **Sign-in emails come from `noreply@<project>.firebaseapp.com`.** Firebase can send
+  them from your own domain instead — Authentication → Templates → the pencil →
+  *Customize domain*, then add the TXT and CNAME records it gives you and wait for
+  verification (up to 24 hours). The feature costs nothing; **it needs a domain you
+  control the DNS for**, which `lahavre.github.io` is not, so it waits on buying one.
+  Worth doing **together with** putting the site itself on that domain — GitHub Pages
+  supports custom domains free, so one registration (~$10–15/year) would serve both.
+  Until then, Templates also lets you set the **sender name** and **reply-to** with no
+  domain at all, which is most of the polish for none of the cost.
 - **Not yet built:** adding the other three travellers to the allow-list. If the
   *itinerary itself* ever needs to be private too, that's a separate follow-up (wrap the
   whole site in Cloudflare Access
