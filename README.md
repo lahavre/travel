@@ -418,6 +418,16 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   `lahavre.github.io` to Authentication → Authorized domains, create Firestore in
   production mode, upgrade to the **Blaze** plan (a card on file; ~$0 at this scale) and
   enable Cloud Storage.
+- **Activity trail.** Every change to a trip — a to-do added, marked or removed, a
+  remark edited, car costs or a split updated, a file attached or deleted — writes an
+  entry to `activity/<slug>/entries` recording who, what and when. It shows as a
+  **Recent activity** panel on the Overview page, signed-in only, newest first. Entries
+  are **append-only**: the rules allow `create` and refuse `update` and `delete` to
+  everyone including the owner, and insist an entry names its true author — a trail that
+  the person who broke something can quietly rewrite is not worth keeping. They sit under
+  the trip rather than in one flat collection so that reading the newest first needs no
+  hand-made composite index. Cost is negligible: an entry is ~200 bytes and one extra
+  write, against free quotas of 20k writes/day and 1 GiB.
 - **Sign-in emails come from `noreply@<project>.firebaseapp.com`.** Firebase can send
   them from your own domain instead — Authentication → Templates → the pencil →
   *Customize domain*, then add the TXT and CNAME records it gives you and wait for

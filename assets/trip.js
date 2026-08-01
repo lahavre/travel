@@ -582,6 +582,7 @@ const Trip = (() => {
       ${trip.notes ? `<h2>Notes</h2><p>${multiline(trip.notes)}</p>` : ""}
 
       ${overviewHtml(trip, true)}
+      ${trailHtml()}
 
       ${
         has(trip.days)
@@ -607,6 +608,7 @@ const Trip = (() => {
       if (main) main.innerHTML = indexHtml(trip);
     };
     setupStayNotes(trip, redraw);
+    setupTrail(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.stayNotesWired) {
@@ -859,7 +861,9 @@ const Trip = (() => {
         const noteRow = signedIn
           ? `<tr class="ov-note-row">
                <td colspan="2">
-                 <div class="stay-note ov-note-edit" data-stay-key="${escapeHtml(noteKey)}">
+                 <div class="stay-note ov-note-edit" data-stay-key="${escapeHtml(
+                   noteKey
+                 )}" data-stay-label="Day ${o.day}">
                    <span class="ov-note-label">Remarks</span>
                    <span class="stay-note-text">${
                      noteText
@@ -1539,7 +1543,7 @@ const Trip = (() => {
                 : ""
             }
           </div>
-          ${stayNoteHtml(flightAttachKey(f))}
+          ${stayNoteHtml(flightAttachKey(f), `${f.type || "Flight"} ${f.from || ""} to ${f.to || ""}`)}
           ${attachmentsHtml("flight", flightAttachKey(f), "Tickets & documents")}
         </div>
       </div>`;
@@ -1630,10 +1634,12 @@ const Trip = (() => {
     if (added || stayNotesState.doc === null) writeStayNotes(merged);
   }
   // Renders nothing when signed out, so the public page is unchanged.
-  function stayNoteHtml(key) {
+  function stayNoteHtml(key, label) {
     if (!stayNotesState.signedIn) return "";
     const text = stayNotesMap()[key];
-    return `<div class="stay-note" data-stay-key="${escapeHtml(key)}">
+    return `<div class="stay-note" data-stay-key="${escapeHtml(key)}" data-stay-label="${escapeHtml(
+      label || key
+    )}">
       <div class="stay-note-text">${
         text ? multiline(text) : `<span class="attach-empty">No remarks yet.</span>`
       }</div>
@@ -1664,10 +1670,18 @@ const Trip = (() => {
       }
       if (saveBtn) {
         const byKey = { ...stayNotesMap() };
+        const before = byKey[key] || "";
         // "" records an intentionally empty note, so the backfill above won't put
         // the data.json text back the next time the page loads.
         byKey[key] = box.querySelector("textarea").value.trim();
         writeStayNotes(byKey);
+        if (byKey[key] !== before) {
+          logAction(
+            stayNotesState.trip,
+            byKey[key] ? (before ? "edited remark" : "added remark") : "cleared remark",
+            box.dataset.stayLabel || key
+          );
+        }
       }
       if (stayNotesState.rerender) stayNotesState.rerender();
     });
@@ -1802,7 +1816,7 @@ const Trip = (() => {
                   <dl>${detailRows(a)
                     .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
                     .join("")}</dl>
-                  ${stayNoteHtml(stayAttachKey(a))}
+                  ${stayNoteHtml(stayAttachKey(a), a.name || a.city || "stay")}
                   ${attachmentsHtml("accommodation", stayAttachKey(a), "Booking files")}
                 </td>
               </tr>`
@@ -2032,6 +2046,7 @@ const Trip = (() => {
           doc.byItem[key] = [...list];
         });
         writeSplits(doc);
+        logAction(splitState.trip, "updated cost split", "who shares each transport cost");
         splitState.editing = false;
       } else {
         return;
@@ -2120,6 +2135,7 @@ const Trip = (() => {
           }
         });
         writeCarCosts(doc);
+        logAction(carCostState.trip, "updated car costs", "fuel, tolls, parking and others");
         carCostState.editing = false;
       } else {
         return;
@@ -2459,7 +2475,7 @@ const Trip = (() => {
                       : ""
                   }
                 </div>
-                ${stayNoteHtml(key)}
+                ${stayNoteHtml(key, `car rental — ${c.company || ""}`)}
                 ${attachmentsHtml("carRental", key, "Rental documents")}
               </div>`;
             })
@@ -2513,7 +2529,7 @@ const Trip = (() => {
                 p.from || ""
               )} → ${escapeHtml(p.to || "")}</div>
                 <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
-                ${stayNoteHtml(ptKey(p))}
+                ${stayNoteHtml(ptKey(p), `${p.mode || "leg"} ${p.from || ""} to ${p.to || ""}`)}
                 ${attachmentsHtml("publicTransport", ptKey(p), "Tickets")}
               </div>`;
             })
@@ -2650,6 +2666,99 @@ const Trip = (() => {
       }
     }, 0);
     return transportHtml(trip);
+  }
+
+  /** Record a change against the trip currently being viewed. */
+  function logAction(trip, action, detail) {
+    if (!trip) return;
+    TravelSite.logActivity(trip.slug || trip.title || "trip", action, detail);
+  }
+
+  // The trail of who changed what, shown on the Overview page. Private like the
+  // rest: signed out there is nothing to see, and the entries cannot be edited or
+  // removed by anyone — the rules refuse it, which is what makes it worth reading.
+  const trailState = { trip: null, entries: [], signedIn: false, denied: false, unsub: null };
+
+  function trailHtml() {
+    if (!trailState.signedIn) return "";
+    const rows = trailState.entries.length
+      ? trailState.entries
+          .map((e) => {
+            const when = e.at
+              ? new Date(e.at).toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "";
+            // The local part alone is enough to know who, and keeps the full
+            // address off a shared screen.
+            const who = (e.who || "").split("@")[0];
+            return `<tr>
+              <td>${escapeHtml(when)}</td>
+              <td>${escapeHtml(who)}</td>
+              <td>${escapeHtml(e.action || "")}</td>
+              <td style="color:var(--text-dim)">${escapeHtml(e.detail || "")}</td>
+            </tr>`;
+          })
+          .join("")
+      : `<tr><td colspan="4" class="attach-empty">Nothing recorded yet — changes will show up here.</td></tr>`;
+    return `
+      <details class="transport-section" data-section="activity">
+        <summary><span class="transport-section-name">Recent activity</span>${
+          trailState.entries.length
+            ? `<span class="transport-section-count">${trailState.entries.length}</span>`
+            : ""
+        }</summary>
+        <div class="transport-section-body">
+          ${
+            trailState.denied
+              ? `<p class="section-note">Couldn't read the activity trail for this trip.</p>`
+              : `<p class="section-note">Every change to this trip's to-do list, remarks,
+                   costs and files. Entries can't be edited or deleted, by anyone.</p>
+                 <div class="table-wrap">
+                   <table>
+                     <thead><tr><th>When</th><th>Who</th><th>Did what</th><th>To</th></tr></thead>
+                     <tbody>${rows}</tbody>
+                   </table>
+                 </div>`
+          }
+        </div>
+      </details>`;
+  }
+
+  function setupTrail(trip, rerender) {
+    trailState.trip = trip;
+    trailState.entries = [];
+    trailState.denied = false;
+    trailState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (trailState.unsub) {
+        trailState.unsub();
+        trailState.unsub = null;
+      }
+      trailState.signedIn = !!user;
+      trailState.entries = [];
+      trailState.denied = false;
+      if (user) {
+        trailState.unsub = TravelSite.watchActivity(
+          trip.slug || trip.title || "trip",
+          50,
+          (entries) => {
+            trailState.entries = entries;
+            trailState.denied = false;
+            if (rerender) rerender();
+          },
+          () => {
+            trailState.denied = true;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
   }
 
   // Categories and, within Booking, subcategories render in this fixed order;
@@ -2876,6 +2985,7 @@ const Trip = (() => {
         if (it) {
           it.status = sel.value;
           writeTodoItems(items);
+          logAction(todoState.trip, `marked ${sel.value.toLowerCase()}`, it.task);
           renderTodoMain();
         }
         return;
@@ -2939,6 +3049,7 @@ const Trip = (() => {
           if (urlInput) it.url = urlInput.value.trim() || null;
           it.remarks = cell.querySelector("textarea").value.trim() || null;
           writeTodoItems(items);
+          logAction(todoState.trip, "edited to-do", it.task);
         }
         renderTodoMain();
         return;
@@ -2952,6 +3063,7 @@ const Trip = (() => {
         const it = todoItems().find((x) => x.id === id);
         if (!it || !window.confirm(`Remove "${it.task}" from the list?`)) return;
         writeTodoItems(todoItems().filter((x) => x.id !== id));
+        logAction(todoState.trip, "removed to-do", it.task);
         renderTodoMain();
         return;
       }
@@ -2985,6 +3097,7 @@ const Trip = (() => {
           remarks: form.querySelector(".todo-add-remarks").value.trim() || null,
         });
         writeTodoItems(items);
+        logAction(todoState.trip, "added to-do", task);
         renderTodoMain();
         return;
       }
@@ -3311,6 +3424,7 @@ const Trip = (() => {
             TravelSite.deleteFile(f.fullPath)
               .then(() => {
                 gone += 1;
+                logAction(attachState.trip, "deleted file", f.name);
                 status.textContent = `Deleting ${gone} of ${targets.length}…`;
               })
               .catch(() => failed.push(f.name))
@@ -3371,6 +3485,7 @@ const Trip = (() => {
           )
         )
           .then(() => {
+            queue.forEach((f) => logAction(attachState.trip, "attached file", f.name));
             attachState.pending[id] = [];
             loadAttachments();
           })
@@ -3386,7 +3501,10 @@ const Trip = (() => {
       if (!window.confirm(`Delete "${name}"? This can't be undone.`)) return;
       deleteBtn.disabled = true;
       TravelSite.deleteFile(path)
-        .then(() => loadAttachments())
+        .then(() => {
+          logAction(attachState.trip, "deleted file", name);
+          loadAttachments();
+        })
         .catch((err) => {
           deleteBtn.disabled = false;
           status.textContent = "Delete failed: " + err.message;

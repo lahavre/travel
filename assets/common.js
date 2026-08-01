@@ -309,6 +309,60 @@ const TravelSite = (() => {
     await f.mod.setDoc(f.mod.doc(f.db, path), data);
   }
 
+  // ---- Activity trail -------------------------------------------------------
+  // Append-only: entries are created and never changed, which is what makes the
+  // trail worth having — including against whoever made the change. That is
+  // enforced by the rules refusing update and delete, not by this file.
+  // Entries live under the trip they belong to — activity/<slug>/entries — rather
+  // than one flat collection filtered by trip. Sorting a filtered collection would
+  // need a composite index created by hand in the console; sorting within a
+  // subcollection needs only the single-field index Firestore maintains itself.
+  function activityPath(slug) {
+    return ["activity", slug || "trip", "entries"];
+  }
+
+  async function logActivity(slug, action, detail) {
+    const f = await getFirestore();
+    const user = currentUser();
+    if (!f || !user) return; // signed out, or Firebase not configured
+    try {
+      await f.mod.addDoc(f.mod.collection(f.db, ...activityPath(slug)), {
+        who: user.email || "",
+        action: action || "",
+        detail: detail || "",
+        at: new Date().toISOString(),
+      });
+    } catch (e) {
+      // A lost trail entry must never cost the change it was describing.
+      console.warn("Couldn't record activity:", e);
+    }
+  }
+
+  /** The newest entries for one trip, live. */
+  function watchActivity(slug, max, onData, onError) {
+    let unsub = null;
+    let cancelled = false;
+    getFirestore()
+      .then((f) => {
+        if (!f || cancelled) return;
+        const q = f.mod.query(
+          f.mod.collection(f.db, ...activityPath(slug)),
+          f.mod.orderBy("at", "desc"),
+          f.mod.limit(max || 50)
+        );
+        unsub = f.mod.onSnapshot(
+          q,
+          (snap) => onData(snap.docs.map((d) => d.data())),
+          (err) => onError && onError(err)
+        );
+      })
+      .catch((e) => onError && onError(e));
+    return () => {
+      cancelled = true;
+      if (unsub) unsub();
+    };
+  }
+
   // ---- Who may edit, and which trips they may see --------------------------
   // One document, config/access: { editors: [email], trips: { slug: [email] } }.
   // The rules read the same document, so the site and the server agree; only the
@@ -412,6 +466,8 @@ const TravelSite = (() => {
     watchAccess,
     saveAccess,
     canAccessTrip,
+    logActivity,
+    watchActivity,
     OWNER_EMAIL,
     ASSETS_BASE,
   };

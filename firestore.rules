@@ -65,9 +65,27 @@ service cloud.firestore {
     match /carCosts/{slug}    { allow read, write: if canAccessTrip(slug); }
     match /costSplits/{slug}  { allow read, write: if canAccessTrip(slug); }
 
-    // Anything not named above stays shut unless you are on the editors list.
+    // The activity trail. Append-only on purpose: an entry may be created by
+    // anyone who can change the trip, and then by nobody altered or removed —
+    // not another editor, not the owner. A trail that can be quietly rewritten
+    // by the person who broke something is not worth keeping.
+    //
+    // `create` also insists the entry names its author honestly, so one editor
+    // cannot write a change into someone else's name.
+    // Entries sit under the trip they describe, so access is decided by the slug
+    // in the path and reading the newest first needs no hand-made index.
+    match /activity/{slug}/entries/{entry} {
+      allow read: if canAccessTrip(slug);
+      allow create: if canAccessTrip(slug)
+        && request.resource.data.who == request.auth.token.email;
+      allow update, delete: if false;
+    }
+
+    // Nothing else is expected. Rules are a union — a catch-all that allowed
+    // writes would quietly undo the append-only rule above — so the default is
+    // to refuse, and a new collection needs its own rule here.
     match /{document=**} {
-      allow read, write: if isEditor();
+      allow read, write: if false;
     }
   }
 }
