@@ -823,7 +823,7 @@ const Trip = (() => {
         // in it is always there, since a day with nothing written yet would
         // otherwise offer nowhere to write it.
         const noteKey = dayNoteKey(o);
-        const signedIn = stayNotesState.signedIn;
+        const signedIn = stayNotesState.signedIn && !stayNotesState.denied;
         const noteText = stayNotesMap()[noteKey];
         const span = 3 + (signedIn ? 1 : 0);
 
@@ -1601,6 +1601,7 @@ const Trip = (() => {
     return byKey;
   }
   function stayNotesMap() {
+    if (stayNotesState.denied) return {};
     const d = stayNotesState.doc;
     if (d && d.byKey) return d.byKey;
     return stayNotesSeed(stayNotesState.trip);
@@ -1635,7 +1636,7 @@ const Trip = (() => {
   }
   // Renders nothing when signed out, so the public page is unchanged.
   function stayNoteHtml(key, label) {
-    if (!stayNotesState.signedIn) return "";
+    if (!stayNotesState.signedIn || stayNotesState.denied) return "";
     const text = stayNotesMap()[key];
     return `<div class="stay-note" data-stay-key="${escapeHtml(key)}" data-stay-label="${escapeHtml(
       label || key
@@ -1689,6 +1690,7 @@ const Trip = (() => {
   function setupStayNotes(trip, rerender) {
     stayNotesState.trip = trip;
     stayNotesState.doc = null;
+    stayNotesState.denied = false;
     stayNotesState.seeded = false;
     stayNotesState.rerender = rerender;
     stayNotesState.signedIn = !!TravelSite.currentUser();
@@ -1699,16 +1701,21 @@ const Trip = (() => {
       }
       stayNotesState.signedIn = !!user;
       stayNotesState.doc = null;
+      stayNotesState.denied = false;
       if (user) {
         stayNotesState.unsub = TravelSite.watchDoc(
           stayNotesPath(trip),
           (data) => {
             stayNotesState.doc = data;
+            stayNotesState.denied = false;
             maybeSeedStayNotes();
             if (rerender) rerender();
           },
           () => {
+            // Refused by the rules — this account has no business seeing the
+            // notes, so show none rather than falling back to the seed.
             stayNotesState.doc = null;
+            stayNotesState.denied = true;
             if (rerender) rerender();
           }
         );
@@ -3197,11 +3204,17 @@ const Trip = (() => {
   // call per group -- fine for a handful of stays.
   function loadAttachments() {
     if (!attachState.signedIn || !attachState.groups.length) return;
+    let refused = false;
     Promise.all(
       attachState.groups.map((g) =>
         TravelSite.listFiles(attachPrefix(g.kind, g.key))
           .then((files) => [attachGroupId(g.kind, g.key), files])
-          .catch(() => [attachGroupId(g.kind, g.key), []])
+          .catch((err) => {
+            if (err && /unauthor|permission|denied/i.test(err.code || err.message || "")) {
+              refused = true;
+            }
+            return [attachGroupId(g.kind, g.key), []];
+          })
       )
     ).then((pairs) => {
       const next = {};
@@ -3210,6 +3223,7 @@ const Trip = (() => {
         next[id] = files;
       });
       attachState.files = next;
+      attachState.denied = refused;
       if (attachState.rerender) attachState.rerender();
     });
   }
@@ -3217,7 +3231,7 @@ const Trip = (() => {
   // The attach box for one thing. Renders nothing at all when signed out, so the
   // public page is untouched.
   function attachmentsHtml(kind, key, label) {
-    if (!attachState.signedIn) return "";
+    if (!attachState.signedIn || attachState.denied) return "";
     const id = attachGroupId(kind, key);
     const files = attachState.files[id] || [];
     // Tick boxes only earn their space once there is a choice to make; with one
@@ -3517,6 +3531,7 @@ const Trip = (() => {
     attachState.trip = trip;
     attachState.groups = groups;
     attachState.files = {};
+    attachState.denied = false;
     attachState.pending = {};
     attachState.selected = {};
     attachState.notice = {};

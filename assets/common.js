@@ -143,7 +143,10 @@ const TravelSite = (() => {
       // to match, which is what stops a forwarded link signing in someone else.
       window.localStorage.setItem("emailForSignIn", email);
       emailFormOpen = false;
-      emailStatus = `Link sent to ${email} — open it on this device.`;
+      // Deliberately not "that address isn't registered": signing in only proves
+      // who you are, and saying which addresses have access would let anyone test
+      // them one by one. What access you have is decided afterwards, by the rules.
+      emailStatus = `If ${email} has access, a sign-in link is on its way — open it on this device.`;
     } catch (err) {
       emailStatus = "Couldn't send: " + (err.code || err.message);
     }
