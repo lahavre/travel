@@ -60,7 +60,13 @@
       "duration": "8h 30m",
       "arrivesNextDay": false,
       "checkInTime": null,
-      "remarks": null
+      "remarks": null,
+      "cost": 1800.0,
+      "currency": "MYR",
+      "perPerson": {
+        "You": 900.0,
+        "Travel buddy": 900.0
+      }
     },
     {
       "type": "Internal",
@@ -409,7 +415,11 @@
           "parking": 30.0,
           "others": null
         },
-        "remarks": "Full-to-full fuel policy; excess waived."
+        "remarks": "Full-to-full fuel policy; excess waived.",
+        "perPerson": {
+          "You": 337.5,
+          "Travel buddy": 337.5
+        }
       }
     ],
     "_publicTransport": "One entry per booked bus / train / boat leg. `mode` is Bus, Train or Boat. The card reads 'City (Station) — time' for departure and arrival; give `fromAddress`/`toAddress` and the station name links to Maps. Use `reservation.site` for the operator's per-trip tracking page when the ticket gives one. A leg may set its own `currency`. Leave a field null rather than guessing — it renders as an em dash, and a missing time is simply omitted.",
@@ -434,7 +444,11 @@
         },
         "persons": 3,
         "total": 35.46,
-        "remarks": "Gate 29 & 30. Passenger fee included in ticket price."
+        "remarks": "Gate 29 & 30. Passenger fee included in ticket price.",
+        "perPerson": {
+          "You": 17.73,
+          "Travel buddy": 17.73
+        }
       },
       {
         "mode": "Boat",
@@ -461,7 +475,11 @@
         },
         "persons": 3,
         "total": 150.0,
-        "remarks": "Catamaran. Luggage up to 23 kg; port tax included."
+        "remarks": "Catamaran. Luggage up to 23 kg; port tax included.",
+        "perPerson": {
+          "You": 75.0,
+          "Travel buddy": null
+        }
       },
       {
         "mode": "Train",
@@ -496,7 +514,8 @@
         "km": 40,
         "refuel": false
       }
-    ]
+    ],
+    "_summary": "The transport page's Summary totals every flight, hire and booked leg in homeCurrency, and splits them per traveller the way accommodation does. Give a flight a `cost` (+`currency`), and any item a `perPerson` map keyed by the names in `travelers`; a traveller with no entry shows N/A. An amount in a currency the trip has no rate for can't be totalled, and the page says so rather than dropping it quietly."
   },
   "_todo": "Pre-trip checklist. `status` of exactly \"Done\" renders as a completed badge; anything else renders as pending.",
   "todo": [

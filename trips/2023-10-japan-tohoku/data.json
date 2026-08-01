@@ -2936,7 +2936,13 @@
           "parking": null,
           "others": null
         },
-        "remarks": null
+        "remarks": null,
+        "perPerson": {
+          "CMC": 1608.31,
+          "WY": 1608.31,
+          "Gary": 1608.31,
+          "Kalai": 1608.31
+        }
       }
     ],
     "publicTransport": [

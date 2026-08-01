@@ -2088,6 +2088,141 @@ const Trip = (() => {
       }${p.phone ? `<br><span class="stay-refs">${escapeHtml(p.phone)}</span>` : ""}`;
     };
 
+    // ---- Summary: what the whole trip's travel cost, and who owes what.
+    // Everything is totalled in home currency. An amount already in home currency
+    // is taken as is; one in the trip's currency is converted; one in some third
+    // currency (a bus booked in euros on a trip priced in yen) cannot be, so it is
+    // counted separately and said out loud rather than silently dropped.
+    const unconverted = [];
+    const toHomeAmount = (amount, currency) => {
+      if (amount == null) return null;
+      const homeCur = trip.homeCurrency || "MYR";
+      if (!currency || currency === homeCur) return amount;
+      if (currency === trip.tripCurrency) {
+        const v = toHome(amount, trip);
+        if (v != null) return v;
+      }
+      unconverted.push(`${currency} ${amount.toLocaleString()}`);
+      return null;
+    };
+
+    const flightsCost = flights
+      .map((f) => toHomeAmount(f.cost, f.currency || trip.homeCurrency))
+      .filter((v) => v != null)
+      .reduce((s, v) => s + v, 0);
+    const carCost = cars
+      .map((c) => {
+        const rental = (c.costs && c.costs.rental) != null ? c.costs.rental : c.total;
+        const run = ["fuel", "toll", "parking"]
+          .map((f) => legCostTotal(legs, f))
+          .concat([carOthers(carRentalKey(c))])
+          .filter((v) => v != null)
+          .reduce((s, v) => s + v, 0);
+        return (rental || 0) + (run ? toHome(run, trip) || 0 : 0);
+      })
+      .reduce((s, v) => s + v, 0);
+    const ptCost = pts
+      .map((p) => toHomeAmount(p.total, p.currency || trip.homeCurrency))
+      .filter((v) => v != null)
+      .reduce((s, v) => s + v, 0);
+
+    const summaryLines = [
+      ["Flights", flights.length, flightsCost],
+      ["Car rental", cars.length, carCost],
+      ["Public transport", pts.length, ptCost],
+    ].filter(([, count]) => count);
+    const grandTotal = summaryLines.reduce((s, [, , v]) => s + (v || 0), 0);
+
+    // Who owes what, read the same way as the accommodation page's split: each
+    // item may carry a perPerson map, and a traveller with no entry shows N/A.
+    const splitItems = []
+      .concat(
+        flights.map((f) => ({
+          label: `${f.type || "Flight"} — ${f.from || ""} → ${f.to || ""}`,
+          total: toHomeAmount(f.cost, f.currency || trip.homeCurrency),
+          perPerson: f.perPerson,
+        }))
+      )
+      .concat(
+        cars.map((c) => ({
+          label: `Car rental — ${c.company || ""}`,
+          total: carCost,
+          perPerson: c.perPerson,
+        }))
+      )
+      .concat(
+        pts.map((p) => ({
+          label: `${p.mode || "Leg"} — ${p.from || ""} → ${p.to || ""}`,
+          total: toHomeAmount(p.total, p.currency || trip.homeCurrency),
+          perPerson: p.perPerson,
+        }))
+      );
+    const splitTravellers = has(trip.travelers) && splitItems.some((i) => i.perPerson);
+    const splitTotals = splitTravellers
+      ? trip.travelers.map((t) =>
+          splitItems.reduce((s, i) => s + ((i.perPerson && i.perPerson[t]) || 0), 0)
+        )
+      : [];
+
+    const summaryBody = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th class="num">Items</th><th class="num">Cost</th></tr></thead>
+          <tbody>${summaryLines
+            .map(
+              ([label, count, value]) =>
+                `<tr><td>${label}</td><td class="num">${count}</td><td class="num">${
+                  value ? home(value, trip) : "—"
+                }</td></tr>`
+            )
+            .join("")}</tbody>
+          <tfoot><tr><td>Total</td><td class="num"></td><td class="num">${
+            grandTotal ? home(grandTotal, trip) : "—"
+          }</td></tr></tfoot>
+        </table>
+      </div>
+      ${
+        unconverted.length
+          ? `<p class="section-note">Not included, having no rate to this trip's
+               ${escapeHtml(trip.homeCurrency || "home currency")}:
+               ${escapeHtml([...new Set(unconverted)].join(", "))}.</p>`
+          : ""
+      }
+      ${
+        splitTravellers
+          ? `<h3 class="car-log-head">Split per traveller</h3>
+             <p class="section-note">N/A — not shared, or the split was never recorded.</p>
+             <div class="table-wrap">
+               <table>
+                 <thead><tr><th>Item</th><th class="num">Cost</th>${trip.travelers
+                   .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
+                   .join("")}</tr></thead>
+                 <tbody>${splitItems
+                   .map(
+                     (i) => `<tr>
+                       <td>${escapeHtml(i.label)}</td>
+                       <td class="num">${i.total != null ? home(i.total, trip) : "—"}</td>
+                       ${trip.travelers
+                         .map(
+                           (t) =>
+                             `<td class="num">${
+                               i.perPerson && i.perPerson[t] != null ? home(i.perPerson[t], trip) : "N/A"
+                             }</td>`
+                         )
+                         .join("")}
+                     </tr>`
+                   )
+                   .join("")}</tbody>
+                 <tfoot><tr><td>Total</td>
+                   <td class="num">${grandTotal ? home(grandTotal, trip) : "—"}</td>
+                   ${splitTotals.map((v) => `<td class="num">${home(v, trip)}</td>`).join("")}
+                 </tr></tfoot>
+               </table>
+             </div>`
+          : ""
+      }`;
+    const summarySection = section("summary", "Summary", summaryLines.length, summaryBody);
+
     // ---- Flights in full: the home page carries only a summary.
     const anyDerivedCheckIn = flights.some((f) => {
       const c = checkIn(f, trip.checkInLeadHours);
@@ -2354,6 +2489,7 @@ const Trip = (() => {
 
     return `
       <h1>Transport</h1>
+      ${summarySection}
       ${flightSection}
       ${ptSection}
       ${carSection}`;

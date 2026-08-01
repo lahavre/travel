@@ -246,6 +246,14 @@ you wanted; which sections are open survives the redraws an upload or note-save
 triggers. Public transport sits above car rental: most trips book more of the former,
 and a hire is one long-running arrangement rather than a series of legs.
 
+- **Summary** — what the travel cost and who owes what. Flights, car hire and booked
+  legs are totalled in home currency: an amount already in it is taken as is, one in the
+  trip currency is converted, and one in a **third** currency (a bus booked in euros on a
+  trip priced in yen) has no rate to convert through, so it is left out and **named** in
+  a note rather than dropped quietly. Beneath sits a **split per traveller**, read the
+  same way as the accommodation page's: any flight, hire or leg may carry a `perPerson`
+  map keyed by the names in `travelers`, and a traveller with no entry shows N/A. Give a
+  flight a `cost` (and `currency`) for it to count — flights carry no price otherwise.
 - **Flights** — the full cards: terminals, duration, derived check-in time, and each
   flight's own note and tickets. The trip home page carries only a summary table
   (type, route, date, departure) and links here, so the booking detail lives in one
