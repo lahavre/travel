@@ -11,6 +11,10 @@ const AccessAdmin = (() => {
   let mounted = false;
   let unsub = null;
   let status = "";
+  let signedIn = false;
+  // Refused the access document, which only someone on the list may read — so
+  // this account has been given nothing.
+  let refused = false;
 
   const esc = (s) =>
     String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -18,10 +22,14 @@ const AccessAdmin = (() => {
   function render() {
     const host = document.getElementById("access-admin");
     if (!host) return;
-    // Anyone else — signed out, or signed in but not the owner — sees nothing at
-    // all here; the rules would refuse them the document in any case.
+    // Anyone else — signed out, or signed in but not the owner — sees nothing of
+    // the list itself. Someone signed in whom the rules have refused is told why,
+    // rather than being left with a page that looks broken.
     if (!TravelSite.isOwner()) {
-      host.innerHTML = "";
+      host.innerHTML =
+        signedIn && refused
+          ? `<div class="empty-state">This account doesn't have access to any trips.</div>`
+          : "";
       return;
     }
 
@@ -131,38 +139,47 @@ const AccessAdmin = (() => {
     });
   }
 
+  /** Read the list for whoever is signed in now, and draw. */
+  function applyUser(user) {
+    if (unsub) {
+      unsub();
+      unsub = null;
+    }
+    access = { editors: [], trips: {} };
+    status = "";
+    signedIn = !!user;
+    refused = false;
+    if (user) {
+      unsub = TravelSite.watchAccess(
+        (data) => {
+          access = data;
+          refused = false;
+          render();
+        },
+        () => {
+          // Refused: only someone on the list may read this document, so being
+          // turned away is itself the answer.
+          access = { editors: [], trips: {} };
+          refused = true;
+          render();
+        }
+      );
+    }
+    render();
+  }
+
   /** Called once the trip list is known; redraws whenever sign-in changes. */
   function mount(tripList) {
     trips = tripList || [];
     if (mounted) {
-      render();
+      // The trip list can arrive after sign-in has already settled, so re-read
+      // rather than only redrawing what was fetched for the previous call.
+      applyUser(TravelSite.currentUser());
       return;
     }
     mounted = true;
     setTimeout(wire, 0);
-    TravelSite.onAuthChange((user) => {
-      if (unsub) {
-        unsub();
-        unsub = null;
-      }
-      access = { editors: [], trips: {} };
-      status = "";
-      if (user) {
-        unsub = TravelSite.watchAccess(
-          (data) => {
-            access = data;
-            render();
-          },
-          () => {
-            // Not allowed to read it — which is the normal case for anyone but
-            // the owner, and there is nothing to show them anyway.
-            access = { editors: [], trips: {} };
-            render();
-          }
-        );
-      }
-      render();
-    });
+    TravelSite.onAuthChange(applyUser);
   }
 
   return { mount };
