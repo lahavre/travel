@@ -591,6 +591,14 @@ tfoot td {
   margin: 22px 0 0;
   font-size: 1rem;
 }
+.split-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.split-head .cost-actions {
+  margin-left: auto;
+}
 /* Money a traveller types in — per driving day, and the hire's "others". */
 .cost-input {
   width: 6.5em;

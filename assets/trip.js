@@ -1942,6 +1942,104 @@ const Trip = (() => {
     if (value == null) delete doc.byCar[key].others;
     writeCarCosts(doc);
   }
+  // Who shares each cost. A hire car might be split four ways while one person's
+  // train ticket is theirs alone, so the split is a choice of travellers rather
+  // than a set of typed amounts — each share is the total divided by however many
+  // are ticked, which also means it can never drift from the total the way a
+  // stored figure would. Firestore: costSplits/<slug> = { byItem: { <key>: [name] } }.
+  const splitState = { trip: null, doc: null, signedIn: false, editing: false, unsub: null, rerender: null };
+  function splitPath(trip) {
+    return "costSplits/" + (trip.slug || trip.title || "trip");
+  }
+  function splitDoc() {
+    const d = splitState.doc;
+    return { byItem: (d && d.byItem) || {} };
+  }
+  /** Ticked travellers for an item — the stored choice, else whoever data.json named. */
+  function splitFor(key, perPerson, trip) {
+    const stored = splitDoc().byItem[key];
+    if (Array.isArray(stored)) return stored;
+    if (perPerson) {
+      return (trip.travelers || []).filter((t) => perPerson[t] != null);
+    }
+    return [];
+  }
+  function writeSplits(next) {
+    splitState.doc = next;
+    TravelSite.writeDoc(splitPath(splitState.trip), next).catch((e) =>
+      console.warn("Couldn't save the split:", e)
+    );
+  }
+  function splitEditControls() {
+    if (!splitState.signedIn) return "";
+    return splitState.editing
+      ? `<span class="cost-actions">
+           <button type="button" class="todo-edit-btn" data-split-save>Save</button>
+           <button type="button" class="todo-edit-btn todo-edit-cancel" data-split-cancel>Cancel</button>
+         </span>`
+      : `<span class="cost-actions">
+           <button type="button" class="todo-edit-btn" data-split-edit>Edit split</button>
+         </span>`;
+  }
+  function setupSplits(trip, rerender) {
+    splitState.trip = trip;
+    splitState.doc = null;
+    splitState.editing = false;
+    splitState.rerender = rerender;
+    splitState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (splitState.unsub) {
+        splitState.unsub();
+        splitState.unsub = null;
+      }
+      splitState.signedIn = !!user;
+      splitState.doc = null;
+      if (user) {
+        splitState.unsub = TravelSite.watchDoc(
+          splitPath(trip),
+          (data) => {
+            splitState.doc = data;
+            if (rerender) rerender();
+          },
+          () => {
+            splitState.doc = null;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
+  }
+  function wireSplits(main) {
+    main.addEventListener("click", (e) => {
+      if (!splitState.signedIn) return;
+      if (e.target.closest("[data-split-edit]")) {
+        splitState.editing = true;
+      } else if (e.target.closest("[data-split-cancel]")) {
+        splitState.editing = false;
+      } else if (e.target.closest("[data-split-save]")) {
+        const doc = splitDoc();
+        main.querySelectorAll("[data-split-item]").forEach((box) => {
+          const key = box.dataset.splitItem;
+          if (!doc.byItem[key]) doc.byItem[key] = [];
+        });
+        main.querySelectorAll(".split-check").forEach((el) => {
+          const key = el.dataset.splitKey;
+          const who = el.dataset.traveller;
+          const list = new Set(doc.byItem[key] || []);
+          if (el.checked) list.add(who);
+          else list.delete(who);
+          doc.byItem[key] = [...list];
+        });
+        writeSplits(doc);
+        splitState.editing = false;
+      } else {
+        return;
+      }
+      if (splitState.rerender) splitState.rerender();
+    });
+  }
+
   /** A money cell: an input when signed in, the figure or an em dash when not. */
   function costCell(trip, value, attrs) {
     if (!carCostState.signedIn || !carCostState.editing) {
@@ -2138,6 +2236,7 @@ const Trip = (() => {
     const splitItems = []
       .concat(
         flights.map((f) => ({
+          key: flightAttachKey(f),
           label: `${f.type || "Flight"} — ${f.from || ""} → ${f.to || ""}`,
           total: toHomeAmount(f.cost, f.currency || trip.homeCurrency),
           perPerson: f.perPerson,
@@ -2145,6 +2244,7 @@ const Trip = (() => {
       )
       .concat(
         cars.map((c) => ({
+          key: carRentalKey(c),
           label: `Car rental — ${c.company || ""}`,
           total: carCost,
           perPerson: c.perPerson,
@@ -2152,15 +2252,22 @@ const Trip = (() => {
       )
       .concat(
         pts.map((p) => ({
+          key: ptKey(p),
           label: `${p.mode || "Leg"} — ${p.from || ""} → ${p.to || ""}`,
           total: toHomeAmount(p.total, p.currency || trip.homeCurrency),
           perPerson: p.perPerson,
         }))
       );
-    const splitTravellers = has(trip.travelers) && splitItems.some((i) => i.perPerson);
+    // Each share is the item's cost over however many travellers it's split with,
+    // so it always agrees with the total rather than being stored separately.
+    splitItems.forEach((i) => {
+      i.who = splitFor(i.key, i.perPerson, trip);
+      i.share = i.total != null && i.who.length ? i.total / i.who.length : null;
+    });
+    const splitTravellers = has(trip.travelers) && splitItems.length;
     const splitTotals = splitTravellers
       ? trip.travelers.map((t) =>
-          splitItems.reduce((s, i) => s + ((i.perPerson && i.perPerson[t]) || 0), 0)
+          splitItems.reduce((s, i) => s + (i.who.includes(t) && i.share != null ? i.share : 0), 0)
         )
       : [];
 
@@ -2190,8 +2297,12 @@ const Trip = (() => {
       }
       ${
         splitTravellers
-          ? `<h3 class="car-log-head">Split per traveller</h3>
-             <p class="section-note">N/A — not shared, or the split was never recorded.</p>
+          ? `<h3 class="car-log-head split-head">Split per traveller ${splitEditControls()}</h3>
+             <p class="section-note">${
+               splitState.editing
+                 ? "Tick whoever shares each cost, then Save — each share is the cost divided between them."
+                 : "N/A — that traveller doesn't share this cost."
+             }</p>
              <div class="table-wrap">
                <table>
                  <thead><tr><th>Item</th><th class="num">Cost</th>${trip.travelers
@@ -2199,16 +2310,20 @@ const Trip = (() => {
                    .join("")}</tr></thead>
                  <tbody>${splitItems
                    .map(
-                     (i) => `<tr>
+                     (i) => `<tr data-split-item="${escapeHtml(i.key)}">
                        <td>${escapeHtml(i.label)}</td>
                        <td class="num">${i.total != null ? home(i.total, trip) : "—"}</td>
                        ${trip.travelers
-                         .map(
-                           (t) =>
-                             `<td class="num">${
-                               i.perPerson && i.perPerson[t] != null ? home(i.perPerson[t], trip) : "N/A"
-                             }</td>`
-                         )
+                         .map((t) => {
+                           if (splitState.editing) {
+                             return `<td class="num"><input type="checkbox" class="split-check attach-check"
+                               data-split-key="${escapeHtml(i.key)}" data-traveller="${escapeHtml(t)}"${
+                               i.who.includes(t) ? " checked" : ""
+                             } aria-label="${escapeHtml(t)} shares ${escapeHtml(i.label)}" /></td>`;
+                           }
+                           if (!i.who.includes(t)) return `<td class="num">N/A</td>`;
+                           return `<td class="num">${i.share != null ? home(i.share, trip) : "—"}</td>`;
+                         })
                          .join("")}
                      </tr>`
                    )
@@ -2511,6 +2626,7 @@ const Trip = (() => {
     );
     setupStayNotes(trip, redraw);
     setupCarCosts(trip, redraw);
+    setupSplits(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (!main) return;
@@ -2521,6 +2637,7 @@ const Trip = (() => {
       if (!main.dataset.transportWired) {
         main.dataset.transportWired = "1";
         wireCarCosts(main);
+        wireSplits(main);
         // `toggle` doesn't bubble, so listen on the capture phase.
         main.addEventListener(
           "toggle",

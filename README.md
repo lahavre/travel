@@ -250,10 +250,13 @@ and a hire is one long-running arrangement rather than a series of legs.
   legs are totalled in home currency: an amount already in it is taken as is, one in the
   trip currency is converted, and one in a **third** currency (a bus booked in euros on a
   trip priced in yen) has no rate to convert through, so it is left out and **named** in
-  a note rather than dropped quietly. Beneath sits a **split per traveller**, read the
-  same way as the accommodation page's: any flight, hire or leg may carry a `perPerson`
-  map keyed by the names in `travelers`, and a traveller with no entry shows N/A. Give a
-  flight a `cost` (and `currency`) for it to count — flights carry no price otherwise.
+  a note rather than dropped quietly. Beneath sits a **split per traveller**. Press
+  **Edit split** and tick whoever shares each cost: the share is the cost divided
+  between those ticked, so it can never drift from the total the way a stored figure
+  would, and anyone unticked reads N/A — a train ticket one person bought is theirs
+  alone. The choice is shared through Firestore (`costSplits/<slug>`), seeded from any
+  `perPerson` map in `data.json`. Give a flight a `cost` (and `currency`) for it to
+  count — flights carry no price otherwise.
 - **Flights** — the full cards: terminals, duration, derived check-in time, and each
   flight's own note and tickets. The trip home page carries only a summary table
   (type, route, date, departure) and links here, so the booking detail lives in one
