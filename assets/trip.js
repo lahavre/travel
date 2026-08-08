@@ -2087,15 +2087,26 @@ const Trip = (() => {
     const d = splitState.doc;
     return { byItem: (d && d.byItem) || {}, byBudget: (d && d.byBudget) || {} };
   }
+  /**
+   * A stored split is narrowed to whoever is still on the trip, because a name
+   * that has been removed no longer has a column: counting them would divide the
+   * cost more ways than are shown and quietly lose their share. Re-splitting onto
+   * the rest keeps every column adding up to the total. Nothing is deleted — the
+   * name stays in the document, so putting someone back restores their shares.
+   */
+  function currentlySharing(stored, trip) {
+    const people = peopleFor(trip);
+    return stored.filter((n) => people.indexOf(n) > -1);
+  }
   /** Who shares a budget category — everyone, until someone says otherwise. */
   function budgetSplitFor(category, trip) {
     const stored = splitDoc().byBudget[category];
-    return Array.isArray(stored) ? stored : peopleFor(trip);
+    return Array.isArray(stored) ? currentlySharing(stored, trip) : peopleFor(trip);
   }
   /** Ticked travellers for an item — the stored choice, else whoever data.json named. */
   function splitFor(key, perPerson, trip) {
     const stored = splitDoc().byItem[key];
-    if (Array.isArray(stored)) return stored;
+    if (Array.isArray(stored)) return currentlySharing(stored, trip);
     if (perPerson) {
       return peopleFor(trip).filter((t) => perPerson[t] != null);
     }
@@ -2903,8 +2914,8 @@ const Trip = (() => {
                <button type="submit" class="todo-edit-btn">Add person</button>
              </form>
              <p class="section-note">Everyone here gets a column in the accommodation,
-               transport and budget splits. Removing someone leaves what they already
-               shared untouched.</p>`
+               transport and budget splits. Removing someone re-splits whatever they
+               shared between the travellers left; adding them back restores it.</p>`
           : ""
       }`;
   }
