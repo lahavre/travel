@@ -581,6 +581,7 @@ const Trip = (() => {
       ${trip.transport && trip.transport.mode ? `<h2>Getting around</h2><p>${escapeHtml(trip.transport.mode)}</p>` : ""}
       ${trip.notes ? `<h2>Notes</h2><p>${multiline(trip.notes)}</p>` : ""}
 
+      ${peopleHtml(trip)}
       ${overviewHtml(trip, true)}
       ${trailHtml()}
 
@@ -609,11 +610,13 @@ const Trip = (() => {
     };
     setupStayNotes(trip, redraw);
     setupTrail(trip, redraw);
+    setupPeople(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.stayNotesWired) {
         main.dataset.stayNotesWired = "1";
         wireStayNotes(main);
+        wirePeople(main);
       }
     }, 0);
     return indexHtml(trip);
@@ -1341,7 +1344,7 @@ const Trip = (() => {
     return weatherHtml(trip);
   }
 
-  function renderBudget(trip) {
+  function budgetHtml(trip) {
     const categories = (trip.budget && trip.budget.categories) || [];
     const fx = trip.exchangeRate || {};
 
@@ -1407,21 +1410,76 @@ const Trip = (() => {
           </table>
         </div>
         <p class="section-note">Categories showing “—” for actual have not been tallied.</p>`;
+
+      const people = peopleFor(trip);
+      if (people.length) {
+        // A category's share is its cost over whoever it is split between, so it
+        // follows both the figures and the traveller list rather than being kept
+        // separately and going stale.
+        const perHead = people.map(() => 0);
+        const rowsHtml = categories
+          .map((c) => {
+            const cost = c.actual != null ? c.actual : c.budget;
+            const who = budgetSplitFor(c.category, trip);
+            const share = cost != null && who.length ? cost / who.length : null;
+            const cells = people
+              .map((t, i) => {
+                if (splitState.editing) {
+                  return `<td class="num"><input type="checkbox" class="split-check attach-check"
+                    data-split-scope="budget" data-split-key="${escapeHtml(c.category)}"
+                    data-traveller="${escapeHtml(t)}"${who.indexOf(t) > -1 ? " checked" : ""}
+                    aria-label="${escapeHtml(t)} shares ${escapeHtml(c.category)}" /></td>`;
+                }
+                if (who.indexOf(t) < 0) return `<td class="num">N/A</td>`;
+                if (share != null) perHead[i] += share;
+                return `<td class="num">${share != null ? home(share, trip) : "—"}</td>`;
+              })
+              .join("");
+            return `<tr data-split-item="${escapeHtml(c.category)}" data-split-scope="budget">
+              <td>${escapeHtml(c.category)}</td>
+              <td class="num">${cost != null ? home(cost, trip) : "—"}</td>
+              ${cells}
+            </tr>`;
+          })
+          .join("");
+        out += `
+          <h2 class="split-head">Split per traveller ${splitEditControls()}</h2>
+          <p class="section-note">${
+            splitState.editing
+              ? "Tick whoever shares each category, then Save — each share is the cost divided between them."
+              : "Actual where it has been tallied, budget otherwise. N/A — that traveller doesn't share this cost."
+          }</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Category</th><th class="num">Cost</th>${people
+                .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
+                .join("")}</tr></thead>
+              <tbody>${rowsHtml}</tbody>
+              <tfoot><tr><td>Total</td>
+                <td class="num">${home(
+                  categories.reduce((sum, c) => sum + (c.actual != null ? c.actual : c.budget || 0), 0),
+                  trip
+                )}</td>
+                ${perHead.map((v) => `<td class="num">${home(v, trip)}</td>`).join("")}
+              </tr></tfoot>
+            </table>
+          </div>`;
+      }
     }
 
-    if (has(trip.settle) && has(trip.travelers)) {
+    if (has(trip.settle) && has(peopleFor(trip))) {
       out += `
         <h2>Settle-up between travellers</h2>
         <div class="table-wrap">
           <table>
-            <thead><tr><th></th>${trip.travelers
+            <thead><tr><th></th>${peopleFor(trip)
               .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
               .join("")}<th>Remarks</th></tr></thead>
             <tbody>${trip.settle
               .map(
                 (r) => `<tr>
                   <td>${escapeHtml(r.label)}</td>
-                  ${trip.travelers
+                  ${peopleFor(trip)
                     .map(
                       (t) =>
                         `<td class="num">${
@@ -1488,6 +1546,23 @@ const Trip = (() => {
     }
 
     return out;
+  }
+
+  function renderBudget(trip) {
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = budgetHtml(trip);
+    };
+    setupPeople(trip, redraw);
+    setupSplits(trip, redraw);
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (main && !main.dataset.budgetWired) {
+        main.dataset.budgetWired = "1";
+        wireSplits(main);
+      }
+    }, 0);
+    return budgetHtml(trip);
   }
 
   // Each stay's own key for attached files — name + check-in, so two stays at the
@@ -1731,7 +1806,7 @@ const Trip = (() => {
     const total = stays.reduce((s, a) => s + (a.total || 0), 0);
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
     const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" });
-    const splitTravellers = has(trip.travelers) && stays.some((a) => a.perPerson);
+    const splitTravellers = has(peopleFor(trip)) && stays.some((a) => a.perPerson);
 
     const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
 
@@ -1833,7 +1908,7 @@ const Trip = (() => {
       </div>`;
 
     if (splitTravellers) {
-      const totals = trip.travelers.map((t) =>
+      const totals = peopleFor(trip).map((t) =>
         stays.reduce((s, a) => s + ((a.perPerson && a.perPerson[t]) || 0), 0)
       );
       out += `
@@ -1841,7 +1916,7 @@ const Trip = (() => {
         <p class="section-note">N/A — paid directly at the property, or cost not shared.</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Stay</th><th class="num">Price</th>${trip.travelers
+            <thead><tr><th>Stay</th><th class="num">Price</th>${peopleFor(trip)
               .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
               .join("")}</tr></thead>
             <tbody>${stays
@@ -1849,7 +1924,7 @@ const Trip = (() => {
                 (a) => `<tr>
                   <td>${escapeHtml(a.city || a.name || "")}</td>
                   <td class="num">${a.total != null ? home(a.total, trip) : "N/A"}</td>
-                  ${trip.travelers
+                  ${peopleFor(trip)
                     .map(
                       (t) =>
                         `<td class="num">${
@@ -1883,6 +1958,7 @@ const Trip = (() => {
       redraw
     );
     setupStayNotes(trip, redraw);
+    setupPeople(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.stayNotesWired) {
@@ -1983,14 +2059,19 @@ const Trip = (() => {
   }
   function splitDoc() {
     const d = splitState.doc;
-    return { byItem: (d && d.byItem) || {} };
+    return { byItem: (d && d.byItem) || {}, byBudget: (d && d.byBudget) || {} };
+  }
+  /** Who shares a budget category — everyone, until someone says otherwise. */
+  function budgetSplitFor(category, trip) {
+    const stored = splitDoc().byBudget[category];
+    return Array.isArray(stored) ? stored : peopleFor(trip);
   }
   /** Ticked travellers for an item — the stored choice, else whoever data.json named. */
   function splitFor(key, perPerson, trip) {
     const stored = splitDoc().byItem[key];
     if (Array.isArray(stored)) return stored;
     if (perPerson) {
-      return (trip.travelers || []).filter((t) => perPerson[t] != null);
+      return peopleFor(trip).filter((t) => perPerson[t] != null);
     }
     return [];
   }
@@ -2056,15 +2137,17 @@ const Trip = (() => {
         const doc = splitDoc();
         main.querySelectorAll("[data-split-item]").forEach((box) => {
           const key = box.dataset.splitItem;
-          if (!doc.byItem[key]) doc.byItem[key] = [];
+          const into = box.dataset.splitScope === "budget" ? doc.byBudget : doc.byItem;
+          if (!into[key]) into[key] = [];
         });
         main.querySelectorAll(".split-check").forEach((el) => {
           const key = el.dataset.splitKey;
           const who = el.dataset.traveller;
-          const list = new Set(doc.byItem[key] || []);
+          const into = el.dataset.splitScope === "budget" ? doc.byBudget : doc.byItem;
+          const list = new Set(into[key] || []);
           if (el.checked) list.add(who);
           else list.delete(who);
-          doc.byItem[key] = [...list];
+          into[key] = [...list];
         });
         writeSplits(doc);
         logAction(splitState.trip, "updated cost split", "who shares each transport cost");
@@ -2306,9 +2389,9 @@ const Trip = (() => {
       i.who = splitFor(i.key, i.perPerson, trip);
       i.share = i.total != null && i.who.length ? i.total / i.who.length : null;
     });
-    const splitTravellers = has(trip.travelers) && splitItems.length;
+    const splitTravellers = has(peopleFor(trip)) && splitItems.length;
     const splitTotals = splitTravellers
-      ? trip.travelers.map((t) =>
+      ? peopleFor(trip).map((t) =>
           splitItems.reduce((s, i) => s + (i.who.includes(t) && i.share != null ? i.share : 0), 0)
         )
       : [];
@@ -2347,18 +2430,19 @@ const Trip = (() => {
              }</p>
              <div class="table-wrap">
                <table>
-                 <thead><tr><th>Item</th><th class="num">Cost</th>${trip.travelers
+                 <thead><tr><th>Item</th><th class="num">Cost</th>${peopleFor(trip)
                    .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
                    .join("")}</tr></thead>
                  <tbody>${splitItems
                    .map(
-                     (i) => `<tr data-split-item="${escapeHtml(i.key)}">
+                     (i) => `<tr data-split-item="${escapeHtml(i.key)}" data-split-scope="item">
                        <td>${escapeHtml(i.label)}</td>
                        <td class="num">${i.total != null ? home(i.total, trip) : "—"}</td>
-                       ${trip.travelers
+                       ${peopleFor(trip)
                          .map((t) => {
                            if (splitState.editing) {
                              return `<td class="num"><input type="checkbox" class="split-check attach-check"
+                               data-split-scope="item"
                                data-split-key="${escapeHtml(i.key)}" data-traveller="${escapeHtml(t)}"${
                                i.who.includes(t) ? " checked" : ""
                              } aria-label="${escapeHtml(t)} shares ${escapeHtml(i.label)}" /></td>`;
@@ -2667,6 +2751,7 @@ const Trip = (() => {
       redraw
     );
     setupStayNotes(trip, redraw);
+    setupPeople(trip, redraw);
     setupCarCosts(trip, redraw);
     setupSplits(trip, redraw);
     setTimeout(() => {
@@ -2692,6 +2777,145 @@ const Trip = (() => {
       }
     }, 0);
     return transportHtml(trip);
+  }
+
+  // Who is on the trip. Kept in Firestore (travellers/<slug>) so the group can be
+  // changed from the page rather than by editing data.json, whose `travelers` list
+  // is only the starting point. Every per-person column on the site — the
+  // accommodation split, the settle-up, the transport and budget splits — reads
+  // this, so adding someone reaches all of them at once.
+  const peopleState = { trip: null, doc: null, signedIn: false, denied: false, editing: false, unsub: null, rerender: null };
+
+  function peoplePath(trip) {
+    return "travellers/" + (trip.slug || trip.title || "trip");
+  }
+  /** The list as it stands: whatever has been saved, else data.json's. */
+  function peopleFor(trip) {
+    const d = peopleState.doc;
+    if (d && Array.isArray(d.names)) return d.names;
+    return (trip && trip.travelers) || [];
+  }
+  function writePeople(names) {
+    peopleState.doc = { names: names }; // optimistic
+    TravelSite.writeDoc(peoplePath(peopleState.trip), { names: names }).catch((e) =>
+      console.warn("Couldn't save the traveller list:", e)
+    );
+  }
+  function setupPeople(trip, rerender) {
+    peopleState.trip = trip;
+    peopleState.doc = null;
+    peopleState.denied = false;
+    peopleState.editing = false;
+    peopleState.rerender = rerender;
+    peopleState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (peopleState.unsub) {
+        peopleState.unsub();
+        peopleState.unsub = null;
+      }
+      peopleState.signedIn = !!user;
+      peopleState.doc = null;
+      peopleState.denied = false;
+      peopleState.editing = false;
+      if (user) {
+        peopleState.unsub = TravelSite.watchDoc(
+          peoplePath(trip),
+          (data) => {
+            peopleState.doc = data;
+            peopleState.denied = false;
+            if (rerender) rerender();
+          },
+          () => {
+            // Refused: fall back to the public list rather than showing nothing,
+            // since the names are in data.json anyway — but offer no editing.
+            peopleState.doc = null;
+            peopleState.denied = true;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
+  }
+
+  /** The traveller list, editable in place on the Overview page. */
+  function peopleHtml(trip) {
+    const names = peopleFor(trip);
+    if (!peopleState.signedIn || peopleState.denied) {
+      // Public view: state who is going, but offer no way to change it.
+      return names.length
+        ? `<h2>Travelling</h2><p class="people-list">${names.map(escapeHtml).join(" · ")}</p>`
+        : "";
+    }
+    const chips = names.length
+      ? names
+          .map(
+            (n, i) => `<span class="person-chip">${escapeHtml(n)}${
+              peopleState.editing
+                ? ` <button type="button" class="person-remove" data-person-remove data-index="${i}"
+                     aria-label="Remove ${escapeHtml(n)}">×</button>`
+                : ""
+            }</span>`
+          )
+          .join("")
+      : `<span class="attach-empty">Nobody added yet.</span>`;
+    return `
+      <h2 class="people-head">Travelling
+        <span class="cost-actions">${
+          peopleState.editing
+            ? `<button type="button" class="todo-edit-btn" data-people-done>Done</button>`
+            : `<button type="button" class="todo-edit-btn" data-people-edit>Edit people</button>`
+        }</span>
+      </h2>
+      <div class="people-row">${chips}</div>
+      ${
+        peopleState.editing
+          ? `<form class="people-add" data-people-form>
+               <input type="text" class="auth-email-input" data-person-name
+                 placeholder="Name" aria-label="Name of traveller" />
+               <button type="submit" class="todo-edit-btn">Add person</button>
+             </form>
+             <p class="section-note">Everyone here gets a column in the accommodation,
+               transport and budget splits. Removing someone leaves what they already
+               shared untouched.</p>`
+          : ""
+      }`;
+  }
+
+  function wirePeople(main) {
+    const commit = (names, action, detail) => {
+      writePeople(names);
+      logAction(peopleState.trip, action, detail);
+      if (peopleState.rerender) peopleState.rerender();
+    };
+    main.addEventListener("click", (e) => {
+      if (!peopleState.signedIn || peopleState.denied) return;
+      if (e.target.closest("[data-people-edit]")) {
+        peopleState.editing = true;
+      } else if (e.target.closest("[data-people-done]")) {
+        peopleState.editing = false;
+      } else {
+        const rm = e.target.closest("[data-person-remove]");
+        if (!rm) return;
+        const names = peopleFor(peopleState.trip).slice();
+        const gone = names.splice(+rm.dataset.index, 1)[0];
+        if (!window.confirm(`Remove ${gone} from this trip?`)) return;
+        commit(names, "removed traveller", gone);
+        return;
+      }
+      if (peopleState.rerender) peopleState.rerender();
+    });
+    main.addEventListener("submit", (e) => {
+      const form = e.target.closest("[data-people-form]");
+      if (!form) return;
+      e.preventDefault();
+      const input = form.querySelector("[data-person-name]");
+      const name = (input.value || "").trim();
+      if (!name) return;
+      const names = peopleFor(peopleState.trip);
+      if (names.some((n) => n.toLowerCase() === name.toLowerCase())) return;
+      commit(names.concat([name]), "added traveller", name);
+    });
   }
 
   /** Record a change against the trip currently being viewed. */

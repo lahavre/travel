@@ -60,6 +60,7 @@ service cloud.firestore {
     }
 
     // Everything a trip owns is keyed by its slug, so one rule covers them all.
+    match /travellers/{slug}  { allow read, write: if canAccessTrip(slug); }
     match /todoList/{slug}    { allow read, write: if canAccessTrip(slug); }
     match /stayNotes/{slug}   { allow read, write: if canAccessTrip(slug); }
     match /carCosts/{slug}    { allow read, write: if canAccessTrip(slug); }

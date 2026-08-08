@@ -52,7 +52,7 @@ breaking, so a half-planned trip still renders.
 | --- | --- |
 | `title`, `destination`, `emoji`, `notes` | Identity, shown on the trip home page |
 | `startDate`, `endDate` | ISO `YYYY-MM-DD` |
-| `travelers` | Names used as column headers in the settle-up and per-person split tables |
+| `travelers` | **Seed** for the trip's people; the live list is edited on the Overview page (see below) and drives every per-person column |
 | `flights` | Outbound / return / internal legs — summarised on the trip home page, in full on the transport page |
 | `checkInLeadHours` | Hours before departure to show as check-in (default 3) |
 | `homeCurrency` / `tripCurrency` | ISO codes, e.g. `MYR` / `JPY` |
@@ -418,6 +418,17 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   `lahavre.github.io` to Authentication → Authorized domains, create Firestore in
   production mode, upgrade to the **Blaze** plan (a card on file; ~$0 at this scale) and
   enable Cloud Storage.
+- **Who is travelling.** `travelers` in `data.json` is only the starting point. The
+  Overview page carries the live list — signed in, **Edit people** adds and removes
+  names — kept in Firestore at `travellers/<slug>`. Everything per-person reads it, so
+  adding somebody reaches the accommodation split, the settle-up, and the transport and
+  budget splits at once. Signed-out visitors see the names but no controls.
+- **Budget split.** Alongside the transport split, the budget page totals each category
+  (its `actual` where tallied, else `budget`) and divides it between whoever is ticked —
+  **Edit split**, then Save. A category starts shared by everyone; untick anyone it does
+  not apply to and they read N/A. Both splits share one document, `costSplits/<slug>`
+  (`byItem` for transport, `byBudget` for the budget), and each share is derived rather
+  than stored, so it can never disagree with the figures or the traveller list.
 - **Activity trail.** Every change to a trip — a to-do added, marked or removed, a
   remark edited, car costs or a split updated, a file attached or deleted — writes an
   entry to `activity/<slug>/entries` recording who, what and when. It shows as a

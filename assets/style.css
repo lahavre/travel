@@ -628,6 +628,51 @@ tfoot td {
   align-items: center;
   gap: 10px;
 }
+/* ---- Who is on the trip ---- */
+.people-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.people-head .cost-actions {
+  margin-left: auto;
+}
+.people-list {
+  color: var(--text-dim);
+}
+.people-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+.person-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-elev);
+  font-size: 0.9rem;
+}
+.person-remove {
+  border: 0;
+  background: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+.person-remove:hover {
+  color: var(--text);
+}
+.people-add {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
 .split-head .cost-actions {
   margin-left: auto;
 }
