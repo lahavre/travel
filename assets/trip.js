@@ -1541,31 +1541,260 @@ const Trip = (() => {
         </div>`;
     }
 
-    if (has(fx.history)) {
-      out += `
-        <h2>Exchange rate history</h2>
-        <p class="section-note">Effective rate for this trip:
-          <strong>${fx.rate} ${escapeHtml(trip.homeCurrency)} per ${fx.per || 1} ${escapeHtml(trip.tripCurrency)}</strong>.</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Date exchanged</th>
-              <th class="num">${escapeHtml(trip.homeCurrency)}</th>
-              <th class="num">${escapeHtml(trip.tripCurrency)}</th>
-              <th class="num">Rate</th></tr></thead>
-            <tbody>${fx.history
-              .map(
-                (f) => `<tr>
-                  <td>${TravelSite.formatDate(f.date, { day: "2-digit", month: "short", year: "numeric" })}</td>
-                  <td class="num">${home(f.home, trip)}</td>
-                  <td class="num">${local(f.local, trip)}</td>
-                  <td class="num">${f.rate}</td></tr>`
-              )
-              .join("")}</tbody>
-          </table>
-        </div>`;
-    }
+    out += estimatedRateHtml(trip);
 
     return out;
+  }
+
+  // ------------------------------------------------- estimated exchange rate
+  //
+  // Today's rate for a currency against this trip's home currency, looked up
+  // live. Strictly a sanity check for what a money changer offers — every figure
+  // on the site converts with `exchangeRate` from data.json, which is the rate
+  // actually obtained, and nothing here touches it.
+  //
+  // Not from Google: it publishes no fetchable rates endpoint, and its search
+  // page cannot be read from a browser on another origin. The same reason the
+  // weather comes from Open-Meteo and travel times link out rather than being
+  // computed — a public static site can keep no API key secret.
+  const FX_CURRENCIES = [
+    "JPY", "USD", "EUR", "GBP", "SGD", "THB", "IDR", "PHP", "VND", "TWD", "KRW",
+    "CNY", "HKD", "MOP", "BND", "KHR", "LAK", "MMK", "INR", "LKR", "NPR", "AED",
+    "SAR", "AUD", "NZD", "CHF", "CAD", "TRY", "ZAR", "EGP", "MXN", "BRL",
+  ];
+
+  const fxState = {
+    from: null,
+    to: null,
+    rate: null,
+    asOf: null,
+    source: null,
+    loading: false,
+    error: null,
+    pending: null, // the newest in-flight lookup, so a slower earlier one can't win
+    rerender: null,
+  };
+
+  function fxCacheKey(from, to) {
+    return `fxRate:${from}:${to}`;
+  }
+  function fxReadCache(from, to) {
+    try {
+      const raw = window.localStorage.getItem(fxCacheKey(from, to));
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null; // private browsing, or storage full — just fetch instead
+    }
+  }
+  function fxWriteCache(from, to, data) {
+    try {
+      window.localStorage.setItem(fxCacheKey(from, to), JSON.stringify(data));
+    } catch (e) {
+      /* nothing worth failing the page over */
+    }
+  }
+
+  /**
+   * One rate, from whichever keyless source publishes it. The ECB's own figures
+   * come first — dated, and the reference everyone else quotes — but it only
+   * publishes 30 currencies, missing much of south-east Asia (TWD, VND, KHR,
+   * LAK, MMK, BND, MOP), so those fall through to a second free source.
+   */
+  async function fetchFxRate(from, to) {
+    try {
+      const r = await fetch(
+        `https://api.frankfurter.dev/v1/latest?base=${encodeURIComponent(from)}&symbols=${encodeURIComponent(to)}`
+      );
+      if (r.ok) {
+        const d = await r.json();
+        const v = d && d.rates && d.rates[to];
+        if (v) return { rate: v, asOf: d.date, source: "the European Central Bank" };
+      }
+    } catch (e) {
+      /* fall through to the second source */
+    }
+    const r2 = await fetch(`https://open.er-api.com/v6/latest/${encodeURIComponent(from)}`);
+    if (!r2.ok) throw new Error("both rate sources refused");
+    const d2 = await r2.json();
+    const v2 = d2 && d2.rates && d2.rates[to];
+    if (!v2) throw new Error(`no published rate for ${from} to ${to}`);
+    return {
+      rate: v2,
+      asOf: (d2.time_last_update_utc || "").slice(5, 16),
+      source: "exchangerate-api.com",
+    };
+  }
+
+  /**
+   * How many units to quote. A rate of 0.0258 reads as nothing useful; the
+   * spreadsheet's own habit was "per 100 JPY", so follow it and go to 10,000
+   * for a currency like the dong.
+   */
+  function fxPer(rate) {
+    if (rate >= 0.5) return 1;
+    if (rate >= 0.005) return 100;
+    return 10000;
+  }
+
+  /** The ECB dates in ISO; the fallback already reads "08 Aug 2026". House style is day-first. */
+  function fxAsOf(asOf) {
+    if (!asOf) return "";
+    return /^\d{4}-\d{2}-\d{2}$/.test(asOf)
+      ? TravelSite.formatDate(asOf, { day: "2-digit", month: "short", year: "numeric" })
+      : asOf;
+  }
+
+  function estimatedRateHtml(trip) {
+    const to = trip.homeCurrency || "MYR";
+    const from = fxState.from || trip.tripCurrency || (to === "USD" ? "EUR" : "USD");
+    const options = [...new Set([trip.tripCurrency, ...FX_CURRENCIES].filter(Boolean))].filter(
+      (c) => c !== to
+    );
+
+    let figure;
+    if (fxState.error) {
+      figure = `<span class="fx-error">Couldn't reach a rate source — ${escapeHtml(
+        fxState.error
+      )}.</span>`;
+    } else if (fxState.rate == null) {
+      figure = `<span class="attach-empty">${
+        fxState.loading ? "Looking up today's rate…" : "No rate loaded yet."
+      }</span>`;
+    } else {
+      const per = fxPer(fxState.rate);
+      figure = `<strong class="fx-rate">${per.toLocaleString()} ${escapeHtml(
+        fxState.from
+      )} = ${TravelSite.formatMoney(fxState.rate * per, to)}</strong>`;
+    }
+
+    // The rate this trip's own figures were converted at, for comparison — the
+    // whole point of looking today's up.
+    const fx = trip.exchangeRate || {};
+    const booked =
+      fx.rate && trip.tripCurrency === fxState.from
+        ? `<p class="section-note">This trip's own figures convert at
+             <strong>${fx.rate} ${escapeHtml(to)} per ${fx.per || 1} ${escapeHtml(
+            trip.tripCurrency
+          )}</strong> — the rate actually obtained. Nothing on the site is converted
+             with the estimate above.</p>`
+        : "";
+
+    return `
+      <h2 class="fx-head">Estimated exchange rate
+        <span class="cost-actions">
+          <button type="button" class="todo-edit-btn" data-fx-refresh${
+            fxState.loading ? " disabled" : ""
+          }>${fxState.loading ? "Refreshing…" : "Refresh"}</button>
+        </span>
+      </h2>
+      <div class="fx-row">
+        <label class="fx-label" for="fx-from">Rate for</label>
+        <select id="fx-from" class="cost-input" data-fx-from aria-label="Currency to price">
+          ${options
+            .map(
+              (c) =>
+                `<option value="${escapeHtml(c)}"${c === from ? " selected" : ""}>${escapeHtml(
+                  c
+                )}</option>`
+            )
+            .join("")}
+        </select>
+        <span class="fx-against">against ${escapeHtml(to)}</span>
+        ${figure}
+      </div>
+      <p class="section-note">${
+        fxState.rate != null && !fxState.error
+          ? `Mid-market rate${
+              fxState.asOf ? ` as at ${escapeHtml(fxAsOf(fxState.asOf))}` : ""
+            }, from ${escapeHtml(fxState.source || "its source")}. A money changer or
+             card will give you less — treat this as the benchmark to judge their
+             offer against, not as what you will get.`
+          : "Looked up live from the European Central Bank, falling back to exchangerate-api.com for the currencies it doesn't publish. Both are free and keyless, which is what a public static site can use."
+      }</p>
+      ${booked}`;
+  }
+
+  function setupEstimatedRate(trip, rerender) {
+    const to = trip.homeCurrency || "MYR";
+    fxState.rerender = rerender;
+    fxState.to = to;
+    fxState.from = trip.tripCurrency || (to === "USD" ? "EUR" : "USD");
+    fxState.error = null;
+    fxState.loading = false;
+    const cached = fxReadCache(fxState.from, to);
+    if (cached) {
+      fxState.rate = cached.rate;
+      fxState.asOf = cached.asOf;
+      fxState.source = cached.source;
+    } else {
+      fxState.rate = null;
+    }
+    // A rate more than half a day old is worth replacing on its own; anything
+    // fresher waits to be asked, so opening the page is not a burst of requests.
+    const stale = !cached || Date.now() - (cached.fetchedAt || 0) > 12 * 3600 * 1000;
+    if (stale) loadFxRate(trip, fxState.from);
+  }
+
+  function loadFxRate(trip, from) {
+    const to = trip.homeCurrency || "MYR";
+    if (from !== fxState.from) {
+      // Never leave the previous currency's figure on screen under a new label —
+      // a stale number wearing the wrong name is worse than no number.
+      fxState.rate = null;
+      fxState.asOf = null;
+      fxState.source = null;
+    }
+    fxState.from = from;
+    fxState.loading = true;
+    fxState.error = null;
+    // Flipping the selector twice quickly can land the answers out of order, so
+    // only the newest request is allowed to write.
+    const token = {};
+    fxState.pending = token;
+    if (fxState.rerender) fxState.rerender();
+    fetchFxRate(from, to)
+      .then((d) => {
+        fxWriteCache(from, to, { ...d, fetchedAt: Date.now() });
+        if (fxState.pending !== token) return;
+        fxState.rate = d.rate;
+        fxState.asOf = d.asOf;
+        fxState.source = d.source;
+      })
+      .catch((e) => {
+        if (fxState.pending !== token) return;
+        fxState.rate = null;
+        fxState.error = e.message || "request failed";
+      })
+      .then(() => {
+        if (fxState.pending !== token) return;
+        fxState.loading = false;
+        if (fxState.rerender) fxState.rerender();
+      });
+  }
+
+  function wireEstimatedRate(main, trip) {
+    main.addEventListener("change", (e) => {
+      const sel = e.target.closest("[data-fx-from]");
+      if (!sel) return;
+      const to = trip.homeCurrency || "MYR";
+      const cached = fxReadCache(sel.value, to);
+      if (cached) {
+        // Show what is already known at once, then refresh it behind that.
+        fxState.from = sel.value;
+        fxState.rate = cached.rate;
+        fxState.asOf = cached.asOf;
+        fxState.source = cached.source;
+        fxState.error = null;
+        if (fxState.rerender) fxState.rerender();
+        if (Date.now() - (cached.fetchedAt || 0) <= 12 * 3600 * 1000) return;
+      }
+      loadFxRate(trip, sel.value);
+    });
+    main.addEventListener("click", (e) => {
+      if (!e.target.closest("[data-fx-refresh]")) return;
+      const sel = main.querySelector("[data-fx-from]");
+      loadFxRate(trip, (sel && sel.value) || fxState.from);
+    });
   }
 
   function renderBudget(trip) {
@@ -1575,11 +1804,13 @@ const Trip = (() => {
     };
     setupPeople(trip, redraw);
     setupSplits(trip, redraw, "who shares each budget category");
+    setupEstimatedRate(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.budgetWired) {
         main.dataset.budgetWired = "1";
         wireSplits(main);
+        wireEstimatedRate(main, trip);
       }
     }, 0);
     return budgetHtml(trip);

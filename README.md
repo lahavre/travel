@@ -57,7 +57,7 @@ breaking, so a half-planned trip still renders.
 | `flights` | Outbound / return / internal legs — summarised on the trip home page, in full on the transport page |
 | `checkInLeadHours` | Hours before departure to show as check-in (default 3) |
 | `homeCurrency` / `tripCurrency` | ISO codes, e.g. `MYR` / `JPY` |
-| `exchangeRate` | `{ per, rate, history }` — see below |
+| `exchangeRate` | `{ per, rate, history }` — see below. `history` records what was actually changed and when; it is kept but no longer rendered |
 | `costCategories` | Optional override of the day-cost buckets |
 | `summary` | `totalDays` and an optional `note` shown atop the budget page |
 | `budget.categories` | `category`, `perDay`, `budget`, `actual` — in **home** currency |
@@ -75,6 +75,24 @@ breaking, so a half-planned trip still renders.
 `days[].items[].costs` are in **trip** currency and get converted for display;
 everything in `budget`, `settle` and `accommodation` is in **home** currency. Omit
 `exchangeRate` entirely for a domestic trip and cost columns collapse to one currency.
+
+**Estimated exchange rate** (budget page) looks today's mid-market rate up live: pick a
+currency and it shows what one unit — or 100, or 10,000, whichever reads sensibly — is
+worth in the trip's home currency, with a **Refresh** button. It is a benchmark for
+judging a money changer's offer, nothing more: **every figure on the site converts with
+`exchangeRate` from `data.json`**, the rate actually obtained, and the estimate touches
+none of it. When the selected currency is the trip's own, the booked rate is shown
+alongside for comparison.
+
+Rates come from the **European Central Bank** (via Frankfurter), falling back to
+**exchangerate-api.com** for the currencies the ECB does not publish — which is most of
+south-east Asia (TWD, VND, KHR, LAK, MMK, BND, MOP). Both are free, keyless and
+CORS-enabled, which is what a public static site can actually use. **Not Google**: it
+publishes no fetchable rates endpoint and its search page cannot be read from another
+origin — the same constraint that puts the weather on Open-Meteo and makes travel times
+a link out rather than a computed figure. A result is cached in `localStorage` per
+currency pair and refreshed automatically only once it is over 12 hours old, so opening
+the page is not a burst of requests.
 
 **The Weather page** is the whole-trip counterpart to the per-day weather: one row per
 place, aggregating the temperature range and conditions across every day it's visited,

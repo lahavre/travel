@@ -1105,6 +1105,35 @@ tfoot td {
   white-space: nowrap;
 }
 
+/* ---- Estimated exchange rate: selector, rate and Refresh on one line ---- */
+.fx-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.fx-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 4px 0 8px;
+}
+.fx-label,
+.fx-against {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+.fx-rate {
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+.fx-error {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
 /* An activity added during the trip rather than booked ahead — worth marking,
    because it says the figure came off a receipt and not a confirmation. */
 .activity-origin {
