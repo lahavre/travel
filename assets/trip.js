@@ -3180,6 +3180,7 @@ const Trip = (() => {
       const rows = items.map((a) => {
         const who = splitFor(a.key, a.perPerson, trip, true);
         return {
+          activity: a,
           key: a.key,
           label: a.name || a.city || "Activity",
           total: a.homeCost,
@@ -3206,7 +3207,16 @@ const Trip = (() => {
               .map(
                 (r) => `<tr data-split-item="${escapeHtml(r.key)}" data-split-scope="item">
                   <td>${escapeHtml(r.label)}</td>
-                  <td class="num">${r.total != null ? home(r.total, trip) : "—"}</td>
+                  <td class="num">${
+                    // A column headed Cost should be editable where you are reading
+                    // it, so Edit costs puts the same box here as on the card above.
+                    // Both carry the activity's key and are kept in step as you type.
+                    editingCosts && !r.activity.addedId
+                      ? costValue(r.activity)
+                      : r.total != null
+                      ? home(r.total, trip)
+                      : "—"
+                  }</td>
                   ${people
                     .map((t) => {
                       if (splitState.editing) {
@@ -3300,12 +3310,38 @@ const Trip = (() => {
       };
     };
 
+    // The same price shows twice while editing — on the card and in the split
+    // table — so typing into either has to move the other, or whichever the save
+    // reads last would silently win and throw the edit away.
+    main.addEventListener("input", (e) => {
+      const el = e.target.closest("[data-activity-cost], [data-activity-currency]");
+      if (!el) return;
+      const attr = el.hasAttribute("data-activity-cost") ? "data-activity-cost" : "data-activity-currency";
+      main
+        .querySelectorAll(`[${attr}][data-activity-key="${el.dataset.activityKey}"]`)
+        .forEach((other) => {
+          if (other !== el) other.value = el.value;
+        });
+    });
+
     main.addEventListener("click", (e) => {
       if (!extrasState.signedIn || extrasState.denied) return;
       const form = main.querySelector("[data-extra-add-form]");
 
+      // The two editors share this page and each redraws it, so leaving both open
+      // would let a Save on one throw away what had been typed into the other.
+      // Only one at a time, and each keeps its own Save.
+      if (e.target.closest("[data-split-edit]")) {
+        // wireSplits is wired first and has already redrawn with the old flag,
+        // so this needs its own redraw to actually put the boxes away.
+        if (!extrasState.editingCosts) return;
+        extrasState.editingCosts = false;
+        if (extrasState.rerender) extrasState.rerender();
+        return;
+      }
       if (e.target.closest("[data-activity-costs-edit]")) {
         extrasState.editingCosts = true;
+        splitState.editing = false;
         if (extrasState.rerender) extrasState.rerender();
         return;
       }

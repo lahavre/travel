@@ -343,7 +343,11 @@ until a figure exists. `date` may be null for an open-dated ticket; put the wind
 `validity` instead and the card reads "Open dated".
 
 **Prices are editable on the page.** **Edit costs** turns every booked activity's price
-into a box with a currency picker — a voucher frequently states no price at all, and the
+into a box with a currency picker — on the card *and* in the split table's Cost column,
+since that is where you are usually reading the figure; the two boxes for one activity
+stay in step as you type. Editing costs and editing the split are **mutually
+exclusive**: each redraws the page on Save, so leaving both open would let one discard
+what had been typed into the other — a voucher frequently states no price at all, and the
 figure has to be recordable without a commit. The typed prices live beside the added
 activities in `extraActivities/<slug>` as `costs: { <activityKey>: {cost, currency} }`.
 Two rules keep `data.json` authoritative: clearing a box **removes** the override and the
