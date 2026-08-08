@@ -1554,7 +1554,7 @@ const Trip = (() => {
       if (main) main.innerHTML = budgetHtml(trip);
     };
     setupPeople(trip, redraw);
-    setupSplits(trip, redraw);
+    setupSplits(trip, redraw, "who shares each budget category");
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.budgetWired) {
@@ -1806,7 +1806,7 @@ const Trip = (() => {
     const total = stays.reduce((s, a) => s + (a.total || 0), 0);
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
     const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" });
-    const splitTravellers = has(peopleFor(trip)) && stays.some((a) => a.perPerson);
+    const splitTravellers = has(peopleFor(trip)) && stays.length;
 
     const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
 
@@ -1908,29 +1908,52 @@ const Trip = (() => {
       </div>`;
 
     if (splitTravellers) {
-      const totals = peopleFor(trip).map((t) =>
-        stays.reduce((s, a) => s + ((a.perPerson && a.perPerson[t]) || 0), 0)
+      const people = peopleFor(trip);
+      // Each share is the stay's cost over whoever is ticked, so it follows both
+      // the price and the traveller list rather than being stored and going stale.
+      const rows = stays.map((a) => {
+        const key = stayAttachKey(a);
+        const who = splitFor(key, a.perPerson, trip);
+        return {
+          key,
+          label: a.city || a.name || "",
+          total: a.total,
+          who,
+          share: a.total != null && who.length ? a.total / who.length : null,
+        };
+      });
+      const totals = people.map((t) =>
+        rows.reduce((s, r) => s + (r.who.includes(t) && r.share != null ? r.share : 0), 0)
       );
       out += `
-        <h2>Split per traveller</h2>
-        <p class="section-note">N/A — paid directly at the property, or cost not shared.</p>
+        <h2 class="split-head">Split per traveller ${splitEditControls()}</h2>
+        <p class="section-note">${
+          splitState.editing
+            ? "Tick whoever shares each stay, then Save — each share is the price divided between them."
+            : "N/A — paid directly at the property, or cost not shared."
+        }</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Stay</th><th class="num">Price</th>${peopleFor(trip)
+            <thead><tr><th>Stay</th><th class="num">Price</th>${people
               .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
               .join("")}</tr></thead>
-            <tbody>${stays
+            <tbody>${rows
               .map(
-                (a) => `<tr>
-                  <td>${escapeHtml(a.city || a.name || "")}</td>
-                  <td class="num">${a.total != null ? home(a.total, trip) : "N/A"}</td>
-                  ${peopleFor(trip)
-                    .map(
-                      (t) =>
-                        `<td class="num">${
-                          a.perPerson && a.perPerson[t] != null ? home(a.perPerson[t], trip) : "N/A"
-                        }</td>`
-                    )
+                (r) => `<tr data-split-item="${escapeHtml(r.key)}" data-split-scope="item">
+                  <td>${escapeHtml(r.label)}</td>
+                  <td class="num">${r.total != null ? home(r.total, trip) : "N/A"}</td>
+                  ${people
+                    .map((t) => {
+                      if (splitState.editing) {
+                        return `<td class="num"><input type="checkbox" class="split-check attach-check"
+                          data-split-scope="item"
+                          data-split-key="${escapeHtml(r.key)}" data-traveller="${escapeHtml(t)}"${
+                          r.who.includes(t) ? " checked" : ""
+                        } aria-label="${escapeHtml(t)} shares ${escapeHtml(r.label)}" /></td>`;
+                      }
+                      if (!r.who.includes(t)) return `<td class="num">N/A</td>`;
+                      return `<td class="num">${r.share != null ? home(r.share, trip) : "—"}</td>`;
+                    })
                     .join("")}</tr>`
               )
               .join("")}</tbody>
@@ -1959,11 +1982,13 @@ const Trip = (() => {
     );
     setupStayNotes(trip, redraw);
     setupPeople(trip, redraw);
+    setupSplits(trip, redraw, "who shares each stay");
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.stayNotesWired) {
         main.dataset.stayNotesWired = "1";
         wireStayNotes(main);
+        wireSplits(main);
       }
     }, 0);
     return accommodationHtml(trip);
@@ -2053,6 +2078,7 @@ const Trip = (() => {
     denied: false, // refused by the rules: read-only
     unsub: null,
     rerender: null,
+    what: "who shares each cost", // what the activity trail should say this page changed
   };
   function splitPath(trip) {
     return "costSplits/" + (trip.slug || trip.title || "trip");
@@ -2092,8 +2118,9 @@ const Trip = (() => {
            <button type="button" class="todo-edit-btn" data-split-edit>Edit split</button>
          </span>`;
   }
-  function setupSplits(trip, rerender) {
+  function setupSplits(trip, rerender, what) {
     splitState.trip = trip;
+    splitState.what = what || "who shares each cost";
     splitState.doc = null;
     splitState.editing = false;
     splitState.denied = false;
@@ -2150,7 +2177,7 @@ const Trip = (() => {
           into[key] = [...list];
         });
         writeSplits(doc);
-        logAction(splitState.trip, "updated cost split", "who shares each transport cost");
+        logAction(splitState.trip, "updated cost split", splitState.what);
         splitState.editing = false;
       } else {
         return;
@@ -2753,7 +2780,7 @@ const Trip = (() => {
     setupStayNotes(trip, redraw);
     setupPeople(trip, redraw);
     setupCarCosts(trip, redraw);
-    setupSplits(trip, redraw);
+    setupSplits(trip, redraw, "who shares each transport cost");
     setTimeout(() => {
       const main = document.getElementById("main");
       if (!main) return;

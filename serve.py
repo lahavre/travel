@@ -5,8 +5,9 @@ Same as `python -m http.server`, but tells the browser never to cache. Without t
 edits to assets/*.js and data.json appear not to take effect until a hard refresh.
 GitHub Pages sets its own sensible caching, so this only affects local previewing.
 
-    python serve.py [port]     # default 8080
+    python serve.py [port]     # default 8080, or $PORT if set
 """
+import os
 import sys
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
@@ -23,6 +24,6 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+    port = int(sys.argv[1] if len(sys.argv) > 1 else os.environ.get("PORT") or 8080)
     print(f"Serving http://localhost:{port}  (Ctrl+C to stop)")
     ThreadingHTTPServer(("", port), NoCacheHandler).serve_forever()
