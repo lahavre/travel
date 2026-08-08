@@ -196,8 +196,17 @@ renders as "Paid (JPY 1,000 / night)".
 Each row states its fact once. `remarks` is for what no other row covers — don't
 repeat the payment, meal or parking there.
 
-Signed-in travellers also get, on each stay, an **editable remark** and an **Attach**
-box for that booking's confirmation or voucher (see **Firebase / private data**). Both
+Signed-in travellers also get, on each stay, an **Edit** button opening the whole
+record as a form (see **Editing a stay, flight, car hire or leg** below), an **editable
+remark**, and an **Attach** box for that booking's confirmation or voucher (see
+**Firebase / private data**). Below the stays, **Split per traveller** with its own
+**Edit split**: tick who shares each stay and the share is its price divided between
+them.
+
+The stay's **`phone`** is carried in the schema but **rendered nowhere** — it is in
+`data.json` for reference only, and is deliberately absent from the edit form so a
+change there would not silently go nowhere. Only public-transport places show a phone
+today. Both
 are private: the remark lives in Firestore (`stayNotes/<slug>`, seeded from each stay's
 `remarks`) and the files in Firebase Storage — never in `data.json` or the repo, which
 is what keeps door codes and personal details off the public site while still having

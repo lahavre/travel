@@ -15,6 +15,21 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   conversion, day cost roll-ups and the overview's hotel column are all derived at
   render time. Never hardcode a computed figure into markup or duplicate a value that
   can be looked up (the overview reads hotels from `accommodation` by date).
+- **Page edits override `data.json` field by field — they never copy it.** Stays,
+  flights, car hires, legs and booked activities are all editable on the page, but only
+  the fields that *actually differ* are stored (`recordEdits/<slug>`,
+  `extraActivities/<slug>.overrides`). That asymmetry is the whole design: it keeps the
+  file authoritative wherever nobody has contradicted it, so a confirmation transcribed
+  into `data.json` later still shows through. Three rules follow, and any new editor
+  must keep them — emptying a box **reverts** that field rather than storing a blank,
+  a value equal to the file's stores **nothing**, and a value that contradicts the file
+  renders the original beside it ("booking: …"). Never seed a whole record into
+  Firestore the way the to-do list does; that breaks the property above.
+- **Override keys come from the record's original values.** `stayAttachKey`,
+  `flightAttachKey`, `carRentalKey`, `ptKey` and `activityKey` tie a record to its
+  private note, its attached documents and its row in the split. Compute them from
+  `data.json`, never from edited values, or renaming a hotel silently orphans all three.
+  The merged object carries `recordKey` for exactly this reason — use it.
 - **An uploaded document outbids anything typed by hand.** Booking confirmations,
   airline vouchers and receipts are the source of truth; a spreadsheet or a
   remembered detail is not, because it carries human error. When they disagree, the
@@ -54,7 +69,7 @@ Static travel-itinerary site, published via GitHub Pages from `main`
 | Dates | Day-first, `13 Oct 2023`. Locale pinned to `en-GB` in `assets/common.js` — don't fall back to the viewer's locale |
 | Date + weekday | `13 Oct 2023 (Fri)` — `Trip.longDate()` |
 | Temperature | Always Celsius, `City: 18 to 25 °C`. Use "to", never a dash — sub-zero lows (`-1 to 12`) are unreadable otherwise |
-| Currency | Three-letter ISO code as the spreadsheet used — `MYR 517.42`, not `RM517.42`. Driven by `homeCurrency` / `tripCurrency`; never hardcode MYR or JPY |
+| Currency | Three-letter ISO code as the spreadsheet used — `MYR 517.42`, not `RM517.42`. Driven by `homeCurrency` / `tripCurrency`; never hardcode MYR or JPY. A currency **picker** must also offer whatever currency the record already states, or saving silently rewrites it — a Slovenian bus is fared in EUR on a trip priced in JPY |
 | Hotel check-in / out | `From 15:00 until 19:00` and `Until 11:00` — "until" in both, never "to" |
 | Flight check-in | 3 hours before departure by default |
 | Travel legs | `A -(Tokyo Monorail)> B -(Walk - 15 mins)> Hotel` — renders as "A to Hotel" + Maps link |
@@ -93,10 +108,21 @@ Commit locally as work completes. **Push only when explicitly asked.** Commits u
 this repo's own git identity (`lahavre` / the GitHub noreply address) — the account
 blocks pushes carrying a private email.
 
+**A new Firestore collection needs `firestore.rules` pasted into the Firebase console**
+(Build → Firestore Database → Rules → Publish) before it will accept a write. Editing
+the file in the repo does nothing on its own. Say so when shipping one — the feature
+looks broken until the user does it. The catch-all at the bottom of the rules refuses
+anything without its own `match`, deliberately.
+
 ## Status
 
 - Live at <https://lahavre.github.io/travel/>; pushing to `main` redeploys.
-- Japan 2023 is migrated and reconciled; it is the reference trip.
+- **Eight pages per trip**: Overview, Days, Weather, Budget, Accommodation, Transport,
+  Activities, To-do. `tools/new_trip_pages.py` scaffolds all eight.
+- Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
+  **design fixture** — its `publicTransport` holds Croatia legs and its `activities`
+  hold 2019 vouchers, deliberately, to exercise the renderers. Its data being
+  off-trip is not a bug to fix.
 - `trips/_template/` is the starting point, deliberately absent from `trips.json`.
 - The design is a **first draft** — formatting is expected to keep changing.
 
