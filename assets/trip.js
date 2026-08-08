@@ -2855,8 +2855,8 @@ const Trip = (() => {
     doc: null,
     signedIn: false,
     denied: false, // refused by the rules: read what data.json has, add nothing
-    adding: false,
-    editingId: null,
+    editingKey: null, // the one activity open in the full-record editor
+    draft: null, // a new activity, unsaved, so Cancel leaves nothing behind
     editingCosts: false, // prices are read-only until asked for, like the car's are
     unsub: null,
     rerender: null,
@@ -2873,15 +2873,26 @@ const Trip = (() => {
     return (d && Array.isArray(d.items) && d.items) || [];
   }
   /**
-   * Prices typed on the page for activities that live in data.json. A voucher
-   * often states no price at all, and a static site cannot write to its own
-   * data.json, so the figure has to go somewhere — here, keyed by activity, in
-   * the same document as the added ones. Clearing the box removes the override
-   * and the activity goes back to whatever data.json says.
+   * Fields typed on the page for activities that live in data.json. A voucher
+   * often states no price at all — and a booking's details get corrected — but a
+   * static site cannot write to its own data.json, so the value has to go
+   * somewhere: here, keyed by activity, field by field. Clearing a box removes
+   * that field's override and it goes back to whatever data.json says, which is
+   * what keeps data.json worth updating from a booking confirmation later.
+   *
+   * `costs` is the earlier price-only shape, folded in so prices typed before
+   * this was generalised are not stranded.
    */
-  function extraCosts() {
+  function extraOverrides() {
     const d = extrasState.doc;
-    return (d && d.costs) || {};
+    const out = {};
+    Object.entries((d && d.costs) || {}).forEach(([k, v]) => {
+      if (v && v.cost != null) out[k] = { cost: v.cost, currency: v.currency || null };
+    });
+    Object.entries((d && d.overrides) || {}).forEach(([k, v]) => {
+      out[k] = { ...(out[k] || {}), ...v };
+    });
+    return out;
   }
   function writeExtras(next) {
     extrasState.doc = next; // optimistic, so the row appears at once
@@ -2889,8 +2900,14 @@ const Trip = (() => {
       console.warn("Couldn't save the activity:", e)
     );
   }
+  /** The document as it stands, so a write to one part preserves the others. */
   function extrasDoc() {
-    return { items: extraItems(), costs: extraCosts() };
+    const d = extrasState.doc;
+    return {
+      items: extraItems(),
+      costs: (d && d.costs) || {},
+      overrides: (d && d.overrides) || {},
+    };
   }
 
   // Booked activities key off name + date so two visits to the same place stay
@@ -2907,21 +2924,29 @@ const Trip = (() => {
    * kind a theme park sells) genuinely has no single date until it is used.
    */
   function allActivities(trip) {
-    const overrides = extraCosts();
+    const overrides = extraOverrides();
     const booked = (trip.activities || []).map((a) => {
-      const o = overrides[activityKey(a)];
-      // A price typed on the page wins over data.json's, because data.json's is
-      // usually absent — the voucher never said. Where the voucher did say, the
-      // card shows what it said alongside, rather than quietly replacing it.
-      return {
+      // Keyed off what data.json says, never off the edited values — renaming an
+      // activity or moving its date must not orphan its own override, its note,
+      // its attached tickets or its place in the split.
+      const key = activityKey(a);
+      const o = overrides[key] || {};
+      const flat = {
         ...a,
-        addedId: null,
-        cost: o && o.cost != null ? o.cost : a.cost,
-        currency: o && o.cost != null ? o.currency || a.currency : a.currency,
-        bookedCost: a.cost,
-        bookedCurrency: a.currency,
-        overridden: !!(o && o.cost != null && a.cost != null && o.cost !== a.cost),
+        reservationSite: (a.reservation && a.reservation.site) || null,
+        bookingNo: (a.reservation && a.reservation.bookingNo) || null,
+        refs: (a.reservation && a.reservation.refs) || [],
       };
+      // A value typed on the page wins, because data.json's is usually absent —
+      // the voucher never said. Where the voucher did say something different,
+      // the card shows what it said alongside rather than quietly replacing it.
+      const merged = { ...flat, key: key, addedId: null, edited: {} };
+      Object.keys(o).forEach((f) => {
+        if (o[f] === undefined) return;
+        merged[f] = o[f];
+        if (flat[f] != null && flat[f] !== "" && flat[f] !== o[f]) merged.edited[f] = flat[f];
+      });
+      return merged;
     });
     const added = extraItems().map((x) => ({
       name: x.name,
@@ -2932,8 +2957,20 @@ const Trip = (() => {
       currency: x.currency || null,
       pax: x.pax == null ? null : Number(x.pax),
       notes: x.notes || null,
-      prepaid: false, // paid on the day, by definition
+      provider: x.provider || null,
+      reservationSite: x.reservationSite || null,
+      bookingNo: x.bookingNo || null,
+      refs: [],
+      ticketType: x.ticketType || null,
+      meetingPoint: x.meetingPoint || null,
+      arriveBy: x.arriveBy || null,
+      validity: x.validity || null,
+      cancellation: x.cancellation || null,
+      url: x.url || null,
+      prepaid: x.prepaid == null ? false : x.prepaid,
       addedId: x.id,
+      key: attachSlug(`activity-added-${x.id}`),
+      edited: {},
     }));
     return booked.concat(added).sort((a, b) => {
       if (!a.date && !b.date) return 0;
@@ -2943,53 +2980,108 @@ const Trip = (() => {
     });
   }
 
-  const ACTIVITY_ADD_FORM = (trip) => {
-    // Trip currency first: mid-trip, the figure to hand is what the booth charged.
+  // Every field a card shows, in the order it reads. One table drives the labels,
+  // the detail rows and the edit form, so a field cannot appear in one and not the
+  // others. `text` is free text; `money`, `date`, `time`, `int` and `yesno` get the
+  // input the value deserves.
+  const ACTIVITY_FIELDS = [
+    { f: "name", label: "Activity", type: "text" },
+    { f: "city", label: "Place", type: "text" },
+    { f: "date", label: "Date", type: "date" },
+    { f: "time", label: "Time", type: "time" },
+    { f: "provider", label: "Operator", type: "text" },
+    { f: "reservationSite", label: "Booked with", type: "text" },
+    { f: "bookingNo", label: "Booking No", type: "text" },
+    { f: "cost", label: "Cost", type: "money" },
+    { f: "pax", label: "Pax", type: "int" },
+    { f: "ticketType", label: "Ticket", type: "text" },
+    { f: "meetingPoint", label: "Meeting point", type: "text" },
+    { f: "arriveBy", label: "Be there by", type: "time" },
+    { f: "validity", label: "Valid", type: "text" },
+    { f: "prepaid", label: "Paid", type: "yesno" },
+    { f: "cancellation", label: "Cancellation", type: "text" },
+    { f: "url", label: "Link", type: "text" },
+    { f: "notes", label: "Remarks", type: "text", addedOnly: true },
+  ];
+
+  /** The whole card as a form — every field, not just the price. */
+  function activityEditForm(a, trip) {
     const currencies = [...new Set([trip.tripCurrency, trip.homeCurrency].filter(Boolean))];
-    return `
-      <div class="todo-add">
-        <button type="button" class="todo-edit-btn" data-extra-add-toggle>+ Add activity</button>
-        <form class="todo-add-form activity-add-form" data-extra-add-form${
-          extrasState.adding ? "" : " hidden"
-        }>
-          <input type="text" class="todo-add-task" data-extra-name
-            placeholder="Activity" aria-label="Activity" />
-          <input type="text" class="todo-add-url" data-extra-city
-            placeholder="Place (optional)" aria-label="Place" />
-          <input type="date" class="todo-add-url" data-extra-date aria-label="Date" />
-          <input type="number" step="0.01" min="0" class="todo-add-url" data-extra-cost
-            placeholder="Cost" aria-label="Cost" />
-          <select class="todo-add-category" data-extra-currency aria-label="Currency">
-            ${currencies.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("")}
+    const val = (v) => (v == null ? "" : escapeHtml(String(v)));
+    const row = (spec) => {
+      if (spec.addedOnly && !a.addedId) return "";
+      const id = `${a.key}-${spec.f}`;
+      let input;
+      if (spec.type === "money") {
+        input = `<span class="activity-cost-edit">
+          <input type="number" step="0.01" min="0" class="cost-input" data-activity-field="cost"
+            id="${escapeHtml(id)}" value="${val(a.cost)}" />
+          <select class="cost-input" data-activity-field="currency" aria-label="Currency">
+            ${currencies
+              .map(
+                (c) =>
+                  `<option value="${escapeHtml(c)}"${
+                    c === (a.currency || trip.tripCurrency) ? " selected" : ""
+                  }>${escapeHtml(c)}</option>`
+              )
+              .join("")}
           </select>
-          <input type="number" step="1" min="1" class="todo-add-url" data-extra-pax
-            placeholder="Pax" aria-label="Number of people" />
-          <input type="text" class="todo-add-remarks" data-extra-notes
-            placeholder="Remarks (optional)" aria-label="Remarks" />
-          <div class="todo-add-actions">
-            <button type="button" class="todo-edit-btn" data-extra-save>Add</button>
-            <button type="button" class="todo-edit-btn todo-edit-cancel" data-extra-cancel>Cancel</button>
-          </div>
-        </form>
-      </div>`;
-  };
+        </span>`;
+      } else if (spec.type === "yesno") {
+        input = `<select class="cost-input" data-activity-field="prepaid" id="${escapeHtml(id)}">
+          <option value=""${a.prepaid == null ? " selected" : ""}>—</option>
+          <option value="yes"${a.prepaid === true ? " selected" : ""}>Prepaid</option>
+          <option value="no"${a.prepaid === false ? " selected" : ""}>On the day</option>
+        </select>`;
+      } else {
+        const type = spec.type === "int" ? "number" : spec.type === "text" ? "text" : spec.type;
+        input = `<input type="${type}"${spec.type === "int" ? ' step="1" min="1"' : ""}
+          class="cost-input activity-field-input" data-activity-field="${escapeHtml(spec.f)}"
+          id="${escapeHtml(id)}" value="${val(a[spec.f])}" />`;
+      }
+      const wasBooked =
+        a.edited && a.edited[spec.f] != null
+          ? ` <span class="stay-rate">voucher: ${escapeHtml(String(a.edited[spec.f]))}</span>`
+          : "";
+      return `<dt><label for="${escapeHtml(id)}">${spec.label}:</label></dt><dd>${input}${wasBooked}</dd>`;
+    };
+    return `<form class="activity-edit" data-activity-form data-activity-key="${escapeHtml(a.key)}"${
+      a.addedId ? ` data-activity-added="${escapeHtml(a.addedId)}"` : ""
+    }>
+      <dl>${ACTIVITY_FIELDS.map(row).join("")}</dl>
+      <p class="section-note">${
+        a.addedId
+          ? "Added on the trip, so every field lives here."
+          : "Emptying a box drops that field back to what <code>data.json</code> records, so a booking confirmation added later still comes through."
+      }</p>
+      <div class="cost-actions">
+        <button type="button" class="todo-edit-btn" data-activity-save>Save</button>
+        <button type="button" class="todo-edit-btn todo-edit-cancel" data-activity-cancel>Cancel</button>
+      </div>
+    </form>`;
+  }
 
   function activitiesHtml(trip) {
     const items = allActivities(trip);
     const people = peopleFor(trip);
     const canAdd = extrasState.signedIn && !extrasState.denied;
 
+    // A brand-new activity is held here until Save, so cancelling writes nothing.
+    if (extrasState.draft) items.push({ ...extrasState.draft });
+
+    const addBtn = canAdd
+      ? `<div class="todo-add"><button type="button" class="todo-edit-btn"
+           data-activity-add>+ Add activity</button></div>`
+      : "";
+
     if (!items.length) {
-      return `<h1>Activities</h1>${placeholder("activities")}${
-        canAdd ? ACTIVITY_ADD_FORM(trip) : ""
-      }`;
+      return `<h1>Activities</h1>${placeholder("activities")}${addBtn}`;
     }
 
     // Costs are entered in whichever currency each one was paid in, so each has to
     // be converted before anything can be totalled or split.
     const unconverted = [];
     items.forEach((a) => {
-      a.key = activityKey(a);
       a.homeCost = convertToHome(a.cost, a.currency || trip.tripCurrency, trip, unconverted);
     });
     const total = items.reduce((s, a) => s + (a.homeCost || 0), 0);
@@ -3004,15 +3096,16 @@ const Trip = (() => {
     const editingCosts = canAdd && extrasState.editingCosts;
 
     // Same reservation shape as a stay, so a booking reads the same wherever it
-    // appears on the site.
-    const reservationValue = (r) => {
-      if (!r || !r.site) return "—";
+    // appears on the site. Site and booking number are editable; extra `refs`
+    // stay as data.json has them, being a list rather than a single value.
+    const reservationValue = (a) => {
+      if (!a.reservationSite) return "—";
       const numbers = [];
-      if (r.bookingNo) numbers.push(`Booking No: ${escapeHtml(r.bookingNo)}`);
-      (r.refs || []).forEach((x) => {
+      if (a.bookingNo) numbers.push(`Booking No: ${escapeHtml(a.bookingNo)}`);
+      (a.refs || []).forEach((x) => {
         if (x && x.value) numbers.push(`${escapeHtml(x.label || "Ref")}: ${escapeHtml(x.value)}`);
       });
-      return `${escapeHtml(r.site)}${
+      return `${escapeHtml(a.reservationSite)}${
         numbers.length ? ` <span class="stay-refs">(${numbers.join(" · ")})</span>` : ""
       }`;
     };
@@ -3052,35 +3145,54 @@ const Trip = (() => {
       }
       if (a.cost == null) return "—";
       const asPaid = TravelSite.formatMoney(a.cost, paidIn);
-      const wasBooked = a.overridden
-        ? ` <span class="stay-rate">(voucher said ${TravelSite.formatMoney(
-            a.bookedCost,
-            a.bookedCurrency || paidIn
-          )})</span>`
-        : "";
+      const wasBooked =
+        a.edited && a.edited.cost != null
+          ? ` <span class="stay-rate">(voucher said ${TravelSite.formatMoney(
+              a.edited.cost,
+              a.edited.currency || paidIn
+            )})</span>`
+          : "";
       if (a.homeCost == null)
         return `${asPaid} <span class="stay-rate">(no rate to convert)</span>${wasBooked}`;
       if (paidIn === (trip.homeCurrency || "MYR")) return `${asPaid}${wasBooked}`;
       return `${asPaid} <span class="stay-rate">(${home(a.homeCost, trip)})</span>${wasBooked}`;
     };
 
+    // A value the page overrode shows what the voucher said beside it, rather
+    // than quietly replacing a figure a document put there.
+    const wasEdited = (a, f) =>
+      a.edited && a.edited[f] != null
+        ? ` <span class="stay-rate">voucher: ${escapeHtml(String(a.edited[f]))}</span>`
+        : "";
+
     const detailRows = (a) => {
       const rows = [
-        ["Place", dash(a.city)],
-        ["Date", a.date ? `${shortDate(a.date)}${a.time ? `, ${escapeHtml(a.time)}` : ""}` : "—"],
+        ["Place", dash(a.city) + wasEdited(a, "city")],
+        [
+          "Date",
+          (a.date ? `${shortDate(a.date)}${a.time ? `, ${escapeHtml(a.time)}` : ""}` : "—") +
+            wasEdited(a, "date"),
+        ],
         ["Cost", costValue(a)],
-        ["Pax", a.pax == null ? "—" : escapeHtml(String(a.pax))],
+        ["Pax", (a.pax == null ? "—" : escapeHtml(String(a.pax))) + wasEdited(a, "pax")],
       ];
-      // A booking carries more than a walk-up ticket does; only show the rows a
-      // voucher actually filled in, rather than a column of dashes.
-      if (!a.addedId) {
-        rows.splice(2, 0, ["Operator", dash(a.provider)], ["Booking", reservationValue(a.reservation)]);
-        if (a.ticketType) rows.push(["Ticket", dash(a.ticketType)]);
-        if (a.meetingPoint) rows.push(["Meeting point", dash(a.meetingPoint)]);
-        if (a.arriveBy) rows.push(["Be there by", dash(a.arriveBy)]);
-        if (a.validity) rows.push(["Valid", dash(a.validity)]);
-        rows.push(["Paid", paidValue(a)]);
+      // A booking carries more than a walk-up ticket does; show the rows the
+      // voucher filled in, plus any the page has since been given.
+      if (a.provider || a.reservationSite || !a.addedId) {
+        rows.splice(
+          2,
+          0,
+          ["Operator", dash(a.provider) + wasEdited(a, "provider")],
+          ["Booking", reservationValue(a) + wasEdited(a, "bookingNo")]
+        );
       }
+      if (a.ticketType) rows.push(["Ticket", dash(a.ticketType) + wasEdited(a, "ticketType")]);
+      if (a.meetingPoint)
+        rows.push(["Meeting point", dash(a.meetingPoint) + wasEdited(a, "meetingPoint")]);
+      if (a.arriveBy) rows.push(["Be there by", dash(a.arriveBy) + wasEdited(a, "arriveBy")]);
+      if (a.validity) rows.push(["Valid", dash(a.validity) + wasEdited(a, "validity")]);
+      if (a.prepaid != null || a.cancellation)
+        rows.push(["Paid", paidValue(a) + wasEdited(a, "cancellation")]);
       if (a.url) {
         rows.push([
           "Link",
@@ -3136,7 +3248,9 @@ const Trip = (() => {
         <table class="stay-table">
           <tbody>${items
             .map(
-              (a) => `<tr>
+              (a) => {
+                const open = canAdd && extrasState.editingKey === a.key;
+                return `<tr>
                 <td class="stay-summary">
                   <div class="stay-place">${escapeHtml(a.name || a.city || "Activity")}</div>
                   <div class="stay-dates">${
@@ -3145,36 +3259,40 @@ const Trip = (() => {
                   <div class="stay-price">${
                     a.homeCost != null ? home(a.homeCost, trip) : "—"
                   }</div>
+                  ${a.addedId ? `<div class="activity-origin">Added on the trip</div>` : ""}
                   ${
-                    a.addedId
-                      ? `<div class="activity-origin">Added on the trip</div>
-                         ${
-                           canAdd
-                             ? `<div class="cost-actions">
-                                  <button type="button" class="todo-edit-btn" data-extra-edit="${escapeHtml(
-                                    a.addedId
-                                  )}">Edit</button>
-                                  <button type="button" class="todo-edit-btn todo-edit-cancel"
-                                    data-extra-remove="${escapeHtml(a.addedId)}">Remove</button>
-                                </div>`
-                             : ""
-                         }`
+                    canAdd && !open
+                      ? `<div class="cost-actions">
+                           <button type="button" class="todo-edit-btn"
+                             data-activity-edit="${escapeHtml(a.key)}">Edit</button>
+                           ${
+                             a.addedId
+                               ? `<button type="button" class="todo-edit-btn todo-edit-cancel"
+                                    data-extra-remove="${escapeHtml(a.addedId)}">Remove</button>`
+                               : ""
+                           }
+                         </div>`
                       : ""
                   }
                 </td>
                 <td class="stay-detail">
-                  <dl>${detailRows(a)
-                    .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
-                    .join("")}</dl>
+                  ${
+                    open
+                      ? activityEditForm(a, trip)
+                      : `<dl>${detailRows(a)
+                          .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
+                          .join("")}</dl>`
+                  }
                   ${a.addedId ? "" : stayNoteHtml(a.key, a.name || a.city || "activity")}
                   ${attachmentsHtml("activity", a.key, "Tickets and vouchers")}
                 </td>
-              </tr>`
+              </tr>`;
+              }
             )
             .join("")}</tbody>
         </table>
       </div>
-      ${canAdd ? ACTIVITY_ADD_FORM(trip) : ""}`;
+      ${addBtn}`;
 
     if (has(people)) {
       const rows = items.map((a) => {
@@ -3249,8 +3367,8 @@ const Trip = (() => {
     extrasState.trip = trip;
     extrasState.doc = null;
     extrasState.denied = false;
-    extrasState.adding = false;
-    extrasState.editingId = null;
+    extrasState.editingKey = null;
+    extrasState.draft = null;
     extrasState.editingCosts = false;
     extrasState.rerender = rerender;
     extrasState.signedIn = !!TravelSite.currentUser();
@@ -3290,24 +3408,24 @@ const Trip = (() => {
   }
 
   function wireExtras(main, trip) {
-    const readForm = (form) => {
-      const val = (sel) => {
-        const el = form.querySelector(sel);
-        return el ? el.value.trim() : "";
-      };
-      const name = val("[data-extra-name]");
-      if (!name) return null;
-      const cost = val("[data-extra-cost]");
-      const pax = val("[data-extra-pax]");
-      return {
-        name: name,
-        city: val("[data-extra-city]") || null,
-        date: val("[data-extra-date]") || null,
-        cost: cost === "" ? null : Number(cost),
-        currency: val("[data-extra-currency]") || trip.tripCurrency || trip.homeCurrency || null,
-        pax: pax === "" ? null : Number(pax),
-        notes: val("[data-extra-notes]") || null,
-      };
+    /** Everything typed into one card's form, as the merged shape the page uses. */
+    const readCard = (form) => {
+      const out = {};
+      form.querySelectorAll("[data-activity-field]").forEach((el) => {
+        const f = el.dataset.activityField;
+        const raw = (el.value || "").trim();
+        if (f === "prepaid") {
+          out.prepaid = raw === "" ? null : raw === "yes";
+        } else if (f === "cost" || f === "pax") {
+          out[f] = raw === "" ? null : Number(raw);
+        } else {
+          out[f] = raw === "" ? null : raw;
+        }
+      });
+      // Currency alone means nothing without a price, and would otherwise count
+      // as an edit against every activity that has none.
+      if (out.cost == null) out.currency = null;
+      return out;
     };
 
     // The same price shows twice while editing — on the card and in the split
@@ -3326,21 +3444,113 @@ const Trip = (() => {
 
     main.addEventListener("click", (e) => {
       if (!extrasState.signedIn || extrasState.denied) return;
-      const form = main.querySelector("[data-extra-add-form]");
 
-      // The two editors share this page and each redraws it, so leaving both open
+      // The editors share this page and each redraws it, so leaving two open
       // would let a Save on one throw away what had been typed into the other.
       // Only one at a time, and each keeps its own Save.
       if (e.target.closest("[data-split-edit]")) {
-        // wireSplits is wired first and has already redrawn with the old flag,
+        // wireSplits is wired first and has already redrawn with the old flags,
         // so this needs its own redraw to actually put the boxes away.
-        if (!extrasState.editingCosts) return;
+        if (!extrasState.editingCosts && !extrasState.editingKey) return;
         extrasState.editingCosts = false;
+        extrasState.editingKey = null;
+        extrasState.draft = null;
         if (extrasState.rerender) extrasState.rerender();
         return;
       }
+
+      // ---- one whole activity, every field
+      const editBtn = e.target.closest("[data-activity-edit]");
+      if (editBtn) {
+        extrasState.editingKey = editBtn.dataset.activityEdit;
+        extrasState.editingCosts = false;
+        splitState.editing = false;
+        if (extrasState.rerender) extrasState.rerender();
+        return;
+      }
+      if (e.target.closest("[data-activity-add]")) {
+        // Held in state, not written, so Cancel on a new one leaves no trace.
+        const id = newExtraId();
+        extrasState.draft = {
+          name: "New activity",
+          city: null,
+          date: null,
+          time: null,
+          cost: null,
+          currency: trip.tripCurrency || trip.homeCurrency || null,
+          pax: null,
+          notes: null,
+          prepaid: false,
+          refs: [],
+          addedId: id,
+          key: attachSlug(`activity-added-${id}`),
+          edited: {},
+        };
+        extrasState.editingKey = extrasState.draft.key;
+        extrasState.editingCosts = false;
+        splitState.editing = false;
+        if (extrasState.rerender) extrasState.rerender();
+        return;
+      }
+      if (e.target.closest("[data-activity-cancel]")) {
+        extrasState.editingKey = null;
+        extrasState.draft = null;
+        if (extrasState.rerender) extrasState.rerender();
+        return;
+      }
+      const saveBtn = e.target.closest("[data-activity-save]");
+      if (saveBtn) {
+        const form = saveBtn.closest("[data-activity-form]");
+        const fields = readCard(form);
+        if (!fields.name) return; // a nameless activity is nothing to record
+        const doc = extrasDoc();
+        const addedId = form.dataset.activityAdded;
+        if (addedId) {
+          // Added on the trip: the item itself is the record, so store it whole.
+          const items = doc.items.slice();
+          const i = items.findIndex((x) => x.id === addedId);
+          const next = { id: addedId, ...fields };
+          if (i > -1) items[i] = next;
+          else items.push(next);
+          doc.items = items;
+          logAction(trip, extrasState.draft ? "added activity" : "edited activity", fields.name);
+        } else {
+          // Booked: store only what actually differs from data.json, so the file
+          // stays authoritative wherever it has not been contradicted and a
+          // confirmation transcribed into it later still comes through.
+          const key = form.dataset.activityKey;
+          const source = (trip.activities || []).find((x) => activityKey(x) === key) || {};
+          const flat = {
+            ...source,
+            reservationSite: (source.reservation && source.reservation.site) || null,
+            bookingNo: (source.reservation && source.reservation.bookingNo) || null,
+          };
+          const diff = {};
+          Object.keys(fields).forEach((f) => {
+            const was = flat[f] == null || flat[f] === "" ? null : flat[f];
+            // An emptied box means "I have nothing to add here", not "this field
+            // is blank" — so it drops back to data.json rather than shadowing it
+            // with a null. Clearing a value the file does record is a data.json
+            // edit, which is the only place a document's own words belong.
+            if (fields[f] == null) return;
+            if (fields[f] !== was) diff[f] = fields[f];
+          });
+          if (Object.keys(diff).length) doc.overrides[key] = diff;
+          else delete doc.overrides[key];
+          delete doc.costs[key]; // folded into overrides now
+          logAction(trip, "edited activity", fields.name);
+        }
+        writeExtras(doc);
+        extrasState.editingKey = null;
+        extrasState.draft = null;
+        if (extrasState.rerender) extrasState.rerender();
+        return;
+      }
+
       if (e.target.closest("[data-activity-costs-edit]")) {
         extrasState.editingCosts = true;
+        extrasState.editingKey = null;
+        extrasState.draft = null;
         splitState.editing = false;
         if (extrasState.rerender) extrasState.rerender();
         return;
@@ -3351,7 +3561,8 @@ const Trip = (() => {
         return;
       }
       if (e.target.closest("[data-activity-costs-save]")) {
-        const costs = { ...extraCosts() };
+        const doc = extrasDoc();
+        const costs = doc.overrides;
         // What data.json already says, so a figure typed back the same as the
         // voucher's stores nothing — leaving data.json authoritative wherever it
         // has not actually been contradicted.
@@ -3363,7 +3574,13 @@ const Trip = (() => {
           const key = el.dataset.activityKey;
           const raw = el.value.trim();
           if (raw === "") {
-            delete costs[key]; // back to data.json, rather than a stored blank
+            // Back to data.json for the price, without discarding any other
+            // field this activity has been given.
+            if (costs[key]) {
+              delete costs[key].cost;
+              delete costs[key].currency;
+              if (!Object.keys(costs[key]).length) delete costs[key];
+            }
             return;
           }
           const cur = main.querySelector(`[data-activity-currency][data-activity-key="${key}"]`);
@@ -3371,75 +3588,35 @@ const Trip = (() => {
           const currency = cur ? cur.value : null;
           const b = booked[key];
           if (b && b.cost === value && (b.currency || currency) === currency) {
-            delete costs[key];
+            if (costs[key]) {
+              delete costs[key].cost;
+              delete costs[key].currency;
+              if (!Object.keys(costs[key]).length) delete costs[key];
+            }
             return;
           }
-          costs[key] = { cost: value, currency: currency };
+          costs[key] = { ...(costs[key] || {}), cost: value, currency: currency };
         });
-        writeExtras({ items: extraItems(), costs: costs });
+        doc.overrides = costs;
+        doc.costs = {}; // the old price-only shape, now folded in
+        writeExtras(doc);
         logAction(trip, "updated activity costs", "what each activity cost");
         extrasState.editingCosts = false;
         if (extrasState.rerender) extrasState.rerender();
         return;
       }
 
-      if (e.target.closest("[data-extra-add-toggle]")) {
-        extrasState.adding = !extrasState.adding;
-        extrasState.editingId = null;
-      } else if (e.target.closest("[data-extra-cancel]")) {
-        extrasState.adding = false;
-        extrasState.editingId = null;
-      } else if (e.target.closest("[data-extra-save]")) {
-        const fields = readForm(form);
-        if (!fields) return; // a nameless activity is nothing to record
-        const items = extraItems().slice();
-        if (extrasState.editingId) {
-          const i = items.findIndex((x) => x.id === extrasState.editingId);
-          if (i > -1) items[i] = { ...items[i], ...fields };
-          logAction(trip, "edited activity", fields.name);
-        } else {
-          items.push({ id: newExtraId(), ...fields });
-          logAction(trip, "added activity", fields.name);
-        }
-        writeExtras({ items: items, costs: extraCosts() });
-        extrasState.adding = false;
-        extrasState.editingId = null;
-      } else {
-        const edit = e.target.closest("[data-extra-edit]");
-        const remove = e.target.closest("[data-extra-remove]");
-        if (edit) {
-          extrasState.editingId = edit.dataset.extraEdit;
-          extrasState.adding = true;
-        } else if (remove) {
-          const id = remove.dataset.extraRemove;
-          const it = extraItems().find((x) => x.id === id);
-          if (!it || !window.confirm(`Remove ${it.name}?`)) return;
-          writeExtras({ items: extraItems().filter((x) => x.id !== id), costs: extraCosts() });
-          logAction(trip, "removed activity", it.name);
-        } else {
-          return;
-        }
-      }
-      if (extrasState.rerender) extrasState.rerender();
-      // Editing pre-fills after the redraw, since the form is rebuilt each time.
-      if (extrasState.editingId) {
-        const it = extraItems().find((x) => x.id === extrasState.editingId);
-        const f = main.querySelector("[data-extra-add-form]");
-        if (it && f) {
-          const set = (sel, v) => {
-            const el = f.querySelector(sel);
-            if (el) el.value = v == null ? "" : v;
-          };
-          set("[data-extra-name]", it.name);
-          set("[data-extra-city]", it.city);
-          set("[data-extra-date]", it.date);
-          set("[data-extra-cost]", it.cost);
-          set("[data-extra-currency]", it.currency);
-          set("[data-extra-pax]", it.pax);
-          set("[data-extra-notes]", it.notes);
-          const save = f.querySelector("[data-extra-save]");
-          if (save) save.textContent = "Save";
-        }
+      const remove = e.target.closest("[data-extra-remove]");
+      if (remove) {
+        const id = remove.dataset.extraRemove;
+        const it = extraItems().find((x) => x.id === id);
+        if (!it || !window.confirm(`Remove ${it.name}?`)) return;
+        const doc = extrasDoc();
+        doc.items = doc.items.filter((x) => x.id !== id);
+        writeExtras(doc);
+        logAction(trip, "removed activity", it.name);
+        extrasState.editingKey = null;
+        if (extrasState.rerender) extrasState.rerender();
       }
     });
   }

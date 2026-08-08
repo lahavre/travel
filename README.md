@@ -330,9 +330,9 @@ Activities come from **two places on purpose**. Booked-ahead ones live in `data.
 transcribed from the voucher. Ones paid for **during the trip** — the 500-yen temple, the
 cable car, the ticket bought at the gate — are added on the page with **+ Add activity**
 and live in Firestore (`extraActivities/<slug>`), because a static site cannot write to
-its own `data.json`. They are marked "Added on the trip", and only they can be edited or
-removed on the page; a booked one is changed by editing `data.json`, where the voucher
-put it. Both appear in one list and one split, so the total is the trip's whole
+its own `data.json`. They are marked "Added on the trip", and only they can be *removed*
+on the page — a booked one belongs to the file that records it. Both are fully editable
+(see below), and both appear in one list and one split, so the total is the trip's whole
 sightseeing spend rather than only the half that was planned.
 
 Each activity names the **currency it was paid in** — the trip's or home — and the page
@@ -342,19 +342,31 @@ nothing**: a voucher that states no price leaves `cost` null, and the total read
 until a figure exists. `date` may be null for an open-dated ticket; put the window in
 `validity` instead and the card reads "Open dated".
 
-**Prices are editable on the page.** **Edit costs** turns every booked activity's price
-into a box with a currency picker — on the card *and* in the split table's Cost column,
-since that is where you are usually reading the figure; the two boxes for one activity
-stay in step as you type. Editing costs and editing the split are **mutually
-exclusive**: each redraws the page on Save, so leaving both open would let one discard
-what had been typed into the other — a voucher frequently states no price at all, and the
-figure has to be recordable without a commit. The typed prices live beside the added
-activities in `extraActivities/<slug>` as `costs: { <activityKey>: {cost, currency} }`.
-Two rules keep `data.json` authoritative: clearing a box **removes** the override and the
-activity goes back to what the file says, and typing a figure **identical** to the file's
-stores nothing at all. Where a typed price does contradict a price the voucher stated,
-the card shows both — "JPY 5,200 (MYR 171.60) (voucher said JPY 4,800)" — rather than
-quietly replacing it.
+**Every field is editable on the page.** Each card carries an **Edit** button that turns
+its whole detail list into a form — name, place, date, time, operator, booking, price and
+currency, pax, ticket type, meeting point, validity, paid, cancellation, link. **+ Add
+activity** opens the same form on a blank one, held in memory until Save so Cancel leaves
+nothing behind. **Edit costs** remains as a quick pass over prices alone, on the card and
+in the split table's Cost column (the two boxes for one activity stay in step as you
+type). Only one editor is open at a time — each redraws the page on Save, so leaving two
+open would let one discard what had been typed into the other.
+
+Where an edit goes depends on where the activity came from. An **added** one is stored
+whole in `items`, since nothing else records it. A **booked** one stores only the fields
+that actually differ from `data.json`, in `overrides: { <activityKey>: {field: value} }`.
+That difference is the point: it keeps `data.json` authoritative wherever it has not been
+contradicted, so **a booking confirmation transcribed into the file later still comes
+through** on every field nobody has overridden. Three rules follow — emptying a box
+**removes** that field's override rather than storing a blank, typing a value
+**identical** to the file's stores nothing, and a value that **does** contradict the file
+renders the original beside it ("Hotel lobby, ground floor · voucher: JTB desk, 3rd
+floor") rather than quietly replacing what a document said. Clearing a value the file
+records is a `data.json` edit, which is the only place a document's own words belong.
+
+Overrides are keyed on the activity's **original** name and date, never the edited ones,
+so renaming an activity cannot orphan its override, its private note, its attached
+tickets or its place in the split. Extra `refs` on a booking stay as `data.json` has
+them, being a list rather than a single value.
 
 Split defaults differ by section, deliberately: an activity with nothing recorded is
 shared by **everyone**, since it is something the group went and did, whereas a transport
@@ -478,13 +490,14 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   so the columns always add up; their name stays in the document, so adding them back
   restores their shares exactly.
 - **Activities added on the trip.** The activities page's **+ Add activity** writes to
-  `extraActivities/<slug>` — `{ items: [{id, name, city, date, cost, currency, pax,
-  notes}], costs: {<activityKey>: {cost, currency}} }` — for anything paid for at the
-  gate rather than booked ahead. `costs` holds prices typed on the page against
-  activities that live in `data.json`; only figures that actually differ are stored. It is a
-  separate collection from `activity/<slug>/entries` below on purpose: the trail is
-  append-only and must never fall under a rule that allows overwriting. Booked
-  activities stay in `data.json`; only the added ones are editable on the page.
+  `extraActivities/<slug>` — `{ items: [{id, name, city, date, ...}], overrides:
+  {<activityKey>: {field: value}} }`. `items` are activities that exist nowhere else;
+  `overrides` are per-field edits to activities that live in `data.json`, storing only
+  what actually differs so the file stays authoritative. (`costs`, the earlier
+  price-only shape, is still read and folded in, so prices typed before this was
+  generalised are not stranded.) It is a separate collection from
+  `activity/<slug>/entries` below on purpose: the trail is append-only and must never
+  fall under a rule that allows overwriting.
 - **Activity trail.** Every change to a trip — a to-do added, marked or removed, a
   remark edited, car costs or a split updated, a file attached or deleted — writes an
   entry to `activity/<slug>/entries` recording who, what and when. It shows as a

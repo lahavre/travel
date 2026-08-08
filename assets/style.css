@@ -1135,6 +1135,41 @@ tfoot td {
 .activity-cost-edit .cost-input[type="number"] {
   width: 8ch;
 }
+/* The card's detail list, turned into a form. Same two-column grid, so the
+   labels stay put and only the values become boxes. */
+.activity-edit dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 12px;
+  align-items: center;
+  margin: 0;
+}
+.activity-edit dt {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.activity-edit dd {
+  margin: 0;
+}
+.activity-edit .activity-field-input {
+  width: 100%;
+  max-width: 32rem;
+}
+.activity-edit .cost-actions {
+  margin-top: 12px;
+}
+@media (max-width: 640px) {
+  /* Too narrow for two columns — stack, and let the boxes use the full width.
+     Scoped through .stay-detail to outrank the two-column rule that the same
+     breakpoint sets for a card's read-only detail list. */
+  .stay-detail .activity-edit dl {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .stay-detail .activity-edit dd {
+    margin-bottom: 8px;
+  }
+}
 
 /* Label/value pairs. The grid keeps every label column-aligned down the row. */
 .stay-detail dl {
