@@ -19,6 +19,7 @@ trips/<slug>/
   budget.html         Budget vs actual, settle-up between travellers, exchange rates
   accommodation.html  Stays, nightly rates, per-person split
   transport.html      Flights, car rental, public transport, driving log
+  activities.html     Tours and attractions, what each cost, per-person split
   todo.html           Pre-trip bookings and paperwork (private, sign-in to view)
 ```
 
@@ -38,7 +39,7 @@ consistent the same way the old spreadsheet formulas did.
    `startDate`, `endDate`. The landing page sorts by `startDate` descending and derives
    the Upcoming/In progress/Past badge from today's date.
 
-The seven HTML pages are identical for every trip and contain no trip-specific content —
+The eight HTML pages are identical for every trip and contain no trip-specific content —
 never edit them per trip. `_template/` is not listed in `trips.json`, so it stays off the
 landing page while remaining previewable at `/trips/_template/`.
 
@@ -65,6 +66,7 @@ breaking, so a half-planned trip still renders.
 | `days` | The detailed plan; each has `items` with `time`, `activity`, `costs`, `remarks`, optional `travel` |
 | `accommodation` | Stays — booking, address, room, times, meal/parking/laundry, payment, optional `perPerson` split |
 | `transport` | `mode`, plus optional `carRental`, `publicTransport`, `legs`, `totalKm`, `rentalTotal` |
+| `activities` | Tours, attractions and tickets booked ahead; `cost` in whichever `currency` was paid. Ones paid for during the trip are added on the page instead (see below) |
 | `todo` | Pre-trip checklist; `status` is `"Done"` or `"Open"`. Optional `category` + `subcategory` group the list (see below) |
 
 **Currency.** `exchangeRate.rate` is how many *home* currency units you get per
@@ -319,6 +321,35 @@ on each flight card (on the transport page), for boarding passes and e-tickets �
 pattern as a stay's (see **Firebase / private data**). A flight's `remarks` in
 `data.json` is the seed for that note, not public page text.
 
+**The activities page.** Tours, attractions and tickets, each as a summary (name, date,
+cost) beside a labelled detail list — the same two-column reading as a stay. Below it,
+"Split per traveller": tick who shares each one and the share is the cost divided
+between them, the same machinery the transport and budget splits use.
+
+Activities come from **two places on purpose**. Booked-ahead ones live in `data.json`,
+transcribed from the voucher. Ones paid for **during the trip** — the 500-yen temple, the
+cable car, the ticket bought at the gate — are added on the page with **+ Add activity**
+and live in Firestore (`extraActivities/<slug>`), because a static site cannot write to
+its own `data.json`. They are marked "Added on the trip", and only they can be edited or
+removed on the page; a booked one is changed by editing `data.json`, where the voucher
+put it. Both appear in one list and one split, so the total is the trip's whole
+sightseeing spend rather than only the half that was planned.
+
+Each activity names the **currency it was paid in** — the trip's or home — and the page
+converts and totals in home currency, saying so out loud if some third currency has no
+rate rather than counting it as zero. **Nothing costed is not the same claim as costing
+nothing**: a voucher that states no price leaves `cost` null, and the total reads "—"
+until a figure exists. `date` may be null for an open-dated ticket; put the window in
+`validity` instead and the card reads "Open dated".
+
+Split defaults differ by section, deliberately: an activity with nothing recorded is
+shared by **everyone**, since it is something the group went and did, whereas a transport
+ticket names its passenger and defaults to nobody rather than guessing.
+
+**Never put ticket or QR numbers in `data.json`** — they are entry credentials, the
+repository is public, and anyone holding the number holds the ticket. Attach the PDF to
+the activity instead, where it sits behind sign-in like everything else private.
+
 **Cost categories.** Default buckets are `transport`, `fuel`, `food`, `sightseeing`,
 `misc`. Override with a `costCategories` object mapping key to label; the keys you use
 in `costs` must match. Day totals and the budget page's "planned spend" table roll up
@@ -427,8 +458,17 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   (its `actual` where tallied, else `budget`) and divides it between whoever is ticked —
   **Edit split**, then Save. A category starts shared by everyone; untick anyone it does
   not apply to and they read N/A. Both splits share one document, `costSplits/<slug>`
-  (`byItem` for transport, `byBudget` for the budget), and each share is derived rather
-  than stored, so it can never disagree with the figures or the traveller list.
+  (`byItem` for transport and activities, `byBudget` for the budget), and each share is
+  derived rather than stored, so it can never disagree with the figures or the traveller
+  list. **Removing a traveller re-splits** whatever they shared between whoever is left,
+  so the columns always add up; their name stays in the document, so adding them back
+  restores their shares exactly.
+- **Activities added on the trip.** The activities page's **+ Add activity** writes to
+  `extraActivities/<slug>` — `{ items: [{id, name, city, date, cost, currency, pax,
+  notes}] }` — for anything paid for at the gate rather than booked ahead. It is a
+  separate collection from `activity/<slug>/entries` below on purpose: the trail is
+  append-only and must never fall under a rule that allows overwriting. Booked
+  activities stay in `data.json`; only the added ones are editable on the page.
 - **Activity trail.** Every change to a trip — a to-do added, marked or removed, a
   remark edited, car costs or a split updated, a file attached or deleted — writes an
   entry to `activity/<slug>/entries` recording who, what and when. It shows as a

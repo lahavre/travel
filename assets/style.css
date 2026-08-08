@@ -1105,6 +1105,28 @@ tfoot td {
   white-space: nowrap;
 }
 
+/* An activity added during the trip rather than booked ahead — worth marking,
+   because it says the figure came off a receipt and not a confirmation. */
+.activity-origin {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.stay-summary .cost-actions {
+  margin-top: 6px;
+}
+/* Wider than the to-do form: an activity carries a place, a date and a price
+   alongside its name, and cramming them onto one line makes each unreadable. */
+.activity-add-form input[type="date"],
+.activity-add-form input[type="number"] {
+  flex: 0 1 130px;
+}
+.activity-add-form .todo-add-remarks {
+  flex: 1 1 220px;
+}
+
 /* Label/value pairs. The grid keeps every label column-aligned down the row. */
 .stay-detail dl {
   display: grid;

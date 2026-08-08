@@ -22,6 +22,7 @@ const Trip = (() => {
     { key: "budget", label: "Budget", href: "budget.html" },
     { key: "accommodation", label: "Accommodation", href: "accommodation.html" },
     { key: "transport", label: "Transport", href: "transport.html" },
+    { key: "activities", label: "Activities", href: "activities.html" },
     { key: "todo", label: "To-do", href: "todo.html" },
   ];
 
@@ -32,6 +33,7 @@ const Trip = (() => {
     budget: "Budget",
     accommodation: "Accommodation",
     transport: "Transport",
+    activities: "Activities",
     todo: "To-do",
   };
 
@@ -84,6 +86,24 @@ const Trip = (() => {
     const fx = trip.exchangeRate;
     if (!fx || !fx.rate) return null;
     return (amount / (fx.per || 1)) * fx.rate;
+  }
+
+  /**
+   * A figure in whatever currency it was paid, expressed in home currency. Home
+   * and trip currency convert; a third currency (a bus booked in euros on a trip
+   * priced in yen) cannot, so it is collected in `unconverted` and said out loud
+   * rather than silently counted as zero.
+   */
+  function convertToHome(amount, currency, trip, unconverted) {
+    if (amount == null) return null;
+    const homeCur = trip.homeCurrency || "MYR";
+    if (!currency || currency === homeCur) return amount;
+    if (currency === trip.tripCurrency) {
+      const v = toHome(amount, trip);
+      if (v != null) return v;
+    }
+    if (unconverted) unconverted.push(`${currency} ${amount.toLocaleString()}`);
+    return null;
   }
 
   /** Home currency back into the destination's — the inverse of toHome. */
@@ -1657,6 +1677,9 @@ const Trip = (() => {
     (tr.publicTransport || []).forEach((p) => {
       if (p.remarks) byKey[ptKey(p)] = p.remarks;
     });
+    (trip.activities || []).forEach((a) => {
+      if (a.remarks) byKey[activityKey(a)] = a.remarks;
+    });
     // A day had two places to write a remark — the whole-day `remarks` and a
     // per-slot one. They are one note now, so the seed folds any slot remark in
     // under its slot's name rather than losing it.
@@ -2103,14 +2126,20 @@ const Trip = (() => {
     const stored = splitDoc().byBudget[category];
     return Array.isArray(stored) ? currentlySharing(stored, trip) : peopleFor(trip);
   }
-  /** Ticked travellers for an item — the stored choice, else whoever data.json named. */
-  function splitFor(key, perPerson, trip) {
+  /**
+   * Ticked travellers for an item — the stored choice, else whoever data.json
+   * named. `sharedByDefault` covers the case where nothing has been recorded at
+   * all: an activity is something the group went and did, so everyone shares it
+   * until told otherwise, whereas a transport ticket names its passenger and
+   * defaults to nobody rather than guessing.
+   */
+  function splitFor(key, perPerson, trip, sharedByDefault) {
     const stored = splitDoc().byItem[key];
     if (Array.isArray(stored)) return currentlySharing(stored, trip);
     if (perPerson) {
       return peopleFor(trip).filter((t) => perPerson[t] != null);
     }
-    return [];
+    return sharedByDefault ? peopleFor(trip) : [];
   }
   function writeSplits(next) {
     splitState.doc = next;
@@ -2355,17 +2384,7 @@ const Trip = (() => {
     // currency (a bus booked in euros on a trip priced in yen) cannot be, so it is
     // counted separately and said out loud rather than silently dropped.
     const unconverted = [];
-    const toHomeAmount = (amount, currency) => {
-      if (amount == null) return null;
-      const homeCur = trip.homeCurrency || "MYR";
-      if (!currency || currency === homeCur) return amount;
-      if (currency === trip.tripCurrency) {
-        const v = toHome(amount, trip);
-        if (v != null) return v;
-      }
-      unconverted.push(`${currency} ${amount.toLocaleString()}`);
-      return null;
-    };
+    const toHomeAmount = (amount, currency) => convertToHome(amount, currency, trip, unconverted);
 
     const flightsCost = flights
       .map((f) => toHomeAmount(f.cost, f.currency || trip.homeCurrency))
@@ -2815,6 +2834,477 @@ const Trip = (() => {
       }
     }, 0);
     return transportHtml(trip);
+  }
+
+  // ------------------------------------------------------------- activities
+  //
+  // Tours, attractions and tickets: what was booked before leaving, and what got
+  // paid for on the day. The two have different homes on purpose.
+  //
+  //   * **Booked** ones live in `data.json.activities`, transcribed from the
+  //     voucher. They are the same kind of record as a stay — a document said so.
+  //   * **Added** ones live in Firestore (`extraActivities/<slug>`), because a
+  //     temple charging 500 yen at the gate is discovered mid-trip, and a static
+  //     site cannot write to its own data.json. This is what makes the page
+  //     usable while actually travelling.
+  //
+  // Both render in one list and one split, so the total is the whole trip's
+  // sightseeing spend rather than only the half that was planned.
+  const extrasState = {
+    trip: null,
+    doc: null,
+    signedIn: false,
+    denied: false, // refused by the rules: read what data.json has, add nothing
+    adding: false,
+    editingId: null,
+    unsub: null,
+    rerender: null,
+  };
+
+  function extrasPath(trip) {
+    return "extraActivities/" + (trip.slug || trip.title || "trip");
+  }
+  function newExtraId() {
+    return "x" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+  function extraItems() {
+    const d = extrasState.doc;
+    return (d && Array.isArray(d.items) && d.items) || [];
+  }
+  function writeExtras(items) {
+    extrasState.doc = { items: items }; // optimistic, so the row appears at once
+    TravelSite.writeDoc(extrasPath(extrasState.trip), { items: items }).catch((e) =>
+      console.warn("Couldn't save the activity:", e)
+    );
+  }
+
+  // Booked activities key off name + date so two visits to the same place stay
+  // apart; added ones carry their own id already.
+  function activityKey(a) {
+    return a.addedId
+      ? attachSlug(`activity-added-${a.addedId}`)
+      : attachSlug(`activity-${a.name || a.city || "outing"}-${a.date || ""}`);
+  }
+
+  /**
+   * Booked and added activities as one list, in date order. Anything undated
+   * sorts last rather than being dropped — a ticket valid across a window (the
+   * kind a theme park sells) genuinely has no single date until it is used.
+   */
+  function allActivities(trip) {
+    const booked = (trip.activities || []).map((a) => ({ ...a, addedId: null }));
+    const added = extraItems().map((x) => ({
+      name: x.name,
+      city: x.city || null,
+      date: x.date || null,
+      time: x.time || null,
+      cost: x.cost == null ? null : Number(x.cost),
+      currency: x.currency || null,
+      pax: x.pax == null ? null : Number(x.pax),
+      notes: x.notes || null,
+      prepaid: false, // paid on the day, by definition
+      addedId: x.id,
+    }));
+    return booked.concat(added).sort((a, b) => {
+      if (!a.date && !b.date) return 0;
+      if (!a.date) return 1;
+      if (!b.date) return -1;
+      return a.date < b.date ? -1 : a.date > b.date ? 1 : 0;
+    });
+  }
+
+  const ACTIVITY_ADD_FORM = (trip) => {
+    // Trip currency first: mid-trip, the figure to hand is what the booth charged.
+    const currencies = [...new Set([trip.tripCurrency, trip.homeCurrency].filter(Boolean))];
+    return `
+      <div class="todo-add">
+        <button type="button" class="todo-edit-btn" data-extra-add-toggle>+ Add activity</button>
+        <form class="todo-add-form activity-add-form" data-extra-add-form${
+          extrasState.adding ? "" : " hidden"
+        }>
+          <input type="text" class="todo-add-task" data-extra-name
+            placeholder="Activity" aria-label="Activity" />
+          <input type="text" class="todo-add-url" data-extra-city
+            placeholder="Place (optional)" aria-label="Place" />
+          <input type="date" class="todo-add-url" data-extra-date aria-label="Date" />
+          <input type="number" step="0.01" min="0" class="todo-add-url" data-extra-cost
+            placeholder="Cost" aria-label="Cost" />
+          <select class="todo-add-category" data-extra-currency aria-label="Currency">
+            ${currencies.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("")}
+          </select>
+          <input type="number" step="1" min="1" class="todo-add-url" data-extra-pax
+            placeholder="Pax" aria-label="Number of people" />
+          <input type="text" class="todo-add-remarks" data-extra-notes
+            placeholder="Remarks (optional)" aria-label="Remarks" />
+          <div class="todo-add-actions">
+            <button type="button" class="todo-edit-btn" data-extra-save>Add</button>
+            <button type="button" class="todo-edit-btn todo-edit-cancel" data-extra-cancel>Cancel</button>
+          </div>
+        </form>
+      </div>`;
+  };
+
+  function activitiesHtml(trip) {
+    const items = allActivities(trip);
+    const people = peopleFor(trip);
+    const canAdd = extrasState.signedIn && !extrasState.denied;
+
+    if (!items.length) {
+      return `<h1>Activities</h1>${placeholder("activities")}${
+        canAdd ? ACTIVITY_ADD_FORM(trip) : ""
+      }`;
+    }
+
+    // Costs are entered in whichever currency each one was paid in, so each has to
+    // be converted before anything can be totalled or split.
+    const unconverted = [];
+    items.forEach((a) => {
+      a.key = activityKey(a);
+      a.homeCost = convertToHome(a.cost, a.currency || trip.tripCurrency, trip, unconverted);
+    });
+    const total = items.reduce((s, a) => s + (a.homeCost || 0), 0);
+    // A voucher often doesn't state a price. Nothing costed is not the same claim
+    // as costing nothing, so the total stays "—" until some figure exists.
+    const anyCost = items.some((a) => a.homeCost != null);
+    const grand = anyCost ? home(total, trip) : "—";
+
+    const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
+    const shortDate = (iso) =>
+      iso ? TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" }) : null;
+
+    // Same reservation shape as a stay, so a booking reads the same wherever it
+    // appears on the site.
+    const reservationValue = (r) => {
+      if (!r || !r.site) return "—";
+      const numbers = [];
+      if (r.bookingNo) numbers.push(`Booking No: ${escapeHtml(r.bookingNo)}`);
+      (r.refs || []).forEach((x) => {
+        if (x && x.value) numbers.push(`${escapeHtml(x.label || "Ref")}: ${escapeHtml(x.value)}`);
+      });
+      return `${escapeHtml(r.site)}${
+        numbers.length ? ` <span class="stay-refs">(${numbers.join(" · ")})</span>` : ""
+      }`;
+    };
+
+    const paidValue = (a) => {
+      if (a.prepaid == null) return "—";
+      const cancel = a.cancellation ? escapeHtml(a.cancellation) : null;
+      if (a.prepaid) return `Yes${cancel ? ` (${cancel})` : ""}`;
+      return `On the day${cancel ? ` (${cancel})` : ""}`;
+    };
+
+    // What each one cost, in the currency it was paid plus the home equivalent —
+    // the same two-currency reading the day page gives an activity.
+    const costValue = (a) => {
+      if (a.cost == null) return "—";
+      const paidIn = a.currency || trip.tripCurrency || trip.homeCurrency;
+      const asPaid = TravelSite.formatMoney(a.cost, paidIn);
+      if (a.homeCost == null) return `${asPaid} <span class="stay-rate">(no rate to convert)</span>`;
+      if (paidIn === (trip.homeCurrency || "MYR")) return asPaid;
+      return `${asPaid} <span class="stay-rate">(${home(a.homeCost, trip)})</span>`;
+    };
+
+    const detailRows = (a) => {
+      const rows = [
+        ["Place", dash(a.city)],
+        ["Date", a.date ? `${shortDate(a.date)}${a.time ? `, ${escapeHtml(a.time)}` : ""}` : "—"],
+        ["Cost", costValue(a)],
+        ["Pax", a.pax == null ? "—" : escapeHtml(String(a.pax))],
+      ];
+      // A booking carries more than a walk-up ticket does; only show the rows a
+      // voucher actually filled in, rather than a column of dashes.
+      if (!a.addedId) {
+        rows.splice(2, 0, ["Operator", dash(a.provider)], ["Booking", reservationValue(a.reservation)]);
+        if (a.ticketType) rows.push(["Ticket", dash(a.ticketType)]);
+        if (a.meetingPoint) rows.push(["Meeting point", dash(a.meetingPoint)]);
+        if (a.arriveBy) rows.push(["Be there by", dash(a.arriveBy)]);
+        if (a.validity) rows.push(["Valid", dash(a.validity)]);
+        rows.push(["Paid", paidValue(a)]);
+      }
+      if (a.url) {
+        rows.push([
+          "Link",
+          `<a href="${escapeHtml(a.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+            a.url.replace(/^https?:\/\//, "").replace(/\/$/, "")
+          )}</a>`,
+        ]);
+      }
+      // An added activity keeps its remarks on the item itself — it is private
+      // already, and Edit is where you change it. A booked one seeds the same
+      // private note box a stay uses, so there is only ever one place to write.
+      if (a.addedId && a.notes) rows.push(["Remarks", multiline(a.notes)]);
+      return rows;
+    };
+
+    let out = `
+      <h1>Activities</h1>
+      <p class="subtitle">${items.length} activit${items.length === 1 ? "y" : "ies"} · ${
+      anyCost ? `${grand} total` : "no costs recorded yet"
+    }</p>
+      ${
+        unconverted.length
+          ? `<p class="section-note">Not included in the total, having no rate to this trip's
+               ${escapeHtml(trip.homeCurrency || "home currency")}:
+               ${escapeHtml([...new Set(unconverted)].join(", "))}.</p>`
+          : ""
+      }
+
+      <div class="table-wrap">
+        <table class="stay-table">
+          <tbody>${items
+            .map(
+              (a) => `<tr>
+                <td class="stay-summary">
+                  <div class="stay-place">${escapeHtml(a.name || a.city || "Activity")}</div>
+                  <div class="stay-dates">${
+                    shortDate(a.date) || (a.validity ? "Open dated" : "Date not set")
+                  }</div>
+                  <div class="stay-price">${
+                    a.homeCost != null ? home(a.homeCost, trip) : "—"
+                  }</div>
+                  ${
+                    a.addedId
+                      ? `<div class="activity-origin">Added on the trip</div>
+                         ${
+                           canAdd
+                             ? `<div class="cost-actions">
+                                  <button type="button" class="todo-edit-btn" data-extra-edit="${escapeHtml(
+                                    a.addedId
+                                  )}">Edit</button>
+                                  <button type="button" class="todo-edit-btn todo-edit-cancel"
+                                    data-extra-remove="${escapeHtml(a.addedId)}">Remove</button>
+                                </div>`
+                             : ""
+                         }`
+                      : ""
+                  }
+                </td>
+                <td class="stay-detail">
+                  <dl>${detailRows(a)
+                    .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
+                    .join("")}</dl>
+                  ${a.addedId ? "" : stayNoteHtml(a.key, a.name || a.city || "activity")}
+                  ${attachmentsHtml("activity", a.key, "Tickets and vouchers")}
+                </td>
+              </tr>`
+            )
+            .join("")}</tbody>
+        </table>
+      </div>
+      ${canAdd ? ACTIVITY_ADD_FORM(trip) : ""}`;
+
+    if (has(people)) {
+      const rows = items.map((a) => {
+        const who = splitFor(a.key, a.perPerson, trip, true);
+        return {
+          key: a.key,
+          label: a.name || a.city || "Activity",
+          total: a.homeCost,
+          who,
+          share: a.homeCost != null && who.length ? a.homeCost / who.length : null,
+        };
+      });
+      const totals = people.map((t) =>
+        rows.reduce((s, r) => s + (r.who.includes(t) && r.share != null ? r.share : 0), 0)
+      );
+      out += `
+        <h2 class="split-head">Split per traveller ${splitEditControls()}</h2>
+        <p class="section-note">${
+          splitState.editing
+            ? "Tick whoever shares each activity, then Save — each share is the cost divided between them."
+            : "N/A — that traveller doesn't share this cost."
+        }</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Activity</th><th class="num">Cost</th>${people
+              .map((t) => `<th class="num">${escapeHtml(t)}</th>`)
+              .join("")}</tr></thead>
+            <tbody>${rows
+              .map(
+                (r) => `<tr data-split-item="${escapeHtml(r.key)}" data-split-scope="item">
+                  <td>${escapeHtml(r.label)}</td>
+                  <td class="num">${r.total != null ? home(r.total, trip) : "—"}</td>
+                  ${people
+                    .map((t) => {
+                      if (splitState.editing) {
+                        return `<td class="num"><input type="checkbox" class="split-check attach-check"
+                          data-split-scope="item"
+                          data-split-key="${escapeHtml(r.key)}" data-traveller="${escapeHtml(t)}"${
+                          r.who.includes(t) ? " checked" : ""
+                        } aria-label="${escapeHtml(t)} shares ${escapeHtml(r.label)}" /></td>`;
+                      }
+                      if (!r.who.includes(t)) return `<td class="num">N/A</td>`;
+                      return `<td class="num">${r.share != null ? home(r.share, trip) : "—"}</td>`;
+                    })
+                    .join("")}</tr>`
+              )
+              .join("")}</tbody>
+            <tfoot><tr><td>Total</td>
+              <td class="num">${grand}</td>
+              ${totals
+                .map((v) => `<td class="num">${anyCost ? home(v, trip) : "—"}</td>`)
+                .join("")}
+            </tr></tfoot>
+          </table>
+        </div>`;
+    }
+
+    return out;
+  }
+
+  function setupExtras(trip, rerender) {
+    extrasState.trip = trip;
+    extrasState.doc = null;
+    extrasState.denied = false;
+    extrasState.adding = false;
+    extrasState.editingId = null;
+    extrasState.rerender = rerender;
+    extrasState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (extrasState.unsub) {
+        extrasState.unsub();
+        extrasState.unsub = null;
+      }
+      extrasState.signedIn = !!user;
+      extrasState.doc = null;
+      extrasState.denied = false;
+      if (user) {
+        extrasState.unsub = TravelSite.watchDoc(
+          extrasPath(trip),
+          (data) => {
+            extrasState.doc = data;
+            extrasState.denied = false;
+            // The added ones each want their own note and file group, and they
+            // only exist once this document arrives.
+            refreshAttachGroups(activityAttachGroups(trip));
+            if (rerender) rerender();
+          },
+          () => {
+            // Refused by the rules — show what data.json holds and nothing private.
+            extrasState.doc = null;
+            extrasState.denied = true;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
+  }
+
+  function activityAttachGroups(trip) {
+    return allActivities(trip).map((a) => ({ kind: "activity", key: activityKey(a) }));
+  }
+
+  function wireExtras(main, trip) {
+    const readForm = (form) => {
+      const val = (sel) => {
+        const el = form.querySelector(sel);
+        return el ? el.value.trim() : "";
+      };
+      const name = val("[data-extra-name]");
+      if (!name) return null;
+      const cost = val("[data-extra-cost]");
+      const pax = val("[data-extra-pax]");
+      return {
+        name: name,
+        city: val("[data-extra-city]") || null,
+        date: val("[data-extra-date]") || null,
+        cost: cost === "" ? null : Number(cost),
+        currency: val("[data-extra-currency]") || trip.tripCurrency || trip.homeCurrency || null,
+        pax: pax === "" ? null : Number(pax),
+        notes: val("[data-extra-notes]") || null,
+      };
+    };
+
+    main.addEventListener("click", (e) => {
+      if (!extrasState.signedIn || extrasState.denied) return;
+      const form = main.querySelector("[data-extra-add-form]");
+
+      if (e.target.closest("[data-extra-add-toggle]")) {
+        extrasState.adding = !extrasState.adding;
+        extrasState.editingId = null;
+      } else if (e.target.closest("[data-extra-cancel]")) {
+        extrasState.adding = false;
+        extrasState.editingId = null;
+      } else if (e.target.closest("[data-extra-save]")) {
+        const fields = readForm(form);
+        if (!fields) return; // a nameless activity is nothing to record
+        const items = extraItems().slice();
+        if (extrasState.editingId) {
+          const i = items.findIndex((x) => x.id === extrasState.editingId);
+          if (i > -1) items[i] = { ...items[i], ...fields };
+          logAction(trip, "edited activity", fields.name);
+        } else {
+          items.push({ id: newExtraId(), ...fields });
+          logAction(trip, "added activity", fields.name);
+        }
+        writeExtras(items);
+        extrasState.adding = false;
+        extrasState.editingId = null;
+      } else {
+        const edit = e.target.closest("[data-extra-edit]");
+        const remove = e.target.closest("[data-extra-remove]");
+        if (edit) {
+          extrasState.editingId = edit.dataset.extraEdit;
+          extrasState.adding = true;
+        } else if (remove) {
+          const id = remove.dataset.extraRemove;
+          const it = extraItems().find((x) => x.id === id);
+          if (!it || !window.confirm(`Remove ${it.name}?`)) return;
+          writeExtras(extraItems().filter((x) => x.id !== id));
+          logAction(trip, "removed activity", it.name);
+        } else {
+          return;
+        }
+      }
+      if (extrasState.rerender) extrasState.rerender();
+      // Editing pre-fills after the redraw, since the form is rebuilt each time.
+      if (extrasState.editingId) {
+        const it = extraItems().find((x) => x.id === extrasState.editingId);
+        const f = main.querySelector("[data-extra-add-form]");
+        if (it && f) {
+          const set = (sel, v) => {
+            const el = f.querySelector(sel);
+            if (el) el.value = v == null ? "" : v;
+          };
+          set("[data-extra-name]", it.name);
+          set("[data-extra-city]", it.city);
+          set("[data-extra-date]", it.date);
+          set("[data-extra-cost]", it.cost);
+          set("[data-extra-currency]", it.currency);
+          set("[data-extra-pax]", it.pax);
+          set("[data-extra-notes]", it.notes);
+          const save = f.querySelector("[data-extra-save]");
+          if (save) save.textContent = "Save";
+        }
+      }
+    });
+  }
+
+  function renderActivities(trip) {
+    const redraw = () => {
+      const main = document.getElementById("main");
+      if (main) main.innerHTML = activitiesHtml(trip);
+    };
+    setupAttachments(trip, activityAttachGroups(trip), redraw);
+    setupStayNotes(trip, redraw);
+    setupPeople(trip, redraw);
+    setupExtras(trip, redraw);
+    setupSplits(trip, redraw, "who shares each activity");
+    setTimeout(() => {
+      const main = document.getElementById("main");
+      if (!main) return;
+      if (!main.dataset.stayNotesWired) {
+        main.dataset.stayNotesWired = "1";
+        wireStayNotes(main);
+      }
+      if (!main.dataset.activitiesWired) {
+        main.dataset.activitiesWired = "1";
+        wireSplits(main);
+        wireExtras(main, trip);
+      }
+    }, 0);
+    return activitiesHtml(trip);
   }
 
   // Who is on the trip. Kept in Firestore (travellers/<slug>) so the group can be
@@ -3827,6 +4317,16 @@ const Trip = (() => {
     });
   }
 
+  /**
+   * Re-register the attach groups after the page's list of things has changed.
+   * The activities page needs it: the ones added during the trip arrive from
+   * Firestore well after the page first set its groups up.
+   */
+  function refreshAttachGroups(groups) {
+    attachState.groups = groups;
+    if (attachState.signedIn) loadAttachments();
+  }
+
   const RENDERERS = {
     index: renderIndex,
     day: renderDay,
@@ -3834,6 +4334,7 @@ const Trip = (() => {
     budget: renderBudget,
     accommodation: renderAccommodation,
     transport: renderTransport,
+    activities: renderActivities,
     todo: renderTodo,
   };
 

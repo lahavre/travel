@@ -3238,6 +3238,59 @@
       }
     ]
   },
+  "activities": [
+    {
+      "name": "Sumo Tour: Tokyo Tournament (from Shinjuku)",
+      "city": "Tokyo",
+      "date": "2019-05-14",
+      "time": "13:10",
+      "provider": "Sunrise Tours, operated by JTB Japan Travel Corp",
+      "reservation": {
+        "site": "Klook",
+        "bookingNo": "0WXHSA0001",
+        "refs": [
+          {
+            "label": "Tour code",
+            "value": "GDT1J00901MMS"
+          }
+        ]
+      },
+      "pax": 3,
+      "ticketType": "Guided tour, ages 12 to 99",
+      "meetingPoint": "JTB Sunrise Tours sales office, 3rd floor, Keio Plaza Hotel",
+      "arriveBy": "13:00",
+      "validity": null,
+      "cost": null,
+      "currency": null,
+      "prepaid": true,
+      "cancellation": null,
+      "url": null,
+      "remarks": "Bring the printed Sunrise confirmation slip to join the tour; be at the meeting point 10 minutes early. Operator enquiries in Japan: JTB Sunrise Center, Tokyo, +81 3-5796-5454, 07:00 to 21:00 daily."
+    },
+    {
+      "name": "Universal Studios Japan — 1 Day Studio Pass",
+      "city": "Osaka",
+      "date": null,
+      "time": null,
+      "provider": "Universal Studios Japan",
+      "reservation": {
+        "site": "Klook",
+        "bookingNo": null,
+        "refs": []
+      },
+      "pax": 3,
+      "ticketType": "1 Day Studio Pass · Adult, ages 12 and over · price band B",
+      "meetingPoint": null,
+      "arriveBy": null,
+      "validity": "One day between 22 May 2019 and 21 Nov 2019, on a price band B date",
+      "cost": null,
+      "currency": null,
+      "prepaid": true,
+      "cancellation": "Non-refundable; cannot be changed or refunded at the park. Only the agency can change it, and only while unused",
+      "url": "https://www.usj.co.jp/ticket/common/studiopass/price-calendar.html",
+      "remarks": "Direct-in QR ticket: one per person, printed — a photo of it is not accepted at the gate. Don't fold or crop the QR code. No re-entry once you leave the park. Bring ID; entry may be checked against the purchase. Ticket numbers are on the PDFs attached to this activity, deliberately not in this file — the repository is public."
+    }
+  ],
   "todo": [
     {
       "task": "Car Rental Reservation",

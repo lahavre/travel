@@ -66,6 +66,12 @@ service cloud.firestore {
     match /carCosts/{slug}    { allow read, write: if canAccessTrip(slug); }
     match /costSplits/{slug}  { allow read, write: if canAccessTrip(slug); }
 
+    // Activities added while travelling — the ticket bought at the gate that no
+    // booking confirmation ever covered. Named for what it is rather than
+    // `activities`, so it is never mistaken for the append-only trail below,
+    // which these rules would otherwise let anyone overwrite.
+    match /extraActivities/{slug} { allow read, write: if canAccessTrip(slug); }
+
     // The activity trail. Append-only on purpose: an entry may be created by
     // anyone who can change the trip, and then by nobody altered or removed —
     // not another editor, not the owner. A trail that can be quietly rewritten

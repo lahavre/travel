@@ -517,6 +517,60 @@
     ],
     "_summary": "The transport page's Summary totals every flight, hire and booked leg in homeCurrency, and splits them per traveller the way accommodation does. Give a flight a `cost` (+`currency`), and any item a `perPerson` map keyed by the names in `travelers`; a traveller with no entry shows N/A. An amount in a currency the trip has no rate for can't be totalled, and the page says so rather than dropping it quietly."
   },
+  "_activities": "Tours, attractions and tickets. Two sources on purpose: booked-ahead ones live here, transcribed from the voucher; ones paid for during the trip are added on the page itself and live in Firestore, because a static site cannot write to its own data.json. Both appear in one list and one split. `cost` is in whatever currency it was paid — name it in `currency` (tripCurrency or homeCurrency); the page converts and totals in home currency, and says so out loud if a third currency has no rate. `reservation` takes the same shape as a stay's. `date` may be null for an open-dated ticket — put the window in `validity` instead. `prepaid` true means it is already paid for; false means it is owed on the day. `remarks` seeds the private note box the way a stay's does. NEVER put ticket or QR numbers here — they are entry credentials and the repository is public; attach the PDF to the activity instead.",
+  "activities": [
+    {
+      "name": "Museum of Modern Art",
+      "city": "Arrival city",
+      "date": "2026-03-15",
+      "time": "10:00",
+      "provider": "Museum of Modern Art",
+      "reservation": {
+        "site": "Klook",
+        "bookingNo": "ABC123456",
+        "refs": [
+          {
+            "label": "Voucher",
+            "value": "MOMA-778"
+          }
+        ]
+      },
+      "pax": 2,
+      "ticketType": "Timed entry, adult",
+      "meetingPoint": null,
+      "arriveBy": "09:45",
+      "validity": null,
+      "cost": 4800,
+      "currency": "JPY",
+      "prepaid": true,
+      "cancellation": "Free cancellation up to 24 hours before",
+      "url": null,
+      "remarks": "Print the voucher or show it on a phone at the members' desk."
+    },
+    {
+      "name": "Harbour walking tour",
+      "city": "Second city",
+      "date": null,
+      "time": null,
+      "provider": "Local guides co-operative",
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "pax": 2,
+      "ticketType": "Open-dated, adult",
+      "meetingPoint": "Clock tower, north end of the harbour",
+      "arriveBy": null,
+      "validity": "Any day between 14 and 20 Mar 2026",
+      "cost": 60.0,
+      "currency": "MYR",
+      "prepaid": false,
+      "cancellation": "Pay the guide on the day; no cancellation fee",
+      "url": null,
+      "remarks": null
+    }
+  ],
   "_todo": "Pre-trip checklist. `status` of exactly \"Done\" renders as a completed badge; anything else renders as pending.",
   "todo": [
     {
