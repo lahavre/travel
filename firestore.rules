@@ -72,6 +72,11 @@ service cloud.firestore {
     // which these rules would otherwise let anyone overwrite.
     match /extraActivities/{slug} { allow read, write: if canAccessTrip(slug); }
 
+    // Per-field edits to the stays, flights, car hires and legs that live in
+    // data.json — only what differs from the file, so a booking confirmation
+    // transcribed into it later still shows through on everything else.
+    match /recordEdits/{slug}    { allow read, write: if canAccessTrip(slug); }
+
     // The activity trail. Append-only on purpose: an entry may be created by
     // anyone who can change the trip, and then by nobody altered or removed —
     // not another editor, not the owner. A trail that can be quietly rewritten

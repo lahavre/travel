@@ -1816,6 +1816,405 @@ const Trip = (() => {
     return budgetHtml(trip);
   }
 
+  // ---------------------------------------------------------- editable records
+  //
+  // The activities page proved the shape: a record lives in data.json, where a
+  // booking confirmation put it, and anything typed on the page is kept as a
+  // per-field override beside it rather than as a copy. Stays, flights, car hires
+  // and public-transport legs work the same way here, sharing one document:
+  //
+  //   recordEdits/<slug> = { accommodation: { <key>: {field: value} }, flights: …,
+  //                          carRental: …, publicTransport: … }
+  //
+  // Storing only what differs is the whole point: data.json stays authoritative
+  // wherever it has not been contradicted, so a confirmation transcribed into it
+  // later still comes through on every field nobody has overridden.
+  //
+  // `remarks` is deliberately absent from every field list — each of these cards
+  // already carries the editable note box, and one place to write is enough.
+  // `perPerson` is absent too: who shares a cost is the split's job.
+  const RECORD_TYPES = {
+    accommodation: {
+      label: "stay",
+      key: (x) => stayAttachKey(x),
+      fields: [
+        { f: "name", label: "Hotel", type: "text" },
+        { f: "city", label: "Place", type: "text" },
+        { f: "address", label: "Address", type: "text" },
+        { f: "checkIn", label: "Check-in date", type: "date" },
+        { f: "checkOut", label: "Check-out date", type: "date" },
+        { f: "nights", label: "Nights", type: "int" },
+        { f: "total", label: "Total", type: "money" },
+        { f: "pricePerNight", label: "Per night", type: "money" },
+        { f: "reservationSite", label: "Booked with", type: "text" },
+        { f: "bookingNo", label: "Booking No", type: "text" },
+        { f: "rooms", label: "Rooms", type: "int" },
+        { f: "persons", label: "Pax", type: "int" },
+        { f: "roomType", label: "Room type", type: "text" },
+        { f: "checkInFrom", label: "Check-in from", type: "time" },
+        { f: "checkInTo", label: "Check-in until", type: "time" },
+        { f: "checkOutUntil", label: "Check-out until", type: "time" },
+        { f: "laundry", label: "Laundry", type: "text" },
+        { f: "meal", label: "Meal", type: "text" },
+        { f: "parking", label: "Parking", type: "text" },
+        { f: "parkingNote", label: "Parking note", type: "text" },
+        { f: "prepaid", label: "Prepaid", type: "yesno" },
+        { f: "payAtProperty", label: "Pay at property", type: "text" },
+        { f: "cancellation", label: "Cancellation", type: "text" },
+      ],
+    },
+    flights: {
+      label: "flight",
+      key: (x) => flightAttachKey(x),
+      fields: [
+        { f: "type", label: "Leg", type: "text" },
+        { f: "airline", label: "Airline", type: "text" },
+        { f: "flightNo", label: "Flight No", type: "text" },
+        { f: "date", label: "Date", type: "date" },
+        { f: "from", label: "From", type: "text" },
+        { f: "fromTerminal", label: "From terminal", type: "text" },
+        { f: "departTime", label: "Departs", type: "time" },
+        { f: "to", label: "To", type: "text" },
+        { f: "toTerminal", label: "To terminal", type: "text" },
+        { f: "arriveTime", label: "Arrives", type: "time" },
+        { f: "arrivesNextDay", label: "Arrives next day", type: "yesno" },
+        { f: "duration", label: "Duration", type: "text" },
+      ],
+    },
+    carRental: {
+      label: "car hire",
+      key: (x) => carRentalKey(x),
+      // The running costs have their own editor and `costs` is left to it.
+      fields: [
+        { f: "company", label: "Company", type: "text" },
+        { f: "vehicle", label: "Vehicle", type: "text" },
+        { f: "reservationSite", label: "Booked with", type: "text" },
+        { f: "bookingNo", label: "Booking No", type: "text" },
+        { f: "pickUpPlace", label: "Pick-up place", type: "text" },
+        { f: "pickUpDate", label: "Pick-up date", type: "date" },
+        { f: "pickUpTime", label: "Pick-up time", type: "time" },
+        { f: "dropOffPlace", label: "Drop-off place", type: "text" },
+        { f: "dropOffDate", label: "Drop-off date", type: "date" },
+        { f: "dropOffTime", label: "Drop-off time", type: "time" },
+      ],
+    },
+    publicTransport: {
+      label: "leg",
+      key: (x) => ptKey(x),
+      fields: [
+        { f: "mode", label: "Mode", type: "text" },
+        { f: "company", label: "Company", type: "text" },
+        { f: "operatedBy", label: "Operated by", type: "text" },
+        { f: "date", label: "Date", type: "date" },
+        { f: "from", label: "From", type: "text" },
+        { f: "fromStation", label: "From station", type: "text" },
+        { f: "fromAddress", label: "From address", type: "text" },
+        { f: "departTime", label: "Departs", type: "time" },
+        { f: "to", label: "To", type: "text" },
+        { f: "toStation", label: "To station", type: "text" },
+        { f: "toAddress", label: "To address", type: "text" },
+        { f: "arriveTime", label: "Arrives", type: "time" },
+        { f: "persons", label: "Pax", type: "int" },
+        { f: "total", label: "Total", type: "moneyCur" },
+        { f: "reservationSite", label: "Booked with", type: "text" },
+        { f: "bookingNo", label: "Booking No", type: "text" },
+      ],
+    },
+  };
+
+  // Nested corners of the schema, flattened so one form can edit them and folded
+  // back on save. `reservation.refs` is left alone — a list, not a single value.
+  function flattenRecord(item) {
+    const r = item.reservation || {};
+    const pu = item.pickUp || {};
+    const dp = item.dropOff || {};
+    return {
+      ...item,
+      reservationSite: r.site || null,
+      bookingNo: r.bookingNo || null,
+      pickUpPlace: pu.place || null,
+      pickUpDate: pu.date || null,
+      pickUpTime: pu.time || null,
+      dropOffPlace: dp.place || null,
+      dropOffDate: dp.date || null,
+      dropOffTime: dp.time || null,
+    };
+  }
+  /** Put a flattened override back into the shape the renderers read. */
+  function unflattenRecord(merged) {
+    const out = { ...merged };
+    if (merged.reservationSite != null || merged.bookingNo != null || merged.reservation) {
+      out.reservation = {
+        ...(merged.reservation || {}),
+        site: merged.reservationSite,
+        bookingNo: merged.bookingNo,
+      };
+    }
+    ["pickUp", "dropOff"].forEach((side) => {
+      const P = side === "pickUp" ? "pickUp" : "dropOff";
+      if (merged[P + "Place"] != null || merged[P + "Date"] != null || merged[side]) {
+        out[side] = {
+          ...(merged[side] || {}),
+          place: merged[P + "Place"],
+          date: merged[P + "Date"],
+          time: merged[P + "Time"],
+        };
+      }
+    });
+    return out;
+  }
+
+  const recordState = {
+    trip: null,
+    doc: null,
+    signedIn: false,
+    denied: false,
+    editingKey: null, // "<section>/<key>" of the one card open for editing
+    unsub: null,
+    rerender: null,
+  };
+
+  function recordEditsPath(trip) {
+    return "recordEdits/" + (trip.slug || trip.title || "trip");
+  }
+  function recordOverrides(section) {
+    const d = recordState.doc;
+    return (d && d[section]) || {};
+  }
+  function recordCanEdit() {
+    return recordState.signedIn && !recordState.denied;
+  }
+  function recordEditId(section, key) {
+    return `${section}/${key}`;
+  }
+
+  /**
+   * One record as the page should show it: data.json underneath, the page's own
+   * edits on top, and `edited` recording what the file said wherever the two
+   * disagree — so a value a document put there is never silently replaced.
+   */
+  function withRecordEdits(section, item) {
+    const spec = RECORD_TYPES[section];
+    const key = spec.key(item);
+    const flat = flattenRecord(item);
+    const o = recordOverrides(section)[key] || {};
+    const merged = { ...flat, edited: {} };
+    Object.keys(o).forEach((f) => {
+      if (o[f] === undefined) return;
+      merged[f] = o[f];
+      if (flat[f] != null && flat[f] !== "" && flat[f] !== o[f]) merged.edited[f] = flat[f];
+    });
+    const out = unflattenRecord(merged);
+    out.recordKey = key;
+    out.recordSection = section;
+    out.edited = merged.edited;
+    return out;
+  }
+  /** Every record of a section, with the page's edits applied. */
+  function editedList(section, items) {
+    return (items || []).map((x) => withRecordEdits(section, x));
+  }
+
+  /** Edit button for a card, or nothing at all when signed out. */
+  function recordEditBtn(section, key) {
+    if (!recordCanEdit()) return "";
+    const id = recordEditId(section, key);
+    if (recordState.editingKey === id) return "";
+    return `<span class="cost-actions"><button type="button" class="todo-edit-btn"
+      data-record-edit="${escapeHtml(id)}">Edit</button></span>`;
+  }
+  function recordIsEditing(section, key) {
+    return recordCanEdit() && recordState.editingKey === recordEditId(section, key);
+  }
+
+  /** The whole record as a form, in the same shape the activities editor uses. */
+  function recordEditForm(section, item, trip) {
+    const spec = RECORD_TYPES[section];
+    const flat = flattenRecord(item);
+    // The record's own currency comes first and is always offered: a leg booked
+    // in euros on a trip priced in yen would otherwise be silently rewritten to
+    // one of the trip's two currencies the moment it was saved.
+    const currencies = [
+      ...new Set([flat.currency, trip.tripCurrency, trip.homeCurrency].filter(Boolean)),
+    ];
+    const val = (v) => (v == null ? "" : escapeHtml(String(v)));
+    const id = recordEditId(section, item.recordKey);
+    const row = (s) => {
+      const inputId = `${item.recordKey}-${s.f}`;
+      let input;
+      if (s.type === "yesno") {
+        input = `<select class="cost-input" data-record-field="${escapeHtml(s.f)}" id="${escapeHtml(inputId)}">
+          <option value=""${flat[s.f] == null ? " selected" : ""}>—</option>
+          <option value="yes"${flat[s.f] === true ? " selected" : ""}>Yes</option>
+          <option value="no"${flat[s.f] === false ? " selected" : ""}>No</option>
+        </select>`;
+      } else if (s.type === "moneyCur") {
+        input = `<span class="activity-cost-edit">
+          <input type="number" step="0.01" min="0" class="cost-input"
+            data-record-field="${escapeHtml(s.f)}" id="${escapeHtml(inputId)}" value="${val(flat[s.f])}" />
+          <select class="cost-input" data-record-field="currency" aria-label="Currency">
+            ${currencies
+              .map(
+                (c) =>
+                  `<option value="${escapeHtml(c)}"${
+                    c === (flat.currency || trip.tripCurrency) ? " selected" : ""
+                  }>${escapeHtml(c)}</option>`
+              )
+              .join("")}
+          </select>
+        </span>`;
+      } else if (s.type === "money" || s.type === "int") {
+        input = `<input type="number" step="${s.type === "int" ? "1" : "0.01"}" min="0"
+          class="cost-input" data-record-field="${escapeHtml(s.f)}"
+          id="${escapeHtml(inputId)}" value="${val(flat[s.f])}" />`;
+      } else {
+        input = `<input type="${s.type === "text" ? "text" : s.type}"
+          class="cost-input activity-field-input" data-record-field="${escapeHtml(s.f)}"
+          id="${escapeHtml(inputId)}" value="${val(flat[s.f])}" />`;
+      }
+      const was =
+        item.edited && item.edited[s.f] != null
+          ? ` <span class="stay-rate">booking: ${escapeHtml(String(item.edited[s.f]))}</span>`
+          : "";
+      return `<dt><label for="${escapeHtml(inputId)}">${s.label}:</label></dt><dd>${input}${was}</dd>`;
+    };
+    return `<form class="activity-edit" data-record-form="${escapeHtml(id)}">
+      <dl>${spec.fields.map(row).join("")}</dl>
+      <p class="section-note">Emptying a box drops that field back to what
+        <code>data.json</code> records, so a booking confirmation added later still
+        comes through. Remarks and who shares the cost have their own controls.</p>
+      <div class="cost-actions">
+        <button type="button" class="todo-edit-btn" data-record-save>Save</button>
+        <button type="button" class="todo-edit-btn todo-edit-cancel" data-record-cancel>Cancel</button>
+      </div>
+    </form>`;
+  }
+
+  /** What the file says, beside a value the page has overridden. */
+  function recordWasEdited(item, f) {
+    return item && item.edited && item.edited[f] != null
+      ? ` <span class="stay-rate">booking: ${escapeHtml(String(item.edited[f]))}</span>`
+      : "";
+  }
+
+  function setupRecordEdits(trip, rerender) {
+    recordState.trip = trip;
+    recordState.doc = null;
+    recordState.denied = false;
+    recordState.editingKey = null;
+    recordState.rerender = rerender;
+    recordState.signedIn = !!TravelSite.currentUser();
+    TravelSite.onAuthChange((user) => {
+      if (recordState.unsub) {
+        recordState.unsub();
+        recordState.unsub = null;
+      }
+      recordState.signedIn = !!user;
+      recordState.doc = null;
+      recordState.denied = false;
+      recordState.editingKey = null;
+      if (user) {
+        recordState.unsub = TravelSite.watchDoc(
+          recordEditsPath(trip),
+          (data) => {
+            recordState.doc = data;
+            recordState.denied = false;
+            if (rerender) rerender();
+          },
+          () => {
+            // Refused by the rules — show data.json alone rather than nothing.
+            recordState.doc = null;
+            recordState.denied = true;
+            if (rerender) rerender();
+          }
+        );
+      }
+      if (rerender) rerender();
+    });
+  }
+
+  function wireRecordEdits(main, trip) {
+    main.addEventListener("click", (e) => {
+      if (!recordCanEdit()) return;
+
+      const btn = e.target.closest("[data-record-edit]");
+      if (btn) {
+        recordState.editingKey = btn.dataset.recordEdit;
+        splitState.editing = false; // one editor at a time, as on the activities page
+        if (recordState.rerender) recordState.rerender();
+        return;
+      }
+      if (e.target.closest("[data-record-cancel]")) {
+        recordState.editingKey = null;
+        if (recordState.rerender) recordState.rerender();
+        return;
+      }
+      const save = e.target.closest("[data-record-save]");
+      if (save) {
+        const form = save.closest("[data-record-form]");
+        const [section, key] = (form.dataset.recordForm || "").split(/\/(.+)/);
+        const spec = RECORD_TYPES[section];
+        if (!spec) return;
+        const source = sectionItems(trip, section).find((x) => spec.key(x) === key);
+        if (!source) return;
+        const flat = flattenRecord(source);
+
+        const typed = {};
+        form.querySelectorAll("[data-record-field]").forEach((el) => {
+          const f = el.dataset.recordField;
+          const raw = (el.value || "").trim();
+          const kind = (spec.fields.find((s) => s.f === f) || {}).type;
+          if (kind === "yesno") typed[f] = raw === "" ? null : raw === "yes";
+          else if (kind === "int" || kind === "money" || kind === "moneyCur")
+            typed[f] = raw === "" ? null : Number(raw);
+          else typed[f] = raw === "" ? null : raw;
+        });
+        // A currency alone says nothing without an amount beside it.
+        if ("total" in typed && typed.total == null) delete typed.currency;
+
+        const diff = {};
+        Object.keys(typed).forEach((f) => {
+          const was = flat[f] == null || flat[f] === "" ? null : flat[f];
+          // An emptied box means "nothing to add here", not "this is blank", so it
+          // reverts to data.json rather than shadowing it with a null.
+          if (typed[f] == null) return;
+          if (typed[f] !== was) diff[f] = typed[f];
+        });
+
+        const doc = { ...(recordState.doc || {}) };
+        const bucket = { ...(doc[section] || {}) };
+        if (Object.keys(diff).length) bucket[key] = diff;
+        else delete bucket[key];
+        doc[section] = bucket;
+        recordState.doc = doc; // optimistic
+        TravelSite.writeDoc(recordEditsPath(trip), doc).catch((err) =>
+          console.warn("Couldn't save the edit:", err)
+        );
+        logAction(trip, `edited ${spec.label}`, recordTitle(section, flat));
+        recordState.editingKey = null;
+        if (recordState.rerender) recordState.rerender();
+      }
+    });
+  }
+
+  /** The items of one section, wherever the schema keeps them. */
+  function sectionItems(trip, section) {
+    if (section === "accommodation") return trip.accommodation || [];
+    if (section === "flights") return trip.flights || [];
+    const t = trip.transport || {};
+    if (section === "carRental") return t.carRental || [];
+    if (section === "publicTransport") return t.publicTransport || [];
+    return [];
+  }
+  /** Something to name the record by in the activity trail. */
+  function recordTitle(section, flat) {
+    if (section === "accommodation") return flat.name || flat.city || "stay";
+    if (section === "flights")
+      return `${flat.flightNo || flat.airline || "flight"} ${flat.from || ""}–${flat.to || ""}`;
+    if (section === "carRental") return flat.company || "car hire";
+    return `${flat.mode || "leg"} ${flat.from || ""}–${flat.to || ""}`;
+  }
+
   // Each stay's own key for attached files — name + check-in, so two stays at the
   // same property on different dates keep separate folders.
   function stayAttachKey(a) {
@@ -1847,12 +2246,22 @@ const Trip = (() => {
         </div>
       </div>`;
 
+    // The key is the one data.json's own values give, so editing a flight number
+    // cannot detach its note or its boarding passes.
+    const key = f.recordKey || flightAttachKey(f);
+    if (recordIsEditing("flights", key)) {
+      return `<div class="flight-card"><div class="flight-card-body">
+        ${recordEditForm("flights", f, trip)}
+      </div></div>`;
+    }
+
     return `
       <div class="flight-card">
         <div class="flight-card-head">
           <span class="flight-type">${escapeHtml(f.type || "Flight")}</span>
           <span class="flight-date">${longDate(f.date)}</span>
           ${f.duration ? `<span class="flight-duration">${escapeHtml(f.duration)}</span>` : ""}
+          ${recordEditBtn("flights", key)}
         </div>
         <div class="flight-card-body">
           ${stop(f.departTime, f.from, f.fromTerminal, null)}
@@ -1869,8 +2278,8 @@ const Trip = (() => {
                 : ""
             }
           </div>
-          ${stayNoteHtml(flightAttachKey(f), `${f.type || "Flight"} ${f.from || ""} to ${f.to || ""}`)}
-          ${attachmentsHtml("flight", flightAttachKey(f), "Tickets & documents")}
+          ${stayNoteHtml(key, `${f.type || "Flight"} ${f.from || ""} to ${f.to || ""}`)}
+          ${attachmentsHtml("flight", key, "Tickets & documents")}
         </div>
       </div>`;
   }
@@ -2054,7 +2463,8 @@ const Trip = (() => {
   }
 
   function accommodationHtml(trip) {
-    const stays = trip.accommodation || [];
+    // data.json underneath, anything typed on the page on top.
+    const stays = editedList("accommodation", trip.accommodation);
     if (!stays.length) return `<h1>Accommodation</h1>${placeholder("stays")}`;
 
     const total = stays.reduce((s, a) => s + (a.total || 0), 0);
@@ -2109,23 +2519,27 @@ const Trip = (() => {
       return label || "—";
     };
 
+    const was = (a, f) => recordWasEdited(a, f);
     const detailRows = (a) => [
-      ["Hotel", hotelValue(a)],
-      ["Address", a.address ? dash(a.address) : "—"],
-      ["Reservation", reservationValue(a.reservation)],
-      ["Room Type", roomValue(a)],
-      ["Check-In", checkInValue(a)],
-      ["Check-Out", a.checkOutUntil ? `Until ${escapeHtml(a.checkOutUntil)}` : "—"],
-      ["Laundry", dash(a.laundry)],
-      ["Meal", dash(a.meal || "N/A")],
+      ["Hotel", hotelValue(a) + was(a, "name")],
+      ["Address", (a.address ? dash(a.address) : "—") + was(a, "address")],
+      ["Reservation", reservationValue(a.reservation) + was(a, "bookingNo")],
+      ["Room Type", roomValue(a) + was(a, "roomType")],
+      ["Check-In", checkInValue(a) + was(a, "checkInFrom")],
+      [
+        "Check-Out",
+        (a.checkOutUntil ? `Until ${escapeHtml(a.checkOutUntil)}` : "—") + was(a, "checkOutUntil"),
+      ],
+      ["Laundry", dash(a.laundry) + was(a, "laundry")],
+      ["Meal", dash(a.meal || "N/A") + was(a, "meal")],
       // Rate and conditions belong beside "Paid"/"Free", not buried in the notes.
       [
         "Parking",
-        a.parking
+        (a.parking
           ? `${escapeHtml(a.parking)}${a.parkingNote ? ` (${escapeHtml(a.parkingNote)})` : ""}`
-          : "—",
+          : "—") + was(a, "parking"),
       ],
-      ["Paid", paidValue(a)],
+      ["Paid", paidValue(a) + was(a, "cancellation")],
     ];
 
     let out = `
@@ -2147,13 +2561,18 @@ const Trip = (() => {
                   ? ` <span class="stay-rate">(${home(a.pricePerNight, trip)} / night)</span>`
                   : ""
               }</div>
+                  ${recordEditBtn("accommodation", a.recordKey)}
                 </td>
                 <td class="stay-detail">
-                  <dl>${detailRows(a)
-                    .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
-                    .join("")}</dl>
-                  ${stayNoteHtml(stayAttachKey(a), a.name || a.city || "stay")}
-                  ${attachmentsHtml("accommodation", stayAttachKey(a), "Booking files")}
+                  ${
+                    recordIsEditing("accommodation", a.recordKey)
+                      ? recordEditForm("accommodation", a, trip)
+                      : `<dl>${detailRows(a)
+                          .map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`)
+                          .join("")}</dl>`
+                  }
+                  ${stayNoteHtml(a.recordKey, a.name || a.city || "stay")}
+                  ${attachmentsHtml("accommodation", a.recordKey, "Booking files")}
                 </td>
               </tr>`
             )
@@ -2166,7 +2585,7 @@ const Trip = (() => {
       // Each share is the stay's cost over whoever is ticked, so it follows both
       // the price and the traveller list rather than being stored and going stale.
       const rows = stays.map((a) => {
-        const key = stayAttachKey(a);
+        const key = a.recordKey;
         const who = splitFor(key, a.perPerson, trip);
         return {
           key,
@@ -2237,12 +2656,14 @@ const Trip = (() => {
     setupStayNotes(trip, redraw);
     setupPeople(trip, redraw);
     setupSplits(trip, redraw, "who shares each stay");
+    setupRecordEdits(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (main && !main.dataset.stayNotesWired) {
         main.dataset.stayNotesWired = "1";
         wireStayNotes(main);
         wireSplits(main);
+        wireRecordEdits(main, trip);
       }
     }, 0);
     return accommodationHtml(trip);
@@ -2572,9 +2993,10 @@ const Trip = (() => {
       </details>`;
 
     const legs = t.legs || [];
-    const flights = trip.flights || [];
-    const cars = t.carRental || [];
-    const pts = t.publicTransport || [];
+    // data.json underneath, anything typed on the page on top.
+    const flights = editedList("flights", trip.flights);
+    const cars = editedList("carRental", t.carRental);
+    const pts = editedList("publicTransport", t.publicTransport);
     const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
     const shortDate = (iso) =>
       iso ? TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" }) : "—";
@@ -2626,7 +3048,7 @@ const Trip = (() => {
         const rental = (c.costs && c.costs.rental) != null ? c.costs.rental : c.total;
         const run = ["fuel", "toll", "parking"]
           .map((f) => legCostTotal(legs, f))
-          .concat([carOthers(carRentalKey(c))])
+          .concat([carOthers(c.recordKey || carRentalKey(c))])
           .filter((v) => v != null)
           .reduce((s, v) => s + v, 0);
         return (rental || 0) + (run ? toHome(run, trip) || 0 : 0);
@@ -2649,7 +3071,7 @@ const Trip = (() => {
     const splitItems = []
       .concat(
         flights.map((f) => ({
-          key: flightAttachKey(f),
+          key: f.recordKey || flightAttachKey(f),
           label: `${f.type || "Flight"} — ${f.from || ""} → ${f.to || ""}`,
           total: toHomeAmount(f.cost, f.currency || trip.homeCurrency),
           perPerson: f.perPerson,
@@ -2657,7 +3079,7 @@ const Trip = (() => {
       )
       .concat(
         cars.map((c) => ({
-          key: carRentalKey(c),
+          key: c.recordKey || carRentalKey(c),
           label: `Car rental — ${c.company || ""}`,
           total: carCost,
           perPerson: c.perPerson,
@@ -2665,7 +3087,7 @@ const Trip = (() => {
       )
       .concat(
         pts.map((p) => ({
-          key: ptKey(p),
+          key: p.recordKey || ptKey(p),
           label: `${p.mode || "Leg"} — ${p.from || ""} → ${p.to || ""}`,
           total: toHomeAmount(p.total, p.currency || trip.homeCurrency),
           perPerson: p.perPerson,
@@ -2777,7 +3199,7 @@ const Trip = (() => {
               // The hire fee comes from the booking; fuel, tolls and parking are
               // rolled up from what was entered against each driving day, so the
               // two can never disagree. Only "Others" is typed here.
-              const key = carRentalKey(c);
+              const key = c.recordKey || carRentalKey(c);
               const rental = (c.costs && c.costs.rental) != null ? c.costs.rental : c.total;
               const fuel = legCostTotal(legs, "fuel");
               const toll = legCostTotal(legs, "toll");
@@ -2787,11 +3209,11 @@ const Trip = (() => {
               const total = parts.length ? parts.reduce((s, v) => s + v, 0) : null;
 
               const rows = [
-                ["Company", dash(c.company)],
-                ["Vehicle", dash(c.vehicle)],
-                ["Reservation", reservationValue(c.reservation)],
-                ["Pick-up", placeValue(c.pickUp)],
-                ["Drop-off", placeValue(c.dropOff)],
+                ["Company", dash(c.company) + recordWasEdited(c, "company")],
+                ["Vehicle", dash(c.vehicle) + recordWasEdited(c, "vehicle")],
+                ["Reservation", reservationValue(c.reservation) + recordWasEdited(c, "bookingNo")],
+                ["Pick-up", placeValue(c.pickUp) + recordWasEdited(c, "pickUpPlace")],
+                ["Drop-off", placeValue(c.dropOff) + recordWasEdited(c, "dropOffPlace")],
               ];
               // The hire is billed in home currency, but fuel, tolls and parking
               // get paid on the road in the destination's — so each line states
@@ -2859,7 +3281,14 @@ const Trip = (() => {
                   </tr></tfoot>
                 </table>`;
               return `<div class="transport-card">
-                <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
+                ${
+                  recordIsEditing("carRental", key)
+                    ? recordEditForm("carRental", c, trip)
+                    : `<div class="transport-card-head">
+                         <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
+                         ${recordEditBtn("carRental", key)}
+                       </div>`
+                }
                 <div class="car-costs">
                   <div class="car-costs-head">
                     <span>Car rental costing</span>
@@ -2900,17 +3329,25 @@ const Trip = (() => {
                 return `${escapeHtml(city || "—")}${named}${time ? ` — ${escapeHtml(time)}` : ""}`;
               };
               const rows = [
-                ["Type", dash(p.mode)],
-                ["Date", shortDate(p.date)],
-                ["Departure", endpoint(p.from, p.fromStation, p.fromAddress, p.departTime)],
-                ["Arrival", endpoint(p.to, p.toStation, p.toAddress, p.arriveTime)],
+                ["Type", dash(p.mode) + recordWasEdited(p, "mode")],
+                ["Date", shortDate(p.date) + recordWasEdited(p, "date")],
+                [
+                  "Departure",
+                  endpoint(p.from, p.fromStation, p.fromAddress, p.departTime) +
+                    recordWasEdited(p, "departTime"),
+                ],
+                [
+                  "Arrival",
+                  endpoint(p.to, p.toStation, p.toAddress, p.arriveTime) +
+                    recordWasEdited(p, "arriveTime"),
+                ],
                 [
                   "Company",
                   `${dash(p.company)}${
                     p.operatedBy ? `<br><span class="stay-refs">Operated by ${escapeHtml(p.operatedBy)}</span>` : ""
-                  }`,
+                  }` + recordWasEdited(p, "company"),
                 ],
-                ["Reservation", reservationValue(p.reservation)],
+                ["Reservation", reservationValue(p.reservation) + recordWasEdited(p, "bookingNo")],
                 [
                   "Fare",
                   // A leg can be booked in a currency that is neither the trip's
@@ -2918,17 +3355,23 @@ const Trip = (() => {
                   p.total != null
                     ? `${
                         p.currency ? TravelSite.formatMoney(p.total, p.currency) : home(p.total, trip)
-                      }${p.persons ? ` <span class="stay-refs">(${p.persons} pax)</span>` : ""}`
+                      }${p.persons ? ` <span class="stay-refs">(${p.persons} pax)</span>` : ""}` +
+                      recordWasEdited(p, "total")
                     : "—",
                 ],
               ];
+              const key = p.recordKey || ptKey(p);
               return `<div class="transport-card">
                 <div class="transport-card-head">${escapeHtml(p.mode || "Leg")} · ${escapeHtml(
                 p.from || ""
-              )} → ${escapeHtml(p.to || "")}</div>
-                <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
-                ${stayNoteHtml(ptKey(p), `${p.mode || "leg"} ${p.from || ""} to ${p.to || ""}`)}
-                ${attachmentsHtml("publicTransport", ptKey(p), "Tickets")}
+              )} → ${escapeHtml(p.to || "")}${recordEditBtn("publicTransport", key)}</div>
+                ${
+                  recordIsEditing("publicTransport", key)
+                    ? recordEditForm("publicTransport", p, trip)
+                    : `<dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>`
+                }
+                ${stayNoteHtml(key, `${p.mode || "leg"} ${p.from || ""} to ${p.to || ""}`)}
+                ${attachmentsHtml("publicTransport", key, "Tickets")}
               </div>`;
             })
             .join("")
@@ -3042,6 +3485,7 @@ const Trip = (() => {
     setupPeople(trip, redraw);
     setupCarCosts(trip, redraw);
     setupSplits(trip, redraw, "who shares each transport cost");
+    setupRecordEdits(trip, redraw);
     setTimeout(() => {
       const main = document.getElementById("main");
       if (!main) return;
@@ -3053,6 +3497,7 @@ const Trip = (() => {
         main.dataset.transportWired = "1";
         wireCarCosts(main);
         wireSplits(main);
+        wireRecordEdits(main, trip);
         // `toggle` doesn't bubble, so listen on the capture phase.
         main.addEventListener(
           "toggle",
@@ -3237,7 +3682,11 @@ const Trip = (() => {
 
   /** The whole card as a form — every field, not just the price. */
   function activityEditForm(a, trip) {
-    const currencies = [...new Set([trip.tripCurrency, trip.homeCurrency].filter(Boolean))];
+    // The activity's own currency first, so one bought in a third currency is
+    // not silently rewritten to the trip's when saved.
+    const currencies = [
+      ...new Set([a.currency, trip.tripCurrency, trip.homeCurrency].filter(Boolean)),
+    ];
     const val = (v) => (v == null ? "" : escapeHtml(String(v)));
     const row = (spec) => {
       if (spec.addedOnly && !a.addedId) return "";

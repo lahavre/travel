@@ -547,6 +547,24 @@ tfoot td {
 .transport-card-head {
   font-weight: 700;
   margin-bottom: 8px;
+  /* The Edit button shares this line, so keep it to the right of the title. */
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+/* The car hire's head wraps its whole detail list, so the button sits beside it
+   rather than on a line of its own. */
+.transport-card-head dl {
+  flex: 1 1 260px;
+  font-weight: 400;
+}
+.flight-card-head .cost-actions {
+  margin-left: auto;
+}
+.stay-summary .cost-actions {
+  margin-top: 6px;
 }
 .transport-card dl {
   display: grid;
@@ -1191,11 +1209,15 @@ tfoot td {
   /* Too narrow for two columns — stack, and let the boxes use the full width.
      Scoped through .stay-detail to outrank the two-column rule that the same
      breakpoint sets for a card's read-only detail list. */
-  .stay-detail .activity-edit dl {
+  .stay-detail .activity-edit dl,
+  .transport-card .activity-edit dl,
+  .flight-card .activity-edit dl {
     grid-template-columns: 1fr;
     gap: 2px 0;
   }
-  .stay-detail .activity-edit dd {
+  .stay-detail .activity-edit dd,
+  .transport-card .activity-edit dd,
+  .flight-card .activity-edit dd {
     margin-bottom: 8px;
   }
 }

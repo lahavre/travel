@@ -394,6 +394,26 @@ ticket names its passenger and defaults to nobody rather than guessing.
 repository is public, and anyone holding the number holds the ticket. Attach the PDF to
 the activity instead, where it sits behind sign-in like everything else private.
 
+**Editing a stay, flight, car hire or leg.** Each of those cards carries an **Edit**
+button that turns its record into a form — every field the card shows, plus the ones a
+booking rarely states and nobody has filled in yet (laundry above all). It works exactly
+as the activities page does: edits go to Firestore (`recordEdits/<slug>`, one bucket per
+section) and **only the fields that actually differ from `data.json` are stored**, so the
+file stays authoritative wherever it has not been contradicted and **a booking
+confirmation transcribed into it later still comes through**. Emptying a box removes that
+field's override rather than storing a blank; typing a value identical to the file's
+stores nothing; a value that contradicts the file renders the original beside it
+("Sotetsu Fresa Inn Hamamatsucho · booking: Sotetsu Fresa Inn Hamamatsucho Daimon").
+
+Overrides key off the record's **original** values, never the edited ones, so renaming a
+hotel or changing a flight number cannot orphan its private note, its attached documents
+or its row in the split. A record's own **currency is always offered** in its money
+field — a leg booked in euros on a trip priced in yen would otherwise be silently
+rewritten on the first save. `remarks` is absent from every form (each card already has
+its note box), as is `perPerson` (the split owns that), as are the car's running costs
+(they have their own editor). Adding a *new* stay or flight is still a `data.json` job —
+that is where a confirmation belongs.
+
 **Cost categories.** Default buckets are `transport`, `fuel`, `food`, `sightseeing`,
 `misc`. Override with a `costCategories` object mapping key to label; the keys you use
 in `costs` must match. Day totals and the budget page's "planned spend" table roll up
@@ -507,6 +527,10 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   list. **Removing a traveller re-splits** whatever they shared between whoever is left,
   so the columns always add up; their name stays in the document, so adding them back
   restores their shares exactly.
+- **Edits to stays, flights, hires and legs.** `recordEdits/<slug>` —
+  `{ accommodation: {<key>: {field: value}}, flights: …, carRental: …,
+  publicTransport: … }`. Only fields that differ from `data.json` are stored, keyed on
+  the record's original values. Same contract as the activities overrides below.
 - **Activities added on the trip.** The activities page's **+ Add activity** writes to
   `extraActivities/<slug>` — `{ items: [{id, name, city, date, ...}], overrides:
   {<activityKey>: {field: value}} }`. `items` are activities that exist nowhere else;
