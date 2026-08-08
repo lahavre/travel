@@ -342,6 +342,16 @@ nothing**: a voucher that states no price leaves `cost` null, and the total read
 until a figure exists. `date` may be null for an open-dated ticket; put the window in
 `validity` instead and the card reads "Open dated".
 
+**Prices are editable on the page.** **Edit costs** turns every booked activity's price
+into a box with a currency picker — a voucher frequently states no price at all, and the
+figure has to be recordable without a commit. The typed prices live beside the added
+activities in `extraActivities/<slug>` as `costs: { <activityKey>: {cost, currency} }`.
+Two rules keep `data.json` authoritative: clearing a box **removes** the override and the
+activity goes back to what the file says, and typing a figure **identical** to the file's
+stores nothing at all. Where a typed price does contradict a price the voucher stated,
+the card shows both — "JPY 5,200 (MYR 171.60) (voucher said JPY 4,800)" — rather than
+quietly replacing it.
+
 Split defaults differ by section, deliberately: an activity with nothing recorded is
 shared by **everyone**, since it is something the group went and did, whereas a transport
 ticket names its passenger and defaults to nobody rather than guessing.
@@ -465,7 +475,9 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   restores their shares exactly.
 - **Activities added on the trip.** The activities page's **+ Add activity** writes to
   `extraActivities/<slug>` — `{ items: [{id, name, city, date, cost, currency, pax,
-  notes}] }` — for anything paid for at the gate rather than booked ahead. It is a
+  notes}], costs: {<activityKey>: {cost, currency}} }` — for anything paid for at the
+  gate rather than booked ahead. `costs` holds prices typed on the page against
+  activities that live in `data.json`; only figures that actually differ are stored. It is a
   separate collection from `activity/<slug>/entries` below on purpose: the trail is
   append-only and must never fall under a rule that allows overwriting. Booked
   activities stay in `data.json`; only the added ones are editable on the page.
