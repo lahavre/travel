@@ -469,9 +469,17 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 18.6,
+          "max": 28.2,
+          "note": null,
+          "feelsMin": 19.4,
+          "feelsMax": 30.3,
+          "condition": "Overcast",
+          "wind": 9.4,
+          "sunrise": "05:41",
+          "sunset": "17:15",
+          "basis": "historical",
+          "basisDate": "2025-10-08"
         }
       ],
       "summary": "Arrival only. Nothing planned.",
@@ -510,15 +518,31 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 17.5,
+          "max": 23.7,
+          "note": null,
+          "feelsMin": 16.4,
+          "feelsMax": 26.4,
+          "condition": "Overcast",
+          "wind": 23.1,
+          "sunrise": "05:42",
+          "sunset": "17:14",
+          "basis": "historical",
+          "basisDate": "2025-10-09"
         },
         {
           "location": "Toyama",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 17.2,
+          "max": 23.3,
+          "note": null,
+          "feelsMin": 17.3,
+          "feelsMax": 20.8,
+          "condition": "Overcast",
+          "wind": 31.2,
+          "sunrise": "05:53",
+          "sunset": "17:23",
+          "basis": "historical",
+          "basisDate": "2025-10-09"
         }
       ],
       "summary": "Move north. An easy first day.",
@@ -563,15 +587,31 @@
       "temperature": [
         {
           "location": "Toyama",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 15.5,
+          "max": 23.0,
+          "note": null,
+          "feelsMin": 14.6,
+          "feelsMax": 22.5,
+          "condition": "Overcast",
+          "wind": 14.3,
+          "sunrise": "05:53",
+          "sunset": "17:22",
+          "basis": "historical",
+          "basisDate": "2025-10-10"
         },
         {
           "location": "Takayama",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 11.0,
+          "max": 23.2,
+          "note": null,
+          "feelsMin": 10.4,
+          "feelsMax": 23.5,
+          "condition": "Overcast",
+          "wind": 10.1,
+          "sunrise": "05:53",
+          "sunset": "17:22",
+          "basis": "historical",
+          "basisDate": "2025-10-10"
         }
       ],
       "summary": "The one crowded day, taken knowingly.",
@@ -616,15 +656,31 @@
       "temperature": [
         {
           "location": "Toyama",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 17.5,
+          "max": 21.0,
+          "note": null,
+          "feelsMin": 18.7,
+          "feelsMax": 24.0,
+          "condition": "Light rain",
+          "wind": 9.3,
+          "sunrise": "05:54",
+          "sunset": "17:20",
+          "basis": "historical",
+          "basisDate": "2025-10-11"
         },
         {
           "location": "Unazuki",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 17.3,
+          "max": 20.9,
+          "note": null,
+          "feelsMin": 18.3,
+          "feelsMax": 23.3,
+          "condition": "Rain",
+          "wind": 7.7,
+          "sunrise": "05:54",
+          "sunset": "17:19",
+          "basis": "historical",
+          "basisDate": "2025-10-11"
         }
       ],
       "summary": "Open-air trolley train up the Kurobe Gorge.",
@@ -669,21 +725,45 @@
       "temperature": [
         {
           "location": "Toyama",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 20.9,
+          "max": 29.0,
+          "note": null,
+          "feelsMin": 22.8,
+          "feelsMax": 31.2,
+          "condition": "Drizzle",
+          "wind": 15.2,
+          "sunrise": "05:55",
+          "sunset": "17:19",
+          "basis": "historical",
+          "basisDate": "2025-10-12"
         },
         {
           "location": "Murodo",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 7.7,
+          "max": 15.6,
+          "note": null,
+          "feelsMin": 6.3,
+          "feelsMax": 13.7,
+          "condition": "Overcast",
+          "wind": 15.7,
+          "sunrise": "05:53",
+          "sunset": "17:17",
+          "basis": "historical",
+          "basisDate": "2025-10-12"
         },
         {
           "location": "Omachi",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 13.4,
+          "max": 25.0,
+          "note": null,
+          "feelsMin": 13.9,
+          "feelsMax": 27.5,
+          "condition": "Light drizzle",
+          "wind": 8.3,
+          "sunrise": "05:53",
+          "sunset": "17:16",
+          "basis": "historical",
+          "basisDate": "2025-10-12"
         }
       ],
       "summary": "Over the top: Toyama to Nagano across the Tateyama range.",
@@ -744,15 +824,31 @@
       "temperature": [
         {
           "location": "Omachi",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 13.9,
+          "max": 19.2,
+          "note": null,
+          "feelsMin": 14.4,
+          "feelsMax": 19.6,
+          "condition": "Rain",
+          "wind": 10.4,
+          "sunrise": "05:53",
+          "sunset": "17:15",
+          "basis": "historical",
+          "basisDate": "2025-10-13"
         },
         {
           "location": "Hakuba",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 15.3,
+          "max": 20.1,
+          "note": null,
+          "feelsMin": 16.6,
+          "feelsMax": 21.1,
+          "condition": "Light drizzle",
+          "wind": 9.2,
+          "sunrise": "05:54",
+          "sunset": "17:15",
+          "basis": "historical",
+          "basisDate": "2025-10-13"
         }
       ],
       "summary": "First of three nights on one base — no packing until the 16th.",
@@ -797,9 +893,17 @@
       "temperature": [
         {
           "location": "Hakuba",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 13.2,
+          "max": 16.4,
+          "note": null,
+          "feelsMin": 13.4,
+          "feelsMax": 17.7,
+          "condition": "Rain",
+          "wind": 6.0,
+          "sunrise": "05:54",
+          "sunset": "17:14",
+          "basis": "historical",
+          "basisDate": "2025-10-14"
         }
       ],
       "summary": "Boardwalks over four marshes, at your own speed.",
@@ -838,9 +942,17 @@
       "temperature": [
         {
           "location": "Hakuba",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 13.3,
+          "max": 20.1,
+          "note": null,
+          "feelsMin": 13.9,
+          "feelsMax": 20.6,
+          "condition": "Drizzle",
+          "wind": 6.8,
+          "sunrise": "05:55",
+          "sunset": "17:12",
+          "basis": "historical",
+          "basisDate": "2025-10-15"
         }
       ],
       "summary": "A day with nothing in it.",
@@ -873,15 +985,31 @@
       "temperature": [
         {
           "location": "Hakuba",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 14.4,
+          "max": 19.4,
+          "note": null,
+          "feelsMin": 15.5,
+          "feelsMax": 21.4,
+          "condition": "Rain",
+          "wind": 7.0,
+          "sunrise": "05:56",
+          "sunset": "17:11",
+          "basis": "historical",
+          "basisDate": "2025-10-16"
         },
         {
           "location": "Matsumoto",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 16.4,
+          "max": 23.3,
+          "note": null,
+          "feelsMin": 16.9,
+          "feelsMax": 22.5,
+          "condition": "Light rain",
+          "wind": 22.1,
+          "sunrise": "05:55",
+          "sunset": "17:11",
+          "basis": "historical",
+          "basisDate": "2025-10-16"
         }
       ],
       "summary": "Down out of the mountains for a night in town.",
@@ -920,9 +1048,17 @@
       "temperature": [
         {
           "location": "Matsumoto",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 14.0,
+          "max": 21.7,
+          "note": null,
+          "feelsMin": 13.8,
+          "feelsMax": 21.9,
+          "condition": "Overcast",
+          "wind": 10.1,
+          "sunrise": "05:56",
+          "sunset": "17:10",
+          "basis": "historical",
+          "basisDate": "2025-10-17"
         },
         {
           "location": "Kamikochi",
@@ -985,9 +1121,17 @@
         },
         {
           "location": "Okuhida",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 10.7,
+          "max": 19.5,
+          "note": null,
+          "feelsMin": 10.2,
+          "feelsMax": 18.7,
+          "condition": "Heavy drizzle",
+          "wind": 11.0,
+          "sunrise": "05:59",
+          "sunset": "17:11",
+          "basis": "historical",
+          "basisDate": "2025-10-18"
         }
       ],
       "summary": "Dawn in the valley, then three nights of hot water.",
@@ -1032,9 +1176,17 @@
       "temperature": [
         {
           "location": "Okuhida",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 12.3,
+          "max": 17.4,
+          "note": null,
+          "feelsMin": 12.5,
+          "feelsMax": 16.7,
+          "condition": "Drizzle",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:09",
+          "basis": "historical",
+          "basisDate": "2025-10-19"
         }
       ],
       "summary": "Up the double-decker ropeway for the Hotaka panorama.",
@@ -1073,9 +1225,17 @@
       "temperature": [
         {
           "location": "Okuhida",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 7.1,
+          "max": 15.6,
+          "note": null,
+          "feelsMin": 5.3,
+          "feelsMax": 14.8,
+          "condition": "Light rain",
+          "wind": 12.7,
+          "sunrise": "06:01",
+          "sunset": "17:08",
+          "basis": "historical",
+          "basisDate": "2025-10-20"
         }
       ],
       "summary": "The reason the trip has three nights here.",
@@ -1108,15 +1268,31 @@
       "temperature": [
         {
           "location": "Okuhida",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 5.5,
+          "max": 10.9,
+          "note": null,
+          "feelsMin": 3.6,
+          "feelsMax": 8.3,
+          "condition": "Light drizzle",
+          "wind": 8.7,
+          "sunrise": "06:02",
+          "sunset": "17:07",
+          "basis": "historical",
+          "basisDate": "2025-10-21"
         },
         {
           "location": "Matsumoto",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 7.5,
+          "max": 13.0,
+          "note": null,
+          "feelsMin": 4.9,
+          "feelsMax": 10.8,
+          "condition": "Drizzle",
+          "wind": 9.2,
+          "sunrise": "06:00",
+          "sunset": "17:05",
+          "basis": "historical",
+          "basisDate": "2025-10-21"
         },
         {
           "location": "Narai",
@@ -1126,9 +1302,17 @@
         },
         {
           "location": "Tsumago",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 11.1,
+          "max": 18.5,
+          "note": null,
+          "feelsMin": 9.4,
+          "feelsMax": 17.8,
+          "condition": "Overcast",
+          "wind": 9.9,
+          "sunrise": "06:01",
+          "sunset": "17:07",
+          "basis": "historical",
+          "basisDate": "2025-10-21"
         }
       ],
       "summary": "Out of the mountains and onto the old road.",
@@ -1173,9 +1357,17 @@
       "temperature": [
         {
           "location": "Tsumago",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 11.3,
+          "max": 15.5,
+          "note": null,
+          "feelsMin": 9.3,
+          "feelsMax": 15.1,
+          "condition": "Light drizzle",
+          "wind": 8.4,
+          "sunrise": "06:02",
+          "sunset": "17:06",
+          "basis": "historical",
+          "basisDate": "2025-10-22"
         }
       ],
       "summary": "Eight kilometres of the old Nakasendo, mostly downhill.",
@@ -1220,15 +1412,31 @@
       "temperature": [
         {
           "location": "Tsumago",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 8.2,
+          "max": 19.7,
+          "note": null,
+          "feelsMin": 5.8,
+          "feelsMax": 18.4,
+          "condition": "Overcast",
+          "wind": 9.4,
+          "sunrise": "06:03",
+          "sunset": "17:05",
+          "basis": "historical",
+          "basisDate": "2025-10-23"
         },
         {
           "location": "Tokyo",
-          "min": null,
-          "max": null,
-          "note": null
+          "min": 11.3,
+          "max": 17.6,
+          "note": null,
+          "feelsMin": 9.3,
+          "feelsMax": 15.9,
+          "condition": "Light drizzle",
+          "wind": 11.5,
+          "sunrise": "05:54",
+          "sunset": "16:56",
+          "basis": "historical",
+          "basisDate": "2025-10-23"
         }
       ],
       "summary": "Slow morning, long transfer, late flight.",
@@ -1756,7 +1964,7 @@
     }
   },
   "weatherTimezone": "Asia/Tokyo",
-  "weatherUpdated": null,
+  "weatherUpdated": "2026-08-15",
   "weatherLinks": {
     "Hakuba": "https://tenki.jp/forecast/3/23/",
     "Kamikochi": "https://tenki.jp/forecast/3/23/",

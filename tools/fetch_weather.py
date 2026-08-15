@@ -177,15 +177,34 @@ def main(path, timezone="Asia/Tokyo"):
         except ValueError:  # 29 Feb in a non-leap year
             return datetime.date(y + delta, m, 28).isoformat()
 
+    def years_back_to_archive(iso_end):
+        """How many years to step back before the range is one the archive holds.
+
+        Usually one: a trip inside the next twelve months has last year to borrow
+        from. A trip further out does not — planning Oct 2027 in Aug 2026, "a year
+        earlier" is Oct 2026, which has not happened either and which the archive
+        rejects outright. So step back a year at a time until the whole range is
+        genuinely past, and let the caller record which year it landed on.
+        """
+        # The archive trails real time by a few days, so require a clear margin
+        # rather than merely being before today.
+        cutoff = (today - datetime.timedelta(days=7)).isoformat()
+        for delta in range(-1, -11, -1):
+            if shift_year(iso_end, delta) < cutoff:
+                return delta
+        return -1
+
     # Split the trip's dates by where each one's weather can come from: the archive
     # for dates already past, the forecast for the next ~16 days, and — for anything
-    # further out, where no forecast exists yet — the same dates a year ago.
+    # further out, where no forecast exists yet — the same dates in the most recent
+    # year the archive actually covers.
     past = [d for d in wanted if d < today.isoformat()]
     near = [d for d in wanted if today.isoformat() <= d <= horizon.isoformat()]
     far = [d for d in wanted if d > horizon.isoformat()]
 
     series = {name: {} for name in PLACES}
     historical = {name: {} for name in PLACES}
+    far_delta = -1
 
     def merge(target, s):
         for name, by_date in s.items():
@@ -198,11 +217,13 @@ def main(path, timezone="Asia/Tokyo"):
         print(f"  forecast  {near[0]} to {near[-1]}")
         merge(series, fetch_series(FORECAST, near[0], near[-1]))
     if far:
-        ly_s, ly_e = shift_year(far[0], -1), shift_year(far[-1], -1)
-        print(f"  last year {ly_s} to {ly_e} (stand-in for {far[0]} to {far[-1]})")
+        far_delta = years_back_to_archive(far[-1])
+        ly_s, ly_e = shift_year(far[0], far_delta), shift_year(far[-1], far_delta)
+        label = "last year" if far_delta == -1 else f"{-far_delta} years ago"
+        print(f"  {label:9} {ly_s} to {ly_e} (stand-in for {far[0]} to {far[-1]})")
         for name, by_date in fetch_series(ARCHIVE, ly_s, ly_e).items():
             for ly_date, obs in by_date.items():
-                historical[name][shift_year(ly_date, 1)] = {**obs, "basisDate": ly_date}
+                historical[name][shift_year(ly_date, -far_delta)] = {**obs, "basisDate": ly_date}
 
     def good(o):
         return o and o["max"] is not None
@@ -270,9 +291,10 @@ def main(path, timezone="Asia/Tokyo"):
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(trip, f, ensure_ascii=False, indent=2)
         f.write("\n")
+    stand_in = "last year" if far_delta == -1 else f"{-far_delta} years back"
     print(
         f"\nweather filled for {filled} entries"
-        f"{f', {historic} from last year' if historic else ''}, {skipped} left as recorded"
+        f"{f', {historic} from {stand_in}' if historic else ''}, {skipped} left as recorded"
     )
 
 

@@ -138,12 +138,26 @@ rain" or "Rain" is what matters, not the millimetres.
 
 **When the forecast doesn't exist yet.** Open-Meteo only forecasts ~16 days, so a trip
 planned further out has no forecast for its later dates. Those dates fall back to the
-**same dates a year earlier** (from the archive), tagged `basis: "historical"` with the
-`basisDate` they came from. The page marks them "last year" and never passes them off
-as a forecast; a Refresh nearer the trip replaces each one with the real forecast as it
-comes into range. Dates are bucketed by source — archive for the past, forecast for the
-next ~16 days, last-year for the rest — so a trip straddling the horizon gets a real
+**same dates in the most recent year the archive actually covers**, tagged
+`basis: "historical"` with the `basisDate` they came from. Usually that is last year.
+It is not always: a trip more than a year out has no last year to borrow from either —
+planning Oct 2027 in Aug 2026, Oct 2026 has not happened, and the archive rejects the
+request outright — so the lookup steps back a year at a time until the range is
+genuinely past, and Oct 2025 stands in. The tag says **how far back it went** ("last
+year", "2 years ago") rather than assuming, and the figures are never passed off as a
+forecast; a Refresh nearer the trip replaces each one with the real forecast as it comes
+into range. Dates are bucketed by source — archive for the past, forecast for the next
+~16 days, a stand-in for the rest — so a trip straddling the horizon gets a real
 forecast for its near days and stand-ins only for the far ones.
+
+The stepping-back rule lives in two places that must agree — `years_back_to_archive()`
+in `tools/fetch_weather.py` and `yearsBackToArchive()` in `assets/trip.js` — because one
+bakes the figures into `data.json` and the other re-fetches them live. If they disagreed,
+pressing Refresh would silently contradict the file. Both leave a week's margin, since
+the archive trails real time by a few days.
+
+A stand-in is **one particular year, not a seasonal average**: it says what that date did
+once, which is why it is labelled with its source date rather than presented as a normal.
 
 **Source and refresh.** The forecast comes from [Open-Meteo](https://open-meteo.com) —
 free, no API key, and it sends `Access-Control-Allow-Origin: *`, so the browser can

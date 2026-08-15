@@ -47,18 +47,29 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   secret.
 - **"—" and "N/A" are different claims.** "—" means nobody has found out yet; "N/A"
   means it was checked and the property does not offer it. Never promote one to the
-  other. For a trip being planned for real, ask the traveller to confirm the
-  amenities a booking rarely states — laundry above all — instead of leaving them
-  unknown.
+  other — including in a renderer, which used to turn a blank `meal` into "N/A" and
+  so made a claim the data never supported. For a trip being planned for real, ask the
+  traveller to confirm the amenities a booking rarely states — laundry above all —
+  instead of leaving them unknown. **Meals are the settled exception**: the traveller's
+  rule is that a booking states a meal when one is included, so a blank on a *booked*
+  stay means none was purchased and should be written as "N/A" in `data.json`. That
+  applies only once the stay is booked — on an unbooked trip nothing has been checked,
+  so it stays "—".
 - **Weather comes from a verified coordinate or not at all.** `tools/fetch_weather.py`
   fills the forecast from Open-Meteo (free, no key, so the numbers are baked into
   `data.json` and the site stays static). Only add a place to its `PLACES` table once
   the geocoder's answer has been checked against the region it should be in — an
   onsen or a summit often resolves to a same-named town elsewhere, or a valley
   hundreds of metres below, and a few hundred metres of altitude is a few degrees.
-  Four Japan places are deliberately left blank for exactly this reason. Dates beyond
-  the ~16-day forecast fall back to the same dates a year earlier, flagged "last year"
-  — a stand-in, never presented as a forecast.
+  Seven Japan places are deliberately left blank for exactly this reason —
+  "Kamikochi" is the clearest: it geocodes to a same-named place in Kanagawa at 13 m
+  when the valley is at ~1,500 m in Nagano. Dates beyond the ~16-day forecast fall
+  back to the same dates in the most recent year the archive actually covers, flagged
+  with how far back it went ("last year", "2 years ago") — a stand-in, never presented
+  as a forecast, and one particular year rather than a seasonal average. It is not
+  always last year: a trip over a year out has no last year either, so the lookup steps
+  back until the range is past. That rule is duplicated in `fetch_weather.py` and
+  `trip.js` and the two must agree, or Refresh contradicts the baked figures.
 - **Every section is optional.** Missing or empty sections must render a placeholder,
   never throw. Test a sparse trip after touching a renderer.
 - **The repo and the site are public.** Booking confirmations carry door codes,

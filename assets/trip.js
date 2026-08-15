@@ -644,6 +644,20 @@ const Trip = (() => {
     return indexHtml(trip);
   }
 
+  /**
+   * How far back a stand-in figure was borrowed from, in words.
+   *
+   * Normally "last year", but a trip more than a year out has no last year to
+   * borrow from — planning Oct 2027 in Aug 2026, Oct 2026 has not happened
+   * either, so the figures come from Oct 2025. Calling those "last year" would be
+   * untrue, and the whole point of the tag is that it is honest about its source.
+   */
+  function historicalGap(forDate, basisDate) {
+    if (!forDate || !basisDate) return "last year";
+    const years = Number(forDate.slice(0, 4)) - Number(basisDate.slice(0, 4));
+    return years > 1 ? `${years} years ago` : "last year";
+  }
+
   /** The stay covering a given night: check-in on or before it, check-out after it. */
   function stayOn(isoDate, stays) {
     return (stays || []).find((a) => a.checkIn && a.checkOut && a.checkIn <= isoDate && isoDate < a.checkOut);
@@ -779,9 +793,24 @@ const Trip = (() => {
     const cache = readWeatherCache(trip);
     let updated = 0;
 
-    // Fetch one contiguous range from one endpoint and store each day. `histShift`
-    // (+1) marks last-year rows and maps their date back to this year.
-    async function pull(base, s, e, { historical = false } = {}) {
+    // How many years to step back before the range is one the archive holds.
+    // Usually one, but a trip more than a year out has no last year to borrow
+    // from either — planning Oct 2027 in Aug 2026, Oct 2026 has not happened —
+    // so step back until the range is genuinely past. Mirrors
+    // years_back_to_archive() in tools/fetch_weather.py; the two must agree, or a
+    // Refresh would silently disagree with the figures baked into data.json.
+    function yearsBackToArchive(isoEnd) {
+      const cutoff = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
+      for (let delta = -1; delta >= -10; delta -= 1) {
+        if (shiftYearIso(isoEnd, delta) < cutoff) return delta;
+      }
+      return -1;
+    }
+
+    // Fetch one contiguous range from one endpoint and store each day. Historical
+    // rows are mapped forward onto the trip's own dates and keep the date they
+    // actually came from in `basisDate`.
+    async function pull(base, s, e, { historical = false, histShift = 1 } = {}) {
       const res = await fetch(
         `${base}?latitude=${lats}&longitude=${lons}` +
           `&start_date=${s}&end_date=${e}` +
@@ -794,7 +823,7 @@ const Trip = (() => {
         const d = r.daily;
         (d.time || []).forEach((date, i) => {
           if (d.temperature_2m_max[i] === null) return;
-          const key = historical ? shiftYearIso(date, 1) : date;
+          const key = historical ? shiftYearIso(date, histShift) : date;
           cache.byKey[`${name}|${key}`] = {
             min: Math.round(d.temperature_2m_min[i] * 10) / 10,
             max: Math.round(d.temperature_2m_max[i] * 10) / 10,
@@ -815,8 +844,10 @@ const Trip = (() => {
     if (past.length) await pull(ARCHIVE_URL, past[0], past[past.length - 1]);
     if (near.length) await pull(FORECAST_URL, near[0], near[near.length - 1]);
     if (far.length) {
-      await pull(ARCHIVE_URL, shiftYearIso(far[0], -1), shiftYearIso(far[far.length - 1], -1), {
+      const delta = yearsBackToArchive(far[far.length - 1]);
+      await pull(ARCHIVE_URL, shiftYearIso(far[0], delta), shiftYearIso(far[far.length - 1], delta), {
         historical: true,
+        histShift: -delta,
       });
     }
 
@@ -994,11 +1025,12 @@ const Trip = (() => {
 
     const weatherRows = entries
       .map((t) => {
-        // A forecast this far out doesn't exist yet, so the same date a year ago
-        // stands in — flagged, never passed off as a forecast.
+        // A forecast this far out doesn't exist yet, so the same date in the most
+        // recent year the archive covers stands in — flagged with how far back it
+        // came from, and never passed off as a forecast.
         const lastYear =
           t.basis === "historical"
-            ? `<span class="weather-note weather-lastyear">last year${
+            ? `<span class="weather-note weather-lastyear">${historicalGap(day.date, t.basisDate)}${
                 t.basisDate
                   ? ` · ${TravelSite.formatDate(t.basisDate, { day: "2-digit", month: "short", year: "numeric" })}`
                   : ""
@@ -1066,7 +1098,7 @@ const Trip = (() => {
            <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
            Each place name opens its local forecast.${
              anyHistorical
-               ? " Rows marked <em>last year</em> show that date a year ago, standing in until the forecast is available (~16 days out) — Refresh nearer the trip."
+               ? " Tagged rows show what that date did in the most recent year on record, standing in until the forecast is available (~16 days out) — the tag says how far back, and Refresh nearer the trip replaces it."
                : ""
            }</p>`
       : "";
@@ -1251,7 +1283,7 @@ const Trip = (() => {
         const t = withFreshWeather(trip, t0, day.date, cache);
         let rec = byPlace.get(t.location);
         if (!rec) {
-          rec = { location: t.location, dates: [], mins: [], maxs: [], conditions: [], note: null, historical: false };
+          rec = { location: t.location, dates: [], mins: [], maxs: [], conditions: [], note: null, historical: false, gap: null };
           byPlace.set(t.location, rec);
           order.push(t.location);
         }
@@ -1263,7 +1295,10 @@ const Trip = (() => {
           rec.note = t.note;
         }
         if (t.condition && !rec.conditions.includes(t.condition)) rec.conditions.push(t.condition);
-        if (t.basis === "historical") rec.historical = true;
+        if (t.basis === "historical") {
+          rec.historical = true;
+          if (!rec.gap) rec.gap = historicalGap(day.date, t.basisDate);
+        }
       });
     });
 
@@ -1299,7 +1334,9 @@ const Trip = (() => {
         const when = compactDates(dates);
         const temp = r.mins.length
           ? `${Math.min(...r.mins)} to ${Math.max(...r.maxs)} °C${
-              r.historical ? '<span class="weather-note weather-lastyear">last year</span>' : ""
+              r.historical
+                ? `<span class="weather-note weather-lastyear">${escapeHtml(r.gap || "last year")}</span>`
+                : ""
             }`
           : `<span class="weather-note">${escapeHtml(r.note || "—")}</span>`;
         const url = forecastPageLink(trip, name);
@@ -1340,7 +1377,7 @@ const Trip = (() => {
         <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>${updatedAt}.
         Each place name opens its local forecast — tenki.jp in Japan, yr.no elsewhere.${
           anyHistorical
-            ? " Ranges marked <em>last year</em> use the same dates a year ago until the forecast is in range (~16 days out)."
+            ? " Tagged ranges use the same dates in the most recent year on record until the forecast is in range (~16 days out); the tag says how far back."
             : ""
         }</p>`;
   }
