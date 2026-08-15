@@ -29,15 +29,7 @@
   "_exchangeRate": "rate = homeCurrency units per `per` units of tripCurrency. Japan quotes per 100 JPY; somewhere like Europe would use per: 1. Omit this whole block for a domestic trip and cost columns collapse to one currency.",
   "exchangeRate": {
     "per": 100,
-    "rate": 3.3,
-    "history": [
-      {
-        "date": "2025-12-01",
-        "home": 1650.0,
-        "local": 50000,
-        "rate": 3.3
-      }
-    ]
+    "rate": 3.3
   },
   "_costCategories": "Optional. Overrides the default buckets (transport, fuel, food, sightseeing, misc) used by day costs. Keys must match the keys used in days[].items[].costs.",
   "summary": {

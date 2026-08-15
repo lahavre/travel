@@ -57,7 +57,7 @@ breaking, so a half-planned trip still renders.
 | `flights` | Outbound / return / internal legs — summarised on the trip home page, in full on the transport page |
 | `checkInLeadHours` | Hours before departure to show as check-in (default 3) |
 | `homeCurrency` / `tripCurrency` | ISO codes, e.g. `MYR` / `JPY` |
-| `exchangeRate` | `{ per, rate, history }` — see below. `history` records what was actually changed and when; it is kept but no longer rendered |
+| `exchangeRate` | `{ per, rate }` — see below |
 | `costCategories` | Optional override of the day-cost buckets |
 | `summary` | `totalDays` and an optional `note` shown atop the budget page |
 | `budget.categories` | `category`, `perDay`, `budget`, `actual` — in **home** currency |
@@ -69,7 +69,11 @@ breaking, so a half-planned trip still renders.
 | `activities` | Tours, attractions and tickets booked ahead; `cost` in whichever `currency` was paid. Ones paid for during the trip are added on the page instead (see below) |
 | `todo` | Pre-trip checklist; `status` is `"Done"` or `"Open"`. Optional `category` + `subcategory` group the list (see below) |
 
-**Currency.** `exchangeRate.rate` is how many *home* currency units you get per
+**Currency.** `exchangeRate.rate` is the rate actually obtained — for Japan 2023, the
+weighted average of seven money-changer transactions (MYR 13,220 for JPY 400,000 =
+3.305 per 100). Those transactions used to be listed on the budget page and were removed
+on 8 Aug 2026; they remain in git history if the derivation is ever needed again.
+`exchangeRate.rate` is how many *home* currency units you get per
 `exchangeRate.per` units of *trip* currency — Japan quotes `per: 100` (3.305 MYR per
 100 JPY), while somewhere like Europe would use `per: 1`. Activity costs in
 `days[].items[].costs` are in **trip** currency and get converted for display;
@@ -203,10 +207,9 @@ remark**, and an **Attach** box for that booking's confirmation or voucher (see
 **Edit split**: tick who shares each stay and the share is its price divided between
 them.
 
-The stay's **`phone`** is carried in the schema but **rendered nowhere** — it is in
-`data.json` for reference only, and is deliberately absent from the edit form so a
-change there would not silently go nowhere. Only public-transport places show a phone
-today. Both
+The stay's **`phone`** is the property's own line — shown as a tappable `tel:` row and
+editable like any other field. It is a business number, not anyone's personal one; the
+traveller's own contact details stay out of `data.json` entirely. Both
 are private: the remark lives in Firestore (`stayNotes/<slug>`, seeded from each stay's
 `remarks`) and the files in Firebase Storage — never in `data.json` or the repo, which
 is what keeps door codes and personal details off the public site while still having
@@ -419,9 +422,17 @@ hotel or changing a flight number cannot orphan its private note, its attached d
 or its row in the split. A record's own **currency is always offered** in its money
 field — a leg booked in euros on a trip priced in yen would otherwise be silently
 rewritten on the first save. `remarks` is absent from every form (each card already has
-its note box), as is `perPerson` (the split owns that), as are the car's running costs
-(they have their own editor). Adding a *new* stay or flight is still a `data.json` job —
-that is where a confirmation belongs.
+its note box), as is `perPerson` (the split owns that), as are the car's fuel, tolls and
+parking (they roll up from the driving log, so the two can never disagree — only the
+hire fee itself is typed here).
+
+**+ Add stay / flight / car hire / leg** puts a blank record of that kind on the page,
+for a hotel taken when a plan changed or a train nobody foresaw. Those live **whole** in
+`recordEdits/<slug>.added.<section>` — nothing else records them, so there is no file to
+defer to — and are marked "Added on the trip". Only they carry a **Remove**; a record
+from `data.json` belongs to the file. A new one is held in memory until Save, so Cancel
+leaves nothing behind. They count in the page's totals and appear in the split exactly
+as the booked ones do.
 
 **Cost categories.** Default buckets are `transport`, `fuel`, `food`, `sightseeing`,
 `misc`. Override with a `costCategories` object mapping key to label; the keys you use
@@ -536,10 +547,12 @@ editable data — the to-do list, and each stay's and flight's remark and attach
   list. **Removing a traveller re-splits** whatever they shared between whoever is left,
   so the columns always add up; their name stays in the document, so adding them back
   restores their shares exactly.
-- **Edits to stays, flights, hires and legs.** `recordEdits/<slug>` —
+- **Edits and additions to stays, flights, hires and legs.** `recordEdits/<slug>` —
   `{ accommodation: {<key>: {field: value}}, flights: …, carRental: …,
-  publicTransport: … }`. Only fields that differ from `data.json` are stored, keyed on
-  the record's original values. Same contract as the activities overrides below.
+  publicTransport: …, added: { accommodation: [{id, …}], flights: […], … } }`. The
+  per-section maps hold **only the fields that differ** from `data.json`, keyed on each
+  record's original values; `added` holds records that exist nowhere else, stored whole.
+  Same contract as the activities overrides below.
 - **Activities added on the trip.** The activities page's **+ Add activity** writes to
   `extraActivities/<slug>` — `{ items: [{id, name, city, date, ...}], overrides:
   {<activityKey>: {field: value}} }`. `items` are activities that exist nowhere else;

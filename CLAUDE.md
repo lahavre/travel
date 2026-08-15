@@ -25,6 +25,9 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   a value equal to the file's stores **nothing**, and a value that contradicts the file
   renders the original beside it ("booking: …"). Never seed a whole record into
   Firestore the way the to-do list does; that breaks the property above.
+  Records **added on the page** (`+ Add`, kept under `added`) are the one exception —
+  nothing else records them, so they are stored whole and are the only ones a Remove
+  button may delete. A record from `data.json` belongs to the file.
 - **Override keys come from the record's original values.** `stayAttachKey`,
   `flightAttachKey`, `carRentalKey`, `ptKey` and `activityKey` tie a record to its
   private note, its attached documents and its row in the split. Compute them from

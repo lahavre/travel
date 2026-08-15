@@ -1841,6 +1841,7 @@ const Trip = (() => {
         { f: "name", label: "Hotel", type: "text" },
         { f: "city", label: "Place", type: "text" },
         { f: "address", label: "Address", type: "text" },
+        { f: "phone", label: "Phone", type: "text" },
         { f: "checkIn", label: "Check-in date", type: "date" },
         { f: "checkOut", label: "Check-out date", type: "date" },
         { f: "nights", label: "Nights", type: "int" },
@@ -1879,6 +1880,7 @@ const Trip = (() => {
         { f: "arriveTime", label: "Arrives", type: "time" },
         { f: "arrivesNextDay", label: "Arrives next day", type: "yesno" },
         { f: "duration", label: "Duration", type: "text" },
+        { f: "cost", label: "Fare", type: "moneyCur" },
       ],
     },
     carRental: {
@@ -1896,6 +1898,9 @@ const Trip = (() => {
         { f: "dropOffPlace", label: "Drop-off place", type: "text" },
         { f: "dropOffDate", label: "Drop-off date", type: "date" },
         { f: "dropOffTime", label: "Drop-off time", type: "time" },
+        // The hire fee. Fuel, tolls and parking are rolled up from the driving
+        // log and stay out of here, so the two can never disagree.
+        { f: "costsRental", label: "Rental fee", type: "money" },
       ],
     },
     publicTransport: {
@@ -1938,6 +1943,7 @@ const Trip = (() => {
       dropOffPlace: dp.place || null,
       dropOffDate: dp.date || null,
       dropOffTime: dp.time || null,
+      costsRental: (item.costs && item.costs.rental) != null ? item.costs.rental : null,
     };
   }
   /** Put a flattened override back into the shape the renderers read. */
@@ -1949,6 +1955,9 @@ const Trip = (() => {
         site: merged.reservationSite,
         bookingNo: merged.bookingNo,
       };
+    }
+    if (merged.costsRental != null || merged.costs) {
+      out.costs = { ...(merged.costs || {}), rental: merged.costsRental };
     }
     ["pickUp", "dropOff"].forEach((side) => {
       const P = side === "pickUp" ? "pickUp" : "dropOff";
@@ -1970,6 +1979,7 @@ const Trip = (() => {
     signedIn: false,
     denied: false,
     editingKey: null, // "<section>/<key>" of the one card open for editing
+    draft: null, // a new record, unsaved, so Cancel leaves nothing behind
     unsub: null,
     rerender: null,
   };
@@ -2010,18 +2020,80 @@ const Trip = (() => {
     out.edited = merged.edited;
     return out;
   }
-  /** Every record of a section, with the page's edits applied. */
+  /**
+   * Records added on the page rather than booked ahead — a hotel taken when a
+   * plan changed, a train nobody foresaw. They live whole in
+   * `recordEdits/<slug>.added.<section>`, since no file records them; the ones
+   * from data.json keep only their differences. Same split as the activities page.
+   */
+  function addedRecords(section) {
+    const d = recordState.doc;
+    const list = (d && d.added && d.added[section]) || [];
+    return list.map((x) => ({
+      ...x,
+      recordKey: attachSlug(`${section}-added-${x.id}`),
+      recordSection: section,
+      addedId: x.id,
+      edited: {},
+    }));
+  }
+  /** Every record of a section: data.json's with edits applied, then the added ones. */
   function editedList(section, items) {
-    return (items || []).map((x) => withRecordEdits(section, x));
+    return (items || []).map((x) => withRecordEdits(section, x)).concat(addedRecords(section));
+  }
+  function newRecordId() {
+    return "r" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+  /** A blank record of a section, held in state until Save writes it. */
+  function draftRecord(section, trip) {
+    const id = newRecordId();
+    const base = {
+      accommodation: { name: "New stay", nights: 1 },
+      flights: { type: "Flight" },
+      carRental: { company: "New hire" },
+      publicTransport: { mode: "Train", currency: trip.tripCurrency || trip.homeCurrency || null },
+    }[section];
+    return {
+      ...base,
+      id: id,
+      addedId: id,
+      recordKey: attachSlug(`${section}-added-${id}`),
+      recordSection: section,
+      edited: {},
+      isDraft: true,
+    };
+  }
+  /** "+ Add" for a section, or nothing at all when signed out. */
+  function recordAddBtn(section, label) {
+    if (!recordCanEdit()) return "";
+    return `<div class="todo-add"><button type="button" class="todo-edit-btn"
+      data-record-add="${escapeHtml(section)}">+ Add ${escapeHtml(label)}</button></div>`;
   }
 
-  /** Edit button for a card, or nothing at all when signed out. */
-  function recordEditBtn(section, key) {
+  /**
+   * Edit — and Remove for a record the page itself added, since only those are
+   * the page's to delete. One from data.json belongs to the file.
+   */
+  function recordEditBtn(section, key, addedId) {
     if (!recordCanEdit()) return "";
     const id = recordEditId(section, key);
     if (recordState.editingKey === id) return "";
     return `<span class="cost-actions"><button type="button" class="todo-edit-btn"
-      data-record-edit="${escapeHtml(id)}">Edit</button></span>`;
+      data-record-edit="${escapeHtml(id)}">Edit</button>${
+      addedId
+        ? `<button type="button" class="todo-edit-btn todo-edit-cancel"
+             data-record-remove="${escapeHtml(id)}">Remove</button>`
+        : ""
+    }</span>`;
+  }
+  /** Marks a record as one the page added, so its provenance is never in doubt. */
+  function recordOriginTag(item) {
+    return item && item.addedId ? `<div class="activity-origin">Added on the trip</div>` : "";
+  }
+  /** A section's records plus any unsaved new one, so the draft renders as a card. */
+  function withDraft(section, list) {
+    const d = recordState.draft;
+    return d && d.recordSection === section ? list.concat([d]) : list;
   }
   function recordIsEditing(section, key) {
     return recordCanEdit() && recordState.editingKey === recordEditId(section, key);
@@ -2102,6 +2174,7 @@ const Trip = (() => {
     recordState.doc = null;
     recordState.denied = false;
     recordState.editingKey = null;
+    recordState.draft = null;
     recordState.rerender = rerender;
     recordState.signedIn = !!TravelSite.currentUser();
     TravelSite.onAuthChange((user) => {
@@ -2140,11 +2213,40 @@ const Trip = (() => {
       const btn = e.target.closest("[data-record-edit]");
       if (btn) {
         recordState.editingKey = btn.dataset.recordEdit;
+        recordState.draft = null;
         splitState.editing = false; // one editor at a time, as on the activities page
         if (recordState.rerender) recordState.rerender();
         return;
       }
+      const add = e.target.closest("[data-record-add]");
+      if (add) {
+        const section = add.dataset.recordAdd;
+        recordState.draft = draftRecord(section, trip);
+        recordState.editingKey = recordEditId(section, recordState.draft.recordKey);
+        splitState.editing = false;
+        if (recordState.rerender) recordState.rerender();
+        return;
+      }
       if (e.target.closest("[data-record-cancel]")) {
+        recordState.editingKey = null;
+        recordState.draft = null;
+        if (recordState.rerender) recordState.rerender();
+        return;
+      }
+      const del = e.target.closest("[data-record-remove]");
+      if (del) {
+        const [section, key] = (del.dataset.recordRemove || "").split(/\/(.+)/);
+        const rec = addedRecords(section).find((x) => x.recordKey === key);
+        if (!rec || !window.confirm(`Remove ${recordTitle(section, rec)}?`)) return;
+        const doc = { ...(recordState.doc || {}) };
+        const added = { ...(doc.added || {}) };
+        added[section] = (added[section] || []).filter((x) => x.id !== rec.addedId);
+        doc.added = added;
+        recordState.doc = doc;
+        TravelSite.writeDoc(recordEditsPath(trip), doc).catch((err) =>
+          console.warn("Couldn't remove the record:", err)
+        );
+        logAction(trip, `removed ${RECORD_TYPES[section].label}`, recordTitle(section, rec));
         recordState.editingKey = null;
         if (recordState.rerender) recordState.rerender();
         return;
@@ -2155,7 +2257,13 @@ const Trip = (() => {
         const [section, key] = (form.dataset.recordForm || "").split(/\/(.+)/);
         const spec = RECORD_TYPES[section];
         if (!spec) return;
-        const source = sectionItems(trip, section).find((x) => spec.key(x) === key);
+        // Added on the page, or from data.json? The two are stored differently.
+        const draft = recordState.draft;
+        const isDraft = !!(draft && draft.recordKey === key);
+        const existingAdded = addedRecords(section).find((x) => x.recordKey === key);
+        const source = isDraft
+          ? {}
+          : existingAdded || sectionItems(trip, section).find((x) => spec.key(x) === key);
         if (!source) return;
         const flat = flattenRecord(source);
 
@@ -2172,26 +2280,47 @@ const Trip = (() => {
         // A currency alone says nothing without an amount beside it.
         if ("total" in typed && typed.total == null) delete typed.currency;
 
-        const diff = {};
-        Object.keys(typed).forEach((f) => {
-          const was = flat[f] == null || flat[f] === "" ? null : flat[f];
-          // An emptied box means "nothing to add here", not "this is blank", so it
-          // reverts to data.json rather than shadowing it with a null.
-          if (typed[f] == null) return;
-          if (typed[f] !== was) diff[f] = typed[f];
-        });
-
         const doc = { ...(recordState.doc || {}) };
-        const bucket = { ...(doc[section] || {}) };
-        if (Object.keys(diff).length) bucket[key] = diff;
-        else delete bucket[key];
-        doc[section] = bucket;
+
+        if (isDraft || existingAdded) {
+          // Nothing else records these, so store them whole — including the
+          // emptied fields, which here really do mean blank.
+          const id = isDraft ? draft.id : existingAdded.addedId;
+          const added = { ...(doc.added || {}) };
+          const list = (added[section] || []).slice();
+          const next = unflattenRecord({ ...typed, id: id });
+          const i = list.findIndex((x) => x.id === id);
+          if (i > -1) list[i] = next;
+          else list.push(next);
+          added[section] = list;
+          doc.added = added;
+          logAction(
+            trip,
+            `${isDraft ? "added" : "edited"} ${spec.label}`,
+            recordTitle(section, typed)
+          );
+        } else {
+          const diff = {};
+          Object.keys(typed).forEach((f) => {
+            const was = flat[f] == null || flat[f] === "" ? null : flat[f];
+            // An emptied box means "nothing to add here", not "this is blank", so it
+            // reverts to data.json rather than shadowing it with a null.
+            if (typed[f] == null) return;
+            if (typed[f] !== was) diff[f] = typed[f];
+          });
+          const bucket = { ...(doc[section] || {}) };
+          if (Object.keys(diff).length) bucket[key] = diff;
+          else delete bucket[key];
+          doc[section] = bucket;
+          logAction(trip, `edited ${spec.label}`, recordTitle(section, flat));
+        }
+
         recordState.doc = doc; // optimistic
         TravelSite.writeDoc(recordEditsPath(trip), doc).catch((err) =>
           console.warn("Couldn't save the edit:", err)
         );
-        logAction(trip, `edited ${spec.label}`, recordTitle(section, flat));
         recordState.editingKey = null;
+        recordState.draft = null;
         if (recordState.rerender) recordState.rerender();
       }
     });
@@ -2261,8 +2390,9 @@ const Trip = (() => {
           <span class="flight-type">${escapeHtml(f.type || "Flight")}</span>
           <span class="flight-date">${longDate(f.date)}</span>
           ${f.duration ? `<span class="flight-duration">${escapeHtml(f.duration)}</span>` : ""}
-          ${recordEditBtn("flights", key)}
+          ${recordEditBtn("flights", key, f.addedId)}
         </div>
+        ${recordOriginTag(f)}
         <div class="flight-card-body">
           ${stop(f.departTime, f.from, f.fromTerminal, null)}
           ${stop(f.arriveTime, f.to, f.toTerminal, f.arrivesNextDay ? "Arrives next day" : null)}
@@ -2463,9 +2593,10 @@ const Trip = (() => {
   }
 
   function accommodationHtml(trip) {
-    // data.json underneath, anything typed on the page on top.
-    const stays = editedList("accommodation", trip.accommodation);
-    if (!stays.length) return `<h1>Accommodation</h1>${placeholder("stays")}`;
+    // data.json underneath, anything typed on the page on top, plus any unsaved new one.
+    const stays = withDraft("accommodation", editedList("accommodation", trip.accommodation));
+    const addStay = recordAddBtn("accommodation", "stay");
+    if (!stays.length) return `<h1>Accommodation</h1>${placeholder("stays")}${addStay}`;
 
     const total = stays.reduce((s, a) => s + (a.total || 0), 0);
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
@@ -2530,6 +2661,16 @@ const Trip = (() => {
         "Check-Out",
         (a.checkOutUntil ? `Until ${escapeHtml(a.checkOutUntil)}` : "—") + was(a, "checkOutUntil"),
       ],
+      [
+        "Phone",
+        // The property's own line, not anyone's personal number — the one thing
+        // you want when you are late or lost, so make it tappable.
+        a.phone
+          ? `<a href="tel:${escapeHtml(String(a.phone).replace(/[^+0-9]/g, ""))}">${escapeHtml(
+              a.phone
+            )}</a>${was(a, "phone")}`
+          : "—",
+      ],
       ["Laundry", dash(a.laundry) + was(a, "laundry")],
       ["Meal", dash(a.meal || "N/A") + was(a, "meal")],
       // Rate and conditions belong beside "Paid"/"Free", not buried in the notes.
@@ -2561,7 +2702,8 @@ const Trip = (() => {
                   ? ` <span class="stay-rate">(${home(a.pricePerNight, trip)} / night)</span>`
                   : ""
               }</div>
-                  ${recordEditBtn("accommodation", a.recordKey)}
+                  ${recordOriginTag(a)}
+                  ${recordEditBtn("accommodation", a.recordKey, a.addedId)}
                 </td>
                 <td class="stay-detail">
                   ${
@@ -2578,7 +2720,8 @@ const Trip = (() => {
             )
             .join("")}</tbody>
         </table>
-      </div>`;
+      </div>
+      ${addStay}`;
 
     if (splitTravellers) {
       const people = peopleFor(trip);
@@ -2993,10 +3136,10 @@ const Trip = (() => {
       </details>`;
 
     const legs = t.legs || [];
-    // data.json underneath, anything typed on the page on top.
-    const flights = editedList("flights", trip.flights);
-    const cars = editedList("carRental", t.carRental);
-    const pts = editedList("publicTransport", t.publicTransport);
+    // data.json underneath, anything typed on the page on top, plus any unsaved new one.
+    const flights = withDraft("flights", editedList("flights", trip.flights));
+    const cars = withDraft("carRental", editedList("carRental", t.carRental));
+    const pts = withDraft("publicTransport", editedList("publicTransport", t.publicTransport));
     const dash = (v) => (v == null || v === "" ? "—" : escapeHtml(v));
     const shortDate = (iso) =>
       iso ? TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" }) : "—";
@@ -3189,7 +3332,7 @@ const Trip = (() => {
                : ""
            }`
         : placeholder("flights")
-    }`);
+    }${recordAddBtn("flights", "flight")}`);
 
     // ---- Car rental
     const carBody = `${
@@ -3286,7 +3429,8 @@ const Trip = (() => {
                     ? recordEditForm("carRental", c, trip)
                     : `<div class="transport-card-head">
                          <dl>${rows.map(([k, v]) => `<dt>${k}:</dt><dd>${v}</dd>`).join("")}</dl>
-                         ${recordEditBtn("carRental", key)}
+                         ${recordOriginTag(c)}
+                         ${recordEditBtn("carRental", key, c.addedId)}
                        </div>`
                 }
                 <div class="car-costs">
@@ -3364,7 +3508,12 @@ const Trip = (() => {
               return `<div class="transport-card">
                 <div class="transport-card-head">${escapeHtml(p.mode || "Leg")} · ${escapeHtml(
                 p.from || ""
-              )} → ${escapeHtml(p.to || "")}${recordEditBtn("publicTransport", key)}</div>
+              )} → ${escapeHtml(p.to || "")}${recordEditBtn(
+                "publicTransport",
+                key,
+                p.addedId
+              )}</div>
+                ${recordOriginTag(p)}
                 ${
                   recordIsEditing("publicTransport", key)
                     ? recordEditForm("publicTransport", p, trip)
@@ -3376,7 +3525,7 @@ const Trip = (() => {
             })
             .join("")
         : placeholder("public transport bookings")
-    }`);
+    }${recordAddBtn("publicTransport", "leg")}`);
 
     const kmTotal = legs.reduce((s, l) => s + (l.km || 0), 0);
     const drivingBody = `
@@ -3451,7 +3600,7 @@ const Trip = (() => {
       "carRental",
       "Car rental",
       cars.length,
-      `${carBody}
+      `${carBody}${recordAddBtn("carRental", "car hire")}
        ${
          legs.length
            ? `<h3 class="car-log-head">Driving log</h3>${drivingBody}`
