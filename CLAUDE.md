@@ -28,6 +28,21 @@ Static travel-itinerary site, published via GitHub Pages from `main`
   Records **added on the page** (`+ Add`, kept under `added`) are the one exception —
   nothing else records them, so they are stored whole and are the only ones a Remove
   button may delete. A record from `data.json` belongs to the file.
+- **Never write planning commentary into a field that seeds the private layer.**
+  `remarks` on a stay, flight, activity, car hire, leg or **overview day** is a *seed*:
+  the first signed-in load copies it into Firestore, and from then on the file no longer
+  governs it. Rewrite `data.json` afterwards and the old text stays in Firestore,
+  indistinguishable from something the traveller typed — on a trip still being planned
+  that is a growing pile of stale notes nobody can safely delete. So leave all of those
+  `null`. Commentary belongs in the **file-owned** fields, which are re-read from
+  `data.json` on every load and replaced cleanly by a rebuild: `days[].summary`,
+  `days[].items[].remarks`, the trip-level `notes`, and `summary.note`. Nothing under
+  `days[]` is ever seeded — that is what makes it safe. As a bonus it is public, so the
+  reasoning shows to everyone rather than only to whoever is signed in. `todo` is the one
+  knowing exception: it seeds `todoList/<slug>` once and is a checklist meant to become
+  the group's, so it is still written — and the document wants deleting once, when the
+  plan stops moving. A generator for a trip should **assert** that every seeded field is
+  null rather than trust itself to remember.
 - **Override keys come from the record's original values.** `stayAttachKey`,
   `flightAttachKey`, `carRentalKey`, `ptKey` and `activityKey` tie a record to its
   private note, its attached documents and its row in the split. Compute them from

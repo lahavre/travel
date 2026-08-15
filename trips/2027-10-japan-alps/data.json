@@ -9,7 +9,7 @@
     "CMC",
     "Traveller 2"
   ],
-  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, then two nights in Nagoya and a last one in Tokyo to finish on something other than mountains. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes the Kiso valley and Kamikochi's larch at their best and accepts Hakuba past its peak, with the colour down at the mid-mountain and the village. It also sits clear of the Sports Day holiday weekend entirely. Nothing is booked yet.",
+  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, then two nights in Nagoya and a last one in Tokyo to finish on something other than mountains. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes the Kiso valley and Kamikochi's larch at their best and accepts Hakuba past its peak, with the colour down at the mid-mountain and the village. It also sits clear of the Sports Day holiday weekend entirely. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
   "exchangeRate": {
@@ -35,7 +35,7 @@
       "duration": "7h 00m",
       "arrivesNextDay": false,
       "checkInTime": null,
-      "remarks": "Not booked. Times are ANA's current timetable as at Aug 2026, held as the planning baseline until the October 2027 schedule loads (usually around 11 months out, so roughly Nov 2026). Waiting on an ANA promotion.",
+      "remarks": null,
       "cost": null,
       "currency": null
     },
@@ -53,7 +53,7 @@
       "duration": "7h 30m",
       "arrivesNextDay": true,
       "checkInTime": null,
-      "remarks": "Not booked. The late departure is what turns the last day into a real one — checkout in the morning, bags left at the hotel, and Haneda only 15 minutes away when it is finally time to go.",
+      "remarks": null,
       "cost": null,
       "currency": null
     }
@@ -101,7 +101,7 @@
       "morning": "Pack and travel to KLIA",
       "afternoon": "Fly Kuala Lumpur to Tokyo (NH886, 14:15 - 22:15)",
       "evening": "Clear immigration\nTravel to the hotel\nHaneda (HND) -(Walk)> Hotel",
-      "remarks": "Late landing on purpose — the first full day starts tomorrow rested.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Tokyo",
@@ -127,7 +127,7 @@
       "morning": "Breakfast\nTravel to Tokyo Station",
       "afternoon": "Travel to Hakuba\nCheck in",
       "evening": "Explore Hakuba village\nOnsen at Hakuba\nDinner at Hakuba",
-      "remarks": "Straight to the mountains — the trip runs high to low from here, and Hakuba's colour is the one that fades soonest.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Tokyo",
@@ -167,7 +167,7 @@
       "morning": "Travel to Happo-one\nExplore Happo-one",
       "afternoon": "Hike to Happo Pond",
       "evening": "Onsen at Hakuba\nDinner at Hakuba",
-      "remarks": "Happo Pond is at 2,060 m and its colour peaks late Sep to early Oct, so expect it past its best — the draw is the setting and the reflection, with first snow likely on the peaks behind. If the morning is grey, swap this with tomorrow; Tsugaike reads better in flat light than the pond does.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Hakuba",
@@ -193,7 +193,7 @@
       "morning": "Travel to Tsugaike\nExplore Tsugaike Nature Park",
       "afternoon": "Explore Tsugaike Nature Park\nTravel to the hotel",
       "evening": "Onsen at Hakuba\nDinner at Hakuba",
-      "remarks": "Same caveat as Happo Pond, more so — the Japanese sources put Tsugaike's peak at late Sep to early Oct, and it was still at peak on 11 Oct 2024 only because that year ran late. The boardwalks and the views hold up regardless.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Hakuba",
@@ -219,7 +219,7 @@
       "morning": "Check out\nTravel to Matsumoto",
       "afternoon": "Check in\nExplore Matsumoto Castle",
       "evening": "Explore Nawate-dori\nDinner at Matsumoto",
-      "remarks": "Forward the large bags on to Okuhida from here — Kamikochi is much easier with an overnight bag only, and they can go straight through.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Hakuba",
@@ -259,7 +259,7 @@
       "morning": "Travel to Hotaka\nExplore Daio Wasabi Farm",
       "afternoon": "Explore Azumino\nTravel to Matsumoto",
       "evening": "Dinner at Matsumoto",
-      "remarks": "Azumino's own best season is late Sep to late Oct, so this lands well. Renting a bicycle at Hotaka station is the local way to do it.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Matsumoto",
@@ -299,7 +299,7 @@
       "morning": "Check out\nTravel to Okuhida",
       "afternoon": "Check in\nExplore Shin-Hotaka Onsen",
       "evening": "Onsen at Okuhida\nDinner at Okuhida",
-      "remarks": "Three nights in one place, and the point of them is the ryokan's own water rather than touring the valley. Okuhida Onsen-go is five villages; this plan stays put in one.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Matsumoto",
@@ -365,7 +365,7 @@
       "morning": "Free and easy",
       "afternoon": "Explore Hirayu Great Falls",
       "evening": "Onsen at Okuhida\nDinner at Okuhida",
-      "remarks": "A light day rather than an empty one. Hirayu Great Falls is one of Japan's hundred famous waterfalls and a short walk from the bus terminal; the rest of the day is the ryokan's own baths.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Okuhida",
@@ -391,7 +391,7 @@
       "morning": "Check out\nTravel to Kamikochi",
       "afternoon": "Check in\nExplore Taisho Pond\nExplore Kappa Bridge",
       "evening": "Explore Kamikochi at dusk\nDinner at Kamikochi",
-      "remarks": "Placed after Okuhida rather than before it for one reason: the larch turns golden roughly 25 Oct to 5 Nov, about a week behind the maples, and today is the leading edge of that. Coming here before Okuhida would land on the 21st, which falls between the two — maples going over, larch not yet started. Private cars are banned in the valley; bus or taxi only.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Okuhida",
@@ -423,7 +423,7 @@
       "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond",
       "afternoon": "Check out\nTravel to Tsumago",
       "evening": "Check in\nDinner at Tsumago",
-      "remarks": "Down from 1,500 m to about 400 m, where the colour is only now arriving. A long travel afternoon, but the morning is what the night here was for.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Kamikochi",
@@ -469,7 +469,7 @@
       "morning": "Travel to Magome\nExplore Magome-juku",
       "afternoon": "Hike the Nakasendo to Tsumago",
       "evening": "Explore Tsumago\nDinner at Tsumago",
-      "remarks": "Walked downhill from Magome on purpose — the same eight kilometres uphill is a different day out. Baggage forwarding runs between the two post towns in season.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Tsumago",
@@ -495,7 +495,7 @@
       "morning": "Free and easy\nCheck out",
       "afternoon": "Travel to Nagoya\nCheck in",
       "evening": "Explore Osu\nDinner at Nagoya",
-      "remarks": "A deliberate change of register for the last three nights: city, food and trains rather than more mountains. Note that Nagoya's own autumn colour does not peak until late November, so this block is not about leaves.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Tsumago",
@@ -535,7 +535,7 @@
       "morning": "Explore Nagoya Castle",
       "afternoon": "Explore Atsuta Shrine",
       "evening": "Explore Sakae\nDinner at Nagoya",
-      "remarks": "The one full day in Nagoya, so it is the city rather than a day trip. Swapping the whole day for Inuyama (an original castle and the Meiji Mura open-air museum, 30 minutes out by Meitetsu) or Ghibli Park is the alternative — but it is one or the other now, not both.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Nagoya",
@@ -561,7 +561,7 @@
       "morning": "Free and easy\nCheck out",
       "afternoon": "Travel to Tokyo\nCheck in",
       "evening": "Explore Ginza\nDinner at Tokyo",
-      "remarks": "Back to Tokyo a night early so the last day is shopping rather than travelling. The hotel is deliberately on the Haneda side — the Nozomi from Nagoya stops at Shinagawa, so there is no need to carry bags on to Tokyo Station and back out again.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Nagoya",
@@ -601,7 +601,7 @@
       "morning": "Check out\nLeave luggage at the hotel",
       "afternoon": "Explore Tokyo\nShopping",
       "evening": "Collect luggage\nTravel to Haneda\nFly Tokyo to Kuala Lumpur (NH885, 23:30 - 06:00)",
-      "remarks": "A whole day with no bags to carry: check out in the morning, leave the cases at the hotel desk, and come back for them at about 18:00. The flight is not until 23:30 and Haneda is 15 minutes away, so this is a full day rather than a departure day.",
+      "remarks": null,
       "temperature": [
         {
           "location": "Tokyo",
@@ -642,7 +642,7 @@
           "basisDate": "2025-10-15"
         }
       ],
-      "summary": "Arrival only. Nothing planned.",
+      "summary": "Arrival only — nothing planned, so the first full day starts rested.",
       "items": [
         {
           "time": "11:15",
@@ -666,7 +666,7 @@
           "time": "23:30",
           "activity": "Travel to the hotel\nHaneda (HND) -(Walk)> Hotel",
           "costs": {},
-          "remarks": "Airport hotel — nothing worth a train ride at this hour."
+          "remarks": "Airport hotel — the late landing is deliberate and there is nothing worth a train ride at this hour."
         }
       ]
     },
@@ -705,7 +705,7 @@
           "basisDate": "2025-10-16"
         }
       ],
-      "summary": "Tokyo to the Northern Alps. An easy first day.",
+      "summary": "Tokyo to the Northern Alps, straight to the mountains.",
       "items": [
         {
           "time": "09:00",
@@ -717,7 +717,7 @@
           "time": "11:00",
           "activity": "Travel to Hakuba\nTokyo Station -(Hokuriku Shinkansen)> Nagano Station -(Alpico Bus)> Hakuba Station",
           "costs": {},
-          "remarks": "About 1h 40m to Nagano, then an hour on the bus."
+          "remarks": "About 1h 40m to Nagano, then an hour on the bus. Hakuba comes first because the trip runs high to low from here and its colour is the one that fades soonest."
         },
         {
           "time": "14:30",
@@ -780,7 +780,7 @@
           "time": "11:00",
           "activity": "Hike to Happo Pond\nHappo-one Kurobishidaira -(Hike - 75 mins)> Happo Pond",
           "costs": {},
-          "remarks": "About 200 m of ascent, 45-90 minutes each way, on a rocky ridge path. Same route back."
+          "remarks": "About 200 m of ascent, 45-90 minutes each way on a rocky ridge path, same route back. The pond is at 2,060 m and its colour peaks late Sep to early Oct, so expect it past its best — the draw is the setting and the reflection, with first snow likely on the peaks behind. If the morning looks grey, swap with tomorrow: Tsugaike reads better in flat light than the pond does."
         },
         {
           "time": "16:00",
@@ -831,7 +831,7 @@
           "costs": {
             "sightseeing": 7400
           },
-          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Confirm the gondola is not in its late-October maintenance window."
+          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Same caveat as Happo Pond and more so: the Japanese sources put Tsugaike's peak at late Sep to early Oct, and it was still at peak on 11 Oct 2024 only because that year ran late. The boardwalks and the views hold up regardless. Confirm the gondola is not in its late-October maintenance window."
         },
         {
           "time": "15:00",
@@ -894,7 +894,7 @@
           "time": "12:00",
           "activity": "Check in and leave the bags",
           "costs": {},
-          "remarks": null
+          "remarks": "Forward the large bags on to Okuhida from here — Kamikochi is much easier with an overnight bag only, and they can go straight through."
         },
         {
           "time": "14:00",
@@ -967,13 +967,13 @@
           "costs": {
             "transport": 2000
           },
-          "remarks": "Japan's largest wasabi farm and free to enter; the cost here is the Azumino loop bus day pass, JPY 1,000 per person. Clear water channels, wasabi soft-serve, and autumn leaves along the streams."
+          "remarks": "Japan's largest wasabi farm and free to enter; the cost here is the Azumino loop bus day pass, JPY 1,000 per person. Clear water channels, wasabi soft-serve, and autumn leaves along the streams. Azumino's own best season is late Sep to late Oct, so this lands well."
         },
         {
           "time": "13:00",
           "activity": "Explore Azumino",
           "costs": {},
-          "remarks": "Rokuzan Art Museum is beside Hotaka station. Or hire bicycles and follow the water."
+          "remarks": "Rokuzan Art Museum is beside Hotaka station. Or hire bicycles at the station and follow the water — the local way to do it."
         },
         {
           "time": "16:00",
@@ -1024,7 +1024,7 @@
           "basisDate": "2025-10-21"
         }
       ],
-      "summary": "Over the pass into the onsen villages.",
+      "summary": "Over the pass into the onsen villages, for three nights.",
       "items": [
         {
           "time": "10:00",
@@ -1036,7 +1036,7 @@
           "time": "13:00",
           "activity": "Check in",
           "costs": {},
-          "remarks": null
+          "remarks": "Okuhida Onsen-go is five villages — Hirayu, Shin-Hirayu, Shin-Hotaka, Fukuji and Tochio — and this plan stays put in one. The point of three nights is the ryokan's own water rather than touring the valley."
         },
         {
           "time": "15:00",
@@ -1136,7 +1136,7 @@
           "time": "13:00",
           "activity": "Explore Hirayu Great Falls\nHotel -(Nohi Bus)> Hirayu Onsen -(Walk - 25 mins)> Hirayu Great Falls",
           "costs": {},
-          "remarks": "64 m, and at its best in late October. Skip it and stay in the bath if the day says so."
+          "remarks": "64 m, one of Japan's hundred famous waterfalls, and at its best in late October. A light day rather than an empty one — skip it and stay in the bath if the day says so."
         },
         {
           "time": "17:00",
@@ -1179,7 +1179,7 @@
           "time": "09:30",
           "activity": "Check out and travel to Kamikochi\nShin-Hotaka Onsen -(Nohi Bus)> Hirayu Onsen -(Nohi Bus)> Kamikochi Bus Terminal",
           "costs": {},
-          "remarks": "About an hour, changing at Hirayu."
+          "remarks": "About an hour, changing at Hirayu. Private cars are banned in the valley; bus or taxi only."
         },
         {
           "time": "11:00",
@@ -1197,7 +1197,7 @@
           "time": "15:00",
           "activity": "Explore Kappa Bridge",
           "costs": {},
-          "remarks": "The densest larch stands are around the bus terminal and Konashidaira."
+          "remarks": "The densest larch stands are around the bus terminal and Konashidaira. Kamikochi sits after Okuhida rather than before it for one reason: the larch turns golden roughly 25 Oct to 5 Nov, about a week behind the maples, so today is its leading edge. Coming here before Okuhida would land on the 21st, which falls between the two — maples going over, larch not yet started."
         },
         {
           "time": "17:00",
@@ -1260,7 +1260,7 @@
           "time": "06:00",
           "activity": "Explore Kamikochi at dawn",
           "costs": {},
-          "remarks": "Mist on Taisho Pond and first light on the Hotaka range."
+          "remarks": "Mist on Taisho Pond and first light on the Hotaka range — the morning the night here was for."
         },
         {
           "time": "07:30",
@@ -1272,7 +1272,7 @@
           "time": "12:00",
           "activity": "Check out and travel to Tsumago\nKamikochi Bus Terminal -(Alpico Bus)> Shin-Shimashima Station -(Alpico Kamikochi Line)> Matsumoto Station -(JR Shinano Limited Express)> Nagiso Station -(Bus)> Tsumago",
           "costs": {},
-          "remarks": "About 3 hours all in."
+          "remarks": "About 3 hours all in — a long travel afternoon, down from 1,500 m to about 400 m, where the colour is only now arriving."
         },
         {
           "time": "17:00",
@@ -1309,7 +1309,7 @@
           "time": "08:30",
           "activity": "Travel to Magome\nTsumago -(Bus)> Magome",
           "costs": {},
-          "remarks": "Send the day bags ahead on the Magome-Tsumago forwarding service."
+          "remarks": "Send the day bags ahead on the Magome-Tsumago forwarding service, which runs in season."
         },
         {
           "time": "09:30",
@@ -1321,7 +1321,7 @@
           "time": "10:30",
           "activity": "Hike the Nakasendo to Tsumago\nMagome -(Hike - 3 hours)> Tsumago",
           "costs": {},
-          "remarks": "About 8 km over the Magome pass, 2-3 hours, cedar forest and waterfalls. The classic stretch of the whole route, and late Oct is its peak."
+          "remarks": "About 8 km over the Magome pass, 2-3 hours, cedar forest and waterfalls. The classic stretch of the whole route, and late Oct is its peak. Walked downhill from Magome on purpose — the same eight kilometres uphill is a different day out."
         },
         {
           "time": "14:00",
@@ -1372,7 +1372,7 @@
           "basisDate": "2025-10-27"
         }
       ],
-      "summary": "Out of the valley and into the city.",
+      "summary": "Out of the valley and into the city — a deliberate change of register.",
       "items": [
         {
           "time": "09:00",
@@ -1390,7 +1390,7 @@
           "time": "15:00",
           "activity": "Check in",
           "costs": {},
-          "remarks": null
+          "remarks": "Nagoya's own autumn colour does not peak until late November, so this block is city, food and trains rather than leaves."
         },
         {
           "time": "16:30",
@@ -1433,7 +1433,7 @@
           "time": "09:30",
           "activity": "Explore Nagoya Castle",
           "costs": {},
-          "remarks": "The reconstructed Hommaru Palace is the reason to come — a lavish Edo-period samurai residence rebuilt from the original drawings."
+          "remarks": "The reconstructed Hommaru Palace is the reason to come — a lavish Edo-period samurai residence rebuilt from the original drawings. This is the one full day in Nagoya, so it is the city or a day trip (Inuyama and Meiji Mura, the SCMaglev and Railway Park, Ghibli Park), not both."
         },
         {
           "time": "13:00",
@@ -1502,7 +1502,7 @@
           "time": "12:00",
           "activity": "Check out and travel to Tokyo\nNagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
           "costs": {},
-          "remarks": "About 1h 40m. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo — getting off there rather than at Tokyo Station saves a leg with the luggage."
+          "remarks": "About 1h 40m. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo — getting off there rather than at Tokyo Station saves a leg with the luggage, and is why the hotel is on that side."
         },
         {
           "time": "14:30",
@@ -1551,7 +1551,7 @@
           "time": "10:00",
           "activity": "Check out and leave the luggage at the hotel",
           "costs": {},
-          "remarks": "Standard and usually free at a Japanese business hotel — confirm at check-in rather than on the morning."
+          "remarks": "Standard and usually free at a Japanese business hotel — confirm it at check-in rather than on the morning, because the whole day rests on it. Haneda's own coin lockers and baggage counter are the fallback."
         },
         {
           "time": "11:00",
@@ -1621,7 +1621,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Airport hotel — the flight lands at 22:15, so anything further in wastes a night."
+      "remarks": null
     },
     {
       "city": "Hakuba",
@@ -1651,7 +1651,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Three nights on one base. Ask about laundry — this and Okuhida are the two longest stops."
+      "remarks": null
     },
     {
       "city": "Matsumoto",
@@ -1681,7 +1681,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Near the castle or the station both work; Nakamachi is the nicer evening walk."
+      "remarks": null
     },
     {
       "city": "Okuhida",
@@ -1711,7 +1711,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Shin-Hotaka or Fukuji. A private or semi-open rotenburo is the whole point of these three nights, so pick for the bath rather than the room."
+      "remarks": null
     },
     {
       "city": "Kamikochi",
@@ -1741,7 +1741,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Book this first. Fewer than ten properties inside the valley and late October sells out months ahead. Half board is the norm — there is nowhere else to eat after dark."
+      "remarks": null
     },
     {
       "city": "Tsumago",
@@ -1771,7 +1771,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Edo-era minshuku in the post town itself. Late October is the busiest stretch of the year on the Nakasendo and the houses are small, so book early."
+      "remarks": null
     },
     {
       "city": "Nagoya",
@@ -1801,7 +1801,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Anywhere around Nagoya Station or Sakae. The station is the better base — the shinkansen out leaves from it, and the food arcades are underneath."
+      "remarks": null
     },
     {
       "city": "Tokyo",
@@ -1831,7 +1831,7 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Shinagawa is the pick: every Nozomi from Nagoya stops there, the Keikyu runs to Haneda in about 15 minutes, and Ginza and Shibuya are both inside a quarter of an hour. Hamamatsucho is the equivalent on the monorail side. Confirm at check-in that they will hold the bags after checkout — standard and usually free, but the whole last day is built on it."
+      "remarks": null
     }
   ],
   "transport": {
@@ -1845,7 +1845,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Do this first. Fewer than ten properties in the valley and the larch week sells out months ahead.",
+      "remarks": "Do this first. Fewer than ten properties in the valley and the larch week sells out months ahead. Half board is the norm — there is nowhere else to eat after dark.",
       "url": null
     },
     {
@@ -1869,7 +1869,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": null,
+      "remarks": "Three nights on one base. Ask about laundry; this and Okuhida are the two longest stops.",
       "url": null
     },
     {
@@ -1877,7 +1877,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": null,
+      "remarks": "Near the castle or the station both work; Nakamachi is the nicer evening walk.",
       "url": null
     },
     {
@@ -1893,7 +1893,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Shinagawa or Hamamatsucho, on the Haneda side. The whole last day depends on leaving the cases at the desk after checkout, so confirm it when booking rather than on the morning. Haneda's own coin lockers and baggage counter are the fallback.",
+      "remarks": "Shinagawa or Hamamatsucho, on the Haneda side. The whole last day depends on leaving the cases at the desk after checkout, so confirm it when booking rather than on the morning.",
       "url": null
     },
     {
@@ -1909,7 +1909,7 @@
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Waiting on an ANA promotion. The Oct 2027 schedule should load around Nov 2026; confirm the times still match before committing the rest.",
+      "remarks": "Waiting on an ANA promotion. Times in the file are the current timetable as at Aug 2026; the Oct 2027 schedule should load around Nov 2026, so confirm them before committing the rest.",
       "url": null
     },
     {
@@ -1957,7 +1957,7 @@
       "category": "Booking",
       "subcategory": "Attractions",
       "status": "Open",
-      "remarks": "One full day now, so it is the city (castle, Atsuta, Sakae) or a day trip (Inuyama and Meiji Mura, the SCMaglev and Railway Park, Ghibli Park) — not both.",
+      "remarks": "One full day, so it is the city (castle, Atsuta, Sakae) or a day trip (Inuyama and Meiji Mura, the SCMaglev and Railway Park, Ghibli Park) — not both.",
       "url": null
     },
     {
@@ -1965,7 +1965,7 @@
       "category": "Booking",
       "subcategory": "Attractions",
       "status": "Open",
-      "remarks": "Released at 14:00 JST on the 10th of each month, two months ahead — so October dates go on sale on 10 Aug 2027, and popular ones go in minutes. Overseas buyers use Klook or Lawson Ticket. About 50 minutes out from Nagoya Station. Confirm the release rule nearer the time; it has changed before.",
+      "remarks": "Released at 14:00 JST on the 10th of each month, two months ahead — so October dates go on sale on 10 Aug 2027, and popular ones go in minutes. Overseas buyers use Klook or Lawson Ticket. Confirm the release rule nearer the time; it has changed before.",
       "url": "https://ghibli-park.jp/en/ticket/"
     },
     {
@@ -1989,7 +1989,7 @@
       "category": "Travel preparation",
       "subcategory": null,
       "status": "Open",
-      "remarks": "Open-Meteo forecasts about 16 days. Until then the figures are Oct 2025 stand-ins, tagged as such. Kamikochi has no verified coordinates and will stay blank regardless — see the note in the script.",
+      "remarks": "Open-Meteo forecasts about 16 days. Until then the figures are Oct 2025 stand-ins, tagged as such. Kamikochi has no verified coordinates and will stay blank regardless.",
       "url": null
     },
     {
@@ -1997,7 +1997,7 @@
       "category": "Travel preparation",
       "subcategory": null,
       "status": "Open",
-      "remarks": "Landing page, Who can edit panel, owner only. Until their email is ticked against this slug the whole private side — to-do, remarks, files, splits, every Edit — is invisible to them.",
+      "remarks": "Landing page, Who can edit panel, owner only. Until their email is ticked against this slug the whole private side is invisible to them.",
       "url": null
     },
     {
@@ -2014,14 +2014,6 @@
       "subcategory": null,
       "status": "Open",
       "remarks": "Tsumago is at about 400 m and the Shinhotaka ropeway tops out at 2,156 m, where there will likely be snow. Layers rather than a second coat.",
-      "url": null
-    },
-    {
-      "task": "Confirm laundry at Hakuba and Okuhida",
-      "category": "Travel preparation",
-      "subcategory": null,
-      "status": "Open",
-      "remarks": "The two three-night bases. Fifteen nights is too long to pack for otherwise, and a booking rarely states it.",
       "url": null
     },
     {
