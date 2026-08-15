@@ -524,7 +524,9 @@ const Trip = (() => {
 
     const facts = [
       { label: "Days", value: (trip.days || []).length || (trip.summary && trip.summary.totalDays) || "—" },
-      stays.length ? { label: "Nights booked", value: nights } : null,
+      // "Nights", not "Nights booked" — the stays list is the plan, and on a trip
+      // still being planned none of them are booked yet.
+      stays.length ? { label: "Nights", value: nights } : null,
     ].filter(Boolean);
 
     // The home page states the shape of the trip; the full flight cards — terminals,
@@ -850,9 +852,16 @@ const Trip = (() => {
         const noteText = stayNotesMap()[noteKey];
         const span = 3 + (signedIn ? 1 : 0);
 
+        // The column answers "where do I sleep tonight", so it follows the stay
+        // whenever one covers the date — the day's own `city` is where the day is
+        // *spent*, which on a day trip is somewhere else entirely. A stay with no
+        // name yet still knows its town, so an unbooked trip gets the right answer
+        // here rather than falling back to wherever the day went.
         const stayingIn = `
-          ${stay && stay.name
-            ? `${escapeHtml(location)}<span class="stay-hotel">${hotelLink(stay)}</span>`
+          ${stay
+            ? `${escapeHtml(location)}${
+                stay.name ? `<span class="stay-hotel">${hotelLink(stay)}</span>` : ""
+              }`
             : escapeHtml(cityName(o.city))}
           ${
             temps.length
@@ -2598,7 +2607,11 @@ const Trip = (() => {
     const addStay = recordAddBtn("accommodation", "stay");
     if (!stays.length) return `<h1>Accommodation</h1>${placeholder("stays")}${addStay}`;
 
-    const total = stays.reduce((s, a) => s + (a.total || 0), 0);
+    // Nothing priced is not the same claim as costing nothing — a trip whose stays
+    // are planned but unbooked has no total yet, and "MYR 0.00" would say they are
+    // free. Null until at least one stay carries a price.
+    const priced = stays.some((a) => a.total != null);
+    const total = priced ? stays.reduce((s, a) => s + (a.total || 0), 0) : null;
     const nights = stays.reduce((s, a) => s + (a.nights || 0), 0);
     const short = (iso) => TravelSite.formatDate(iso, { day: "2-digit", month: "short", year: "numeric" });
     const splitTravellers = has(peopleFor(trip)) && stays.length;
@@ -2672,7 +2685,10 @@ const Trip = (() => {
           : "—",
       ],
       ["Laundry", dash(a.laundry) + was(a, "laundry")],
-      ["Meal", dash(a.meal || "N/A") + was(a, "meal")],
+      // No meal recorded means nobody has checked, which is "—". "N/A" is the
+      // stronger claim that the property was asked and does not serve one, so it
+      // has to be typed rather than inferred from a blank.
+      ["Meal", dash(a.meal) + was(a, "meal")],
       // Rate and conditions belong beside "Paid"/"Free", not buried in the notes.
       [
         "Parking",
@@ -2687,7 +2703,7 @@ const Trip = (() => {
       <h1>Accommodation</h1>
       <p class="subtitle">${stays.length} stay${stays.length === 1 ? "" : "s"} · ${nights} night${
       nights === 1 ? "" : "s"
-    } · ${home(total, trip)} total</p>
+    }${priced ? ` · ${home(total, trip)} total` : ""}</p>
 
       <div class="table-wrap">
         <table class="stay-table">
