@@ -2685,7 +2685,9 @@ const Trip = (() => {
 
     let out = `
       <h1>Accommodation</h1>
-      <p class="subtitle">${stays.length} stays · ${nights} nights · ${home(total, trip)} total</p>
+      <p class="subtitle">${stays.length} stay${stays.length === 1 ? "" : "s"} · ${nights} night${
+      nights === 1 ? "" : "s"
+    } · ${home(total, trip)} total</p>
 
       <div class="table-wrap">
         <table class="stay-table">

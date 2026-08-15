@@ -95,12 +95,35 @@ the Japan trip's totals match its workbook exactly and should stay that way.
 
 ## Workflow
 
-For a new trip: research and propose the day-by-day in chat first, get sign-off, then
-copy `trips/_template/` to `trips/YYYY-MM-destination/`, fill in `data.json`, and add
-one entry to `trips.json`.
+For a new trip, in this order — walked end to end as a dry run on 9 Aug 2026, so these
+are the actual steps rather than a guess:
+
+1. **Research and propose the day-by-day in chat first, and get sign-off.** Nothing goes
+   into the repo before that.
+2. `cp -r trips/_template trips/YYYY-MM-destination` — this brings the eight page stubs
+   *and* a worked `data.json` with every section filled in as an example.
+3. In the new `data.json`: **delete every `_`-prefixed key** (they are inline notes on
+   the schema, not data), set `slug`/`title`/`destination`/`emoji`/`startDate`/`endDate`,
+   and **replace the sample content** — the template's `days`, `overview`, `accommodation`,
+   `transport`, `activities` and `todo` all carry made-up entries with their own dates,
+   which do *not* follow `startDate`. Leaving one behind puts "Museum of Modern Art" on a
+   real trip.
+4. Add one entry to `trips.json` (`slug`, `title`, `destination`, `emoji`, `startDate`,
+   `endDate`). The landing page sorts by `startDate` descending and derives its badge
+   from today's date.
+5. Load all eight pages before saying it works. A trip missing a section must render a
+   placeholder, never throw.
+6. **Grant the other travellers access to the new slug**, on the root `index.html` admin
+   panel (owner only). `canAccessTrip()` short-circuits for the owner, so a new trip's
+   private side — to-do, remarks, files, splits, every Edit — works for the owner
+   immediately and is **invisible to everyone else until their email is ticked against
+   that slug**. It looks like a bug and is not one; do this before telling anyone the
+   trip is up.
 
 Ask for the booking confirmations rather than transcribing details from memory or a
-spreadsheet, and read every one before filling in a stay.
+spreadsheet, and read every one before filling in a stay. What no confirmation states —
+a price, a laundry, a check-in window — stays `null`; it can be typed on the page later,
+and typing it there is *better* than guessing here.
 
 Then run `python tools/fetch_weather.py <trip>/data.json` for the forecast, adding
 each place to its `PLACES` table first. Open-Meteo only forecasts about 16 days, so
