@@ -42,6 +42,18 @@ PLACES = {
     "Sendai": (38.2667, 140.8667, "Sendai, Miyagi"),
     "Matsushima": (38.3736, 141.0611, "Matsushima, Miyagi"),
     "Nikko": (36.7500, 139.6167, "Nikko, Tochigi"),
+    # Northern Alps (Japan 2027). Altitude matters more here than anywhere else on
+    # the site — the trip spans 11 m at Toyama to 2,433 m at Murodo — so each of
+    # these was checked for prefecture *and* elevation, not just name.
+    "Toyama": (36.7000, 137.2167, "Toyama, Toyama (11 m)"),
+    "Unazuki": (36.8167, 137.5833, "Unazuki-onsen, Toyama (223 m)"),
+    "Murodo": (36.5770, 137.5960, "Murodo, Toyama (2433 m)"),
+    "Takayama": (36.1333, 137.2500, "Takayama, Gifu (583 m)"),
+    "Okuhida": (36.2631, 137.5706, "Okuhida-onsengo-nakao, Gifu (1086 m)"),
+    "Omachi": (36.5000, 137.8667, "Omachi, Nagano (714 m)"),
+    "Hakuba": (36.6982, 137.8619, "Hakuba, Nagano (702 m)"),
+    "Matsumoto": (36.2333, 137.9667, "Matsumoto, Nagano (593 m)"),
+    "Tsumago": (35.5770, 137.5954, "Tsumago, Nagano (423 m)"),
 }
 
 # tenki.jp prefecture forecast pages, grouped by the prefecture each place sits in.
@@ -54,6 +66,9 @@ _TOCHIGI = "https://tenki.jp/forecast/3/12/"
 _FUKUSHIMA = "https://tenki.jp/forecast/2/10/"
 _YAMAGATA = "https://tenki.jp/forecast/2/9/"
 _MIYAGI = "https://tenki.jp/forecast/2/7/"
+_TOYAMA = "https://tenki.jp/forecast/4/19/"
+_NAGANO = "https://tenki.jp/forecast/3/23/"
+_GIFU = "https://tenki.jp/forecast/5/24/"
 TENKI = {
     "Tokyo": _TOKYO,
     "Kinugawa": _TOCHIGI, "Yumoto": _TOCHIGI, "Nikko": _TOCHIGI, "Chuzenji": _TOCHIGI,
@@ -61,6 +76,10 @@ TENKI = {
     "Yonezawa": _YAMAGATA, "Mt Zao": _YAMAGATA, "Zao Onsen": _YAMAGATA,
     "Yamagata": _YAMAGATA, "Ginzan Onsen": _YAMAGATA,
     "Naruko": _MIYAGI, "Sendai": _MIYAGI, "Matsushima": _MIYAGI,
+    "Toyama": _TOYAMA, "Unazuki": _TOYAMA, "Murodo": _TOYAMA,
+    "Takayama": _GIFU, "Okuhida": _GIFU, "Shinhotaka": _GIFU,
+    "Omachi": _NAGANO, "Hakuba": _NAGANO, "Matsumoto": _NAGANO,
+    "Kamikochi": _NAGANO, "Narai": _NAGANO, "Tsumago": _NAGANO,
 }
 
 # Deliberately absent: Zao Onsen, Chuzenji, Aizu and Ginzan Onsen. The geocoder
@@ -68,6 +87,15 @@ TENKI = {
 # Chuzenji, and for Ginzan Onsen only Obanazawa in the valley some 450 m below it.
 # A few hundred metres of altitude is a few degrees, so these keep the range the
 # trip recorded rather than borrowing a neighbour's.
+#
+# Absent for the same reason from the 2027 Alps trip: Kamikochi, Narai and
+# Shinhotaka. "Kamikochi" geocodes to a same-named place in *Kanagawa* at 13 m —
+# the valley itself sits at about 1,500 m in Nagano, so that answer is not merely
+# imprecise but the wrong side of the country. Narai and Shinhotaka return nothing
+# at all. All three still get a tenki.jp link above, which needs no coordinates.
+# Okuhida is pinned to Nakao (1,086 m), beside Shin-Hotaka Onsen; the five Okuhida
+# villages span roughly 770-1,260 m, so it speaks for that valley and not for the
+# 2,156 m ropeway station above it.
 
 # WMO weather codes, in the wording a traveller would use.
 CONDITIONS = {

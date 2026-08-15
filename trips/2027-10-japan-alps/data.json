@@ -1,0 +1,1774 @@
+{
+  "slug": "2027-10-japan-alps",
+  "title": "Japan — Northern Alps in autumn",
+  "destination": "Japan",
+  "emoji": "🍁",
+  "startDate": "2027-10-08",
+  "endDate": "2027-10-23",
+  "travelers": [
+    "CMC",
+    "Traveller 2"
+  ],
+  "notes": "Fifteen nights through the Northern Alps, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it: the Tateyama range on 12 Oct, Hakuba on 13-15 Oct, Kamikochi on its forecast peak date of 17 Oct, and the Kiso valley last, at around 400 m, where the colour arrives latest. Nothing is booked yet. The weather columns are empty because Open-Meteo only forecasts about 16 days — run tools/fetch_weather.py from late Sep 2027.",
+  "homeCurrency": "MYR",
+  "tripCurrency": "JPY",
+  "exchangeRate": {
+    "per": 100,
+    "rate": 2.571
+  },
+  "summary": {
+    "totalDays": 16,
+    "note": "Budget figures are the whole trip for two travellers, in MYR, and are planning estimates rather than quotes — nothing is booked. They exclude flights. The exchange rate is the mid-market rate on 14 Aug 2026 (1 MYR = 38.9 JPY), a placeholder until money is actually changed; every converted figure on the site moves with it. Day costs carry only fares that have been looked up and checked, so the daily totals are far below what a day will really cost — the planning envelope is this table, not those."
+  },
+  "flights": [
+    {
+      "type": "Outbound",
+      "date": "2027-10-08",
+      "from": "Kuala Lumpur (KUL)",
+      "fromTerminal": null,
+      "to": "Tokyo Haneda (HND)",
+      "toTerminal": null,
+      "airline": "ANA",
+      "flightNo": "NH 886",
+      "departTime": "14:15",
+      "arriveTime": "22:15",
+      "duration": "7h 00m",
+      "arrivesNextDay": false,
+      "checkInTime": null,
+      "remarks": "Not booked. Times are ANA's current timetable as at Aug 2026, held as the planning baseline until the October 2027 schedule loads (usually around 11 months out, so roughly Nov 2026). Waiting on an ANA promotion.",
+      "cost": null,
+      "currency": null
+    },
+    {
+      "type": "Return",
+      "date": "2027-10-23",
+      "from": "Tokyo Haneda (HND)",
+      "fromTerminal": null,
+      "to": "Kuala Lumpur (KUL)",
+      "toTerminal": null,
+      "airline": "ANA",
+      "flightNo": "NH 885",
+      "departTime": "23:30",
+      "arriveTime": "06:00",
+      "duration": "7h 30m",
+      "arrivesNextDay": true,
+      "checkInTime": null,
+      "remarks": "Not booked. The late departure is what lets the last day stay in the Kiso valley until early afternoon — an earlier return would cost a night there.",
+      "cost": null,
+      "currency": null
+    }
+  ],
+  "budget": {
+    "categories": [
+      {
+        "category": "Accommodation",
+        "perDay": 636.25,
+        "budget": 10180.0,
+        "actual": null
+      },
+      {
+        "category": "Transport",
+        "perDay": 305.25,
+        "budget": 4884.0,
+        "actual": null
+      },
+      {
+        "category": "Food",
+        "perDay": 189.62,
+        "budget": 3034.0,
+        "actual": null
+      },
+      {
+        "category": "Sightseeing",
+        "perDay": 61.06,
+        "budget": 977.0,
+        "actual": null
+      },
+      {
+        "category": "Miscellaneous",
+        "perDay": 88.38,
+        "budget": 1414.0,
+        "actual": null
+      }
+    ]
+  },
+  "overview": [
+    {
+      "day": 1,
+      "weekday": "Friday",
+      "date": "2027-10-08",
+      "city": "Tokyo",
+      "morning": "Pack and travel to KLIA",
+      "afternoon": "Fly Kuala Lumpur to Tokyo (NH886, 14:15 - 22:15)",
+      "evening": "Clear immigration\nTravel to the hotel\nHaneda (HND) -(Walk)> Hotel",
+      "remarks": "Late landing on purpose — the first full day starts tomorrow rested.",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "weekday": "Saturday",
+      "date": "2027-10-09",
+      "city": "Toyama",
+      "morning": "Breakfast\nTravel to Tokyo Station",
+      "afternoon": "Travel to Toyama\nCheck in",
+      "evening": "Explore Toyama\nDinner at Toyama",
+      "remarks": "Second day of a three-day national holiday (Sports Day falls on Mon 11 Oct) — reserve shinkansen seats rather than queue for a non-reserved car.",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "weekday": "Sunday",
+      "date": "2027-10-10",
+      "city": "Takayama",
+      "morning": "Travel to Takayama",
+      "afternoon": "Explore Takayama Autumn Festival\nExplore Takayama old town",
+      "evening": "Travel to Toyama\nDinner at Toyama",
+      "remarks": "Takayama Autumn Festival, day two of two — it falls on 9 and 10 Oct every year. Around 200,000 people attend across the two days, so this is the busiest day of the trip by a distance. Day trip on purpose: Takayama beds on festival nights are effectively unbookable.",
+      "temperature": [
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Takayama",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "weekday": "Monday",
+      "date": "2027-10-11",
+      "city": "Unazuki",
+      "morning": "Travel to Unazuki Onsen",
+      "afternoon": "Explore Kurobe Gorge Railway",
+      "evening": "Travel to Toyama\nDinner at Toyama",
+      "remarks": "Sports Day. The festival is over and the mountains are still a day away, so this is the quiet slot for the gorge. Colour down in the gorge peaks late Oct — expect green-to-turning rather than full autumn.",
+      "temperature": [
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Unazuki",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "weekday": "Tuesday",
+      "date": "2027-10-12",
+      "city": "Murodo",
+      "morning": "Travel to Tateyama\nTravel to Murodo",
+      "afternoon": "Explore Murodo and Mikurigaike\nOnsen at Mikurigaike",
+      "evening": "Travel to Ogizawa\nCheck in\nDinner at Omachi Onsenkyo",
+      "remarks": "The Alpine Route, west to east in one day — the traverse is also the transfer to Nagano, so nothing is backtracked. Peak colour today is at Bijodaira and Midagahara on the way up; Murodo at 2,433 m is past its own peak (late Sep) and may well have had its first snow. Dress for near-freezing.",
+      "temperature": [
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Murodo",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Omachi",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "weekday": "Wednesday",
+      "date": "2027-10-13",
+      "city": "Hakuba",
+      "morning": "Travel to Hakuba\nCheck in",
+      "afternoon": "Explore Happo-one\nHike to Happo Pond",
+      "evening": "Onsen at Hakuba\nDinner at Hakuba",
+      "remarks": "Happo Pond sits at 2,060 m and peaks early-to-mid October, so this should be close to its best.",
+      "temperature": [
+        {
+          "location": "Omachi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "weekday": "Thursday",
+      "date": "2027-10-14",
+      "city": "Hakuba",
+      "morning": "Travel to Tsugaike\nExplore Tsugaike Nature Park",
+      "afternoon": "Explore Tsugaike Nature Park\nTravel to Hakuba",
+      "evening": "Onsen at Hakuba\nDinner at Hakuba",
+      "remarks": null,
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "weekday": "Friday",
+      "date": "2027-10-15",
+      "city": "Hakuba",
+      "morning": "Free and easy",
+      "afternoon": "Explore Hakuba",
+      "evening": "Onsen at Hakuba\nDinner at Hakuba",
+      "remarks": "Left deliberately empty. Iwatake, the Aoni terraced village or the Goryu botanical garden are all options; so is doing none of them.",
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "weekday": "Saturday",
+      "date": "2027-10-16",
+      "city": "Matsumoto",
+      "morning": "Check out\nTravel to Matsumoto",
+      "afternoon": "Check in\nExplore Matsumoto Castle",
+      "evening": "Dinner at Matsumoto",
+      "remarks": "A short travel day put here on purpose: it means tomorrow reaches Kamikochi by late morning rather than mid-afternoon, which is what makes one night there enough.",
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Matsumoto",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "weekday": "Sunday",
+      "date": "2027-10-17",
+      "city": "Kamikochi",
+      "morning": "Check out\nTravel to Kamikochi",
+      "afternoon": "Check in\nExplore Taisho Pond\nExplore Kappa Bridge",
+      "evening": "Explore Kamikochi at dusk\nDinner at Kamikochi",
+      "remarks": "Forecast peak colour at Kappa Bridge is around 17 Oct, which is why the whole itinerary is built backwards from today. Private cars are banned in the valley — bus or taxi only.",
+      "temperature": [
+        {
+          "location": "Matsumoto",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "weekday": "Monday",
+      "date": "2027-10-18",
+      "city": "Okuhida",
+      "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond",
+      "afternoon": "Check out\nTravel to Okuhida",
+      "evening": "Check in\nOnsen at Okuhida\nDinner at Okuhida",
+      "remarks": "Dawn on the Azusa, then out over the pass to the onsen villages.",
+      "temperature": [
+        {
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 12,
+      "weekday": "Tuesday",
+      "date": "2027-10-19",
+      "city": "Okuhida",
+      "morning": "Explore Shinhotaka Ropeway",
+      "afternoon": "Explore Shinhotaka\nTravel to the hotel",
+      "evening": "Onsen at Okuhida\nDinner at Okuhida",
+      "remarks": null,
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 13,
+      "weekday": "Wednesday",
+      "date": "2027-10-20",
+      "city": "Okuhida",
+      "morning": "Free and easy",
+      "afternoon": "Explore Okuhida Onsen-go",
+      "evening": "Onsen at Okuhida\nDinner at Okuhida",
+      "remarks": "Five villages — Hirayu, Shin-Hirayu, Shin-Hotaka, Fukuji and Tochio — and one of the densest concentrations of open-air baths in Japan. Nothing scheduled.",
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 14,
+      "weekday": "Thursday",
+      "date": "2027-10-21",
+      "city": "Kiso Valley",
+      "morning": "Check out\nTravel to Matsumoto",
+      "afternoon": "Explore Narai-juku\nTravel to Tsumago",
+      "evening": "Check in\nDinner at Tsumago",
+      "remarks": "Down to about 400 m, where the colour is only now arriving. Narai is the longest of the post towns and far quieter than Tsumago.",
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Matsumoto",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Narai",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Tsumago",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 15,
+      "weekday": "Friday",
+      "date": "2027-10-22",
+      "city": "Kiso Valley",
+      "morning": "Travel to Magome",
+      "afternoon": "Hike the Nakasendo to Tsumago",
+      "evening": "Explore Tsumago\nDinner at Tsumago",
+      "remarks": "Walked downhill from Magome on purpose — the same eight kilometres uphill is a different day out. Baggage forwarding runs between the two post towns in season.",
+      "temperature": [
+        {
+          "location": "Tsumago",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "day": 16,
+      "weekday": "Saturday",
+      "date": "2027-10-23",
+      "city": "Departure",
+      "morning": "Free and easy\nCheck out",
+      "afternoon": "Travel to Tokyo",
+      "evening": "Travel to Haneda\nFly Tokyo to Kuala Lumpur (NH885, 23:30 - 06:00)",
+      "remarks": "A 23:30 departure makes this a real day rather than a dash — there is no need to leave the Kiso valley before early afternoon.",
+      "temperature": [
+        {
+          "location": "Tsumago",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Tokyo",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ]
+    }
+  ],
+  "days": [
+    {
+      "day": 1,
+      "date": "2027-10-08",
+      "city": "Tokyo",
+      "weekday": "Friday",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Arrival only. Nothing planned.",
+      "items": [
+        {
+          "time": "11:15",
+          "activity": "Check in at KLIA for NH886",
+          "costs": {},
+          "remarks": "Three hours before a 14:15 departure."
+        },
+        {
+          "time": "14:15",
+          "activity": "Fly Kuala Lumpur (KUL) to Tokyo Haneda (HND)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "22:15",
+          "activity": "Land at Haneda, clear immigration and collect bags",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "23:30",
+          "activity": "Travel to the hotel\nHaneda (HND) -(Walk)> Hotel",
+          "costs": {},
+          "remarks": "Airport hotel — nothing worth a train ride at this hour."
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "date": "2027-10-09",
+      "city": "Toyama",
+      "weekday": "Saturday",
+      "temperature": [
+        {
+          "location": "Tokyo",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Move north. An easy first day.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Breakfast, then travel to Tokyo Station\nHotel -(Tokyo Monorail)> Hamamatsucho Station -(JR Yamanote Line)> Tokyo Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:00",
+          "activity": "Travel to Toyama\nTokyo Station -(Hokuriku Shinkansen)> Toyama Station",
+          "costs": {},
+          "remarks": "About 2h 10m. Seats reserved in advance — holiday weekend."
+        },
+        {
+          "time": "13:30",
+          "activity": "Check in, then explore Toyama",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Toyama Kansui Park and the Toyama Glass Art Museum",
+          "costs": {},
+          "remarks": "A deliberately undemanding afternoon."
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at Toyama",
+          "costs": {},
+          "remarks": "Toyama Bay for shiroebi and buri if the season has started."
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "2027-10-10",
+      "city": "Takayama",
+      "weekday": "Sunday",
+      "temperature": [
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Takayama",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "The one crowded day, taken knowingly.",
+      "items": [
+        {
+          "time": "08:00",
+          "activity": "Travel to Takayama\nToyama Station -(JR Hida Limited Express)> Takayama Station",
+          "costs": {},
+          "remarks": "About 1h 25m. Reserve — the festival fills this train."
+        },
+        {
+          "time": "09:45",
+          "activity": "Explore Takayama Autumn Festival",
+          "costs": {},
+          "remarks": "Eleven yatai floats on display, plus the karakuri puppet performances."
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Takayama old town (Sanmachi Suji)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:30",
+          "activity": "Travel to Toyama\nTakayama Station -(JR Hida Limited Express)> Toyama Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at Toyama",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "date": "2027-10-11",
+      "city": "Unazuki",
+      "weekday": "Monday",
+      "temperature": [
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Unazuki",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Open-air trolley train up the Kurobe Gorge.",
+      "items": [
+        {
+          "time": "08:00",
+          "activity": "Travel to Unazuki Onsen\nToyama Station -(Toyama Chiho Railway)> Unazuki Onsen Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:00",
+          "activity": "Explore Kurobe Gorge Railway to Keyakidaira",
+          "costs": {},
+          "remarks": "Open-air trolley train, about 1h 20m each way. The full line to Keyakidaira reopened in Oct 2026 after the Noto earthquake repairs — confirm it is still running end to end."
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Unazuki Onsen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Travel to Toyama\nUnazuki Onsen Station -(Toyama Chiho Railway)> Toyama Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "19:30",
+          "activity": "Dinner at Toyama",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "date": "2027-10-12",
+      "city": "Murodo",
+      "weekday": "Tuesday",
+      "temperature": [
+        {
+          "location": "Toyama",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Murodo",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Omachi",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Over the top: Toyama to Nagano across the Tateyama range.",
+      "items": [
+        {
+          "time": "06:30",
+          "activity": "Travel to Tateyama\nToyama Station -(Toyama Chiho Railway)> Tateyama Station",
+          "costs": {},
+          "remarks": "Route transport runs 07:00-16:30 in this half of October — start early."
+        },
+        {
+          "time": "08:00",
+          "activity": "Travel to Murodo\nTateyama Station -(Tateyama Cablecar)> Bijodaira -(Tateyama Highland Bus)> Murodo",
+          "costs": {
+            "transport": 12170
+          },
+          "remarks": "Fare shown is the Toyama-Ogizawa through ticket, 2026 tariff, per person. Book the web ticket — the first leg is a fixed departure time and autumn slots sell out."
+        },
+        {
+          "time": "09:30",
+          "activity": "Explore Murodo, Mikurigaike Pond and the Jigokudani viewpoint",
+          "costs": {},
+          "remarks": "Flat, well-made paths around the pond basin."
+        },
+        {
+          "time": "12:00",
+          "activity": "Onsen at Mikurigaike Onsen",
+          "costs": {
+            "sightseeing": 1100
+          },
+          "remarks": "Japan's highest hot spring at 2,410 m. Day bath 09:00-16:00, about 20 minutes' walk from Murodo."
+        },
+        {
+          "time": "14:00",
+          "activity": "Travel to Ogizawa\nMurodo -(Tateyama Tunnel Trolleybus)> Daikanbo -(Tateyama Ropeway)> Kurobedaira -(Kurobe Cablecar)> Kurobeko -(Walk)> Kurobe Dam -(Kanden Tunnel Electric Bus)> Ogizawa",
+          "costs": {},
+          "remarks": "Included in the through ticket."
+        },
+        {
+          "time": "16:30",
+          "activity": "Travel to Omachi Onsenkyo\nOgizawa -(Alpico Bus)> Omachi Onsenkyo",
+          "costs": {},
+          "remarks": "Confirm this bus is running — Ogizawa services were suspended for part of 2026."
+        },
+        {
+          "time": "18:30",
+          "activity": "Check in, then dinner at Omachi Onsenkyo",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "date": "2027-10-13",
+      "city": "Hakuba",
+      "weekday": "Wednesday",
+      "temperature": [
+        {
+          "location": "Omachi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "First of three nights on one base — no packing until the 16th.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Travel to Hakuba\nOmachi Onsenkyo -(Alpico Bus)> Shinano-Omachi Station -(JR Oito Line)> Hakuba Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "11:00",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "12:30",
+          "activity": "Explore Happo-one by gondola and lift",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "13:30",
+          "activity": "Hike to Happo Pond\nHapponeKurobishidaira -(Hike - 60 mins)> Happo Pond",
+          "costs": {},
+          "remarks": "About 200 m of ascent, 45-90 minutes each way. The Alps reflected in the pond is the picture everyone comes for."
+        },
+        {
+          "time": "17:30",
+          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "date": "2027-10-14",
+      "city": "Hakuba",
+      "weekday": "Thursday",
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Boardwalks over four marshes, at your own speed.",
+      "items": [
+        {
+          "time": "08:30",
+          "activity": "Travel to Tsugaike\nHotel -(Alpico Bus)> Tsugaike Kogen",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "10:00",
+          "activity": "Explore Tsugaike Nature Park",
+          "costs": {},
+          "remarks": "Gondola then ropeway, and a 2-3 hour boardwalk loop over the marshland. Golden cotton grass and 360-degree views."
+        },
+        {
+          "time": "15:00",
+          "activity": "Travel to Hakuba\nTsugaike Kogen -(Alpico Bus)> Hotel",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "date": "2027-10-15",
+      "city": "Hakuba",
+      "weekday": "Friday",
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "A day with nothing in it.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Free and easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Hakuba",
+          "costs": {},
+          "remarks": "Iwatake mountain harbour, Aoni-daira or Hakuba Goryu — decide on the day, or skip all three."
+        },
+        {
+          "time": "17:30",
+          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 9,
+      "date": "2027-10-16",
+      "city": "Matsumoto",
+      "weekday": "Saturday",
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Matsumoto",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Down out of the mountains for a night in town.",
+      "items": [
+        {
+          "time": "10:00",
+          "activity": "Check out and travel to Matsumoto\nHakuba Station -(JR Oito Line)> Matsumoto Station",
+          "costs": {},
+          "remarks": "About 1h 35m."
+        },
+        {
+          "time": "12:00",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": "Forward the large bags on to Okuhida from here — Kamikochi is easier with an overnight bag only."
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Matsumoto Castle",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Matsumoto",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "date": "2027-10-17",
+      "city": "Kamikochi",
+      "weekday": "Sunday",
+      "temperature": [
+        {
+          "location": "Matsumoto",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "One night inside the valley, timed to the peak.",
+      "items": [
+        {
+          "time": "08:30",
+          "activity": "Check out and travel to Kamikochi\nMatsumoto Station -(Alpico Kamikochi Line)> Shin-Shimashima Station -(Alpico Bus)> Kamikochi Bus Terminal",
+          "costs": {},
+          "remarks": "About 1h 50m all in."
+        },
+        {
+          "time": "11:00",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "12:00",
+          "activity": "Explore Taisho Pond\nKamikochi Bus Terminal -(Walk - 45 mins)> Taisho Pond",
+          "costs": {},
+          "remarks": "Flat riverside path along the Azusa."
+        },
+        {
+          "time": "15:00",
+          "activity": "Explore Kappa Bridge",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Explore Kamikochi at dusk",
+          "costs": {},
+          "remarks": "The day-trippers leave on the last buses and the valley empties — this is the reason to sleep here."
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Kamikochi",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "date": "2027-10-18",
+      "city": "Okuhida",
+      "weekday": "Monday",
+      "temperature": [
+        {
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Dawn in the valley, then three nights of hot water.",
+      "items": [
+        {
+          "time": "06:00",
+          "activity": "Explore Kamikochi at dawn",
+          "costs": {},
+          "remarks": "Mist on Taisho Pond and first light on the Hotaka range."
+        },
+        {
+          "time": "08:30",
+          "activity": "Hike to Myojin Pond\nKappa Bridge -(Hike - 60 mins)> Myojin Pond",
+          "costs": {},
+          "remarks": "Flat both ways, about 3 hours return with stops. Tokusawa adds an hour each way if the legs are willing."
+        },
+        {
+          "time": "13:00",
+          "activity": "Check out and travel to Okuhida\nKamikochi Bus Terminal -(Nohi Bus)> Hirayu Onsen -(Nohi Bus)> Shin-Hotaka Onsen",
+          "costs": {},
+          "remarks": "Change at Hirayu — it is the only one of the five villages with a direct Kamikochi shuttle."
+        },
+        {
+          "time": "15:30",
+          "activity": "Check in",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Onsen at Okuhida, then dinner at Okuhida",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 12,
+      "date": "2027-10-19",
+      "city": "Okuhida",
+      "weekday": "Tuesday",
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Up the double-decker ropeway for the Hotaka panorama.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Explore Shinhotaka Ropeway",
+          "costs": {},
+          "remarks": "Japan's only double-decker cable car, up to 2,156 m. Colour on the lower stages, alpine and probably bare at the top."
+        },
+        {
+          "time": "12:00",
+          "activity": "Explore Shinhotaka",
+          "costs": {},
+          "remarks": "Short marked walks from the upper station, and a free footbath at the base."
+        },
+        {
+          "time": "15:00",
+          "activity": "Travel to the hotel",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:00",
+          "activity": "Onsen at Okuhida, then dinner at Okuhida",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 13,
+      "date": "2027-10-20",
+      "city": "Okuhida",
+      "weekday": "Wednesday",
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "The reason the trip has three nights here.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Free and easy",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Okuhida Onsen-go",
+          "costs": {},
+          "remarks": "Village-hop by local bus; several ryokan open their rotenburo to day visitors."
+        },
+        {
+          "time": "17:00",
+          "activity": "Onsen at Okuhida, then dinner at Okuhida",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 14,
+      "date": "2027-10-21",
+      "city": "Kiso Valley",
+      "weekday": "Thursday",
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Matsumoto",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Narai",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Tsumago",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Out of the mountains and onto the old road.",
+      "items": [
+        {
+          "time": "08:30",
+          "activity": "Check out and travel to Matsumoto\nShin-Hotaka Onsen -(Nohi Bus)> Hirayu Onsen -(Alpico Bus)> Matsumoto Bus Terminal",
+          "costs": {},
+          "remarks": "About 1h 25m from Hirayu."
+        },
+        {
+          "time": "11:30",
+          "activity": "Travel to Narai\nMatsumoto Station -(JR Chuo Line)> Narai Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "12:30",
+          "activity": "Explore Narai-juku",
+          "costs": {},
+          "remarks": "A kilometre of Edo-era frontages and almost no coaches."
+        },
+        {
+          "time": "15:30",
+          "activity": "Travel to Tsumago\nNarai Station -(JR Chuo Line)> Nagiso Station -(Bus)> Tsumago",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Check in, then dinner at Tsumago",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 15,
+      "date": "2027-10-22",
+      "city": "Kiso Valley",
+      "weekday": "Friday",
+      "temperature": [
+        {
+          "location": "Tsumago",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Eight kilometres of the old Nakasendo, mostly downhill.",
+      "items": [
+        {
+          "time": "08:30",
+          "activity": "Travel to Magome\nTsumago -(Bus)> Magome",
+          "costs": {},
+          "remarks": "Send the day bags ahead on the Magome-Tsumago forwarding service."
+        },
+        {
+          "time": "09:30",
+          "activity": "Explore Magome-juku",
+          "costs": {},
+          "remarks": "Sloping stone street with the Kiso valley below it."
+        },
+        {
+          "time": "10:30",
+          "activity": "Hike the Nakasendo to Tsumago\nMagome -(Hike - 3 hours)> Tsumago",
+          "costs": {},
+          "remarks": "About 8 km over the Magome pass, 2-3 hours, cedar forest and waterfalls. The classic stretch of the whole route."
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Tsumago",
+          "costs": {},
+          "remarks": "Preserved with no visible wiring or aerials — best after the day visitors leave."
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner at Tsumago",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 16,
+      "date": "2027-10-23",
+      "city": "Departure",
+      "weekday": "Saturday",
+      "temperature": [
+        {
+          "location": "Tsumago",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Tokyo",
+          "min": null,
+          "max": null,
+          "note": null
+        }
+      ],
+      "summary": "Slow morning, long transfer, late flight.",
+      "items": [
+        {
+          "time": "08:00",
+          "activity": "Free and easy",
+          "costs": {},
+          "remarks": "Tsumago before the coaches arrive."
+        },
+        {
+          "time": "13:00",
+          "activity": "Check out and travel to Nagiso\nTsumago -(Bus)> Nagiso Station",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "14:00",
+          "activity": "Travel to Tokyo\nNagiso Station -(JR Shinano Limited Express)> Nagoya Station -(Tokaido Shinkansen)> Tokyo Station",
+          "costs": {},
+          "remarks": "About 2h to Nagoya, 1h 40m on to Tokyo."
+        },
+        {
+          "time": "18:30",
+          "activity": "Travel to Haneda\nTokyo Station -(JR Yamanote Line)> Hamamatsucho Station -(Tokyo Monorail)> Haneda (HND)",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "20:30",
+          "activity": "Check in at Haneda for NH885",
+          "costs": {},
+          "remarks": "Three hours before a 23:30 departure."
+        },
+        {
+          "time": "23:30",
+          "activity": "Fly Tokyo Haneda (HND) to Kuala Lumpur (KUL)",
+          "costs": {},
+          "remarks": "Lands 06:00 the next morning."
+        }
+      ]
+    }
+  ],
+  "accommodation": [
+    {
+      "city": "Tokyo",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-08",
+      "checkOut": "2027-10-09",
+      "nights": 1,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Airport hotel — the flight lands at 22:15, so anything further in is a waste of a night."
+    },
+    {
+      "city": "Toyama",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-09",
+      "checkOut": "2027-10-12",
+      "nights": 3,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Three nights on one base over the holiday weekend, day-tripping to Takayama and the Kurobe Gorge. Near Toyama Station is what matters."
+    },
+    {
+      "city": "Omachi Onsenkyo",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-12",
+      "checkOut": "2027-10-13",
+      "nights": 1,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "One night, arriving off the last Alpine Route bus from Ogizawa. Onsen ryokan."
+    },
+    {
+      "city": "Hakuba",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-13",
+      "checkOut": "2027-10-16",
+      "nights": 3,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Three nights, one base. Ask about laundry — this is the midpoint of the trip."
+    },
+    {
+      "city": "Matsumoto",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-16",
+      "checkOut": "2027-10-17",
+      "nights": 1,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "One night in town, purely so Kamikochi is reachable by late morning."
+    },
+    {
+      "city": "Kamikochi",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-17",
+      "checkOut": "2027-10-18",
+      "nights": 1,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Book this first. Fewer than ten properties inside the valley and October sells out months ahead. Half board is the norm — there is nowhere else to eat after dark."
+    },
+    {
+      "city": "Okuhida",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-18",
+      "checkOut": "2027-10-21",
+      "nights": 3,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Shin-Hotaka or Fukuji. A private or semi-open rotenburo is the point of these three nights."
+    },
+    {
+      "city": "Tsumago",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-21",
+      "checkOut": "2027-10-23",
+      "nights": 2,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Edo-era minshuku in the post town itself. Most serve dinner and breakfast; several have no televisions, deliberately."
+    }
+  ],
+  "transport": {
+    "mode": "Trains, buses, ropeways and cable cars throughout — no hire car. Private vehicles are banned in Kamikochi, and the Alpine Route is a through ticket across six modes that a car cannot follow.",
+    "publicTransport": []
+  },
+  "activities": [],
+  "todo": [
+    {
+      "task": "Book Kamikochi, 17 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "Do this first. Fewer than ten properties in the valley and October foliage week sells out months ahead.",
+      "url": null
+    },
+    {
+      "task": "Book Okuhida onsen ryokan, 18-21 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "Shin-Hotaka or Fukuji. Three nights — worth paying for a private rotenburo on at least one.",
+      "url": null
+    },
+    {
+      "task": "Book Hakuba, 13-16 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": null,
+      "url": null
+    },
+    {
+      "task": "Book Tsumago minshuku, 21-23 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "Small houses, few rooms each. Book direct or through the Tsumago tourist office.",
+      "url": null
+    },
+    {
+      "task": "Book Toyama, 9-12 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "Three-day holiday weekend and the Takayama festival — book well ahead even though Toyama is a city.",
+      "url": null
+    },
+    {
+      "task": "Book Omachi Onsenkyo, 12 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": null,
+      "url": null
+    },
+    {
+      "task": "Book Matsumoto, 16 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": null,
+      "url": null
+    },
+    {
+      "task": "Book Haneda airport hotel, 8 Oct",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "Landing at 22:15 — pick something inside or shuttle-linked to the terminal.",
+      "url": null
+    },
+    {
+      "task": "Book ANA NH886 / NH885",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Waiting on an ANA promotion. The Oct 2027 schedule should load around Nov 2026; confirm the times still match before committing the rest.",
+      "url": null
+    },
+    {
+      "task": "Reserve Alpine Route web ticket, 12 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Autumn tickets go on sale in early August — so early Aug 2027 for these dates. The first leg is a fixed departure time and slots sell out; on-the-day queues run 1-2 hours in foliage season.",
+      "url": "https://www.alpen-route.com/en/"
+    },
+    {
+      "task": "Reserve Hokuriku Shinkansen seats, Tokyo to Toyama, 9 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Holiday weekend — do not rely on a non-reserved car.",
+      "url": null
+    },
+    {
+      "task": "Reserve JR Hida seats, Toyama to Takayama, 10 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Festival day. This train fills.",
+      "url": null
+    },
+    {
+      "task": "Reserve JR Shinano seats, Nagiso to Nagoya, 23 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": null,
+      "url": null
+    },
+    {
+      "task": "Confirm the Shinano-Omachi to Ogizawa bus is running",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Ogizawa services were suspended for part of 2026. If it is still off, the fallback off the Alpine Route is a taxi to Shinano-Omachi.",
+      "url": null
+    },
+    {
+      "task": "Confirm Kurobe Gorge Railway is running the full line",
+      "category": "Booking",
+      "subcategory": "Attractions",
+      "status": "Open",
+      "remarks": "The line to Keyakidaira reopened in Oct 2026 after the Noto earthquake repairs. Check before committing to 11 Oct.",
+      "url": "https://www.kurotetu.co.jp/en/"
+    },
+    {
+      "task": "Confirm Takayama Autumn Festival 2027 dates and programme",
+      "category": "Booking",
+      "subcategory": "Attractions",
+      "status": "Open",
+      "remarks": "Fixed at 9-10 Oct every year, but confirm the float and karakuri timings.",
+      "url": "https://www.hida.jp/english/festivalsandevents/4000209.html"
+    },
+    {
+      "task": "Check the last bus out of Kamikochi, 18 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "The valley has no through road and the day ends early in October.",
+      "url": null
+    },
+    {
+      "task": "Run tools/fetch_weather.py from late Sep 2027",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": "Open-Meteo forecasts about 16 days, so the weather pages stay blank until then. Kamikochi, Narai and Shin-Hotaka have no verified coordinates and will stay blank regardless — see the note in the script.",
+      "url": null
+    },
+    {
+      "task": "Grant the second traveller access to this trip",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": "Landing page, Who can edit panel, owner only. Until their email is ticked against this slug the whole private side — to-do, remarks, files, splits, every Edit — is invisible to them.",
+      "url": null
+    },
+    {
+      "task": "Confirm who is travelling and fix the names",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": "Seeded as CMC and a placeholder. Edit people on the Overview page.",
+      "url": null
+    },
+    {
+      "task": "Pack for 2,433 m",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": "Murodo runs to around freezing on an October morning and may have had its first snow. Everything else on the trip is far milder — layers, not a second coat.",
+      "url": null
+    },
+    {
+      "task": "Confirm laundry at the three-night bases",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": "Toyama, Hakuba and Okuhida. Fifteen nights is too long to pack for otherwise, and a booking rarely states it.",
+      "url": null
+    },
+    {
+      "task": "Check passport validity (6 months)",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": null,
+      "url": null
+    },
+    {
+      "task": "Arrange travel insurance covering hiking",
+      "category": "Travel preparation",
+      "subcategory": null,
+      "status": "Open",
+      "remarks": "Happo Pond, the Nakasendo and the Murodo paths are all walked, not climbed, but check the policy does not exclude anything above 2,000 m.",
+      "url": null
+    }
+  ],
+  "weatherPlaces": {
+    "Tokyo": {
+      "lat": 35.6895,
+      "lon": 139.6917
+    },
+    "Toyama": {
+      "lat": 36.7,
+      "lon": 137.2167
+    },
+    "Unazuki": {
+      "lat": 36.8167,
+      "lon": 137.5833
+    },
+    "Murodo": {
+      "lat": 36.577,
+      "lon": 137.596
+    },
+    "Takayama": {
+      "lat": 36.1333,
+      "lon": 137.25
+    },
+    "Okuhida": {
+      "lat": 36.2631,
+      "lon": 137.5706
+    },
+    "Omachi": {
+      "lat": 36.5,
+      "lon": 137.8667
+    },
+    "Hakuba": {
+      "lat": 36.6982,
+      "lon": 137.8619
+    },
+    "Matsumoto": {
+      "lat": 36.2333,
+      "lon": 137.9667
+    },
+    "Tsumago": {
+      "lat": 35.577,
+      "lon": 137.5954
+    }
+  },
+  "weatherTimezone": "Asia/Tokyo",
+  "weatherUpdated": null,
+  "weatherLinks": {
+    "Hakuba": "https://tenki.jp/forecast/3/23/",
+    "Kamikochi": "https://tenki.jp/forecast/3/23/",
+    "Matsumoto": "https://tenki.jp/forecast/3/23/",
+    "Murodo": "https://tenki.jp/forecast/4/19/",
+    "Narai": "https://tenki.jp/forecast/3/23/",
+    "Okuhida": "https://tenki.jp/forecast/5/24/",
+    "Omachi": "https://tenki.jp/forecast/3/23/",
+    "Takayama": "https://tenki.jp/forecast/5/24/",
+    "Tokyo": "https://tenki.jp/forecast/3/16/",
+    "Toyama": "https://tenki.jp/forecast/4/19/",
+    "Tsumago": "https://tenki.jp/forecast/3/23/",
+    "Unazuki": "https://tenki.jp/forecast/4/19/"
+  }
+}
