@@ -55,6 +55,7 @@ PLACES = {
     "Matsumoto": (36.2333, 137.9667, "Matsumoto, Nagano (593 m)"),
     "Azumino": (36.2882, 137.8871, "Azumino, Nagano (568 m)"),
     "Tsumago": (35.5770, 137.5954, "Tsumago, Nagano (423 m)"),
+    "Nagoya": (35.1815, 136.9064, "Nagoya, Aichi (23 m)"),
 }
 
 # tenki.jp prefecture forecast pages, grouped by the prefecture each place sits in.
@@ -70,6 +71,7 @@ _MIYAGI = "https://tenki.jp/forecast/2/7/"
 _TOYAMA = "https://tenki.jp/forecast/4/19/"
 _NAGANO = "https://tenki.jp/forecast/3/23/"
 _GIFU = "https://tenki.jp/forecast/5/24/"
+_AICHI = "https://tenki.jp/forecast/5/26/"
 TENKI = {
     "Tokyo": _TOKYO,
     "Kinugawa": _TOCHIGI, "Yumoto": _TOCHIGI, "Nikko": _TOCHIGI, "Chuzenji": _TOCHIGI,
@@ -82,6 +84,7 @@ TENKI = {
     "Omachi": _NAGANO, "Hakuba": _NAGANO, "Matsumoto": _NAGANO,
     "Kamikochi": _NAGANO, "Narai": _NAGANO, "Tsumago": _NAGANO,
     "Azumino": _NAGANO,
+    "Nagoya": _AICHI,
 }
 
 # Deliberately absent: Zao Onsen, Chuzenji, Aizu and Ginzan Onsen. The geocoder
