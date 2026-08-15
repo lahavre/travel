@@ -18,7 +18,7 @@
   },
   "summary": {
     "totalDays": 16,
-    "note": "Budget figures are the whole trip for two travellers, in MYR, and are planning estimates rather than quotes — nothing is booked. They exclude flights. The exchange rate is the mid-market rate on 14 Aug 2026 (1 MYR = 38.9 JPY), a placeholder until money is actually changed; every converted figure on the site moves with it. Day costs carry only fares that have been looked up and checked, as a group total for two, so the daily totals are well below what a day will really cost — the planning envelope is this table, not those. Shopping is not budgeted at all: Miscellaneous is contingency, so whatever the last day in Tokyo comes to sits on top of these figures."
+    "note": "Budget figures are the whole trip for two travellers, in MYR, and are planning estimates rather than quotes — nothing is booked. They exclude flights. The exchange rate is the mid-market rate on 14 Aug 2026 (1 MYR = 38.9 JPY), a placeholder until money is actually changed; every converted figure on the site moves with it. Day costs carry only fares that have been looked up and checked, as a group total for two, so the daily totals are well below what a day will really cost — the planning envelope is this table, not those. Shopping is deliberately not here and is tracked separately; Miscellaneous is contingency, not a shopping allowance."
   },
   "flights": [
     {
