@@ -9,7 +9,7 @@
     "CMC",
     "Traveller 2"
   ],
-  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, then three nights in Nagoya to finish on something other than mountains. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes the Kiso valley and Kamikochi's larch at their best and accepts Hakuba past its peak, with the colour down at the mid-mountain and the village. It also sits clear of the Sports Day holiday weekend entirely. Nothing is booked yet.",
+  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, then two nights in Nagoya and a last one in Tokyo to finish on something other than mountains. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes the Kiso valley and Kamikochi's larch at their best and accepts Hakuba past its peak, with the colour down at the mid-mountain and the village. It also sits clear of the Sports Day holiday weekend entirely. Nothing is booked yet.",
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
   "exchangeRate": {
@@ -18,7 +18,7 @@
   },
   "summary": {
     "totalDays": 16,
-    "note": "Budget figures are the whole trip for two travellers, in MYR, and are planning estimates rather than quotes — nothing is booked. They exclude flights. The exchange rate is the mid-market rate on 14 Aug 2026 (1 MYR = 38.9 JPY), a placeholder until money is actually changed; every converted figure on the site moves with it. Day costs carry only fares that have been looked up and checked, as a group total for two, so the daily totals are well below what a day will really cost — the planning envelope is this table, not those."
+    "note": "Budget figures are the whole trip for two travellers, in MYR, and are planning estimates rather than quotes — nothing is booked. They exclude flights. The exchange rate is the mid-market rate on 14 Aug 2026 (1 MYR = 38.9 JPY), a placeholder until money is actually changed; every converted figure on the site moves with it. Day costs carry only fares that have been looked up and checked, as a group total for two, so the daily totals are well below what a day will really cost — the planning envelope is this table, not those. Shopping is not budgeted at all: Miscellaneous is contingency, so whatever the last day in Tokyo comes to sits on top of these figures."
   },
   "flights": [
     {
@@ -53,7 +53,7 @@
       "duration": "7h 30m",
       "arrivesNextDay": true,
       "checkInTime": null,
-      "remarks": "Not booked. The late departure is what makes the last day easy — Nagoya to Haneda is under three hours, so there is no need to leave before mid-afternoon.",
+      "remarks": "Not booked. The late departure is what turns the last day into a real one — checkout in the morning, bags left at the hotel, and Haneda only 15 minutes away when it is finally time to go.",
       "cost": null,
       "currency": null
     }
@@ -62,26 +62,26 @@
     "categories": [
       {
         "category": "Accommodation",
-        "perDay": 637.85,
-        "budget": 10205.66,
+        "perDay": 642.67,
+        "budget": 10282.78,
         "actual": null
       },
       {
         "category": "Transport",
-        "perDay": 244.86,
-        "budget": 3917.74,
+        "perDay": 244.22,
+        "budget": 3907.46,
         "actual": null
       },
       {
         "category": "Food",
-        "perDay": 192.8,
-        "budget": 3084.83,
+        "perDay": 199.23,
+        "budget": 3187.66,
         "actual": null
       },
       {
         "category": "Sightseeing",
-        "perDay": 80.01,
-        "budget": 1280.21,
+        "perDay": 72.3,
+        "budget": 1156.81,
         "actual": null
       },
       {
@@ -533,9 +533,9 @@
       "date": "2027-10-28",
       "city": "Nagoya",
       "morning": "Explore Nagoya Castle",
-      "afternoon": "Explore Tokugawa Art Museum",
+      "afternoon": "Explore Atsuta Shrine",
       "evening": "Explore Sakae\nDinner at Nagoya",
-      "remarks": null,
+      "remarks": "The one full day in Nagoya, so it is the city rather than a day trip. Swapping the whole day for Inuyama (an original castle and the Meiji Mura open-air museum, 30 minutes out by Meitetsu) or Ghibli Park is the alternative — but it is one or the other now, not both.",
       "temperature": [
         {
           "location": "Nagoya",
@@ -557,11 +557,11 @@
       "day": 15,
       "weekday": "Friday",
       "date": "2027-10-29",
-      "city": "Nagoya",
-      "morning": "Explore Atsuta Shrine",
-      "afternoon": "Explore Nagoya",
-      "evening": "Dinner at Nagoya",
-      "remarks": "Left open on purpose. Atsuta in the morning is quiet and genuinely worth it; the afternoon can be Inuyama (an original castle and the Meiji Mura open-air museum, about 30 minutes out by Meitetsu), the SCMaglev and Railway Park, or Ghibli Park — which needs its ticket bought two months ahead to the day.",
+      "city": "Tokyo",
+      "morning": "Free and easy\nCheck out",
+      "afternoon": "Travel to Tokyo\nCheck in",
+      "evening": "Explore Ginza\nDinner at Tokyo",
+      "remarks": "Back to Tokyo a night early so the last day is shopping rather than travelling. The hotel is deliberately on the Haneda side — the Nozomi from Nagoya stops at Shinagawa, so there is no need to carry bags on to Tokyo Station and back out again.",
       "temperature": [
         {
           "location": "Nagoya",
@@ -576,6 +576,20 @@
           "sunset": "17:01",
           "basis": "historical",
           "basisDate": "2025-10-29"
+        },
+        {
+          "location": "Tokyo",
+          "min": 11.2,
+          "max": 15.7,
+          "note": null,
+          "feelsMin": 7.6,
+          "feelsMax": 13.8,
+          "condition": "Overcast",
+          "wind": 16.2,
+          "sunrise": "06:00",
+          "sunset": "16:49",
+          "basis": "historical",
+          "basisDate": "2025-10-29"
         }
       ]
     },
@@ -584,25 +598,11 @@
       "weekday": "Saturday",
       "date": "2027-10-30",
       "city": "Departure",
-      "morning": "Free and easy",
-      "afternoon": "Check out\nTravel to Tokyo",
-      "evening": "Travel to Haneda\nFly Tokyo to Kuala Lumpur (NH885, 23:30 - 06:00)",
-      "remarks": "An easy last day — Nagoya to Haneda is under three hours all in, against a 23:30 departure, so the morning is genuinely free.",
+      "morning": "Check out\nLeave luggage at the hotel",
+      "afternoon": "Explore Tokyo\nShopping",
+      "evening": "Collect luggage\nTravel to Haneda\nFly Tokyo to Kuala Lumpur (NH885, 23:30 - 06:00)",
+      "remarks": "A whole day with no bags to carry: check out in the morning, leave the cases at the hotel desk, and come back for them at about 18:00. The flight is not until 23:30 and Haneda is 15 minutes away, so this is a full day rather than a departure day.",
       "temperature": [
-        {
-          "location": "Nagoya",
-          "min": 7.5,
-          "max": 18.9,
-          "note": null,
-          "feelsMin": 6.4,
-          "feelsMax": 18.5,
-          "condition": "Overcast",
-          "wind": 7.1,
-          "sunrise": "06:11",
-          "sunset": "17:00",
-          "basis": "historical",
-          "basisDate": "2025-10-30"
-        },
         {
           "location": "Tokyo",
           "min": 7.9,
@@ -1427,7 +1427,7 @@
           "basisDate": "2025-10-28"
         }
       ],
-      "summary": "The castle, the Tokugawa collection, and the city.",
+      "summary": "Castle, shrine, and the city between them.",
       "items": [
         {
           "time": "09:30",
@@ -1437,9 +1437,9 @@
         },
         {
           "time": "13:00",
-          "activity": "Explore Tokugawa Art Museum",
+          "activity": "Explore Atsuta Shrine",
           "costs": {},
-          "remarks": "The Owari Tokugawa family's own collection, with the Tokugawaen garden beside it."
+          "remarks": "One of the most important shrines in Shinto, set in its own forest, and far calmer than its status suggests. Swap for the Tokugawa Art Museum and its garden if a collection appeals more than a walk."
         },
         {
           "time": "16:00",
@@ -1458,7 +1458,7 @@
     {
       "day": 15,
       "date": "2027-10-29",
-      "city": "Nagoya",
+      "city": "Tokyo",
       "weekday": "Friday",
       "temperature": [
         {
@@ -1474,25 +1474,51 @@
           "sunset": "17:01",
           "basis": "historical",
           "basisDate": "2025-10-29"
+        },
+        {
+          "location": "Tokyo",
+          "min": 11.2,
+          "max": 15.7,
+          "note": null,
+          "feelsMin": 7.6,
+          "feelsMax": 13.8,
+          "condition": "Overcast",
+          "wind": 16.2,
+          "sunrise": "06:00",
+          "sunset": "16:49",
+          "basis": "historical",
+          "basisDate": "2025-10-29"
         }
       ],
-      "summary": "Shrine in the morning, your choice after.",
+      "summary": "Out of Nagoya, into Tokyo with a day still to spend.",
       "items": [
         {
           "time": "09:00",
-          "activity": "Explore Atsuta Shrine",
+          "activity": "Free and easy",
           "costs": {},
-          "remarks": "One of the most important shrines in Shinto, set in its own forest, and far calmer than its status suggests."
+          "remarks": "Last of the Nagoya-meshi, or the station arcades."
         },
         {
-          "time": "13:00",
-          "activity": "Explore Nagoya",
+          "time": "12:00",
+          "activity": "Check out and travel to Tokyo\nNagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
           "costs": {},
-          "remarks": "Inuyama for the castle and Meiji Mura, the SCMaglev and Railway Park, or Ghibli Park at Nagakute — decide when the tickets are settled."
+          "remarks": "About 1h 40m. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo — getting off there rather than at Tokyo Station saves a leg with the luggage."
+        },
+        {
+          "time": "14:30",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "16:00",
+          "activity": "Explore Ginza",
+          "costs": {},
+          "remarks": "About 15 minutes from Shinagawa. The Uniqlo and Muji flagships, Ginza Six, and Itoya for stationery."
         },
         {
           "time": "19:00",
-          "activity": "Dinner at Nagoya",
+          "activity": "Dinner at Tokyo",
           "costs": {},
           "remarks": null
         }
@@ -1504,20 +1530,6 @@
       "city": "Departure",
       "weekday": "Saturday",
       "temperature": [
-        {
-          "location": "Nagoya",
-          "min": 7.5,
-          "max": 18.9,
-          "note": null,
-          "feelsMin": 6.4,
-          "feelsMax": 18.5,
-          "condition": "Overcast",
-          "wind": 7.1,
-          "sunrise": "06:11",
-          "sunset": "17:00",
-          "basis": "historical",
-          "basisDate": "2025-10-30"
-        },
         {
           "location": "Tokyo",
           "min": 7.9,
@@ -1533,25 +1545,37 @@
           "basisDate": "2025-10-30"
         }
       ],
-      "summary": "Slow morning, short transfer, late flight.",
+      "summary": "A last day in Tokyo, hands free.",
       "items": [
         {
-          "time": "09:00",
-          "activity": "Free and easy",
+          "time": "10:00",
+          "activity": "Check out and leave the luggage at the hotel",
           "costs": {},
-          "remarks": "Last of the Nagoya-meshi, or the station arcades."
+          "remarks": "Standard and usually free at a Japanese business hotel — confirm at check-in rather than on the morning."
         },
         {
-          "time": "15:00",
-          "activity": "Check out and travel to Tokyo\nNagoya Station -(Tokaido Shinkansen)> Tokyo Station",
+          "time": "11:00",
+          "activity": "Explore Shibuya",
           "costs": {},
-          "remarks": "About 1h 40m."
+          "remarks": "About 12 minutes from Shinagawa. Scramble Square and Hikarie for the department stores."
         },
         {
-          "time": "17:30",
-          "activity": "Travel to Haneda\nTokyo Station -(JR Yamanote Line)> Hamamatsucho Station -(Tokyo Monorail)> Haneda (HND)",
+          "time": "14:00",
+          "activity": "Explore Asakusa",
           "costs": {},
-          "remarks": null
+          "remarks": "Nakamise-dori for the last of the souvenirs, if the legs are willing. Otherwise stay west and add Shinjuku."
+        },
+        {
+          "time": "17:00",
+          "activity": "Shopping at Tokyo Station",
+          "costs": {},
+          "remarks": "Character Street and the Daimaru food halls are the best single stop for edible souvenirs and ekiben."
+        },
+        {
+          "time": "18:30",
+          "activity": "Collect luggage, then travel to Haneda\nHotel -(Keikyu Airport Line)> Haneda (HND)",
+          "costs": {},
+          "remarks": "About 15 minutes from Shinagawa on the Keikyu, or 13 on the monorail from Hamamatsucho."
         },
         {
           "time": "20:30",
@@ -1760,8 +1784,8 @@
       "address": null,
       "phone": null,
       "checkIn": "2027-10-27",
-      "checkOut": "2027-10-30",
-      "nights": 3,
+      "checkOut": "2027-10-29",
+      "nights": 2,
       "persons": 2,
       "rooms": null,
       "roomType": null,
@@ -1777,7 +1801,37 @@
       "cancellation": null,
       "pricePerNight": null,
       "total": null,
-      "remarks": "Anywhere around Nagoya Station or Sakae. The station is the better base — the last day leaves from it, and the food arcades are underneath."
+      "remarks": "Anywhere around Nagoya Station or Sakae. The station is the better base — the shinkansen out leaves from it, and the food arcades are underneath."
+    },
+    {
+      "city": "Tokyo",
+      "name": null,
+      "reservation": {
+        "site": null,
+        "bookingNo": null,
+        "refs": []
+      },
+      "address": null,
+      "phone": null,
+      "checkIn": "2027-10-29",
+      "checkOut": "2027-10-30",
+      "nights": 1,
+      "persons": 2,
+      "rooms": null,
+      "roomType": null,
+      "checkInFrom": null,
+      "checkInTo": null,
+      "checkOutUntil": null,
+      "laundry": null,
+      "meal": null,
+      "parking": null,
+      "parkingNote": null,
+      "prepaid": null,
+      "payAtProperty": null,
+      "cancellation": null,
+      "pricePerNight": null,
+      "total": null,
+      "remarks": "Shinagawa is the pick: every Nozomi from Nagoya stops there, the Keikyu runs to Haneda in about 15 minutes, and Ginza and Shibuya are both inside a quarter of an hour. Hamamatsucho is the equivalent on the monorail side. Confirm at check-in that they will hold the bags after checkout — standard and usually free, but the whole last day is built on it."
     }
   ],
   "transport": {
@@ -1827,11 +1881,19 @@
       "url": null
     },
     {
-      "task": "Book Nagoya, 27-30 Oct",
+      "task": "Book Nagoya, 27-29 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Around Nagoya Station for the last-day departure and the food arcades underneath.",
+      "remarks": "Around Nagoya Station for the shinkansen out and the food arcades underneath.",
+      "url": null
+    },
+    {
+      "task": "Book Tokyo, 29 Oct — and check they hold luggage",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "Shinagawa or Hamamatsucho, on the Haneda side. The whole last day depends on leaving the cases at the desk after checkout, so confirm it when booking rather than on the morning. Haneda's own coin lockers and baggage counter are the fallback.",
       "url": null
     },
     {
@@ -1891,11 +1953,11 @@
       "url": null
     },
     {
-      "task": "Decide the Nagoya free afternoon, 29 Oct",
+      "task": "Decide how to spend Nagoya, 28 Oct",
       "category": "Booking",
       "subcategory": "Attractions",
       "status": "Open",
-      "remarks": "Inuyama castle and Meiji Mura, the SCMaglev and Railway Park, or Ghibli Park. Only the last one needs deciding early.",
+      "remarks": "One full day now, so it is the city (castle, Atsuta, Sakae) or a day trip (Inuyama and Meiji Mura, the SCMaglev and Railway Park, Ghibli Park) — not both.",
       "url": null
     },
     {
@@ -1903,7 +1965,7 @@
       "category": "Booking",
       "subcategory": "Attractions",
       "status": "Open",
-      "remarks": "Sold two months ahead to the day, at 14:00 JST on the 10th, and popular dates go in minutes. Overseas buyers use Klook or Lawson Ticket. About 50 minutes out from Nagoya Station.",
+      "remarks": "Released at 14:00 JST on the 10th of each month, two months ahead — so October dates go on sale on 10 Aug 2027, and popular ones go in minutes. Overseas buyers use Klook or Lawson Ticket. About 50 minutes out from Nagoya Station. Confirm the release rule nearer the time; it has changed before.",
       "url": "https://ghibli-park.jp/en/ticket/"
     },
     {
