@@ -53,6 +53,7 @@ PLACES = {
     "Omachi": (36.5000, 137.8667, "Omachi, Nagano (714 m)"),
     "Hakuba": (36.6982, 137.8619, "Hakuba, Nagano (702 m)"),
     "Matsumoto": (36.2333, 137.9667, "Matsumoto, Nagano (593 m)"),
+    "Azumino": (36.2882, 137.8871, "Azumino, Nagano (568 m)"),
     "Tsumago": (35.5770, 137.5954, "Tsumago, Nagano (423 m)"),
 }
 
@@ -80,6 +81,7 @@ TENKI = {
     "Takayama": _GIFU, "Okuhida": _GIFU, "Shinhotaka": _GIFU,
     "Omachi": _NAGANO, "Hakuba": _NAGANO, "Matsumoto": _NAGANO,
     "Kamikochi": _NAGANO, "Narai": _NAGANO, "Tsumago": _NAGANO,
+    "Azumino": _NAGANO,
 }
 
 # Deliberately absent: Zao Onsen, Chuzenji, Aizu and Ginzan Onsen. The geocoder
@@ -228,12 +230,19 @@ def main(path, timezone="Asia/Tokyo"):
     def good(o):
         return o and o["max"] is not None
 
+    # `days` and `overview` each hold their own temperature list for the same dates —
+    # the day pages read one, the overview's temperature column reads the other. Fill
+    # both, or a re-run updates the day pages and silently leaves the overview showing
+    # whatever it said before (blank, on a trip that has never been fetched).
+    holders = [(d["date"], d) for d in days]
+    holders += [(o["date"], o) for o in (trip.get("overview") or []) if o.get("date")]
+
     filled = historic = skipped = 0
-    for day in days:
-        for entry in day.get("temperature") or []:
+    for date, holder in holders:
+        for entry in holder.get("temperature") or []:
             name = entry.get("location")
-            obs = series.get(name, {}).get(day["date"])
-            hist = historical.get(name, {}).get(day["date"])
+            obs = series.get(name, {}).get(date)
+            hist = historical.get(name, {}).get(date)
             chosen = obs if good(obs) else (hist if good(hist) else None)
             if not chosen:
                 skipped += 1
