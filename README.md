@@ -211,8 +211,16 @@ with `payAtProperty` for anything owed on arrival and `cancellation` for the pol
 which always carries its year. A parking rate or condition goes in `parkingNote` and
 renders as "Paid (JPY 1,000 / night)".
 
+**Nothing priced is not the same claim as costing nothing.** While no stay carries a
+`total` the header shows stays and nights alone, and the split's price column reads "—",
+rather than totalling an unbooked trip to "MYR 0.00". The total appears as soon as one
+stay has a price — the same principle the activities page applies to an uncosted voucher.
+A blank `meal` likewise renders "—", never "N/A": write "N/A" into `data.json` when the
+booking has actually been checked, and leave it null when nobody has looked.
+
 Each row states its fact once. `remarks` is for what no other row covers — don't
-repeat the payment, meal or parking there.
+repeat the payment, meal or parking there. **Note it is a seed, not page text**: see
+**Commentary belongs in the file-owned fields** below before writing anything there.
 
 Signed-in travellers also get, on each stay, an **Edit** button opening the whole
 record as a form (see **Editing a stay, flight, car hire or leg** below), an **editable
@@ -479,6 +487,34 @@ only this one is behind sign-in. Enforced by [`firestore.rules`](firestore.rules
 
 See **Firebase / private data** below for how sign-in and the config are wired.
 
+## Commentary belongs in the file-owned fields
+
+Every `remarks` on a **stay, flight, activity, car hire, leg or overview day** is a
+**seed**. The first signed-in load copies it into Firestore and the file stops governing
+it from that moment — rewrite `data.json` afterwards and the old text stays there,
+indistinguishable from something a traveller typed. On a trip still being planned that
+becomes a growing pile of stale notes nobody can safely delete.
+
+So planning commentary — why a day is ordered as it is, what a fare covers, what to check
+before booking — goes in the **file-owned** fields instead. These are re-read from
+`data.json` on every load, never copied into Firestore, and replaced wholesale by a
+rebuild:
+
+| Seeds Firestore — leave `null` | File-owned — write here |
+| --- | --- |
+| `overview[].remarks`, `slotRemarks` | `days[].summary` |
+| `accommodation[].remarks` | `days[].items[].remarks` |
+| `flights[].remarks`, `activities[].remarks` | trip-level `notes` |
+| `transport.carRental[]`/`publicTransport[].remarks` | `summary.note` |
+
+**Nothing under `days[]` is ever seeded**, which is what makes it safe — and it is public,
+so the reasoning shows to everyone rather than only to whoever is signed in. Put a note
+next to the activity it explains rather than at day level.
+
+`todo` is the one knowing exception: it seeds `todoList/<slug>` **once** and is a checklist
+meant to become the group's, so it is still written from the file. That document wants
+deleting once, when the plan stops moving, so it re-seeds from the final version.
+
 ## Firebase / private data
 
 The public itinerary (plan, hotels, budget, weather) stays a static site on GitHub
@@ -623,7 +659,10 @@ Dates render day-first (`13 Oct 2023`) on every device — the locale is pinned 
 - `new_trip_pages.py [slug...]` — (re)writes the seven boilerplate pages into trip
   folders. Copying `trips/_template/` does the same for a single new trip; this is for
   updating every trip at once if the boilerplate changes.
-- `fetch_weather.py <data.json>` — fills each day's `temperature[]` from Open-Meteo,
+- `fetch_weather.py <data.json>` — fills `temperature[]` in **both** `days[]` and
+  `overview[]` (they are separate lists of the same shape for the same dates, and the
+  overview's temperature column reads its own — filling only one leaves the other stale),
+  from Open-Meteo,
   which needs no key. It picks the forecast API for a trip still ahead and the
   archive for one already past, from the trip's own dates. Coordinates live in a
   `PLACES` table in the script, taken from Open-Meteo's geocoder and checked against

@@ -171,6 +171,13 @@ anything without its own `match`, deliberately.
 - Live at <https://lahavre.github.io/travel/>; pushing to `main` redeploys.
 - **Eight pages per trip**: Overview, Days, Weather, Budget, Accommodation, Transport,
   Activities, To-do. `tools/new_trip_pages.py` scaffolds all eight.
+- **Japan 2027 (`trips/2027-10-japan-alps`) is the first real trip the planner has
+  handled** — 15-30 Oct 2027, two travellers, nothing booked. Planned across several
+  rounds of the traveller's own review, so the shape reflects their decisions, not a
+  first draft: Hakuba, Matsumoto/Azumino, Okuhida, one night in Kamikochi, the Kiso
+  valley, Nagoya, a last night at Shinagawa. The dates are a knowing trade — Hakuba's
+  alpine colour peaks late September and the Nakasendo's late October, five weeks apart,
+  so no single trip catches both.
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
   **design fixture** — its `publicTransport` holds Croatia legs and its `activities`
   hold 2019 vouchers, deliberately, to exercise the renderers. Its data being
