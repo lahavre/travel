@@ -124,8 +124,8 @@
       "weekday": "Saturday",
       "date": "2027-10-16",
       "city": "Hakuba",
-      "morning": "Breakfast\nTravel to Tokyo Station",
-      "afternoon": "Travel to Hakuba\nCheck in",
+      "morning": "Breakfast\nCheck out\nTravel to Tokyo Station",
+      "afternoon": "Travel to Nagano\nLunch at Nagano\nTravel to Hakuba\nCheck in",
       "evening": "Explore Hakuba village\nOnsen at Hakuba\nDinner at Hakuba",
       "remarks": null,
       "temperature": [
@@ -705,28 +705,56 @@
           "basisDate": "2025-10-16"
         }
       ],
-      "summary": "Tokyo to the Northern Alps, straight to the mountains.",
+      "summary": "Tokyo to the Northern Alps — shinkansen to Nagano, then the bus over.",
       "items": [
         {
-          "time": "09:00",
-          "activity": "Breakfast, then travel to Tokyo Station\nHotel -(Tokyo Monorail)> Hamamatsucho Station -(JR Yamanote Line)> Tokyo Station",
+          "time": "08:30",
+          "activity": "Breakfast, then check out",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "11:00",
-          "activity": "Travel to Hakuba\nTokyo Station -(Hokuriku Shinkansen)> Nagano Station -(Alpico Bus)> Hakuba Station",
+          "time": "09:15",
+          "activity": "Travel to Tokyo Station\nHotel -(Tokyo Monorail)> Hamamatsucho Station -(JR Yamanote Line)> Tokyo Station",
           "costs": {},
-          "remarks": "About 1h 40m to Nagano, then an hour on the bus. Hakuba comes first because the trip runs high to low from here and its colour is the one that fades soonest."
+          "remarks": "About 17 minutes on the monorail from Haneda Terminal 3, then 5 on the Yamanote — allow 30 with the change and the bags. The Keikyu line to Shinagawa and JR across is the same journey by another route if the monorail is queued."
         },
         {
-          "time": "14:30",
-          "activity": "Check in and leave the bags",
+          "time": "10:30",
+          "activity": "Travel to Nagano\nTokyo Station -(Hokuriku Shinkansen)> Nagano Station",
+          "costs": {
+            "transport": 16680
+          },
+          "remarks": "Three services run this line and they are not interchangeable. Kagayaki is fastest at about 80 minutes but is entirely reserved — there are no unreserved cars at all, so turning up hoping to board one does not work. Hakutaka takes about 95 minutes and Asama, which terminates at Nagano, a little longer; both carry unreserved seats. JPY 8,340 per person reserved, JPY 7,680 unreserved — figure shown is reserved for two. No oversized-baggage reservation is needed here: that rule covers the Tokaido, Sanyo and Kyushu Shinkansen only, and the Hokuriku is first come, first served."
+        },
+        {
+          "time": "12:00",
+          "activity": "Lunch at Nagano Station",
           "costs": {},
-          "remarks": null
+          "remarks": "Nagano is soba country and the station concourse does it properly. Don't rush it — the bus, not the train, is what sets today's pace."
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Zenkoji",
+          "costs": {},
+          "remarks": "Optional, and it depends entirely on the bus gap. Zenkoji is about 15 minutes by bus from the station and one of the most important temples in Japan — if the wait for Hakuba turns out to be two hours, this is a far better use of it than the station. Skip it if the connection is tight."
+        },
+        {
+          "time": "14:00",
+          "activity": "Travel to Hakuba\nNagano Station -(Alpico Bus)> Hakuba Station",
+          "costs": {
+            "transport": 4800
+          },
+          "remarks": "75-80 minutes from Bus Stop No. 26 outside the East Exit. JPY 2,200-2,400 per person depending on where in Hakuba you get off; figure shown is two at the Happo rate. Pay the driver, cash or Visa touch. Check the timetable before fixing the morning: the green season runs about seven buses a day against sixteen in winter, so the gaps are long and missing one costs hours."
         },
         {
           "time": "15:30",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": "Hakuba comes first in the trip because it runs high to low from here, and Hakuba's colour is the one that fades soonest."
+        },
+        {
+          "time": "16:30",
           "activity": "Explore Hakuba village",
           "costs": {},
           "remarks": null
@@ -1502,7 +1530,7 @@
           "time": "12:00",
           "activity": "Check out and travel to Tokyo\nNagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
           "costs": {},
-          "remarks": "About 1h 40m. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo — getting off there rather than at Tokyo Station saves a leg with the luggage, and is why the hotel is on that side."
+          "remarks": "About 1h 40m. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo — getting off there rather than at Tokyo Station saves a leg with the luggage, and is why the hotel is on that side. This is the Tokaido, so unlike the Hokuriku on day 2 the oversized-baggage rule applies: a case whose height, width and depth total 160-250 cm needs a free reserved slot booked with the seat, and boarding without one is a JPY 1,000 charge. Worth measuring before this leg, not at the gate."
         },
         {
           "time": "14:30",
@@ -1929,11 +1957,19 @@
       "url": null
     },
     {
-      "task": "Check the Nagano to Hakuba bus timetable",
+      "task": "Check the green-season Nagano to Hakuba bus timetable",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Alpico run it from outside Nagano station, about an hour. Confirm the last departure in case the shinkansen slips.",
+      "remarks": "This sets day 2, not the shinkansen. Alpico run it from Bus Stop No. 26 at Nagano Station East Exit, 75-80 minutes, JPY 2,200-2,400 pp paid to the driver. Green season is about seven departures a day against sixteen in winter, so pick the bus first and work the morning backwards from it.",
+      "url": "https://visit-nagano.alpico.co.jp/timetable/hakuba-nagano-winter"
+    },
+    {
+      "task": "Measure the cases against the Tokaido 160 cm rule",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Only matters for Nagoya to Tokyo on 29 Oct. Height + width + depth of 160-250 cm needs a free oversized-baggage slot reserved with the seat; without one it is a JPY 1,000 charge at the gate. The Hokuriku Shinkansen on day 2 has no such rule.",
       "url": null
     },
     {
@@ -2074,5 +2110,5 @@
     "Tokyo": "https://tenki.jp/forecast/3/16/",
     "Tsumago": "https://tenki.jp/forecast/3/23/"
   },
-  "weatherUpdated": "2026-08-15"
+  "weatherUpdated": "2026-08-16"
 }
