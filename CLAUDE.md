@@ -174,10 +174,14 @@ anything without its own `match`, deliberately.
 - **Japan 2027 (`trips/2027-10-japan-alps`) is the first real trip the planner has
   handled** — 15-30 Oct 2027, two travellers, nothing booked. Planned across several
   rounds of the traveller's own review, so the shape reflects their decisions, not a
-  first draft: Hakuba, Matsumoto/Azumino, Okuhida, one night in Kamikochi, the Kiso
-  valley, Nagoya, a last night at Shinagawa. The dates are a knowing trade — Hakuba's
-  alpine colour peaks late September and the Nakasendo's late October, five weeks apart,
-  so no single trip catches both.
+  first draft: a night at Nagano for Zenkoji, four at Hakuba, Matsumoto with Azumino,
+  Okuhida, one night in Kamikochi, the Kiso valley, a last night at Shinagawa. The dates
+  are a knowing trade — Hakuba's alpine colour peaks late September and the Nakasendo's
+  late October, five weeks apart, so no single trip catches both. **Transport is
+  deliberately mixed**: a hire car for the middle six days (Nagano 17 Oct to Matsumoto
+  23 Oct — same prefecture, so the one-way drop stays cheap) where the buses are sparse,
+  and rail everywhere else, because Kamikochi bans private cars, the Magome-Tsumago walk
+  is point-to-point, and the long hauls are faster by train.
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
   **design fixture** — its `publicTransport` holds Croatia legs and its `activities`
   hold 2019 vouchers, deliberately, to exercise the renderers. Its data being

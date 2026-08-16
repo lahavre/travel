@@ -310,7 +310,11 @@ and a hire is one long-running arrangement rather than a series of legs.
   would, and anyone unticked reads N/A — a train ticket one person bought is theirs
   alone. The choice is shared through Firestore (`costSplits/<slug>`), seeded from any
   `perPerson` map in `data.json`. Give a flight a `cost` (and `currency`) for it to
-  count — flights carry no price otherwise.
+  count — flights carry no price otherwise. A hire with **no fee and nothing in the
+  driving log** reads "—" in both the summary and the split, not "MYR 0.00": nothing
+  priced is not the same claim as costing nothing, the same rule the accommodation and
+  activities pages follow. Each hire is costed **separately**, so a trip with two cars
+  shows each its own figure rather than the combined total on every row.
 - **Flights** — the full cards: terminals, duration, derived check-in time, and each
   flight's own note and tickets. The trip home page carries only a summary table
   (type, route, date, departure) and links here, so the booking detail lives in one
