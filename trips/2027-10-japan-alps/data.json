@@ -68,8 +68,8 @@
       },
       {
         "category": "Transport",
-        "perDay": 223.33,
-        "budget": 3573.27,
+        "perDay": 285.67,
+        "budget": 4570.69,
         "actual": null
       },
       {
@@ -787,12 +787,16 @@
       "summary": "Over to Hakuba, and an afternoon to settle in.",
       "items": [
         {
+          "time": "09:00",
+          "activity": "Collect the hire car at Nagano Station",
+          "costs": {},
+          "remarks": "The car covers the next six days — Hakuba, Matsumoto and Azumino — and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
+        },
+        {
           "time": "09:30",
-          "activity": "Check out and travel to Hakuba\nNagano Station -(Alpico Bus)> Hakuba Station",
-          "costs": {
-            "transport": 4800
-          },
-          "remarks": "75-80 minutes from Bus Stop No. 26 outside the East Exit. JPY 2,200-2,400 per person depending on where in Hakuba you get off; figure shown is two at the Happo rate. Pay the driver, cash or Visa touch. Check the timetable when planning the morning: the green season runs about seven buses a day against sixteen in winter, so the gaps are long."
+          "activity": "Check out and drive to Hakuba\nNagano Station -(Drive)> Hakuba Station",
+          "costs": {},
+          "remarks": "About 1h 15m. Driving also sidesteps the Alpico bus, which runs only about seven services a day in green season against sixteen in winter."
         },
         {
           "time": "11:30",
@@ -896,9 +900,9 @@
       "items": [
         {
           "time": "08:30",
-          "activity": "Travel to Tsugaike\nHotel -(Alpico Bus)> Tsugaike Kogen",
+          "activity": "Drive to Tsugaike\nHotel -(Drive)> Tsugaike Kogen",
           "costs": {},
-          "remarks": null
+          "remarks": "About 25 minutes, and the clearest case for having the car up here — the bus to Tsugaike is sparse."
         },
         {
           "time": "10:00",
@@ -910,7 +914,7 @@
         },
         {
           "time": "15:00",
-          "activity": "Travel to the hotel\nTsugaike Kogen -(Alpico Bus)> Hotel",
+          "activity": "Drive to the hotel\nTsugaike Kogen -(Drive)> Hotel",
           "costs": {},
           "remarks": null
         },
@@ -1004,9 +1008,9 @@
       "items": [
         {
           "time": "10:00",
-          "activity": "Check out and travel to Matsumoto\nHakuba Station -(JR Oito Line)> Matsumoto Station",
+          "activity": "Check out and drive to Matsumoto\nHakuba Station -(Drive)> Matsumoto Station",
           "costs": {},
-          "remarks": "About 1h 35m."
+          "remarks": "About 1h 30m down the valley. Confirm the hotel has parking when booking — this is the one stop on the driving stretch where it is not a given."
         },
         {
           "time": "12:00",
@@ -1073,19 +1077,15 @@
       "items": [
         {
           "time": "09:00",
-          "activity": "Travel to Hotaka\nMatsumoto Station -(JR Oito Line)> Hotaka Station",
-          "costs": {
-            "transport": 1400
-          },
-          "remarks": "30 minutes, JPY 350 per person each way. Figure shown is the return for two."
+          "activity": "Drive to Azumino\nHotel -(Drive)> Daio Wasabi Farm",
+          "costs": {},
+          "remarks": "About 30 minutes, and the day the car earns most of its keep: Azumino is spread out and its loop bus runs on selected days only, so the alternative is a train to Hotaka plus a bus that may not be running."
         },
         {
           "time": "09:45",
           "activity": "Explore Daio Wasabi Farm",
-          "costs": {
-            "transport": 2000
-          },
-          "remarks": "Japan's largest wasabi farm and free to enter; the cost here is the Azumino loop bus day pass, JPY 1,000 per person. Clear water channels, wasabi soft-serve, and autumn leaves along the streams. Azumino's own best season is late Sep to late Oct, so this lands well."
+          "costs": {},
+          "remarks": "Japan's largest wasabi farm and free to enter. Clear water channels, wasabi soft-serve, and autumn leaves along the streams. Azumino's own best season is late Sep to late Oct, so this lands well."
         },
         {
           "time": "13:00",
@@ -1095,7 +1095,7 @@
         },
         {
           "time": "16:00",
-          "activity": "Travel to Matsumoto\nHotaka Station -(JR Oito Line)> Matsumoto Station",
+          "activity": "Drive to the hotel\nDaio Wasabi Farm -(Drive)> Hotel",
           "costs": {},
           "remarks": null
         },
@@ -1144,6 +1144,12 @@
       ],
       "summary": "Over the pass into the onsen villages, for three nights.",
       "items": [
+        {
+          "time": "09:00",
+          "activity": "Return the hire car at Matsumoto Station",
+          "costs": {},
+          "remarks": "Six days, dropped in the prefecture it was collected in. Everything from here is public transport, and deliberately: Kamikochi bans private cars outright, the Nakasendo walk is point-to-point so a car would end up eight kilometres away, and the ride home is rail."
+        },
         {
           "time": "10:00",
           "activity": "Check out and travel to Okuhida\nMatsumoto Bus Terminal -(Alpico Bus)> Hirayu Onsen -(Nohi Bus)> Shin-Hotaka Onsen",
@@ -1835,8 +1841,92 @@
     }
   ],
   "transport": {
-    "mode": "Trains, buses, gondolas and ropeways throughout — no hire car. Private vehicles are banned in Kamikochi, and nothing else on the route needs one.",
-    "publicTransport": []
+    "mode": "Mixed on purpose. A hire car for the middle six days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. Rail and bus for everything else, because a car cannot help there: Kamikochi bans private vehicles, the Magome-Tsumago walk is point-to-point, and the long hauls at either end are faster by train.",
+    "carRental": [
+      {
+        "company": null,
+        "vehicle": null,
+        "reservation": {
+          "site": null,
+          "bookingNo": null,
+          "refs": []
+        },
+        "pickUp": {
+          "place": "Nagano Station",
+          "address": null,
+          "phone": null,
+          "date": "2027-10-17",
+          "time": "09:00"
+        },
+        "dropOff": {
+          "place": "Matsumoto Station",
+          "address": null,
+          "phone": null,
+          "date": "2027-10-23",
+          "time": "09:00"
+        },
+        "costs": {
+          "rental": null,
+          "fuel": null,
+          "toll": null,
+          "parking": null,
+          "others": null
+        },
+        "remarks": null
+      }
+    ],
+    "publicTransport": [],
+    "legs": [
+      {
+        "day": 3,
+        "date": "2027-10-17",
+        "route": "Nagano to Hakuba",
+        "km": null,
+        "refuel": false
+      },
+      {
+        "day": 4,
+        "date": "2027-10-18",
+        "route": "Hakuba — Happo-one",
+        "km": null,
+        "refuel": false
+      },
+      {
+        "day": 5,
+        "date": "2027-10-19",
+        "route": "Hakuba — Tsugaike Nature Park",
+        "km": null,
+        "refuel": false
+      },
+      {
+        "day": 6,
+        "date": "2027-10-20",
+        "route": "Hakuba — spare day",
+        "km": null,
+        "refuel": false
+      },
+      {
+        "day": 7,
+        "date": "2027-10-21",
+        "route": "Hakuba to Matsumoto",
+        "km": null,
+        "refuel": false
+      },
+      {
+        "day": 8,
+        "date": "2027-10-22",
+        "route": "Matsumoto — Azumino and the wasabi farm",
+        "km": null,
+        "refuel": false
+      },
+      {
+        "day": 9,
+        "date": "2027-10-23",
+        "route": "Matsumoto — return the car",
+        "km": null,
+        "refuel": false
+      }
+    ]
   },
   "activities": [],
   "todo": [
@@ -1918,6 +2008,22 @@
       "subcategory": "Transport",
       "status": "Open",
       "remarks": null,
+      "url": null
+    },
+    {
+      "task": "Book the hire car, Nagano 17 Oct to Matsumoto 23 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Six days. Collect at Nagano Station, drop at Matsumoto Station — same prefecture, so the one-way fee should be nil or near it; confirm that when booking rather than assuming. Ask two things at the desk: whether winter tyres are fitted by mid-October, since the Hakuba and Azumino roads run high, and whether an ETC card comes with it for the tolls.",
+      "url": null
+    },
+    {
+      "task": "Confirm parking at the Matsumoto hotel",
+      "category": "Booking",
+      "subcategory": "Accommodation",
+      "status": "Open",
+      "remarks": "The only stop on the driving stretch where parking is not a given — Hakuba properties almost always have it.",
       "url": null
     },
     {

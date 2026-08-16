@@ -3241,17 +3241,24 @@ const Trip = (() => {
       .map((f) => toHomeAmount(f.cost, f.currency || trip.homeCurrency))
       .filter((v) => v != null)
       .reduce((s, v) => s + v, 0);
-    const carCost = cars
-      .map((c) => {
-        const rental = (c.costs && c.costs.rental) != null ? c.costs.rental : c.total;
-        const run = ["fuel", "toll", "parking"]
-          .map((f) => legCostTotal(legs, f))
-          .concat([carOthers(c.recordKey || carRentalKey(c))])
-          .filter((v) => v != null)
-          .reduce((s, v) => s + v, 0);
-        return (rental || 0) + (run ? toHome(run, trip) || 0 : 0);
-      })
-      .reduce((s, v) => s + v, 0);
+    // What one hire has cost so far: the fee, plus fuel/tolls/parking rolled up from
+    // the driving log. Null — not zero — while none of that exists, so a hire that is
+    // planned but unbooked reads "—" rather than claiming to have been free. Per car
+    // rather than aggregated, because the split needs each row's own figure.
+    const carCostFor = (c) => {
+      const rental = (c.costs && c.costs.rental) != null ? c.costs.rental : c.total;
+      const parts = ["fuel", "toll", "parking"]
+        .map((f) => legCostTotal(legs, f))
+        .concat([carOthers(c.recordKey || carRentalKey(c))])
+        .filter((v) => v != null);
+      const run = parts.length ? parts.reduce((s, v) => s + v, 0) : null;
+      if (rental == null && run == null) return null;
+      return (rental || 0) + (run != null ? toHome(run, trip) || 0 : 0);
+    };
+    const carCosts = cars.map(carCostFor);
+    const carCost = carCosts.some((v) => v != null)
+      ? carCosts.filter((v) => v != null).reduce((s, v) => s + v, 0)
+      : null;
     const ptCost = pts
       .map((p) => toHomeAmount(p.total, p.currency || trip.homeCurrency))
       .filter((v) => v != null)
@@ -3276,10 +3283,10 @@ const Trip = (() => {
         }))
       )
       .concat(
-        cars.map((c) => ({
+        cars.map((c, i) => ({
           key: c.recordKey || carRentalKey(c),
           label: `Car rental — ${c.company || ""}`,
-          total: carCost,
+          total: carCosts[i],
           perPerson: c.perPerson,
         }))
       )
