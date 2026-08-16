@@ -56,6 +56,13 @@ PLACES = {
     "Azumino": (36.2882, 137.8871, "Azumino, Nagano (568 m)"),
     "Tsumago": (35.5770, 137.5954, "Tsumago, Nagano (423 m)"),
     "Nagoya": (35.1815, 136.9064, "Nagoya, Aichi (23 m)"),
+    "Nagano": (36.6500, 138.1833, "Nagano, Nagano (372 m)"),
+    # Pinned to Hokosha, the lowest of Togakushi's five shrines. The geocoder offers
+    # nothing at Chusha or Okusha, where a visit actually spends its day at roughly
+    # 1,200-1,350 m, so this reads a degree or two warm for the upper end. Better than
+    # the alternatives it returned: Togakushi-toyooka sits at 745 m, well below the
+    # plateau, and Togakushi Yama is the 1,878 m summit.
+    "Togakushi": (36.7299, 138.0783, "Hokosha, Nagano (1043 m)"),
 }
 
 # tenki.jp prefecture forecast pages, grouped by the prefecture each place sits in.
@@ -83,7 +90,7 @@ TENKI = {
     "Takayama": _GIFU, "Okuhida": _GIFU, "Shinhotaka": _GIFU,
     "Omachi": _NAGANO, "Hakuba": _NAGANO, "Matsumoto": _NAGANO,
     "Kamikochi": _NAGANO, "Narai": _NAGANO, "Tsumago": _NAGANO,
-    "Azumino": _NAGANO,
+    "Azumino": _NAGANO, "Nagano": _NAGANO, "Togakushi": _NAGANO,
     "Nagoya": _AICHI,
 }
 
