@@ -3,13 +3,13 @@
   "title": "Japan — Northern Alps in autumn",
   "destination": "Japan",
   "emoji": "🍁",
-  "startDate": "2027-10-15",
-  "endDate": "2027-10-30",
+  "startDate": "2027-10-08",
+  "endDate": "2027-10-23",
   "travelers": [
     "CMC",
     "Traveller 2"
   ],
-  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, opening with a night at Nagano for Zenkoji and closing with one in Tokyo. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes the Kiso valley and Kamikochi's larch at their best and accepts Hakuba past its peak, with the colour down at the mid-mountain and the village. It also sits clear of the Sports Day holiday weekend entirely. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
+  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, opening with a night at Nagano for Zenkoji and closing with one in Tokyo. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes Hakuba at its best and accepts the Kiso valley before its peak and Kamikochi in maples rather than golden larch. Happo Pond decided it: reported at peak on 11 Oct in both 2024 and 2025, and it gets four nights and two headline walks here. The cost is Sports Day on 11 Oct, which the Hakuba days are ordered around — the blank day sits on the holiday and both walks on the ordinary weekdays after it. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
   "exchangeRate": {
@@ -23,7 +23,7 @@
   "flights": [
     {
       "type": "Outbound",
-      "date": "2027-10-15",
+      "date": "2027-10-08",
       "from": "Kuala Lumpur (KUL)",
       "fromTerminal": null,
       "to": "Tokyo Haneda (HND)",
@@ -41,7 +41,7 @@
     },
     {
       "type": "Return",
-      "date": "2027-10-30",
+      "date": "2027-10-23",
       "from": "Tokyo Haneda (HND)",
       "fromTerminal": null,
       "to": "Kuala Lumpur (KUL)",
@@ -96,7 +96,7 @@
     {
       "day": 1,
       "weekday": "Friday",
-      "date": "2027-10-15",
+      "date": "2027-10-08",
       "city": "Tokyo",
       "morning": "Pack and travel to KLIA",
       "afternoon": "Fly Kuala Lumpur to Tokyo (NH886, 14:15 - 22:15)",
@@ -105,24 +105,24 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 15.2,
-          "max": 19.9,
+          "min": 18.6,
+          "max": 28.2,
           "note": null,
-          "feelsMin": 15.3,
-          "feelsMax": 20.3,
-          "condition": "Light rain",
-          "wind": 12.7,
-          "sunrise": "05:47",
-          "sunset": "17:06",
+          "feelsMin": 19.4,
+          "feelsMax": 30.3,
+          "condition": "Overcast",
+          "wind": 9.4,
+          "sunrise": "05:41",
+          "sunset": "17:15",
           "basis": "historical",
-          "basisDate": "2025-10-15"
+          "basisDate": "2025-10-08"
         }
       ]
     },
     {
       "day": 2,
       "weekday": "Saturday",
-      "date": "2027-10-16",
+      "date": "2027-10-09",
       "city": "Nagano",
       "morning": "Breakfast\nCheck out\nTravel to Tokyo Station",
       "afternoon": "Travel to Nagano\nCheck in\nLunch at Nagano",
@@ -131,38 +131,38 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 16.3,
-          "max": 22.9,
+          "min": 17.5,
+          "max": 23.7,
           "note": null,
-          "feelsMin": 16.8,
-          "feelsMax": 24.7,
-          "condition": "Rain",
-          "wind": 13.3,
-          "sunrise": "05:48",
-          "sunset": "17:05",
+          "feelsMin": 16.4,
+          "feelsMax": 26.4,
+          "condition": "Overcast",
+          "wind": 23.1,
+          "sunrise": "05:42",
+          "sunset": "17:14",
           "basis": "historical",
-          "basisDate": "2025-10-16"
+          "basisDate": "2025-10-09"
         },
         {
           "location": "Nagano",
-          "min": 17.3,
-          "max": 24.6,
+          "min": 14.2,
+          "max": 20.1,
           "note": null,
-          "feelsMin": 18.0,
-          "feelsMax": 25.3,
-          "condition": "Rain",
-          "wind": 11.8,
-          "sunrise": "05:55",
-          "sunset": "17:10",
+          "feelsMin": 14.0,
+          "feelsMax": 19.0,
+          "condition": "Overcast",
+          "wind": 16.1,
+          "sunrise": "05:49",
+          "sunset": "17:19",
           "basis": "historical",
-          "basisDate": "2025-10-16"
+          "basisDate": "2025-10-09"
         }
       ]
     },
     {
       "day": 3,
       "weekday": "Sunday",
-      "date": "2027-10-17",
+      "date": "2027-10-10",
       "city": "Hakuba",
       "morning": "Check out\nTravel to Hakuba",
       "afternoon": "Check in\nExplore Hakuba village",
@@ -171,90 +171,38 @@
       "temperature": [
         {
           "location": "Nagano",
-          "min": 14.2,
-          "max": 21.6,
+          "min": 12.0,
+          "max": 21.5,
           "note": null,
-          "feelsMin": 14.6,
-          "feelsMax": 22.7,
-          "condition": "Light rain",
-          "wind": 12.6,
-          "sunrise": "05:56",
-          "sunset": "17:08",
+          "feelsMin": 12.0,
+          "feelsMax": 21.0,
+          "condition": "Overcast",
+          "wind": 11.6,
+          "sunrise": "05:49",
+          "sunset": "17:18",
           "basis": "historical",
-          "basisDate": "2025-10-17"
+          "basisDate": "2025-10-10"
         },
         {
           "location": "Hakuba",
-          "min": 12.6,
-          "max": 20.3,
+          "min": 10.6,
+          "max": 19.0,
           "note": null,
-          "feelsMin": 11.6,
-          "feelsMax": 20.0,
-          "condition": "Drizzle",
-          "wind": 6.8,
-          "sunrise": "05:57",
-          "sunset": "17:10",
+          "feelsMin": 10.3,
+          "feelsMax": 19.2,
+          "condition": "Light drizzle",
+          "wind": 9.7,
+          "sunrise": "05:51",
+          "sunset": "17:19",
           "basis": "historical",
-          "basisDate": "2025-10-17"
+          "basisDate": "2025-10-10"
         }
       ]
     },
     {
       "day": 4,
       "weekday": "Monday",
-      "date": "2027-10-18",
-      "city": "Hakuba",
-      "morning": "Travel to Happo-one\nExplore Happo-one",
-      "afternoon": "Hike to Happo Pond",
-      "evening": "Onsen at Hakuba\nDinner at Hakuba",
-      "remarks": null,
-      "temperature": [
-        {
-          "location": "Hakuba",
-          "min": 11.6,
-          "max": 23.2,
-          "note": null,
-          "feelsMin": 11.7,
-          "feelsMax": 24.0,
-          "condition": "Rain",
-          "wind": 10.7,
-          "sunrise": "05:58",
-          "sunset": "17:08",
-          "basis": "historical",
-          "basisDate": "2025-10-18"
-        }
-      ]
-    },
-    {
-      "day": 5,
-      "weekday": "Tuesday",
-      "date": "2027-10-19",
-      "city": "Hakuba",
-      "morning": "Travel to Tsugaike\nExplore Tsugaike Nature Park",
-      "afternoon": "Explore Tsugaike Nature Park\nTravel to the hotel",
-      "evening": "Onsen at Hakuba\nDinner at Hakuba",
-      "remarks": null,
-      "temperature": [
-        {
-          "location": "Hakuba",
-          "min": 13.4,
-          "max": 17.1,
-          "note": null,
-          "feelsMin": 13.6,
-          "feelsMax": 17.0,
-          "condition": "Light drizzle",
-          "wind": 8.4,
-          "sunrise": "05:59",
-          "sunset": "17:07",
-          "basis": "historical",
-          "basisDate": "2025-10-19"
-        }
-      ]
-    },
-    {
-      "day": 6,
-      "weekday": "Wednesday",
-      "date": "2027-10-20",
+      "date": "2027-10-11",
       "city": "Hakuba",
       "morning": "Free and easy",
       "afternoon": "Explore Hakuba",
@@ -263,24 +211,76 @@
       "temperature": [
         {
           "location": "Hakuba",
-          "min": 10.2,
-          "max": 19.3,
+          "min": 13.6,
+          "max": 15.6,
           "note": null,
-          "feelsMin": 8.1,
-          "feelsMax": 19.4,
-          "condition": "Drizzle",
-          "wind": 15.4,
-          "sunrise": "06:00",
-          "sunset": "17:06",
+          "feelsMin": 14.4,
+          "feelsMax": 16.8,
+          "condition": "Light rain",
+          "wind": 5.0,
+          "sunrise": "05:52",
+          "sunset": "17:18",
           "basis": "historical",
-          "basisDate": "2025-10-20"
+          "basisDate": "2025-10-11"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "weekday": "Tuesday",
+      "date": "2027-10-12",
+      "city": "Hakuba",
+      "morning": "Travel to Happo-one\nExplore Happo-one",
+      "afternoon": "Hike to Happo Pond",
+      "evening": "Onsen at Hakuba\nDinner at Hakuba",
+      "remarks": null,
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": 15.5,
+          "max": 25.7,
+          "note": null,
+          "feelsMin": 16.7,
+          "feelsMax": 28.7,
+          "condition": "Heavy drizzle",
+          "wind": 5.7,
+          "sunrise": "05:53",
+          "sunset": "17:16",
+          "basis": "historical",
+          "basisDate": "2025-10-12"
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "weekday": "Wednesday",
+      "date": "2027-10-13",
+      "city": "Hakuba",
+      "morning": "Travel to Tsugaike\nExplore Tsugaike Nature Park",
+      "afternoon": "Explore Tsugaike Nature Park\nTravel to the hotel",
+      "evening": "Onsen at Hakuba\nDinner at Hakuba",
+      "remarks": null,
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": 15.3,
+          "max": 20.1,
+          "note": null,
+          "feelsMin": 16.6,
+          "feelsMax": 21.1,
+          "condition": "Light drizzle",
+          "wind": 9.2,
+          "sunrise": "05:54",
+          "sunset": "17:15",
+          "basis": "historical",
+          "basisDate": "2025-10-13"
         }
       ]
     },
     {
       "day": 7,
       "weekday": "Thursday",
-      "date": "2027-10-21",
+      "date": "2027-10-14",
       "city": "Matsumoto",
       "morning": "Check out\nTravel to Matsumoto",
       "afternoon": "Check in\nExplore Matsumoto Castle",
@@ -289,38 +289,38 @@
       "temperature": [
         {
           "location": "Hakuba",
-          "min": 8.8,
-          "max": 15.1,
+          "min": 13.2,
+          "max": 16.4,
           "note": null,
-          "feelsMin": 7.0,
-          "feelsMax": 13.1,
-          "condition": "Overcast",
-          "wind": 6.4,
-          "sunrise": "06:01",
-          "sunset": "17:04",
+          "feelsMin": 13.4,
+          "feelsMax": 17.7,
+          "condition": "Rain",
+          "wind": 6.0,
+          "sunrise": "05:54",
+          "sunset": "17:14",
           "basis": "historical",
-          "basisDate": "2025-10-21"
+          "basisDate": "2025-10-14"
         },
         {
           "location": "Matsumoto",
-          "min": 7.5,
-          "max": 13.0,
+          "min": 12.5,
+          "max": 19.4,
           "note": null,
-          "feelsMin": 4.9,
-          "feelsMax": 10.8,
-          "condition": "Drizzle",
-          "wind": 9.2,
-          "sunrise": "06:00",
-          "sunset": "17:05",
+          "feelsMin": 12.0,
+          "feelsMax": 20.2,
+          "condition": "Rain",
+          "wind": 10.4,
+          "sunrise": "05:54",
+          "sunset": "17:14",
           "basis": "historical",
-          "basisDate": "2025-10-21"
+          "basisDate": "2025-10-14"
         }
       ]
     },
     {
       "day": 8,
       "weekday": "Friday",
-      "date": "2027-10-22",
+      "date": "2027-10-15",
       "city": "Azumino",
       "morning": "Travel to Hotaka\nExplore Daio Wasabi Farm",
       "afternoon": "Explore Azumino\nTravel to Matsumoto",
@@ -329,38 +329,38 @@
       "temperature": [
         {
           "location": "Matsumoto",
-          "min": 7.1,
-          "max": 10.1,
+          "min": 12.6,
+          "max": 22.7,
           "note": null,
-          "feelsMin": 4.3,
-          "feelsMax": 8.4,
-          "condition": "Light drizzle",
-          "wind": 9.1,
-          "sunrise": "06:01",
-          "sunset": "17:03",
+          "feelsMin": 13.0,
+          "feelsMax": 23.3,
+          "condition": "Rain",
+          "wind": 7.1,
+          "sunrise": "05:55",
+          "sunset": "17:12",
           "basis": "historical",
-          "basisDate": "2025-10-22"
+          "basisDate": "2025-10-15"
         },
         {
           "location": "Azumino",
-          "min": 7.1,
-          "max": 10.3,
+          "min": 12.2,
+          "max": 22.5,
           "note": null,
-          "feelsMin": 4.2,
-          "feelsMax": 8.6,
-          "condition": "Light drizzle",
-          "wind": 9.0,
-          "sunrise": "06:01",
-          "sunset": "17:03",
+          "feelsMin": 12.4,
+          "feelsMax": 23.0,
+          "condition": "Rain",
+          "wind": 6.1,
+          "sunrise": "05:55",
+          "sunset": "17:12",
           "basis": "historical",
-          "basisDate": "2025-10-22"
+          "basisDate": "2025-10-15"
         }
       ]
     },
     {
       "day": 9,
       "weekday": "Saturday",
-      "date": "2027-10-23",
+      "date": "2027-10-16",
       "city": "Okuhida",
       "morning": "Check out\nTravel to Okuhida",
       "afternoon": "Check in\nExplore Shin-Hotaka Onsen",
@@ -369,38 +369,38 @@
       "temperature": [
         {
           "location": "Matsumoto",
-          "min": 5.4,
-          "max": 16.3,
+          "min": 16.4,
+          "max": 23.3,
           "note": null,
-          "feelsMin": 3.0,
-          "feelsMax": 14.2,
-          "condition": "Overcast",
-          "wind": 8.0,
-          "sunrise": "06:02",
-          "sunset": "17:02",
+          "feelsMin": 16.9,
+          "feelsMax": 22.5,
+          "condition": "Light rain",
+          "wind": 22.1,
+          "sunrise": "05:55",
+          "sunset": "17:11",
           "basis": "historical",
-          "basisDate": "2025-10-23"
+          "basisDate": "2025-10-16"
         },
         {
           "location": "Okuhida",
-          "min": 3.9,
-          "max": 13.8,
+          "min": 14.5,
+          "max": 19.3,
           "note": null,
-          "feelsMin": 1.6,
-          "feelsMax": 11.6,
-          "condition": "Overcast",
-          "wind": 10.9,
-          "sunrise": "06:04",
-          "sunset": "17:04",
+          "feelsMin": 14.8,
+          "feelsMax": 19.9,
+          "condition": "Rain",
+          "wind": 14.5,
+          "sunrise": "05:57",
+          "sunset": "17:13",
           "basis": "historical",
-          "basisDate": "2025-10-23"
+          "basisDate": "2025-10-16"
         }
       ]
     },
     {
       "day": 10,
       "weekday": "Sunday",
-      "date": "2027-10-24",
+      "date": "2027-10-17",
       "city": "Okuhida",
       "morning": "Explore Shinhotaka Ropeway",
       "afternoon": "Explore Shinhotaka\nTravel to the hotel",
@@ -409,24 +409,24 @@
       "temperature": [
         {
           "location": "Okuhida",
-          "min": 2.2,
-          "max": 13.7,
+          "min": 11.4,
+          "max": 20.6,
           "note": null,
-          "feelsMin": -0.4,
-          "feelsMax": 11.4,
-          "condition": "Overcast",
-          "wind": 8.4,
-          "sunrise": "06:05",
-          "sunset": "17:03",
+          "feelsMin": 11.3,
+          "feelsMax": 21.0,
+          "condition": "Light drizzle",
+          "wind": 10.2,
+          "sunrise": "05:58",
+          "sunset": "17:12",
           "basis": "historical",
-          "basisDate": "2025-10-24"
+          "basisDate": "2025-10-17"
         }
       ]
     },
     {
       "day": 11,
       "weekday": "Monday",
-      "date": "2027-10-25",
+      "date": "2027-10-18",
       "city": "Okuhida",
       "morning": "Free and easy",
       "afternoon": "Explore Hirayu Great Falls",
@@ -435,24 +435,24 @@
       "temperature": [
         {
           "location": "Okuhida",
-          "min": 6.6,
-          "max": 16.8,
+          "min": 10.7,
+          "max": 19.5,
           "note": null,
-          "feelsMin": 4.7,
-          "feelsMax": 15.3,
-          "condition": "Drizzle",
-          "wind": 8.8,
-          "sunrise": "06:06",
-          "sunset": "17:02",
+          "feelsMin": 10.2,
+          "feelsMax": 18.7,
+          "condition": "Heavy drizzle",
+          "wind": 11.0,
+          "sunrise": "05:59",
+          "sunset": "17:11",
           "basis": "historical",
-          "basisDate": "2025-10-25"
+          "basisDate": "2025-10-18"
         }
       ]
     },
     {
       "day": 12,
       "weekday": "Tuesday",
-      "date": "2027-10-26",
+      "date": "2027-10-19",
       "city": "Kamikochi",
       "morning": "Check out\nTravel to Kamikochi",
       "afternoon": "Check in\nExplore Taisho Pond\nExplore Kappa Bridge",
@@ -461,17 +461,17 @@
       "temperature": [
         {
           "location": "Okuhida",
-          "min": 11.3,
-          "max": 16.5,
+          "min": 12.3,
+          "max": 17.4,
           "note": null,
-          "feelsMin": 10.9,
-          "feelsMax": 17.6,
-          "condition": "Rain",
-          "wind": 7.2,
-          "sunrise": "06:07",
-          "sunset": "17:01",
+          "feelsMin": 12.5,
+          "feelsMax": 16.7,
+          "condition": "Drizzle",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:09",
           "basis": "historical",
-          "basisDate": "2025-10-26"
+          "basisDate": "2025-10-19"
         },
         {
           "location": "Kamikochi",
@@ -484,7 +484,7 @@
     {
       "day": 13,
       "weekday": "Wednesday",
-      "date": "2027-10-27",
+      "date": "2027-10-20",
       "city": "Kiso Valley",
       "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond",
       "afternoon": "Check out\nTravel to Tsumago",
@@ -499,38 +499,38 @@
         },
         {
           "location": "Matsumoto",
-          "min": 9.4,
-          "max": 18.6,
+          "min": 9.9,
+          "max": 18.2,
           "note": null,
-          "feelsMin": 6.4,
-          "feelsMax": 15.4,
-          "condition": "Light drizzle",
-          "wind": 19.9,
-          "sunrise": "06:06",
-          "sunset": "16:57",
+          "feelsMin": 8.0,
+          "feelsMax": 17.5,
+          "condition": "Light rain",
+          "wind": 14.8,
+          "sunrise": "05:59",
+          "sunset": "17:06",
           "basis": "historical",
-          "basisDate": "2025-10-27"
+          "basisDate": "2025-10-20"
         },
         {
           "location": "Tsumago",
-          "min": 9.5,
-          "max": 19.2,
+          "min": 15.5,
+          "max": 22.2,
           "note": null,
-          "feelsMin": 8.2,
-          "feelsMax": 17.8,
-          "condition": "Drizzle",
-          "wind": 16.6,
-          "sunrise": "06:07",
-          "sunset": "17:00",
+          "feelsMin": 14.5,
+          "feelsMax": 23.7,
+          "condition": "Rain",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:08",
           "basis": "historical",
-          "basisDate": "2025-10-27"
+          "basisDate": "2025-10-20"
         }
       ]
     },
     {
       "day": 14,
       "weekday": "Thursday",
-      "date": "2027-10-28",
+      "date": "2027-10-21",
       "city": "Kiso Valley",
       "morning": "Travel to Magome\nExplore Magome-juku",
       "afternoon": "Hike the Nakasendo to Tsumago",
@@ -539,24 +539,24 @@
       "temperature": [
         {
           "location": "Tsumago",
-          "min": 4.7,
-          "max": 16.1,
+          "min": 11.1,
+          "max": 18.5,
           "note": null,
-          "feelsMin": 1.7,
-          "feelsMax": 13.0,
-          "condition": "Partly cloudy",
-          "wind": 12.5,
-          "sunrise": "06:07",
-          "sunset": "16:59",
+          "feelsMin": 9.4,
+          "feelsMax": 17.8,
+          "condition": "Overcast",
+          "wind": 9.9,
+          "sunrise": "06:01",
+          "sunset": "17:07",
           "basis": "historical",
-          "basisDate": "2025-10-28"
+          "basisDate": "2025-10-21"
         }
       ]
     },
     {
       "day": 15,
       "weekday": "Friday",
-      "date": "2027-10-29",
+      "date": "2027-10-22",
       "city": "Tokyo",
       "morning": "Free and easy\nCheck out\nTravel to Tokyo",
       "afternoon": "Travel to Tokyo\nCheck in",
@@ -565,38 +565,38 @@
       "temperature": [
         {
           "location": "Tsumago",
-          "min": 3.6,
-          "max": 18.1,
+          "min": 11.3,
+          "max": 15.5,
           "note": null,
-          "feelsMin": -0.4,
-          "feelsMax": 15.6,
-          "condition": "Overcast",
-          "wind": 12.0,
-          "sunrise": "06:08",
-          "sunset": "16:58",
+          "feelsMin": 9.3,
+          "feelsMax": 15.1,
+          "condition": "Light drizzle",
+          "wind": 8.4,
+          "sunrise": "06:02",
+          "sunset": "17:06",
           "basis": "historical",
-          "basisDate": "2025-10-29"
+          "basisDate": "2025-10-22"
         },
         {
           "location": "Tokyo",
-          "min": 11.2,
-          "max": 15.7,
+          "min": 11.4,
+          "max": 14.2,
           "note": null,
-          "feelsMin": 7.6,
-          "feelsMax": 13.8,
-          "condition": "Overcast",
-          "wind": 16.2,
-          "sunrise": "06:00",
-          "sunset": "16:49",
+          "feelsMin": 9.9,
+          "feelsMax": 13.2,
+          "condition": "Light rain",
+          "wind": 10.5,
+          "sunrise": "05:53",
+          "sunset": "16:57",
           "basis": "historical",
-          "basisDate": "2025-10-29"
+          "basisDate": "2025-10-22"
         }
       ]
     },
     {
       "day": 16,
       "weekday": "Saturday",
-      "date": "2027-10-30",
+      "date": "2027-10-23",
       "city": "Departure",
       "morning": "Check out\nLeave luggage at the hotel",
       "afternoon": "Explore Tokyo\nShopping",
@@ -605,17 +605,17 @@
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 7.9,
-          "max": 17.3,
+          "min": 11.3,
+          "max": 17.6,
           "note": null,
-          "feelsMin": 5.2,
-          "feelsMax": 15.8,
-          "condition": "Overcast",
-          "wind": 12.9,
-          "sunrise": "06:01",
-          "sunset": "16:48",
+          "feelsMin": 9.3,
+          "feelsMax": 15.9,
+          "condition": "Light drizzle",
+          "wind": 11.5,
+          "sunrise": "05:54",
+          "sunset": "16:56",
           "basis": "historical",
-          "basisDate": "2025-10-30"
+          "basisDate": "2025-10-23"
         }
       ]
     }
@@ -623,23 +623,23 @@
   "days": [
     {
       "day": 1,
-      "date": "2027-10-15",
+      "date": "2027-10-08",
       "city": "Tokyo",
       "weekday": "Friday",
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 15.2,
-          "max": 19.9,
+          "min": 18.6,
+          "max": 28.2,
           "note": null,
-          "feelsMin": 15.3,
-          "feelsMax": 20.3,
-          "condition": "Light rain",
-          "wind": 12.7,
-          "sunrise": "05:47",
-          "sunset": "17:06",
+          "feelsMin": 19.4,
+          "feelsMax": 30.3,
+          "condition": "Overcast",
+          "wind": 9.4,
+          "sunrise": "05:41",
+          "sunset": "17:15",
           "basis": "historical",
-          "basisDate": "2025-10-15"
+          "basisDate": "2025-10-08"
         }
       ],
       "summary": "Arrival only — nothing planned, so the first full day starts rested.",
@@ -672,37 +672,37 @@
     },
     {
       "day": 2,
-      "date": "2027-10-16",
+      "date": "2027-10-09",
       "city": "Nagano",
       "weekday": "Saturday",
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 16.3,
-          "max": 22.9,
+          "min": 17.5,
+          "max": 23.7,
           "note": null,
-          "feelsMin": 16.8,
-          "feelsMax": 24.7,
-          "condition": "Rain",
-          "wind": 13.3,
-          "sunrise": "05:48",
-          "sunset": "17:05",
+          "feelsMin": 16.4,
+          "feelsMax": 26.4,
+          "condition": "Overcast",
+          "wind": 23.1,
+          "sunrise": "05:42",
+          "sunset": "17:14",
           "basis": "historical",
-          "basisDate": "2025-10-16"
+          "basisDate": "2025-10-09"
         },
         {
           "location": "Nagano",
-          "min": 17.3,
-          "max": 24.6,
+          "min": 14.2,
+          "max": 20.1,
           "note": null,
-          "feelsMin": 18.0,
-          "feelsMax": 25.3,
-          "condition": "Rain",
-          "wind": 11.8,
-          "sunrise": "05:55",
-          "sunset": "17:10",
+          "feelsMin": 14.0,
+          "feelsMax": 19.0,
+          "condition": "Overcast",
+          "wind": 16.1,
+          "sunrise": "05:49",
+          "sunset": "17:19",
           "basis": "historical",
-          "basisDate": "2025-10-16"
+          "basisDate": "2025-10-09"
         }
       ],
       "summary": "Tokyo to Nagano, and an afternoon at Zenkoji.",
@@ -751,37 +751,37 @@
     },
     {
       "day": 3,
-      "date": "2027-10-17",
+      "date": "2027-10-10",
       "city": "Hakuba",
       "weekday": "Sunday",
       "temperature": [
         {
           "location": "Nagano",
-          "min": 14.2,
-          "max": 21.6,
+          "min": 12.0,
+          "max": 21.5,
           "note": null,
-          "feelsMin": 14.6,
-          "feelsMax": 22.7,
-          "condition": "Light rain",
-          "wind": 12.6,
-          "sunrise": "05:56",
-          "sunset": "17:08",
+          "feelsMin": 12.0,
+          "feelsMax": 21.0,
+          "condition": "Overcast",
+          "wind": 11.6,
+          "sunrise": "05:49",
+          "sunset": "17:18",
           "basis": "historical",
-          "basisDate": "2025-10-17"
+          "basisDate": "2025-10-10"
         },
         {
           "location": "Hakuba",
-          "min": 12.6,
-          "max": 20.3,
+          "min": 10.6,
+          "max": 19.0,
           "note": null,
-          "feelsMin": 11.6,
-          "feelsMax": 20.0,
-          "condition": "Drizzle",
-          "wind": 6.8,
-          "sunrise": "05:57",
-          "sunset": "17:10",
+          "feelsMin": 10.3,
+          "feelsMax": 19.2,
+          "condition": "Light drizzle",
+          "wind": 9.7,
+          "sunrise": "05:51",
+          "sunset": "17:19",
           "basis": "historical",
-          "basisDate": "2025-10-17"
+          "basisDate": "2025-10-10"
         }
       ],
       "summary": "Over to Hakuba, and an afternoon to settle in.",
@@ -796,7 +796,7 @@
           "time": "09:30",
           "activity": "Check out and drive to Hakuba\nNagano Station -(Drive)> Hakuba Station",
           "costs": {},
-          "remarks": "About 1h 15m. Driving also sidesteps the Alpico bus, which runs only about seven services a day in green season against sixteen in winter."
+          "remarks": "About 1h 15m. This is the Sunday of a three-day weekend — Sports Day falls tomorrow — so expect the road north to be busy and leave a margin. Having the car at all is worth more than usual today: the Alpico bus runs about seven services a day in green season and they will be full."
         },
         {
           "time": "11:30",
@@ -808,7 +808,7 @@
           "time": "13:00",
           "activity": "Explore Hakuba village",
           "costs": {},
-          "remarks": "A deliberately light afternoon. If the forecast for the next two days looks poor and today is clear, this is the afternoon to bring Happo Pond forward into — the gondola runs until about 16:00, so it can be done from here."
+          "remarks": null
         },
         {
           "time": "18:00",
@@ -820,30 +820,73 @@
     },
     {
       "day": 4,
-      "date": "2027-10-18",
+      "date": "2027-10-11",
       "city": "Hakuba",
       "weekday": "Monday",
       "temperature": [
         {
           "location": "Hakuba",
-          "min": 11.6,
-          "max": 23.2,
+          "min": 13.6,
+          "max": 15.6,
           "note": null,
-          "feelsMin": 11.7,
-          "feelsMax": 24.0,
-          "condition": "Rain",
-          "wind": 10.7,
-          "sunrise": "05:58",
-          "sunset": "17:08",
+          "feelsMin": 14.4,
+          "feelsMax": 16.8,
+          "condition": "Light rain",
+          "wind": 5.0,
+          "sunrise": "05:52",
+          "sunset": "17:18",
           "basis": "historical",
-          "basisDate": "2025-10-18"
+          "basisDate": "2025-10-11"
         }
       ],
-      "summary": "The classic Hakuba walk.",
+      "summary": "Sports Day — deliberately the empty one.",
+      "items": [
+        {
+          "time": "09:00",
+          "activity": "Free and easy",
+          "costs": {},
+          "remarks": "Today is Sports Day, a national holiday and the busiest day of the month in a resort valley. Both headline walks sit on the two ordinary weekdays after it rather than on it, which costs a day of colour and saves the crowds — the trade is worth it because Happo Pond holds for another week and a holiday queue does not improve."
+        },
+        {
+          "time": "13:00",
+          "activity": "Explore Hakuba",
+          "costs": {},
+          "remarks": "Low-key by design: Iwatake's mountain harbour, the terraced village at Aoni-daira, or the Goryu botanical garden. Or the bath and nothing else."
+        },
+        {
+          "time": "18:00",
+          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "date": "2027-10-12",
+      "city": "Hakuba",
+      "weekday": "Tuesday",
+      "temperature": [
+        {
+          "location": "Hakuba",
+          "min": 15.5,
+          "max": 25.7,
+          "note": null,
+          "feelsMin": 16.7,
+          "feelsMax": 28.7,
+          "condition": "Heavy drizzle",
+          "wind": 5.7,
+          "sunrise": "05:53",
+          "sunset": "17:16",
+          "basis": "historical",
+          "basisDate": "2025-10-12"
+        }
+      ],
+      "summary": "The classic Hakuba walk, on the best date the trip can give it.",
       "items": [
         {
           "time": "08:30",
-          "activity": "Travel to Happo-one\nHotel -(Walk)> Happo Information Center -(Walk)> Happo Gondola Adam",
+          "activity": "Drive to Happo-one\nHotel -(Drive)> Happo Gondola Adam",
           "costs": {},
           "remarks": null
         },
@@ -859,11 +902,11 @@
           "time": "11:00",
           "activity": "Hike to Happo Pond\nHappo-one Kurobishidaira -(Hike - 75 mins)> Happo Pond",
           "costs": {},
-          "remarks": "About 200 m of ascent, 45-90 minutes each way on a rocky ridge path, same route back, with the pond at 2,060 m and the Northern Alps behind it. On timing there are two dated observations rather than a rule of thumb: the pond was reported at peak on 11 Oct in both 2024 and 2025, and in 2025 Hakuba village's own tourist information centre expected the colour to hold through around 20 Oct. Today is the 18th — the tail of the season rather than its peak, but inside the window a local source named, which is a better bet than the general 'late Sep to early Oct' figure suggests. If the morning looks grey, swap with tomorrow: Tsugaike reads better in flat light than the pond does."
+          "remarks": "About 200 m of ascent, 45-90 minutes each way on a rocky ridge path, same route back, with the pond at 2,060 m and the Northern Alps behind it. This is why the trip sits where it does: the pond was reported at peak on 11 Oct in both 2024 and 2025, so today is a single day past two years of observed peak — and on an ordinary Tuesday rather than yesterday's holiday. If the morning looks grey, swap with tomorrow; Tsugaike reads better in flat light than the pond does, and the spare day is already spent."
         },
         {
           "time": "16:00",
-          "activity": "Travel to the hotel",
+          "activity": "Drive to the hotel",
           "costs": {},
           "remarks": null
         },
@@ -876,24 +919,24 @@
       ]
     },
     {
-      "day": 5,
-      "date": "2027-10-19",
+      "day": 6,
+      "date": "2027-10-13",
       "city": "Hakuba",
-      "weekday": "Tuesday",
+      "weekday": "Wednesday",
       "temperature": [
         {
           "location": "Hakuba",
-          "min": 13.4,
-          "max": 17.1,
+          "min": 15.3,
+          "max": 20.1,
           "note": null,
-          "feelsMin": 13.6,
-          "feelsMax": 17.0,
+          "feelsMin": 16.6,
+          "feelsMax": 21.1,
           "condition": "Light drizzle",
-          "wind": 8.4,
-          "sunrise": "05:59",
-          "sunset": "17:07",
+          "wind": 9.2,
+          "sunrise": "05:54",
+          "sunset": "17:15",
           "basis": "historical",
-          "basisDate": "2025-10-19"
+          "basisDate": "2025-10-13"
         }
       ],
       "summary": "Boardwalks over four marshes, at your own speed.",
@@ -910,7 +953,7 @@
           "costs": {
             "sightseeing": 7400
           },
-          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Same caveat as Happo Pond and more so — this is the weaker of the two Hakuba days. The Japanese sources put Tsugaike's peak at late Sep to early Oct, and nobody publishes a 'good until' date for it the way Hakuba does for Happo Pond. The boardwalks and the views hold up regardless. Confirm the gondola is not in its late-October maintenance window."
+          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Still the weaker of the two Hakuba days: the Japanese sources put Tsugaike's peak at late Sep to early Oct and nobody publishes a 'good until' date for it the way Hakuba does for Happo Pond — but the 13th is far closer to that than the trip's earlier dates were. Confirm the gondola is not in its late-October maintenance window."
         },
         {
           "time": "15:00",
@@ -927,81 +970,38 @@
       ]
     },
     {
-      "day": 6,
-      "date": "2027-10-20",
-      "city": "Hakuba",
-      "weekday": "Wednesday",
-      "temperature": [
-        {
-          "location": "Hakuba",
-          "min": 10.2,
-          "max": 19.3,
-          "note": null,
-          "feelsMin": 8.1,
-          "feelsMax": 19.4,
-          "condition": "Drizzle",
-          "wind": 15.4,
-          "sunrise": "06:00",
-          "sunset": "17:06",
-          "basis": "historical",
-          "basisDate": "2025-10-20"
-        }
-      ],
-      "summary": "The spare day — insurance first, sightseeing second.",
-      "items": [
-        {
-          "time": "09:00",
-          "activity": "Free and easy",
-          "costs": {},
-          "remarks": "This day exists to be spent on whatever the weather refused earlier in the week. Happo Pond is a reflection shot and needs a calm clear morning; having two chances at it rather than one is the whole reason Hakuba has four nights."
-        },
-        {
-          "time": "13:00",
-          "activity": "Explore Hakuba",
-          "costs": {},
-          "remarks": "If the pond is already done: Iwatake's mountain harbour, the terraced village at Aoni-daira, or the Goryu botanical garden. Or none of them."
-        },
-        {
-          "time": "18:00",
-          "activity": "Onsen at Hakuba, then dinner at Hakuba",
-          "costs": {},
-          "remarks": null
-        }
-      ]
-    },
-    {
       "day": 7,
-      "date": "2027-10-21",
+      "date": "2027-10-14",
       "city": "Matsumoto",
       "weekday": "Thursday",
       "temperature": [
         {
           "location": "Hakuba",
-          "min": 8.8,
-          "max": 15.1,
+          "min": 13.2,
+          "max": 16.4,
           "note": null,
-          "feelsMin": 7.0,
-          "feelsMax": 13.1,
-          "condition": "Overcast",
-          "wind": 6.4,
-          "sunrise": "06:01",
-          "sunset": "17:04",
+          "feelsMin": 13.4,
+          "feelsMax": 17.7,
+          "condition": "Rain",
+          "wind": 6.0,
+          "sunrise": "05:54",
+          "sunset": "17:14",
           "basis": "historical",
-          "basisDate": "2025-10-21"
+          "basisDate": "2025-10-14"
         },
         {
           "location": "Matsumoto",
-          "min": 7.5,
-          "max": 13.0,
+          "min": 12.5,
+          "max": 19.4,
           "note": null,
-          "feelsMin": 4.9,
-          "feelsMax": 10.8,
-          "condition": "Drizzle",
-          "wind": 9.2,
-          "sunrise": "06:00",
-          "sunset": "17:05",
+          "feelsMin": 12.0,
+          "feelsMax": 20.2,
+          "condition": "Rain",
+          "wind": 10.4,
+          "sunrise": "05:54",
+          "sunset": "17:14",
           "basis": "historical",
-          "basisDate": "2025-10-21"
+          "basisDate": "2025-10-14"
         }
       ],
       "summary": "Down out of the mountains into the castle town.",
@@ -1040,37 +1040,37 @@
     },
     {
       "day": 8,
-      "date": "2027-10-22",
+      "date": "2027-10-15",
       "city": "Azumino",
       "weekday": "Friday",
       "temperature": [
         {
           "location": "Matsumoto",
-          "min": 7.1,
-          "max": 10.1,
+          "min": 12.6,
+          "max": 22.7,
           "note": null,
-          "feelsMin": 4.3,
-          "feelsMax": 8.4,
-          "condition": "Light drizzle",
-          "wind": 9.1,
-          "sunrise": "06:01",
-          "sunset": "17:03",
+          "feelsMin": 13.0,
+          "feelsMax": 23.3,
+          "condition": "Rain",
+          "wind": 7.1,
+          "sunrise": "05:55",
+          "sunset": "17:12",
           "basis": "historical",
-          "basisDate": "2025-10-22"
+          "basisDate": "2025-10-15"
         },
         {
           "location": "Azumino",
-          "min": 7.1,
-          "max": 10.3,
+          "min": 12.2,
+          "max": 22.5,
           "note": null,
-          "feelsMin": 4.2,
-          "feelsMax": 8.6,
-          "condition": "Light drizzle",
-          "wind": 9.0,
-          "sunrise": "06:01",
-          "sunset": "17:03",
+          "feelsMin": 12.4,
+          "feelsMax": 23.0,
+          "condition": "Rain",
+          "wind": 6.1,
+          "sunrise": "05:55",
+          "sunset": "17:12",
           "basis": "historical",
-          "basisDate": "2025-10-22"
+          "basisDate": "2025-10-15"
         }
       ],
       "summary": "Spring water, wasabi fields and the Alps at a distance.",
@@ -1109,37 +1109,37 @@
     },
     {
       "day": 9,
-      "date": "2027-10-23",
+      "date": "2027-10-16",
       "city": "Okuhida",
       "weekday": "Saturday",
       "temperature": [
         {
           "location": "Matsumoto",
-          "min": 5.4,
-          "max": 16.3,
+          "min": 16.4,
+          "max": 23.3,
           "note": null,
-          "feelsMin": 3.0,
-          "feelsMax": 14.2,
-          "condition": "Overcast",
-          "wind": 8.0,
-          "sunrise": "06:02",
-          "sunset": "17:02",
+          "feelsMin": 16.9,
+          "feelsMax": 22.5,
+          "condition": "Light rain",
+          "wind": 22.1,
+          "sunrise": "05:55",
+          "sunset": "17:11",
           "basis": "historical",
-          "basisDate": "2025-10-23"
+          "basisDate": "2025-10-16"
         },
         {
           "location": "Okuhida",
-          "min": 3.9,
-          "max": 13.8,
+          "min": 14.5,
+          "max": 19.3,
           "note": null,
-          "feelsMin": 1.6,
-          "feelsMax": 11.6,
-          "condition": "Overcast",
-          "wind": 10.9,
-          "sunrise": "06:04",
-          "sunset": "17:04",
+          "feelsMin": 14.8,
+          "feelsMax": 19.9,
+          "condition": "Rain",
+          "wind": 14.5,
+          "sunrise": "05:57",
+          "sunset": "17:13",
           "basis": "historical",
-          "basisDate": "2025-10-23"
+          "basisDate": "2025-10-16"
         }
       ],
       "summary": "Over the pass into the onsen villages, for three nights.",
@@ -1178,23 +1178,23 @@
     },
     {
       "day": 10,
-      "date": "2027-10-24",
+      "date": "2027-10-17",
       "city": "Okuhida",
       "weekday": "Sunday",
       "temperature": [
         {
           "location": "Okuhida",
-          "min": 2.2,
-          "max": 13.7,
+          "min": 11.4,
+          "max": 20.6,
           "note": null,
-          "feelsMin": -0.4,
-          "feelsMax": 11.4,
-          "condition": "Overcast",
-          "wind": 8.4,
-          "sunrise": "06:05",
-          "sunset": "17:03",
+          "feelsMin": 11.3,
+          "feelsMax": 21.0,
+          "condition": "Light drizzle",
+          "wind": 10.2,
+          "sunrise": "05:58",
+          "sunset": "17:12",
           "basis": "historical",
-          "basisDate": "2025-10-24"
+          "basisDate": "2025-10-17"
         }
       ],
       "summary": "Up the double-decker ropeway for the Hotaka panorama.",
@@ -1229,23 +1229,23 @@
     },
     {
       "day": 11,
-      "date": "2027-10-25",
+      "date": "2027-10-18",
       "city": "Okuhida",
       "weekday": "Monday",
       "temperature": [
         {
           "location": "Okuhida",
-          "min": 6.6,
-          "max": 16.8,
+          "min": 10.7,
+          "max": 19.5,
           "note": null,
-          "feelsMin": 4.7,
-          "feelsMax": 15.3,
-          "condition": "Drizzle",
-          "wind": 8.8,
-          "sunrise": "06:06",
-          "sunset": "17:02",
+          "feelsMin": 10.2,
+          "feelsMax": 18.7,
+          "condition": "Heavy drizzle",
+          "wind": 11.0,
+          "sunrise": "05:59",
+          "sunset": "17:11",
           "basis": "historical",
-          "basisDate": "2025-10-25"
+          "basisDate": "2025-10-18"
         }
       ],
       "summary": "One waterfall, and otherwise the bath.",
@@ -1272,23 +1272,23 @@
     },
     {
       "day": 12,
-      "date": "2027-10-26",
+      "date": "2027-10-19",
       "city": "Kamikochi",
       "weekday": "Tuesday",
       "temperature": [
         {
           "location": "Okuhida",
-          "min": 11.3,
-          "max": 16.5,
+          "min": 12.3,
+          "max": 17.4,
           "note": null,
-          "feelsMin": 10.9,
-          "feelsMax": 17.6,
-          "condition": "Rain",
-          "wind": 7.2,
-          "sunrise": "06:07",
-          "sunset": "17:01",
+          "feelsMin": 12.5,
+          "feelsMax": 16.7,
+          "condition": "Drizzle",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:09",
           "basis": "historical",
-          "basisDate": "2025-10-26"
+          "basisDate": "2025-10-19"
         },
         {
           "location": "Kamikochi",
@@ -1321,7 +1321,7 @@
           "time": "15:00",
           "activity": "Explore Kappa Bridge",
           "costs": {},
-          "remarks": "The densest larch stands are around the bus terminal and Konashidaira. Kamikochi sits after Okuhida rather than before it for one reason: the larch turns golden roughly 25 Oct to 5 Nov, about a week behind the maples, so today is its leading edge. Coming here before Okuhida would land on the 21st, which falls between the two — maples going over, larch not yet started."
+          "remarks": "On these dates the valley is in maples rather than larch: the maple peak is around 17 Oct, so today is two days past it and still good, while the larch does not turn golden until 25 Oct to 5 Nov and will barely have started. That is the trade the earlier window makes — red rather than gold — and it is real rather than a technicality. The densest larch stands, for reference, are around the bus terminal and Konashidaira."
         },
         {
           "time": "17:00",
@@ -1339,7 +1339,7 @@
     },
     {
       "day": 13,
-      "date": "2027-10-27",
+      "date": "2027-10-20",
       "city": "Kiso Valley",
       "weekday": "Wednesday",
       "temperature": [
@@ -1351,31 +1351,31 @@
         },
         {
           "location": "Matsumoto",
-          "min": 9.4,
-          "max": 18.6,
+          "min": 9.9,
+          "max": 18.2,
           "note": null,
-          "feelsMin": 6.4,
-          "feelsMax": 15.4,
-          "condition": "Light drizzle",
-          "wind": 19.9,
-          "sunrise": "06:06",
-          "sunset": "16:57",
+          "feelsMin": 8.0,
+          "feelsMax": 17.5,
+          "condition": "Light rain",
+          "wind": 14.8,
+          "sunrise": "05:59",
+          "sunset": "17:06",
           "basis": "historical",
-          "basisDate": "2025-10-27"
+          "basisDate": "2025-10-20"
         },
         {
           "location": "Tsumago",
-          "min": 9.5,
-          "max": 19.2,
+          "min": 15.5,
+          "max": 22.2,
           "note": null,
-          "feelsMin": 8.2,
-          "feelsMax": 17.8,
-          "condition": "Drizzle",
-          "wind": 16.6,
-          "sunrise": "06:07",
-          "sunset": "17:00",
+          "feelsMin": 14.5,
+          "feelsMax": 23.7,
+          "condition": "Rain",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:08",
           "basis": "historical",
-          "basisDate": "2025-10-27"
+          "basisDate": "2025-10-20"
         }
       ],
       "summary": "Dawn on the Azusa, then out to the old road.",
@@ -1408,23 +1408,23 @@
     },
     {
       "day": 14,
-      "date": "2027-10-28",
+      "date": "2027-10-21",
       "city": "Kiso Valley",
       "weekday": "Thursday",
       "temperature": [
         {
           "location": "Tsumago",
-          "min": 4.7,
-          "max": 16.1,
+          "min": 11.1,
+          "max": 18.5,
           "note": null,
-          "feelsMin": 1.7,
-          "feelsMax": 13.0,
-          "condition": "Partly cloudy",
-          "wind": 12.5,
-          "sunrise": "06:07",
-          "sunset": "16:59",
+          "feelsMin": 9.4,
+          "feelsMax": 17.8,
+          "condition": "Overcast",
+          "wind": 9.9,
+          "sunrise": "06:01",
+          "sunset": "17:07",
           "basis": "historical",
-          "basisDate": "2025-10-28"
+          "basisDate": "2025-10-21"
         }
       ],
       "summary": "Eight kilometres of the old Nakasendo, at peak colour.",
@@ -1445,7 +1445,7 @@
           "time": "10:30",
           "activity": "Hike the Nakasendo to Tsumago\nMagome -(Hike - 3 hours)> Tsumago",
           "costs": {},
-          "remarks": "About 8 km over the Magome pass, 2-3 hours, cedar forest and waterfalls. The classic stretch of the whole route, and late Oct is its peak. Walked downhill from Magome on purpose — the same eight kilometres uphill is a different day out."
+          "remarks": "About 8 km over the Magome pass, 2-3 hours, cedar forest and waterfalls. The classic stretch of the whole route, walked downhill from Magome on purpose — the same eight kilometres uphill is a different day out. This is the day the earlier window costs something: the Kiso valley peaks late Oct into early Nov, so the 21st catches the colour arriving rather than at its best. Good walking either way, and the cedars and the stone paving do not depend on the date."
         },
         {
           "time": "14:00",
@@ -1463,37 +1463,37 @@
     },
     {
       "day": 15,
-      "date": "2027-10-29",
+      "date": "2027-10-22",
       "city": "Tokyo",
       "weekday": "Friday",
       "temperature": [
         {
           "location": "Tsumago",
-          "min": 3.6,
-          "max": 18.1,
+          "min": 11.3,
+          "max": 15.5,
           "note": null,
-          "feelsMin": -0.4,
-          "feelsMax": 15.6,
-          "condition": "Overcast",
-          "wind": 12.0,
-          "sunrise": "06:08",
-          "sunset": "16:58",
+          "feelsMin": 9.3,
+          "feelsMax": 15.1,
+          "condition": "Light drizzle",
+          "wind": 8.4,
+          "sunrise": "06:02",
+          "sunset": "17:06",
           "basis": "historical",
-          "basisDate": "2025-10-29"
+          "basisDate": "2025-10-22"
         },
         {
           "location": "Tokyo",
-          "min": 11.2,
-          "max": 15.7,
+          "min": 11.4,
+          "max": 14.2,
           "note": null,
-          "feelsMin": 7.6,
-          "feelsMax": 13.8,
-          "condition": "Overcast",
-          "wind": 16.2,
-          "sunrise": "06:00",
-          "sunset": "16:49",
+          "feelsMin": 9.9,
+          "feelsMax": 13.2,
+          "condition": "Light rain",
+          "wind": 10.5,
+          "sunrise": "05:53",
+          "sunset": "16:57",
           "basis": "historical",
-          "basisDate": "2025-10-29"
+          "basisDate": "2025-10-22"
         }
       ],
       "summary": "Out of the Kiso valley and into Tokyo, with a day still to spend.",
@@ -1532,23 +1532,23 @@
     },
     {
       "day": 16,
-      "date": "2027-10-30",
+      "date": "2027-10-23",
       "city": "Departure",
       "weekday": "Saturday",
       "temperature": [
         {
           "location": "Tokyo",
-          "min": 7.9,
-          "max": 17.3,
+          "min": 11.3,
+          "max": 17.6,
           "note": null,
-          "feelsMin": 5.2,
-          "feelsMax": 15.8,
-          "condition": "Overcast",
-          "wind": 12.9,
-          "sunrise": "06:01",
-          "sunset": "16:48",
+          "feelsMin": 9.3,
+          "feelsMax": 15.9,
+          "condition": "Light drizzle",
+          "wind": 11.5,
+          "sunrise": "05:54",
+          "sunset": "16:56",
           "basis": "historical",
-          "basisDate": "2025-10-30"
+          "basisDate": "2025-10-23"
         }
       ],
       "summary": "A last day in Tokyo, hands free.",
@@ -1609,8 +1609,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-15",
-      "checkOut": "2027-10-16",
+      "checkIn": "2027-10-08",
+      "checkOut": "2027-10-09",
       "nights": 1,
       "persons": 2,
       "rooms": null,
@@ -1639,8 +1639,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-16",
-      "checkOut": "2027-10-17",
+      "checkIn": "2027-10-09",
+      "checkOut": "2027-10-10",
       "nights": 1,
       "persons": 2,
       "rooms": null,
@@ -1669,8 +1669,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-17",
-      "checkOut": "2027-10-21",
+      "checkIn": "2027-10-10",
+      "checkOut": "2027-10-14",
       "nights": 4,
       "persons": 2,
       "rooms": null,
@@ -1699,8 +1699,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-21",
-      "checkOut": "2027-10-23",
+      "checkIn": "2027-10-14",
+      "checkOut": "2027-10-16",
       "nights": 2,
       "persons": 2,
       "rooms": null,
@@ -1729,8 +1729,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-23",
-      "checkOut": "2027-10-26",
+      "checkIn": "2027-10-16",
+      "checkOut": "2027-10-19",
       "nights": 3,
       "persons": 2,
       "rooms": null,
@@ -1759,8 +1759,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-26",
-      "checkOut": "2027-10-27",
+      "checkIn": "2027-10-19",
+      "checkOut": "2027-10-20",
       "nights": 1,
       "persons": 2,
       "rooms": null,
@@ -1789,8 +1789,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-27",
-      "checkOut": "2027-10-29",
+      "checkIn": "2027-10-20",
+      "checkOut": "2027-10-22",
       "nights": 2,
       "persons": 2,
       "rooms": null,
@@ -1819,8 +1819,8 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-29",
-      "checkOut": "2027-10-30",
+      "checkIn": "2027-10-22",
+      "checkOut": "2027-10-23",
       "nights": 1,
       "persons": 2,
       "rooms": null,
@@ -1855,14 +1855,14 @@
           "place": "Nagano Station",
           "address": null,
           "phone": null,
-          "date": "2027-10-17",
+          "date": "2027-10-10",
           "time": "09:00"
         },
         "dropOff": {
           "place": "Matsumoto Station",
           "address": null,
           "phone": null,
-          "date": "2027-10-23",
+          "date": "2027-10-16",
           "time": "09:00"
         },
         "costs": {
@@ -1879,49 +1879,49 @@
     "legs": [
       {
         "day": 3,
-        "date": "2027-10-17",
+        "date": "2027-10-10",
         "route": "Nagano to Hakuba",
         "km": null,
         "refuel": false
       },
       {
         "day": 4,
-        "date": "2027-10-18",
-        "route": "Hakuba — Happo-one",
+        "date": "2027-10-11",
+        "route": "Hakuba — village and Iwatake (Sports Day)",
         "km": null,
         "refuel": false
       },
       {
         "day": 5,
-        "date": "2027-10-19",
-        "route": "Hakuba — Tsugaike Nature Park",
+        "date": "2027-10-12",
+        "route": "Hakuba — Happo-one",
         "km": null,
         "refuel": false
       },
       {
         "day": 6,
-        "date": "2027-10-20",
-        "route": "Hakuba — spare day",
+        "date": "2027-10-13",
+        "route": "Hakuba — Tsugaike Nature Park",
         "km": null,
         "refuel": false
       },
       {
         "day": 7,
-        "date": "2027-10-21",
+        "date": "2027-10-14",
         "route": "Hakuba to Matsumoto",
         "km": null,
         "refuel": false
       },
       {
         "day": 8,
-        "date": "2027-10-22",
+        "date": "2027-10-15",
         "route": "Matsumoto — Azumino and the wasabi farm",
         "km": null,
         "refuel": false
       },
       {
         "day": 9,
-        "date": "2027-10-23",
+        "date": "2027-10-16",
         "route": "Matsumoto — return the car",
         "km": null,
         "refuel": false
@@ -1931,7 +1931,7 @@
   "activities": [],
   "todo": [
     {
-      "task": "Book Kamikochi, 26 Oct",
+      "task": "Book Kamikochi, 19 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -1939,7 +1939,7 @@
       "url": null
     },
     {
-      "task": "Book Tsumago minshuku, 27-29 Oct",
+      "task": "Book Tsumago minshuku, 20-22 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -1947,7 +1947,7 @@
       "url": null
     },
     {
-      "task": "Book Okuhida onsen ryokan, 23-26 Oct",
+      "task": "Book Okuhida onsen ryokan, 16-19 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -1955,15 +1955,15 @@
       "url": null
     },
     {
-      "task": "Book Hakuba, 17-21 Oct",
+      "task": "Book Hakuba, 10-14 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Four nights on one base, the longest stop of the trip. Ask about laundry.",
+      "remarks": "Four nights on one base, the longest stop of the trip — and the first two fall inside the Sports Day weekend, so this is the block most exposed to holiday pricing and the one to book earliest after Kamikochi. Ask about laundry.",
       "url": null
     },
     {
-      "task": "Book Matsumoto, 21-23 Oct",
+      "task": "Book Matsumoto, 14-16 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -1971,15 +1971,15 @@
       "url": null
     },
     {
-      "task": "Book Nagano, 16 Oct",
+      "task": "Book Nagano, 9 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Near Nagano Station — the Hakuba bus leaves from there and Zenkoji is 15 minutes up the road.",
+      "remarks": "Near Nagano Station — the car is collected there and Zenkoji is 15 minutes up the road. This is the Saturday of the Sports Day weekend, so book early and expect Zenkoji busier than a normal afternoon; the dawn service next morning is the quiet alternative.",
       "url": null
     },
     {
-      "task": "Book Tokyo, 29 Oct — and check they hold luggage",
+      "task": "Book Tokyo, 22 Oct — and check they hold luggage",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -1987,7 +1987,7 @@
       "url": null
     },
     {
-      "task": "Book Haneda airport hotel, 15 Oct",
+      "task": "Book Haneda airport hotel, 8 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -2003,7 +2003,7 @@
       "url": null
     },
     {
-      "task": "Reserve Hokuriku Shinkansen seats, Tokyo to Nagano, 16 Oct",
+      "task": "Reserve Hokuriku Shinkansen seats, Tokyo to Nagano, 9 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
@@ -2011,7 +2011,7 @@
       "url": null
     },
     {
-      "task": "Book the hire car, Nagano 17 Oct to Matsumoto 23 Oct",
+      "task": "Book the hire car, Nagano 10 Oct to Matsumoto 16 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
@@ -2027,7 +2027,7 @@
       "url": null
     },
     {
-      "task": "Reserve JR Shinano and Tokaido seats, Nagiso to Tokyo, 29 Oct",
+      "task": "Reserve JR Shinano and Tokaido seats, Nagiso to Tokyo, 22 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
@@ -2047,11 +2047,11 @@
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Only matters for the Nagoya to Tokyo leg on 29 Oct. Height + width + depth of 160-250 cm needs a free oversized-baggage slot reserved with the seat; without one it is a JPY 1,000 charge at the gate. The Hokuriku Shinkansen on day 2 has no such rule.",
+      "remarks": "Only matters for the Nagoya to Tokyo leg on 22 Oct. Height + width + depth of 160-250 cm needs a free oversized-baggage slot reserved with the seat; without one it is a JPY 1,000 charge at the gate. The Hokuriku Shinkansen on day 2 has no such rule.",
       "url": null
     },
     {
-      "task": "Check the last bus out of Kamikochi, 27 Oct",
+      "task": "Check the last bus out of Kamikochi, 20 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
@@ -2063,11 +2063,11 @@
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "So Kamikochi only needs an overnight bag. Also book the Magome-Tsumago day-bag service for 28 Oct.",
+      "remarks": "So Kamikochi only needs an overnight bag. Also book the Magome-Tsumago day-bag service for 21 Oct.",
       "url": null
     },
     {
-      "task": "Confirm the Tsugaike gondola is running, 19 Oct",
+      "task": "Confirm the Tsugaike gondola is running, 13 Oct",
       "category": "Booking",
       "subcategory": "Attractions",
       "status": "Open",
