@@ -859,7 +859,7 @@
           "time": "11:00",
           "activity": "Hike to Happo Pond\nHappo-one Kurobishidaira -(Hike - 75 mins)> Happo Pond",
           "costs": {},
-          "remarks": "About 200 m of ascent, 45-90 minutes each way on a rocky ridge path, same route back. The pond is at 2,060 m and its colour peaks late Sep to early Oct, so expect it past its best — the draw is the setting and the reflection, with first snow likely on the peaks behind. If the morning looks grey, swap with tomorrow: Tsugaike reads better in flat light than the pond does."
+          "remarks": "About 200 m of ascent, 45-90 minutes each way on a rocky ridge path, same route back, with the pond at 2,060 m and the Northern Alps behind it. On timing there are two dated observations rather than a rule of thumb: the pond was reported at peak on 11 Oct in both 2024 and 2025, and in 2025 Hakuba village's own tourist information centre expected the colour to hold through around 20 Oct. Today is the 18th — the tail of the season rather than its peak, but inside the window a local source named, which is a better bet than the general 'late Sep to early Oct' figure suggests. If the morning looks grey, swap with tomorrow: Tsugaike reads better in flat light than the pond does."
         },
         {
           "time": "16:00",
@@ -910,7 +910,7 @@
           "costs": {
             "sightseeing": 7400
           },
-          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Same caveat as Happo Pond and more so: the Japanese sources put Tsugaike's peak at late Sep to early Oct, and it was still at peak on 11 Oct 2024 only because that year ran late. The boardwalks and the views hold up regardless. Confirm the gondola is not in its late-October maintenance window."
+          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Same caveat as Happo Pond and more so — this is the weaker of the two Hakuba days. The Japanese sources put Tsugaike's peak at late Sep to early Oct, and nobody publishes a 'good until' date for it the way Hakuba does for Happo Pond. The boardwalks and the views hold up regardless. Confirm the gondola is not in its late-October maintenance window."
         },
         {
           "time": "15:00",
@@ -2172,5 +2172,5 @@
     "Tokyo": "https://tenki.jp/forecast/3/16/",
     "Tsumago": "https://tenki.jp/forecast/3/23/"
   },
-  "weatherUpdated": "2026-08-16"
+  "weatherUpdated": "2026-08-18"
 }
