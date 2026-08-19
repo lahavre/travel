@@ -68,8 +68,8 @@
       },
       {
         "category": "Transport",
-        "perDay": 295.63,
-        "budget": 4730.08,
+        "perDay": 282.78,
+        "budget": 4524.42,
         "actual": null
       },
       {
@@ -881,7 +881,7 @@
           "time": "09:00",
           "activity": "Collect the hire car at Nagano Station",
           "costs": {},
-          "remarks": "The car covers the next six days — Hakuba, Matsumoto and Azumino — and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
+          "remarks": "The car covers the next five days — Hakuba, Matsumoto and Azumino — and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
         },
         {
           "time": "09:30",
@@ -1143,9 +1143,15 @@
         },
         {
           "time": "16:00",
-          "activity": "Drive to the hotel\nDaio Wasabi Farm -(Drive)> Hotel",
+          "activity": "Drive back to Matsumoto\nDaio Wasabi Farm -(Drive)> Matsumoto Station",
           "costs": {},
-          "remarks": null
+          "remarks": "Refuel on the way in — full-to-full is the usual policy and the pumps by the station are the last convenient ones."
+        },
+        {
+          "time": "17:00",
+          "activity": "Return the hire car at Matsumoto Station",
+          "costs": {},
+          "remarks": "The hire ends tonight rather than tomorrow morning, which is why Azumino is the last driving day: nothing after this needs a car — Kamikochi bans them, the Nakasendo walk is point-to-point, and tomorrow is a bus from a terminal you can walk to. Dropping it this evening saves a day on the hire and a second night of hotel parking. Confirm the branch's closing time when booking: station-front offices usually shut between 18:00 and 20:00, and this plan gets you back about 17:00."
         },
         {
           "time": "18:30",
@@ -1192,12 +1198,6 @@
       ],
       "summary": "Over the pass into the onsen villages, for three nights.",
       "items": [
-        {
-          "time": "09:00",
-          "activity": "Return the hire car at Matsumoto Station",
-          "costs": {},
-          "remarks": "Six days, dropped in the prefecture it was collected in. Everything from here is public transport, and deliberately: Kamikochi bans private cars outright, the Nakasendo walk is point-to-point so a car would end up eight kilometres away, and the ride home is rail."
-        },
         {
           "time": "10:00",
           "activity": "Check out and travel to Okuhida\nMatsumoto Bus Terminal -(Alpico Bus)> Hirayu Onsen -(Nohi Bus)> Shin-Hotaka Onsen",
@@ -1889,7 +1889,7 @@
     }
   ],
   "transport": {
-    "mode": "Mixed on purpose. A hire car for the middle six days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. Rail and bus for everything else, because a car cannot help there: Kamikochi bans private vehicles, the Magome-Tsumago walk is point-to-point, and the long hauls at either end are faster by train.",
+    "mode": "Mixed on purpose. A hire car for the middle five days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. Rail and bus for everything else, because a car cannot help there: Kamikochi bans private vehicles, the Magome-Tsumago walk is point-to-point, and the long hauls at either end are faster by train.",
     "carRental": [
       {
         "company": null,
@@ -1910,8 +1910,8 @@
           "place": "Matsumoto Station",
           "address": null,
           "phone": null,
-          "date": "2027-10-16",
-          "time": "09:00"
+          "date": "2027-10-15",
+          "time": "17:30"
         },
         "costs": {
           "rental": null,
@@ -1956,16 +1956,9 @@
       {
         "day": 8,
         "date": "2027-10-15",
-        "route": "Matsumoto — Azumino and the wasabi farm",
+        "route": "Matsumoto — Azumino, then back to return the car",
         "km": null,
-        "refuel": false
-      },
-      {
-        "day": 9,
-        "date": "2027-10-16",
-        "route": "Matsumoto — return the car",
-        "km": null,
-        "refuel": false
+        "refuel": true
       }
     ]
   },
@@ -2060,11 +2053,11 @@
       "url": "https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green"
     },
     {
-      "task": "Book the hire car, Nagano 11 Oct to Matsumoto 16 Oct",
+      "task": "Book the hire car, Nagano 11 Oct to Matsumoto 15 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Six days. Collect at Nagano Station, drop at Matsumoto Station — same prefecture, so the one-way fee should be nil or near it; confirm that when booking rather than assuming. Ask two things at the desk: whether winter tyres are fitted by mid-October, since the Hakuba and Azumino roads run high, and whether an ETC card comes with it for the tolls.",
+      "remarks": "Five days, collected at Nagano Station and dropped at Matsumoto Station — same prefecture, so the one-way fee should be nil or near it; confirm that when booking rather than assuming. Returning on the evening of the 15th rather than the morning of the 16th saves a hire day and a night of parking, so check the branch is still open around 17:30. Ask two more things at the desk: whether winter tyres are fitted by mid-October, since the Hakuba and Azumino roads run high, and whether an ETC card comes with it for the tolls.",
       "url": null
     },
     {
@@ -2072,7 +2065,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "The only stop on the driving stretch where parking is not a given — Hakuba properties almost always have it.",
+      "remarks": "One night only, the 14th — the car goes back on the evening of the 15th. Still the one stop on the driving stretch where parking is not a given; Hakuba properties almost always have it.",
       "url": null
     },
     {
