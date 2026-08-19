@@ -9,7 +9,7 @@
     "CMC",
     "Traveller 2"
   ],
-  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, opening with a night at Nagano for Zenkoji and closing with one in Tokyo. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes Hakuba at its best and accepts the Kiso valley before its peak and Kamikochi in maples rather than golden larch. Happo Pond decided it: reported at peak on 11 Oct in both 2024 and 2025, and it gets four nights and two headline walks here. The cost is Sports Day on 11 Oct, which the Hakuba days are ordered around — the blank day sits on the holiday and both walks on the ordinary weekdays after it. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
+  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, opening with a night at Nagano for Zenkoji and closing with one in Tokyo. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes Hakuba at its best and accepts the Kiso valley before its peak and Kamikochi in maples rather than golden larch. Happo Pond decided it: reported at peak on 11 Oct in both 2024 and 2025, and it gets four nights and two headline walks here. The cost is Sports Day on 11 Oct, which the trip is arranged around rather than against: the holiday weekend is spent in Nagano, a city, and the drive over to Hakuba happens on the Monday itself, against the traffic heading home. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
   "exchangeRate": {
@@ -68,8 +68,8 @@
       },
       {
         "category": "Transport",
-        "perDay": 285.67,
-        "budget": 4570.69,
+        "perDay": 295.63,
+        "budget": 4730.08,
         "actual": null
       },
       {
@@ -163,10 +163,10 @@
       "day": 3,
       "weekday": "Sunday",
       "date": "2027-10-10",
-      "city": "Hakuba",
-      "morning": "Check out\nTravel to Hakuba",
-      "afternoon": "Check in\nExplore Hakuba village",
-      "evening": "Onsen at Hakuba\nDinner at Hakuba",
+      "city": "Togakushi",
+      "morning": "Travel to Togakushi\nWalk the cedar avenue to Okusha",
+      "afternoon": "Lunch at Togakushi\nExplore Chusha\nTravel to Nagano",
+      "evening": "Dinner at Nagano",
       "remarks": null,
       "temperature": [
         {
@@ -184,16 +184,16 @@
           "basisDate": "2025-10-10"
         },
         {
-          "location": "Hakuba",
-          "min": 10.6,
-          "max": 19.0,
+          "location": "Togakushi",
+          "min": 7.7,
+          "max": 16.9,
           "note": null,
-          "feelsMin": 10.3,
-          "feelsMax": 19.2,
+          "feelsMin": 6.4,
+          "feelsMax": 16.1,
           "condition": "Light drizzle",
-          "wind": 9.7,
-          "sunrise": "05:51",
-          "sunset": "17:19",
+          "wind": 8.4,
+          "sunrise": "05:50",
+          "sunset": "17:18",
           "basis": "historical",
           "basisDate": "2025-10-10"
         }
@@ -204,11 +204,25 @@
       "weekday": "Monday",
       "date": "2027-10-11",
       "city": "Hakuba",
-      "morning": "Free and easy",
-      "afternoon": "Explore Hakuba",
+      "morning": "Check out\nTravel to Hakuba",
+      "afternoon": "Check in\nExplore Hakuba village",
       "evening": "Onsen at Hakuba\nDinner at Hakuba",
       "remarks": null,
       "temperature": [
+        {
+          "location": "Nagano",
+          "min": 15.4,
+          "max": 19.5,
+          "note": null,
+          "feelsMin": 16.2,
+          "feelsMax": 20.2,
+          "condition": "Light rain",
+          "wind": 9.0,
+          "sunrise": "05:50",
+          "sunset": "17:16",
+          "basis": "historical",
+          "basisDate": "2025-10-11"
+        },
         {
           "location": "Hakuba",
           "min": 13.6,
@@ -752,7 +766,7 @@
     {
       "day": 3,
       "date": "2027-10-10",
-      "city": "Hakuba",
+      "city": "Togakushi",
       "weekday": "Sunday",
       "temperature": [
         {
@@ -770,49 +784,57 @@
           "basisDate": "2025-10-10"
         },
         {
-          "location": "Hakuba",
-          "min": 10.6,
-          "max": 19.0,
+          "location": "Togakushi",
+          "min": 7.7,
+          "max": 16.9,
           "note": null,
-          "feelsMin": 10.3,
-          "feelsMax": 19.2,
+          "feelsMin": 6.4,
+          "feelsMax": 16.1,
           "condition": "Light drizzle",
-          "wind": 9.7,
-          "sunrise": "05:51",
-          "sunset": "17:19",
+          "wind": 8.4,
+          "sunrise": "05:50",
+          "sunset": "17:18",
           "basis": "historical",
           "basisDate": "2025-10-10"
         }
       ],
-      "summary": "Over to Hakuba, and an afternoon to settle in.",
+      "summary": "Five shrines up a mountainside, through 400-year-old cedars.",
       "items": [
         {
-          "time": "09:00",
-          "activity": "Collect the hire car at Nagano Station",
-          "costs": {},
-          "remarks": "The car covers the next six days — Hakuba, Matsumoto and Azumino — and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
+          "time": "08:20",
+          "activity": "Travel to Togakushi\nNagano Station -(Alpico Bus)> Togakushi Okusha",
+          "costs": {
+            "transport": 6200
+          },
+          "remarks": "Just over an hour, JPY 1,550 per person each way; figure shown is the return for two. Green season runs eleven departures a day from Nagano Station, 06:50 to 14:10, so this is a far easier bus than the Hakuba one. Three things the operator is specific about: every seat is reserved (book online, which opens a month ahead — you can board without one if there is space, but not reliably), Suica and the other IC cards do NOT work so bring cash or a contactless Visa, and the old Togakushi & Zenkoji 1-Day Pass was discontinued in 2025, so do not plan around it."
         },
         {
-          "time": "09:30",
-          "activity": "Check out and drive to Hakuba\nNagano Station -(Drive)> Hakuba Station",
+          "time": "10:00",
+          "activity": "Walk the cedar avenue to Okusha\nTogakushi Okusha -(Hike - 40 mins)> Togakushi Okusha Shrine",
           "costs": {},
-          "remarks": "About 1h 15m. This is the Sunday of a three-day weekend — Sports Day falls tomorrow — so expect the road north to be busy and leave a margin. Having the car at all is worth more than usual today: the Alpico bus runs about seven services a day in green season and they will be full."
+          "remarks": "A 2 km approach through the thatched Zuijinmon gate and then 300-odd Japanese cedars, many of them 400 years old. The cedars are evergreen, so the avenue looks the same whatever the date — which is the point today, because Togakushi sits at about 1,200 m and peaks late October, so the colour around it will only be turning."
         },
         {
-          "time": "11:30",
-          "activity": "Check in and leave the bags",
+          "time": "12:30",
+          "activity": "Lunch at Togakushi",
           "costs": {},
-          "remarks": null
+          "remarks": "Togakushi is one of Japan's three great soba regions. Eaten here with sansai tempura — battered mountain vegetables."
         },
         {
-          "time": "13:00",
-          "activity": "Explore Hakuba village",
+          "time": "14:00",
+          "activity": "Explore Chusha",
           "costs": {},
-          "remarks": null
+          "remarks": "The middle shrine, about 40 minutes down through the forest from Okusha. Carry on another 2 km to Hokosha for the full five-shrine walk, or stop here — the whole traverse is 10-12 km. Use the Togakushi Shuttle Bus to move about within the area."
         },
         {
-          "time": "18:00",
-          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "time": "16:20",
+          "activity": "Travel to Nagano\nTogakushi Chusha -(Alpico Bus)> Nagano Station",
+          "costs": {},
+          "remarks": "Last bus of the day leaves the campsite at 16:20 and reaches Nagano at 17:25. Earlier ones run roughly hourly through the afternoon."
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Nagano",
           "costs": {},
           "remarks": null
         }
@@ -824,6 +846,20 @@
       "city": "Hakuba",
       "weekday": "Monday",
       "temperature": [
+        {
+          "location": "Nagano",
+          "min": 15.4,
+          "max": 19.5,
+          "note": null,
+          "feelsMin": 16.2,
+          "feelsMax": 20.2,
+          "condition": "Light rain",
+          "wind": 9.0,
+          "sunrise": "05:50",
+          "sunset": "17:16",
+          "basis": "historical",
+          "basisDate": "2025-10-11"
+        },
         {
           "location": "Hakuba",
           "min": 13.6,
@@ -839,19 +875,31 @@
           "basisDate": "2025-10-11"
         }
       ],
-      "summary": "Sports Day — deliberately the empty one.",
+      "summary": "Over to Hakuba, and an afternoon to settle in.",
       "items": [
         {
           "time": "09:00",
-          "activity": "Free and easy",
+          "activity": "Collect the hire car at Nagano Station",
           "costs": {},
-          "remarks": "Today is Sports Day, a national holiday and the busiest day of the month in a resort valley. Both headline walks sit on the two ordinary weekdays after it rather than on it, which costs a day of colour and saves the crowds — the trade is worth it because Happo Pond holds for another week and a holiday queue does not improve."
+          "remarks": "The car covers the next six days — Hakuba, Matsumoto and Azumino — and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
+        },
+        {
+          "time": "09:30",
+          "activity": "Check out and drive to Hakuba\nNagano Station -(Drive)> Hakuba Station",
+          "costs": {},
+          "remarks": "About 1h 15m, and deliberately on Sports Day itself. The holiday traffic on a Monday runs the other way — people leaving the resorts for the cities — so going north into Hakuba is against the flow, and tonight is the first quiet night in the valley after the long weekend rather than the last busy one. The rental desk will be busy with returns, so allow a little longer at the counter."
+        },
+        {
+          "time": "11:30",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": null
         },
         {
           "time": "13:00",
-          "activity": "Explore Hakuba",
+          "activity": "Explore Hakuba village",
           "costs": {},
-          "remarks": "Low-key by design: Iwatake's mountain harbour, the terraced village at Aoni-daira, or the Goryu botanical garden. Or the bath and nothing else."
+          "remarks": null
         },
         {
           "time": "18:00",
@@ -1640,8 +1688,8 @@
       "address": null,
       "phone": null,
       "checkIn": "2027-10-09",
-      "checkOut": "2027-10-10",
-      "nights": 1,
+      "checkOut": "2027-10-11",
+      "nights": 2,
       "persons": 2,
       "rooms": null,
       "roomType": null,
@@ -1669,9 +1717,9 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-10",
+      "checkIn": "2027-10-11",
       "checkOut": "2027-10-14",
-      "nights": 4,
+      "nights": 3,
       "persons": 2,
       "rooms": null,
       "roomType": null,
@@ -1855,7 +1903,7 @@
           "place": "Nagano Station",
           "address": null,
           "phone": null,
-          "date": "2027-10-10",
+          "date": "2027-10-11",
           "time": "09:00"
         },
         "dropOff": {
@@ -1878,16 +1926,9 @@
     "publicTransport": [],
     "legs": [
       {
-        "day": 3,
-        "date": "2027-10-10",
-        "route": "Nagano to Hakuba",
-        "km": null,
-        "refuel": false
-      },
-      {
         "day": 4,
         "date": "2027-10-11",
-        "route": "Hakuba — village and Iwatake (Sports Day)",
+        "route": "Nagano to Hakuba",
         "km": null,
         "refuel": false
       },
@@ -1955,11 +1996,11 @@
       "url": null
     },
     {
-      "task": "Book Hakuba, 10-14 Oct",
+      "task": "Book Hakuba, 11-14 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Four nights on one base, the longest stop of the trip — and the first two fall inside the Sports Day weekend, so this is the block most exposed to holiday pricing and the one to book earliest after Kamikochi. Ask about laundry.",
+      "remarks": "Three nights on one base, arriving as the long weekend empties out — all three are ordinary weekday nights, which is the point of travelling on the holiday rather than before it. Ask about laundry.",
       "url": null
     },
     {
@@ -1971,11 +2012,11 @@
       "url": null
     },
     {
-      "task": "Book Nagano, 9 Oct",
+      "task": "Book Nagano, 9-11 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Near Nagano Station — the car is collected there and Zenkoji is 15 minutes up the road. This is the Saturday of the Sports Day weekend, so book early and expect Zenkoji busier than a normal afternoon; the dawn service next morning is the quiet alternative.",
+      "remarks": "Two nights, near Nagano Station — the Togakushi bus and the car both leave from there and Zenkoji is 15 minutes up the road. Both nights are inside the Sports Day weekend, so book early; Zenkoji will be busier than a normal afternoon and the dawn service is the quiet alternative.",
       "url": null
     },
     {
@@ -2011,7 +2052,15 @@
       "url": null
     },
     {
-      "task": "Book the hire car, Nagano 10 Oct to Matsumoto 16 Oct",
+      "task": "Reserve the Togakushi bus, 10 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Every seat on the Nagano-Togakushi bus is reserved and online booking opens a month ahead, so around 10 Sep 2027. Eleven departures a day in green season, JPY 1,550 pp each way. IC cards like Suica are not accepted — cash or a contactless Visa on board. The Togakushi & Zenkoji 1-Day Pass was discontinued in 2025.",
+      "url": "https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green"
+    },
+    {
+      "task": "Book the hire car, Nagano 11 Oct to Matsumoto 16 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
@@ -2159,6 +2208,10 @@
     "Nagano": {
       "lat": 36.65,
       "lon": 138.1833
+    },
+    "Togakushi": {
+      "lat": 36.7299,
+      "lon": 138.0783
     }
   },
   "weatherTimezone": "Asia/Tokyo",
@@ -2169,8 +2222,9 @@
     "Matsumoto": "https://tenki.jp/forecast/3/23/",
     "Nagano": "https://tenki.jp/forecast/3/23/",
     "Okuhida": "https://tenki.jp/forecast/5/24/",
+    "Togakushi": "https://tenki.jp/forecast/3/23/",
     "Tokyo": "https://tenki.jp/forecast/3/16/",
     "Tsumago": "https://tenki.jp/forecast/3/23/"
   },
-  "weatherUpdated": "2026-08-18"
+  "weatherUpdated": "2026-08-19"
 }
