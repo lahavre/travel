@@ -174,17 +174,21 @@ anything without its own `match`, deliberately.
 - **Japan 2027 (`trips/2027-10-japan-alps`) is the first real trip the planner has
   handled** — 8-23 Oct 2027, two travellers, nothing booked. Planned across several
   rounds of the traveller's own review, so the shape reflects their decisions, not a
-  first draft: a night at Nagano for Zenkoji, four at Hakuba, Matsumoto with Azumino,
-  Okuhida, one night in Kamikochi, the Kiso valley, a last night at Shinagawa. The dates
+  first draft: two nights at Nagano for Zenkoji and Togakushi, three at Hakuba, Matsumoto
+  with Azumino, Okuhida, one night in Kamikochi, the Kiso valley, a last night at
+  Shinagawa. The dates
   are a knowing trade the traveller made against advice, on evidence they found: Hakuba's
   alpine colour peaks late September and the Nakasendo's late October, five weeks apart,
   so no single trip catches both. Happo Pond was reported at peak on 11 Oct in both 2024
-  and 2025, and it has four nights and two headline walks, so the window follows it —
+  and 2025, and it has three nights and two headline walks, so the window follows it —
   accepting the Kiso valley before its peak and Kamikochi in maples rather than larch.
-  **Sports Day falls on Mon 11 Oct**, so the Hakuba days are ordered around it: the blank
-  day on the holiday, both walks on the weekdays after. **Transport is
-  deliberately mixed**: a hire car for the middle six days (Nagano 10 Oct to Matsumoto
-  16 Oct — same prefecture, so the one-way drop stays cheap) where the buses are sparse,
+  **Sports Day falls on Mon 11 Oct**, and the trip is arranged around it rather than
+  against: the long weekend is spent in Nagano, a city, which absorbs a holiday far
+  better than a resort valley, and the drive to Hakuba happens on the Monday itself —
+  against traffic that runs from the resorts back to the cities. Both Hakuba walks then
+  fall on ordinary weekdays. **Transport is
+  deliberately mixed**: a hire car for the middle five days (Nagano 11 Oct to Matsumoto
+  15 Oct — same prefecture, so the one-way drop stays cheap) where the buses are sparse,
   and rail everywhere else, because Kamikochi bans private cars, the Magome-Tsumago walk
   is point-to-point, and the long hauls are faster by train.
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
