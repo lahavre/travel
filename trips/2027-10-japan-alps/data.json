@@ -80,8 +80,8 @@
       },
       {
         "category": "Sightseeing",
-        "perDay": 54.95,
-        "budget": 879.18,
+        "perDay": 55.27,
+        "budget": 884.32,
         "actual": null
       },
       {
@@ -204,8 +204,8 @@
       "weekday": "Monday",
       "date": "2027-10-11",
       "city": "Hakuba",
-      "morning": "Check out\nTravel to Hakuba",
-      "afternoon": "Check in\nExplore Hakuba village",
+      "morning": "Check out\nCollect the hire car\nDrive to Hakuba",
+      "afternoon": "Check in\nExplore Hakuba Iwatake Mountain Harbor",
       "evening": "Onsen at Hakuba\nDinner at Hakuba",
       "remarks": null,
       "temperature": [
@@ -244,8 +244,8 @@
       "weekday": "Tuesday",
       "date": "2027-10-12",
       "city": "Hakuba",
-      "morning": "Travel to Happo-one\nExplore Happo-one",
-      "afternoon": "Hike to Happo Pond",
+      "morning": "Travel to Happo-one\nRide the Alpen Line",
+      "afternoon": "Hike to Happo Pond\nReturn to Hakuba",
       "evening": "Onsen at Hakuba\nDinner at Hakuba",
       "remarks": null,
       "temperature": [
@@ -271,7 +271,7 @@
       "date": "2027-10-13",
       "city": "Hakuba",
       "morning": "Travel to Tsugaike\nExplore Tsugaike Nature Park",
-      "afternoon": "Explore Tsugaike Nature Park\nTravel to the hotel",
+      "afternoon": "Explore Tsugaike Nature Park\nReturn to Hakuba",
       "evening": "Onsen at Hakuba\nDinner at Hakuba",
       "remarks": null,
       "temperature": [
@@ -875,19 +875,19 @@
           "basisDate": "2025-10-11"
         }
       ],
-      "summary": "Over to Hakuba, and an afternoon to settle in.",
+      "summary": "Over to Hakuba on the holiday, and a terrace above the valley.",
       "items": [
         {
           "time": "09:00",
           "activity": "Collect the hire car at Nagano Station",
           "costs": {},
-          "remarks": "The car covers the next five days — Hakuba, Matsumoto and Azumino — and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
+          "remarks": "The car covers the next five days - Hakuba, Matsumoto and Azumino - and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
         },
         {
           "time": "09:30",
           "activity": "Check out and drive to Hakuba\nNagano Station -(Drive)> Hakuba Station",
           "costs": {},
-          "remarks": "About 1h 15m, and deliberately on Sports Day itself. The holiday traffic on a Monday runs the other way — people leaving the resorts for the cities — so going north into Hakuba is against the flow, and tonight is the first quiet night in the valley after the long weekend rather than the last busy one. The rental desk will be busy with returns, so allow a little longer at the counter."
+          "remarks": "About 1h 15m, and deliberately on Sports Day itself. The holiday traffic on a Monday runs the other way - people leaving the resorts for the cities - so going north into Hakuba is against the flow, and tonight is the first quiet night in the valley after the long weekend rather than the last busy one. The rental desk will be busy with returns, so allow a little longer at the counter."
         },
         {
           "time": "11:30",
@@ -897,13 +897,25 @@
         },
         {
           "time": "13:00",
-          "activity": "Explore Hakuba village",
+          "activity": "Explore Hakuba Iwatake Mountain Harbor\nHotel -(Drive)> Hakuba Iwatake Mountain Resort",
+          "costs": {},
+          "remarks": "The gentle option for an arrival afternoon: the Noah gondola climbs eight minutes to a terrace at 1,289 m looking straight across at the Northern Alps, with THE CITY BAKERY and a couple of other places to eat on the deck. Green season runs 08:30-17:00 with the last ride up at 16:20 and the last down at 16:50, and the bakery shuts at 16:00 - so this is an afternoon, not an evening."
+        },
+        {
+          "time": "16:30",
+          "activity": "Drive to the hotel",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "18:00",
-          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "time": "17:30",
+          "activity": "Onsen at Hakuba",
+          "costs": {},
+          "remarks": "Hakuba Happo Onsen is highly alkaline at pH 11 and over, and is Japan's only natural hydrogen hot spring, which is what the silky-water reputation is about. Four public baths if the hotel has none of its own: Happo-no-Yu (JPY 1,000, 10:00-21:00, daily), Obinata-no-Yu (JPY 700, 11:00-21:00), Mimizuku-no-Yu (JPY 1,000 but only 13:00-17:00 for non-guests) and Sato-no-Yu."
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at Hakuba",
           "costs": {},
           "remarks": null
         }
@@ -933,34 +945,58 @@
       "summary": "The classic Hakuba walk, on the best date the trip can give it.",
       "items": [
         {
+          "time": "07:30",
+          "activity": "Breakfast",
+          "costs": {},
+          "remarks": "Start early. The trail is high and completely exposed, and the light on the Alps is best before the afternoon cloud builds."
+        },
+        {
           "time": "08:30",
-          "activity": "Drive to Happo-one\nHotel -(Drive)> Happo Gondola Adam",
+          "activity": "Travel to Happo-one\nHotel -(Drive)> Happo Gondola Adam",
           "costs": {},
-          "remarks": null
+          "remarks": "Ten minutes or so from most of the village, with parking at the gondola base."
         },
         {
-          "time": "09:30",
-          "activity": "Explore Happo-one by gondola and lift",
+          "time": "09:00",
+          "activity": "Ride the Alpen Line to Happo Ike Sanso",
           "costs": {
-            "sightseeing": 6800
+            "sightseeing": 7000
           },
-          "remarks": "Alpen Line — gondola then two chairlifts, JPY 3,400 per person return. Figure shown is for two."
+          "remarks": "Three stages - the Adam gondola, then the Alpen Quad and Grat Quad chairlifts - about 20-25 minutes in total, ending at the Happo Ike Sanso lodge at roughly 1,830 m. JPY 3,500 per person return for the full line; figure shown is for two. Check the last descent before you start walking: uphill service stops 30 minutes before the final Grat Quad, and the green season ends on 3 Nov."
         },
         {
-          "time": "11:00",
-          "activity": "Hike to Happo Pond\nHappo-one Kurobishidaira -(Hike - 75 mins)> Happo Pond",
+          "time": "09:45",
+          "activity": "Hike to Happo Pond\nHappo Ike Sanso -(Hike - 90 mins)> Happo Pond",
           "costs": {},
-          "remarks": "About 200 m of ascent, 45-90 minutes each way on a rocky ridge path, same route back, with the pond at 2,060 m and the Northern Alps behind it. This is why the trip sits where it does: the pond was reported at peak on 11 Oct in both 2024 and 2025, so today is a single day past two years of observed peak — and on an ordinary Tuesday rather than yesterday's holiday. If the morning looks grey, swap with tomorrow; Tsugaike reads better in flat light than the pond does, and the spare day is already spent."
+          "remarks": "3.3 km round trip and about 230 m of climb, to the pond at 2,060 m. Just above the lodge the path forks and it is worth knowing which is which: the LEFT branch is mostly wooden boardwalk and much easier underfoot, the RIGHT is rocky and uneven. They rejoin higher up, so take the boardwalk going up and decide about the rocks on the way down. Estimates vary widely - the operator's own guide says 1.5 to 2 hours up and an hour down, other sources say 45 minutes; budget two hours and be pleased if it is less. Cairns mark the way and there is a small stone shrine at the pond."
+        },
+        {
+          "time": "12:00",
+          "activity": "Explore Happo Pond",
+          "costs": {},
+          "remarks": "The reflection is the whole point, so it wants a still morning. This is also why the trip sits where it does: the pond was reported at peak on 11 Oct in both 2024 and 2025, so today is a single day past two years of observed peak, and on an ordinary Tuesday rather than yesterday's holiday. Two warnings from the operator worth repeating - the trail has no shelter at all from wind or rain, so windproof layers are not optional, and it wants proper hiking shoes rather than trainers."
+        },
+        {
+          "time": "13:30",
+          "activity": "Return to Hakuba\nHappo Pond -(Hike - 60 mins)> Happo Ike Sanso",
+          "costs": {},
+          "remarks": "About an hour down, then the lifts. If this morning was clouded in, today and tomorrow's Tsugaike can swap - that is the only spare card the three nights hold."
         },
         {
           "time": "16:00",
-          "activity": "Drive to the hotel",
+          "activity": "Explore Hakuba village",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "18:00",
-          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "time": "17:30",
+          "activity": "Onsen at Hakuba",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at Hakuba",
           "costs": {},
           "remarks": null
         }
@@ -987,31 +1023,49 @@
           "basisDate": "2025-10-13"
         }
       ],
-      "summary": "Boardwalks over four marshes, at your own speed.",
+      "summary": "Six kilometres of boardwalk over four marshes, at your own speed.",
       "items": [
         {
           "time": "08:30",
-          "activity": "Drive to Tsugaike\nHotel -(Drive)> Tsugaike Kogen",
+          "activity": "Travel to Tsugaike\nHotel -(Drive)> Tsugaike Kogen",
           "costs": {},
-          "remarks": "About 25 minutes, and the clearest case for having the car up here — the bus to Tsugaike is sparse."
+          "remarks": "About 25 minutes north, and the clearest case for having the car up here - the bus to Tsugaike is sparse."
+        },
+        {
+          "time": "09:15",
+          "activity": "Ride the gondola and ropeway to Tsugaike Nature Park",
+          "costs": {
+            "sightseeing": 7400
+          },
+          "remarks": "The Eve gondola takes about 20 minutes, then the ropeway another six, landing near the Visitor Center at roughly 1,900 m. JPY 3,700 per person return including park entry, or JPY 3,300 if bought at a Seven-Eleven beforehand - figure shown is the gate price for two. The Visitor Center runs 08:30-16:40 and the park closes for the season at the end of October. Confirm the gondola is not in its late-October maintenance window."
         },
         {
           "time": "10:00",
           "activity": "Explore Tsugaike Nature Park",
-          "costs": {
-            "sightseeing": 7400
-          },
-          "remarks": "Gondola then ropeway, JPY 3,700 per person return including park entry — JPY 3,300 if bought at a Seven-Eleven beforehand. Figure shown is for two. Still the weaker of the two Hakuba days: the Japanese sources put Tsugaike's peak at late Sep to early Oct and nobody publishes a 'good until' date for it the way Hakuba does for Happo Pond — but the 13th is far closer to that than the trip's earlier dates were. Confirm the gondola is not in its late-October maintenance window."
+          "costs": {},
+          "remarks": "Around 6 km of raised boardwalk across four marshes - Mizubasho, Watasuge, Ukishima and Tenbo. Pick the length to suit the day: there are 1 km, 2 km and 3 km circuits as well as the full 5.5 km loop, which takes about three and a half hours. Watasuge Marsh is the one to reach - the wetland opens out and the Hakuba range stands straight behind it. Boardwalk throughout, so this is walking rather than climbing, and it reads far better in flat light than Happo Pond does, which is why it is the one to move if the weather forces a swap."
         },
         {
-          "time": "15:00",
-          "activity": "Drive to the hotel\nTsugaike Kogen -(Drive)> Hotel",
+          "time": "13:00",
+          "activity": "Lunch at Tsugaike",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "18:00",
-          "activity": "Onsen at Hakuba, then dinner at Hakuba",
+          "time": "15:00",
+          "activity": "Return to Hakuba\nTsugaike Kogen -(Drive)> Hotel",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "17:30",
+          "activity": "Onsen at Hakuba",
+          "costs": {},
+          "remarks": "Last night in the valley - worth trying whichever of the four public baths you did not use on the first evening."
+        },
+        {
+          "time": "19:00",
+          "activity": "Dinner at Hakuba",
           "costs": {},
           "remarks": null
         }
@@ -2219,5 +2273,5 @@
     "Tokyo": "https://tenki.jp/forecast/3/16/",
     "Tsumago": "https://tenki.jp/forecast/3/23/"
   },
-  "weatherUpdated": "2026-08-19"
+  "weatherUpdated": "2026-08-21"
 }
