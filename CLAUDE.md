@@ -187,8 +187,10 @@ anything without its own `match`, deliberately.
   better than a resort valley, and the drive to Hakuba happens on the Monday itself —
   against traffic that runs from the resorts back to the cities. Both Hakuba walks then
   fall on ordinary weekdays. **Transport is
-  deliberately mixed**: a hire car for the middle five days (Nagano 11 Oct to Matsumoto
-  15 Oct — same prefecture, so the one-way drop stays cheap) where the buses are sparse,
+  deliberately mixed**: a hire car for the middle four days (Nagano 11 Oct to Matsumoto
+  14 Oct — same prefecture, so the one-way drop stays cheap; Azumino is taken on the
+  drive down, so the car goes back before checking in and needs no hotel parking at all)
+  where the buses are sparse,
   and rail everywhere else, because Kamikochi bans private cars, the Magome-Tsumago walk
   is point-to-point, and the long hauls are faster by train.
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
