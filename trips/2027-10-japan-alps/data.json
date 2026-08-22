@@ -68,8 +68,8 @@
       },
       {
         "category": "Transport",
-        "perDay": 268.32,
-        "budget": 4293.06,
+        "perDay": 276.7,
+        "budget": 4427.24,
         "actual": null
       },
       {
@@ -376,8 +376,8 @@
       "weekday": "Saturday",
       "date": "2027-10-16",
       "city": "Okuhida",
-      "morning": "Check out\nTravel to Okuhida",
-      "afternoon": "Check in\nExplore Shin-Hotaka Onsen",
+      "morning": "Check out\nTravel to Hirayu Onsen",
+      "afternoon": "Lunch at Hirayu Onsen\nTravel to Shin-Hotaka Onsen\nCheck in",
       "evening": "Onsen at Okuhida\nDinner at Okuhida",
       "remarks": null,
       "temperature": [
@@ -416,8 +416,8 @@
       "weekday": "Sunday",
       "date": "2027-10-17",
       "city": "Okuhida",
-      "morning": "Explore Shinhotaka Ropeway",
-      "afternoon": "Explore Shinhotaka\nTravel to the hotel",
+      "morning": "Travel to Shinhotaka Ropeway\nRide to Nishi-Hotakaguchi",
+      "afternoon": "Walk the Nabedaira nature trail\nOnsen at Shirakabadaira",
       "evening": "Onsen at Okuhida\nDinner at Okuhida",
       "remarks": null,
       "temperature": [
@@ -1272,29 +1272,55 @@
           "basisDate": "2025-10-16"
         }
       ],
-      "summary": "Over the pass into the onsen villages, for three nights.",
+      "summary": "Over the Abo pass into Gifu, and three nights in one ryokan.",
       "items": [
         {
-          "time": "10:00",
-          "activity": "Check out and travel to Okuhida\nMatsumoto Bus Terminal -(Alpico Bus)> Hirayu Onsen -(Nohi Bus)> Shin-Hotaka Onsen",
+          "time": "09:30",
+          "activity": "Breakfast, then check out",
           "costs": {},
-          "remarks": "About 1h 25m to Hirayu, then 40 minutes on."
+          "remarks": null
         },
         {
-          "time": "13:00",
-          "activity": "Check in",
+          "time": "10:00",
+          "activity": "Travel to Hirayu Onsen\nMatsumoto Bus Terminal -(Alpico Bus)> Hirayu Onsen",
           "costs": {},
-          "remarks": "Okuhida Onsen-go is five villages — Hirayu, Shin-Hirayu, Shin-Hotaka, Fukuji and Tochio — and this plan stays put in one. The point of three nights is the ryokan's own water rather than touring the valley."
+          "remarks": "About 1h 25m, climbing over the Abo pass and out of Nagano into Gifu. Hirayu is the hub for this whole valley - every road in and out passes through it."
+        },
+        {
+          "time": "11:45",
+          "activity": "Lunch at Hirayu Onsen",
+          "costs": {},
+          "remarks": "Time it around the connection rather than rushing. Alps Kaido Hirayu at the bus terminal has a free footbath, which is a civilised way to wait."
+        },
+        {
+          "time": "12:45",
+          "activity": "Travel to Shin-Hotaka Onsen\nHirayu Onsen -(Nohi Bus)> Shin-Hotaka Onsen",
+          "costs": {
+            "transport": 1740
+          },
+          "remarks": "32 minutes, JPY 870 per person; figure shown is for two. Roughly hourly, about fifteen departures a day. This one bus threads all five Okuhida villages in order - Hirayu, Fukuji, Shin-Hirayu, Tochio, then Shin-Hotaka - so bath-hopping later is just a matter of getting on it."
+        },
+        {
+          "time": "13:30",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": "Three nights in one place, and the point of them is the ryokan's own water rather than touring the valley. Okuhida is said to have more open-air baths than anywhere else in Japan, so choose the property for its rotenburo."
         },
         {
           "time": "15:00",
           "activity": "Explore Shin-Hotaka Onsen",
           "costs": {},
-          "remarks": "There is a free footbath at the ropeway base."
+          "remarks": "A gentle first afternoon along the Kamata river. There is a free footbath at the ropeway base station, which is also worth a look now so tomorrow starts without hunting for it."
         },
         {
           "time": "17:00",
-          "activity": "Onsen at Okuhida, then dinner at Okuhida",
+          "activity": "Onsen at Okuhida",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Okuhida",
           "costs": {},
           "remarks": null
         }
@@ -1321,31 +1347,67 @@
           "basisDate": "2025-10-17"
         }
       ],
-      "summary": "Up the double-decker ropeway for the Hotaka panorama.",
+      "summary": "Up Japan's only double-decker ropeway, then back down through the trees.",
       "items": [
         {
-          "time": "09:00",
-          "activity": "Explore Shinhotaka Ropeway",
+          "time": "08:30",
+          "activity": "Breakfast",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "09:15",
+          "activity": "Travel to Shinhotaka Ropeway\nShin-Hotaka Onsen -(Nohi Bus)> Shinhotaka Ropeway",
+          "costs": {},
+          "remarks": "The last stop on the line, a few minutes further up from the village."
+        },
+        {
+          "time": "09:30",
+          "activity": "Ride to Nishi-Hotakaguchi",
           "costs": {
             "sightseeing": 7600
           },
-          "remarks": "Japan's only double-decker cable car, up to 2,156 m. JPY 3,800 per person return for both stages; figure shown is for two. Colour on the lower stages, bare rock and probably snow at the top."
+          "remarks": "Two ropeways and a short walk between them. No.1 lifts you from Shinhotaka Onsen station at 1,117 m to Nabedaira Kogen at 1,305 m; you cross to Shirakabadaira at 1,308 m and take No.2 - the double-decker, the only one in Japan - up to Nishi-Hotakaguchi at 2,156 m. About 25 minutes all in. No.1 leaves at :00 and :30 past the hour and No.2 at :15 and :45, so the connection is built in. JPY 3,800 per person return for both; figure shown is for two. Seasonal hours shift - confirm the last descent before you go up."
         },
         {
-          "time": "12:00",
-          "activity": "Explore Shinhotaka",
+          "time": "10:15",
+          "activity": "Explore Nishi-Hotakaguchi",
           "costs": {},
-          "remarks": "Short marked walks from the upper station, with the Hotaka range across the valley."
+          "remarks": "The rooftop observation deck gives a 360-degree sweep of the Northern Alps - Nishi-Hotaka, Yari and Kasagatake all from the same spot. There is a cafe and a panorama lounge inside for when the wind gets old, which it will: this is 2,156 m in the middle of October, so expect near-freezing and a real chance of early snow. The colour is on the lower stages rather than up here."
         },
         {
-          "time": "15:00",
-          "activity": "Travel to the hotel",
+          "time": "11:45",
+          "activity": "Walk the Nabedaira nature trail",
+          "costs": {},
+          "remarks": "Back down to the middle station and into the trees: a 2.3 km loop through the Nabedaira Kogen forest, flat and easy, and the part of the day that is actually autumnal rather than alpine. Guided walks run but need booking ahead."
+        },
+        {
+          "time": "13:00",
+          "activity": "Lunch at Shirakabadaira",
+          "costs": {},
+          "remarks": "The Alps Bakery at the middle station does fresh bread, and there is a gelato shop and a view lounge beside it."
+        },
+        {
+          "time": "14:00",
+          "activity": "Onsen at Shirakabadaira",
+          "costs": {},
+          "remarks": "There is an open-air bath at the middle station, and a footbath on the platform where you can sit and watch the gondolas come and go. Bathing at 1,300 m with the Hotaka range in front of you is the sort of thing this valley is for."
+        },
+        {
+          "time": "15:30",
+          "activity": "Travel to the hotel\nShinhotaka Ropeway -(Nohi Bus)> Shin-Hotaka Onsen",
           "costs": {},
           "remarks": null
         },
         {
           "time": "17:00",
-          "activity": "Onsen at Okuhida, then dinner at Okuhida",
+          "activity": "Onsen at Okuhida",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Okuhida",
           "costs": {},
           "remarks": null
         }
@@ -1372,23 +1434,49 @@
           "basisDate": "2025-10-18"
         }
       ],
-      "summary": "One waterfall, and otherwise the bath.",
+      "summary": "A slow morning, one waterfall, and the bath.",
       "items": [
         {
           "time": "09:00",
           "activity": "Free and easy",
           "costs": {},
+          "remarks": "Deliberately unplanned until the afternoon. This day is also the spare: if yesterday was clouded in at the top, the ropeway moves here and the falls drop off, exactly as Happo Pond and Tsugaike trade places in Hakuba."
+        },
+        {
+          "time": "11:30",
+          "activity": "Travel to Hirayu Onsen\nShin-Hotaka Onsen -(Nohi Bus)> Hirayu Onsen",
+          "costs": {
+            "transport": 3480
+          },
+          "remarks": "32 minutes back down the valley, JPY 870 per person each way; figure shown is the return for two."
+        },
+        {
+          "time": "12:15",
+          "activity": "Lunch at Hirayu Onsen",
+          "costs": {},
           "remarks": null
         },
         {
-          "time": "13:00",
-          "activity": "Explore Hirayu Great Falls\nHotel -(Nohi Bus)> Hirayu Onsen -(Walk - 25 mins)> Hirayu Great Falls",
+          "time": "13:30",
+          "activity": "Explore Hirayu Great Falls\nHirayu Onsen -(Bus)> Otaki-mae Campsite -(Walk - 20 mins)> Hirayu Great Falls",
           "costs": {},
-          "remarks": "64 m, one of Japan's hundred famous waterfalls, and at its best in late October. A light day rather than an empty one — skip it and stay in the bath if the day says so."
+          "remarks": "64 m of water off the flank of Norikura, one of Japan's hundred famous waterfalls, about 20 minutes on foot from the campsite stop. Late October is when it looks best - the gorge around it colours later than the tops do, so this is one of the few things on the trip that the earlier dates do not shortchange."
+        },
+        {
+          "time": "15:30",
+          "activity": "Explore Hirayu Onsen",
+          "costs": {},
+          "remarks": "Optional, and only if the legs want it: Hirayu no Mori is a large day-use bath complex a short walk from the terminal, with a spread of open-air pools. Otherwise take the bus back and use the ryokan's own."
         },
         {
           "time": "17:00",
-          "activity": "Onsen at Okuhida, then dinner at Okuhida",
+          "activity": "Onsen at Okuhida",
+          "costs": {},
+          "remarks": "Last night in the valley. If you have been meaning to try another village's water, the hourly bus makes Tochio or Fukuji an easy hour."
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Okuhida",
           "costs": {},
           "remarks": null
         }
