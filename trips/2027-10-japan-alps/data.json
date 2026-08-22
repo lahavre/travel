@@ -68,8 +68,8 @@
       },
       {
         "category": "Transport",
-        "perDay": 282.78,
-        "budget": 4524.42,
+        "perDay": 268.32,
+        "budget": 4293.06,
         "actual": null
       },
       {
@@ -80,8 +80,8 @@
       },
       {
         "category": "Sightseeing",
-        "perDay": 55.27,
-        "budget": 884.32,
+        "perDay": 60.41,
+        "budget": 966.58,
         "actual": null
       },
       {
@@ -295,10 +295,10 @@
       "day": 7,
       "weekday": "Thursday",
       "date": "2027-10-14",
-      "city": "Matsumoto",
-      "morning": "Check out\nTravel to Matsumoto",
-      "afternoon": "Check in\nExplore Matsumoto Castle",
-      "evening": "Explore Nawate-dori\nDinner at Matsumoto",
+      "city": "Azumino",
+      "morning": "Check out\nDrive to Azumino",
+      "afternoon": "Explore Daio Wasabi Farm\nDrive to Matsumoto\nReturn the hire car\nCheck in",
+      "evening": "Dinner at Matsumoto",
       "remarks": null,
       "temperature": [
         {
@@ -310,6 +310,20 @@
           "feelsMax": 17.7,
           "condition": "Rain",
           "wind": 6.0,
+          "sunrise": "05:54",
+          "sunset": "17:14",
+          "basis": "historical",
+          "basisDate": "2025-10-14"
+        },
+        {
+          "location": "Azumino",
+          "min": 12.7,
+          "max": 17.9,
+          "note": null,
+          "feelsMin": 12.4,
+          "feelsMax": 17.7,
+          "condition": "Rain",
+          "wind": 9.6,
           "sunrise": "05:54",
           "sunset": "17:14",
           "basis": "historical",
@@ -335,10 +349,10 @@
       "day": 8,
       "weekday": "Friday",
       "date": "2027-10-15",
-      "city": "Azumino",
-      "morning": "Travel to Hotaka\nExplore Daio Wasabi Farm",
-      "afternoon": "Explore Azumino\nTravel to Matsumoto",
-      "evening": "Dinner at Matsumoto",
+      "city": "Matsumoto",
+      "morning": "Explore Matsumoto Castle\nExplore the Former Kaichi School",
+      "afternoon": "Explore Nakamachi-dori\nExplore Nawate-dori",
+      "evening": "Explore Matsumoto City Museum of Art\nDinner at Matsumoto",
       "remarks": null,
       "temperature": [
         {
@@ -350,20 +364,6 @@
           "feelsMax": 23.3,
           "condition": "Rain",
           "wind": 7.1,
-          "sunrise": "05:55",
-          "sunset": "17:12",
-          "basis": "historical",
-          "basisDate": "2025-10-15"
-        },
-        {
-          "location": "Azumino",
-          "min": 12.2,
-          "max": 22.5,
-          "note": null,
-          "feelsMin": 12.4,
-          "feelsMax": 23.0,
-          "condition": "Rain",
-          "wind": 6.1,
           "sunrise": "05:55",
           "sunset": "17:12",
           "basis": "historical",
@@ -881,7 +881,7 @@
           "time": "09:00",
           "activity": "Collect the hire car at Nagano Station",
           "costs": {},
-          "remarks": "The car covers the next five days - Hakuba, Matsumoto and Azumino - and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
+          "remarks": "The car covers the next four days - Hakuba, Matsumoto and Azumino - and goes back at Matsumoto. Both are in Nagano prefecture, which is the whole point: a one-way drop inside one prefecture is free or close to it, where Nagano to Nagoya would have run to tens of thousands."
         },
         {
           "time": "09:30",
@@ -1074,7 +1074,7 @@
     {
       "day": 7,
       "date": "2027-10-14",
-      "city": "Matsumoto",
+      "city": "Azumino",
       "weekday": "Thursday",
       "temperature": [
         {
@@ -1086,6 +1086,20 @@
           "feelsMax": 17.7,
           "condition": "Rain",
           "wind": 6.0,
+          "sunrise": "05:54",
+          "sunset": "17:14",
+          "basis": "historical",
+          "basisDate": "2025-10-14"
+        },
+        {
+          "location": "Azumino",
+          "min": 12.7,
+          "max": 17.9,
+          "note": null,
+          "feelsMin": 12.4,
+          "feelsMax": 17.7,
+          "condition": "Rain",
+          "wind": 9.6,
           "sunrise": "05:54",
           "sunset": "17:14",
           "basis": "historical",
@@ -1106,44 +1120,62 @@
           "basisDate": "2025-10-14"
         }
       ],
-      "summary": "Down out of the mountains into the castle town.",
+      "summary": "Down the valley with a wasabi farm on the way, and the car goes back.",
       "items": [
         {
-          "time": "10:00",
-          "activity": "Check out and drive to Matsumoto\nHakuba Station -(Drive)> Matsumoto Station",
+          "time": "09:00",
+          "activity": "Check out and drive to Azumino\nHakuba Station -(Drive)> Daio Wasabi Farm",
           "costs": {},
-          "remarks": "About 1h 30m down the valley. Confirm the hotel has parking when booking — this is the one stop on the driving stretch where it is not a given."
+          "remarks": "About 1h 15m south down the valley. Azumino sits directly on the road from Hakuba to Matsumoto, so this is a stop on the way rather than a detour - which is the whole reason the wasabi farm sits on today rather than tomorrow. It saves a there-and-back drive, a day on the hire, and the Matsumoto parking night entirely."
         },
         {
-          "time": "12:00",
-          "activity": "Check in and leave the bags",
+          "time": "10:30",
+          "activity": "Explore Daio Wasabi Farm",
           "costs": {},
-          "remarks": "Forward the large bags on to Okuhida from here — Kamikochi is much easier with an overnight bag only, and they can go straight through."
+          "remarks": "Japan's largest wasabi farm - 15 hectares, free to enter, laid out along clear spring-fed channels with the Alps behind. Its own best season is late Sep to late Oct, so this lands well. The wasabi soft-serve is the thing people come for. Opens at 09:00; the closing time shifts with the season, so check before relying on a late finish."
         },
         {
-          "time": "14:00",
-          "activity": "Explore Matsumoto Castle",
+          "time": "12:30",
+          "activity": "Lunch at Azumino",
           "costs": {},
-          "remarks": "One of only twelve original keeps left standing, and a National Treasure. Late afternoon puts the Alps behind it."
+          "remarks": "Wasabi soba at the farm itself, or into Hotaka for something more substantial."
         },
         {
-          "time": "16:30",
-          "activity": "Explore Nawate-dori and Nakamachi-dori",
+          "time": "13:30",
+          "activity": "Explore Azumino",
           "costs": {},
-          "remarks": "Nawate is the frog street along the Metoba river; Nakamachi is the white-walled kura storehouses, now craft shops and sake merchants."
+          "remarks": "Optional, and the first thing to drop if the day runs long: the Rokuzan Art Museum is beside Hotaka station and the Chihiro Art Museum a little further out. Azumino is also 30 minutes from Matsumoto by train, so anything missed today can be picked up on a spare morning without a car."
+        },
+        {
+          "time": "15:00",
+          "activity": "Drive to Matsumoto\nDaio Wasabi Farm -(Drive)> Matsumoto Station",
+          "costs": {},
+          "remarks": "About 35 minutes. Refuel on the way in - full-to-full is the usual policy."
+        },
+        {
+          "time": "16:00",
+          "activity": "Return the hire car at Matsumoto Station",
+          "costs": {},
+          "remarks": "Four days, and a day earlier than this plan used to have it. Because the car goes back before check-in, there is no Matsumoto parking to arrange at all, and a 16:00 drop leaves real margin against the branch's closing time - the old 17:30 did not. Everything from here is walking, rail or bus: Kamikochi bans private vehicles and the Magome-Tsumago walk is point-to-point."
+        },
+        {
+          "time": "16:45",
+          "activity": "Check in",
+          "costs": {},
+          "remarks": null
         },
         {
           "time": "18:30",
           "activity": "Dinner at Matsumoto",
           "costs": {},
-          "remarks": "Local to the city rather than generic: sanzoku-yaki (a whole garlic-soy chicken thigh, fried), basashi, and Shinshu soba — this is one of Japan's best buckwheat regions and the new crop lands in autumn."
+          "remarks": "Local to the city rather than generic: sanzoku-yaki (a whole garlic-soy chicken thigh, fried), basashi, and Shinshu soba - this is one of Japan's best buckwheat regions and the new crop lands in autumn."
         }
       ]
     },
     {
       "day": 8,
       "date": "2027-10-15",
-      "city": "Azumino",
+      "city": "Matsumoto",
       "weekday": "Friday",
       "temperature": [
         {
@@ -1159,59 +1191,49 @@
           "sunset": "17:12",
           "basis": "historical",
           "basisDate": "2025-10-15"
-        },
-        {
-          "location": "Azumino",
-          "min": 12.2,
-          "max": 22.5,
-          "note": null,
-          "feelsMin": 12.4,
-          "feelsMax": 23.0,
-          "condition": "Rain",
-          "wind": 6.1,
-          "sunrise": "05:55",
-          "sunset": "17:12",
-          "basis": "historical",
-          "basisDate": "2025-10-15"
         }
       ],
-      "summary": "Spring water, wasabi fields and the Alps at a distance.",
+      "summary": "A whole day in the castle town, all of it on foot.",
       "items": [
         {
-          "time": "09:00",
-          "activity": "Drive to Azumino\nHotel -(Drive)> Daio Wasabi Farm",
-          "costs": {},
-          "remarks": "About 30 minutes, and the day the car earns most of its keep: Azumino is spread out and its loop bus runs on selected days only, so the alternative is a train to Hotaka plus a bus that may not be running."
+          "time": "09:30",
+          "activity": "Explore Matsumoto Castle",
+          "costs": {
+            "sightseeing": 2400
+          },
+          "remarks": "One of only twelve original keeps left standing in Japan, and a National Treasure. JPY 1,200 per person; figure shown is for two. Open 08:30-17:00 with last admission at 16:30. The keep is climbed by stairs only and they are narrow and steep - go up early, before the queue on them builds."
         },
         {
-          "time": "09:45",
-          "activity": "Explore Daio Wasabi Farm",
-          "costs": {},
-          "remarks": "Japan's largest wasabi farm and free to enter. Clear water channels, wasabi soft-serve, and autumn leaves along the streams. Azumino's own best season is late Sep to late Oct, so this lands well."
+          "time": "11:30",
+          "activity": "Explore the Former Kaichi School",
+          "costs": {
+            "sightseeing": 800
+          },
+          "remarks": "A few minutes' walk from the castle and worth pairing with it: an 1876 schoolhouse in the Japanese-Western hybrid style of the period, a National Treasure in its own right, reopened in Nov 2024 after three and a half years of earthquake-proofing. JPY 400 per person, 09:00-17:00, last entry 16:30. Combined tickets with the castle exist and save JPY 200-400 - ask at whichever you reach first."
         },
         {
-          "time": "13:00",
-          "activity": "Explore Azumino",
+          "time": "12:30",
+          "activity": "Lunch at Matsumoto",
           "costs": {},
-          "remarks": "Rokuzan Art Museum is beside Hotaka station. Or hire bicycles at the station and follow the water — the local way to do it."
+          "remarks": null
+        },
+        {
+          "time": "14:00",
+          "activity": "Explore Nakamachi-dori",
+          "costs": {},
+          "remarks": "White-walled kura storehouses with black lattice, now craft shops, cafes and sake merchants. Nawate-dori - the frog street along the Metoba river, with nostalgic toy and snack stalls - runs parallel a block north, so the two are one walk."
         },
         {
           "time": "16:00",
-          "activity": "Drive back to Matsumoto\nDaio Wasabi Farm -(Drive)> Matsumoto Station",
+          "activity": "Explore Matsumoto City Museum of Art",
           "costs": {},
-          "remarks": "Refuel on the way in — full-to-full is the usual policy and the pumps by the station are the last convenient ones."
-        },
-        {
-          "time": "17:00",
-          "activity": "Return the hire car at Matsumoto Station",
-          "costs": {},
-          "remarks": "The hire ends tonight rather than tomorrow morning, which is why Azumino is the last driving day: nothing after this needs a car — Kamikochi bans them, the Nakasendo walk is point-to-point, and tomorrow is a bus from a terminal you can walk to. Dropping it this evening saves a day on the hire and a second night of hotel parking. Confirm the branch's closing time when booking: station-front offices usually shut between 18:00 and 20:00, and this plan gets you back about 17:00."
+          "remarks": "Yayoi Kusama is from Matsumoto and the museum holds her work, with the dotted pieces outside. This is also the wet-weather anchor for today, though the whole day is town and holds up in rain."
         },
         {
           "time": "18:30",
           "activity": "Dinner at Matsumoto",
           "costs": {},
-          "remarks": "Wet-weather swap for today: the Matsumoto City Museum of Art for the Yayoi Kusama rooms — she is from Matsumoto — and the Former Kaichi School, an 1876 schoolhouse and also a National Treasure."
+          "remarks": null
         }
       ]
     },
@@ -1943,7 +1965,7 @@
     }
   ],
   "transport": {
-    "mode": "Mixed on purpose. A hire car for the middle five days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. Rail and bus for everything else, because a car cannot help there: Kamikochi bans private vehicles, the Magome-Tsumago walk is point-to-point, and the long hauls at either end are faster by train.",
+    "mode": "Mixed on purpose. A hire car for the middle four days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. Rail and bus for everything else, because a car cannot help there: Kamikochi bans private vehicles, the Magome-Tsumago walk is point-to-point, and the long hauls at either end are faster by train.",
     "carRental": [
       {
         "company": null,
@@ -1964,8 +1986,8 @@
           "place": "Matsumoto Station",
           "address": null,
           "phone": null,
-          "date": "2027-10-15",
-          "time": "17:30"
+          "date": "2027-10-14",
+          "time": "16:00"
         },
         "costs": {
           "rental": null,
@@ -2003,14 +2025,7 @@
       {
         "day": 7,
         "date": "2027-10-14",
-        "route": "Hakuba to Matsumoto",
-        "km": null,
-        "refuel": false
-      },
-      {
-        "day": 8,
-        "date": "2027-10-15",
-        "route": "Matsumoto — Azumino, then back to return the car",
+        "route": "Hakuba to Azumino to Matsumoto, then return the car",
         "km": null,
         "refuel": true
       }
@@ -2107,19 +2122,11 @@
       "url": "https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green"
     },
     {
-      "task": "Book the hire car, Nagano 11 Oct to Matsumoto 15 Oct",
+      "task": "Book the hire car, Nagano 11 Oct to Matsumoto 14 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Five days, collected at Nagano Station and dropped at Matsumoto Station — same prefecture, so the one-way fee should be nil or near it; confirm that when booking rather than assuming. Returning on the evening of the 15th rather than the morning of the 16th saves a hire day and a night of parking, so check the branch is still open around 17:30. Ask two more things at the desk: whether winter tyres are fitted by mid-October, since the Hakuba and Azumino roads run high, and whether an ETC card comes with it for the tolls.",
-      "url": null
-    },
-    {
-      "task": "Confirm parking at the Matsumoto hotel",
-      "category": "Booking",
-      "subcategory": "Accommodation",
-      "status": "Open",
-      "remarks": "One night only, the 14th — the car goes back on the evening of the 15th. Still the one stop on the driving stretch where parking is not a given; Hakuba properties almost always have it.",
+      "remarks": "Four days, collected at Nagano Station and dropped at Matsumoto Station — same prefecture, so the one-way fee should be nil or near it; confirm that when booking rather than assuming. Azumino is visited on the drive down, so the car goes back at 16:00 on the 14th, before checking in at Matsumoto - no hotel parking needed there at all. Ask two more things at the desk: whether winter tyres are fitted by mid-October, since the Hakuba and Azumino roads run high, and whether an ETC card comes with it for the tolls.",
       "url": null
     },
     {
@@ -2273,5 +2280,5 @@
     "Tokyo": "https://tenki.jp/forecast/3/16/",
     "Tsumago": "https://tenki.jp/forecast/3/23/"
   },
-  "weatherUpdated": "2026-08-21"
+  "weatherUpdated": "2026-08-22"
 }
