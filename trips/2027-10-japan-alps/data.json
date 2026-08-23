@@ -9,7 +9,7 @@
     "CMC",
     "Traveller 2"
   ],
-  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, opening with a night at Nagano for Zenkoji and closing with one in Tokyo. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes Hakuba at its best and accepts the Kiso valley before its peak and Kamikochi in maples rather than golden larch. Happo Pond decided it: reported at peak on 11 Oct in both 2024 and 2025, and it gets four nights and two headline walks here. The cost is Sports Day on 11 Oct, which the trip is arranged around rather than against: the holiday weekend is spent in Nagano, a city, and the drive over to Hakuba happens on the Monday itself, against the traffic heading home. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
+  "notes": "Fifteen nights, sequenced north to south and high to low so it follows the autumn colour down the mountain rather than fighting it, opening with a night at Nagano for Zenkoji and closing with one in Tokyo. The dates are a deliberate trade: Hakuba's alpine colour peaks late September, the Nakasendo's peaks late October, and five weeks apart they cannot both be caught in one trip — so this window takes Hakuba at its best and accepts the Kiso valley before its peak and Kamikochi in maples rather than golden larch. Happo Pond decided it: reported at peak on 11 Oct in both 2024 and 2025, and it gets three nights and two headline walks here. The cost is Sports Day on 11 Oct, which the trip is arranged around rather than against: the holiday weekend is spent in Nagano, a city, and the drive over to Hakuba happens on the Monday itself, against the traffic heading home. Nothing is booked yet. Every remark on this page comes from the file and is replaced whenever the plan changes; the private notes behind sign-in are yours and are never written to from here.",
   "homeCurrency": "MYR",
   "tripCurrency": "JPY",
   "exchangeRate": {
@@ -468,8 +468,8 @@
       "weekday": "Tuesday",
       "date": "2027-10-19",
       "city": "Kamikochi",
-      "morning": "Check out\nTravel to Kamikochi",
-      "afternoon": "Check in\nExplore Taisho Pond\nExplore Kappa Bridge",
+      "morning": "Check out\nTravel to Hirayu Onsen\nExplore Taisho Pond",
+      "afternoon": "Walk in to Kappa Bridge\nCheck in\nExplore Kappa Bridge",
       "evening": "Explore Kamikochi at dusk\nDinner at Kamikochi",
       "remarks": null,
       "temperature": [
@@ -500,9 +500,9 @@
       "weekday": "Wednesday",
       "date": "2027-10-20",
       "city": "Kiso Valley",
-      "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond",
-      "afternoon": "Check out\nTravel to Tsumago",
-      "evening": "Check in\nDinner at Tsumago",
+      "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond\nCheck out",
+      "afternoon": "Travel to Matsumoto\nTravel to Tsumago",
+      "evening": "Check in at Tsumago\nDinner at Tsumago",
       "remarks": null,
       "temperature": [
         {
@@ -547,8 +547,8 @@
       "date": "2027-10-21",
       "city": "Kiso Valley",
       "morning": "Travel to Magome\nExplore Magome-juku",
-      "afternoon": "Hike the Nakasendo to Tsumago",
-      "evening": "Explore Tsumago\nDinner at Tsumago",
+      "afternoon": "Hike the Nakasendo to Tsumago\nExplore Tsumago",
+      "evening": "Explore Tsumago after the buses\nDinner at Tsumago",
       "remarks": null,
       "temperature": [
         {
@@ -1509,40 +1509,74 @@
           "note": null
         }
       ],
-      "summary": "One night inside the valley, as the larch starts to turn.",
+      "summary": "Over into the valley by bus, and walked in from Taisho Pond.",
       "items": [
         {
-          "time": "09:30",
-          "activity": "Check out and travel to Kamikochi\nShin-Hotaka Onsen -(Nohi Bus)> Hirayu Onsen -(Nohi Bus)> Kamikochi Bus Terminal",
+          "time": "08:00",
+          "activity": "Breakfast, then check out",
           "costs": {},
-          "remarks": "About an hour, changing at Hirayu. Private cars are banned in the valley; bus or taxi only."
+          "remarks": "Send the cases ahead to the Tsumago minshuku from the ryokan desk. Kamikochi is one night, the walk in from Taisho Pond is 3.7 km on foot, and there are no coin lockers anywhere in the valley — so what goes over the pass today should be an overnight bag and nothing more."
+        },
+        {
+          "time": "09:30",
+          "activity": "Travel to Hirayu Onsen\nShin-Hotaka Onsen -(Nohi Bus)> Hirayu Onsen",
+          "costs": {
+            "transport": 1740
+          },
+          "remarks": "32 minutes back down the valley, JPY 870 per person; figure shown is for two. Roughly hourly, so this is the departure the morning is built around."
+        },
+        {
+          "time": "10:30",
+          "activity": "Travel to Kamikochi\nHirayu Onsen -(Nohi Bus)> Taisho Pond",
+          "costs": {
+            "transport": 3000
+          },
+          "remarks": "About 25 minutes through the Abo tunnel, JPY 1,500 per person through to Kamikochi; figure shown is for two. The shuttle runs roughly every 30 minutes and cannot be reserved or bought in advance — pay at the Hirayu counter on the day and join the queue. It runs 17 Apr to 15 Nov only; the valley shuts for the winter on the 16th. Private cars are banned past Nakanoyu, so it is this bus or a taxi. Get off one stop early, at Taisho Pond, rather than riding on to the terminal: the walk in from there finishes at the hotel instead of doubling back to it."
         },
         {
           "time": "11:00",
-          "activity": "Check in and leave the bags",
+          "activity": "Explore Taisho Pond",
           "costs": {},
-          "remarks": null
+          "remarks": "Dead trees standing in still water under Yakedake, which made the pond in 1915 by damming the Azusa when it erupted. The volcano still steams, and on a calm morning the whole range doubles in the surface. The far end of the valley and the quietest of its three set pieces."
         },
         {
-          "time": "12:00",
-          "activity": "Explore Taisho Pond\nKamikochi Bus Terminal -(Walk - 45 mins)> Taisho Pond",
+          "time": "11:45",
+          "activity": "Walk in to Kappa Bridge\nTaisho Pond -(Walk - 75 mins)> Kappa Bridge",
           "costs": {},
-          "remarks": "Flat riverside path along the Azusa."
+          "remarks": "3.7 km of flat boardwalk and gravel along the river, 75 minutes without stopping and a good deal more with. It passes the Tashiro marsh and Tashiro Pond, then the Weston monument — the plaque to the English missionary who talked Japan into climbing these mountains for pleasure. Mobile signal is patchy and exists only around the terminal, Kappa Bridge, the visitor centre, the Weston relief, Tashiro Pond and Taisho Pond."
+        },
+        {
+          "time": "13:15",
+          "activity": "Lunch at Kamikochi",
+          "costs": {},
+          "remarks": "The bus terminal and the hotels around Kappa Bridge are the only places to eat, and there is no convenience store and no ATM in the valley at all. Cards are usually taken but carry cash — the Myojin gate tomorrow is coins only, and so is the Nagiso bus on the way out."
+        },
+        {
+          "time": "14:15",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": "Fewer than ten properties in the whole valley, and most serve half board because there is nowhere else to eat once the day-trippers have gone. Cancellation typically runs about 30 per cent from three days out and 50 per cent on the day, so this is a booking to be sure of before making."
         },
         {
           "time": "15:00",
+          "activity": "Explore Kamikochi Visitor Center",
+          "costs": {},
+          "remarks": "Free, open until 17:00, a few minutes upstream of Kappa Bridge on the right bank. Exhibits on how the valley was made and what lives in it, and the place to ask what the Myojin path is actually doing before walking it tomorrow."
+        },
+        {
+          "time": "16:00",
           "activity": "Explore Kappa Bridge",
           "costs": {},
-          "remarks": "On these dates the valley is in maples rather than larch: the maple peak is around 17 Oct, so today is two days past it and still good, while the larch does not turn golden until 25 Oct to 5 Nov and will barely have started. That is the trade the earlier window makes — red rather than gold — and it is real rather than a technicality. The densest larch stands, for reference, are around the bus terminal and Konashidaira."
+          "remarks": "On these dates the valley is in maples rather than larch: the maple peak is around 17 Oct, so today is two days past it and still good, while the larch does not turn gold until 25 Oct to 5 Nov and will barely have started. That is the trade the earlier window makes — red rather than gold — and it is real rather than a technicality. The densest larch stands, for reference, are around the bus terminal and Konashidaira."
         },
         {
-          "time": "17:00",
+          "time": "16:45",
           "activity": "Explore Kamikochi at dusk",
           "costs": {},
-          "remarks": "The day-trippers leave on the last buses and the valley empties — this is the whole reason to sleep here."
+          "remarks": "The last buses out are late afternoon and the valley empties behind them — this is the whole reason to sleep here. Sunset is about 17:10, but the walls are high and the floor loses the light well before that."
         },
         {
-          "time": "18:30",
+          "time": "18:00",
           "activity": "Dinner at Kamikochi",
           "costs": {},
           "remarks": null
@@ -1590,29 +1624,59 @@
           "basisDate": "2025-10-20"
         }
       ],
-      "summary": "Dawn on the Azusa, then out to the old road.",
+      "summary": "Dawn on the Azusa, a loop to Myojin, then the long way down to the Kiso.",
       "items": [
         {
-          "time": "06:00",
+          "time": "05:45",
           "activity": "Explore Kamikochi at dawn",
           "costs": {},
-          "remarks": "Mist on Taisho Pond and first light on the Hotaka range — the morning the night here was for."
+          "remarks": "Sunrise is around 06:00 and the floor of the valley stays in shadow long after the Hotaka range above it has gone pink — that gap is the picture, and it is the morning the night here was for. Kappa Bridge looks straight at it; Taisho Pond adds the mist. Dress for it: this is about 1,500 m in the middle of October and the morning bears no relation to yesterday afternoon."
         },
         {
-          "time": "07:30",
+          "time": "07:00",
+          "activity": "Breakfast, then check out",
+          "costs": {},
+          "remarks": "Check-out is usually 10:00, so it happens before the walk rather than after it. The bus terminal's baggage room takes bags from 06:00 to 17:00 for JPY 350 to 600 a piece; there are no coin lockers in the valley."
+        },
+        {
+          "time": "08:00",
           "activity": "Hike to Myojin Pond\nKappa Bridge -(Hike - 60 mins)> Myojin Pond",
-          "costs": {},
-          "remarks": "Flat both ways, about 3 hours return with stops."
+          "costs": {
+            "sightseeing": 1000
+          },
+          "remarks": "5.5 km there and back and about two hours' walking by the official figure, flat the whole way — call it three with stops. Go up one bank and back the other: the right bank is the wide main path, the left is quieter and runs through the nature-research forest. The pond is inside the grounds of Hotaka Shrine's inner shrine and is not free — JPY 500 per person, cash only, figure shown is for two. The Kamikochi tourist site still lists 300, so carry coins for either. Kamonji-goya beside it has been grilling char over an open hearth for a century."
         },
         {
-          "time": "12:00",
-          "activity": "Check out and travel to Tsumago\nKamikochi Bus Terminal -(Alpico Bus)> Shin-Shimashima Station -(Alpico Kamikochi Line)> Matsumoto Station -(JR Shinano Limited Express)> Nagiso Station -(Bus)> Tsumago",
+          "time": "11:30",
+          "activity": "Lunch at Kamikochi",
           "costs": {},
-          "remarks": "About 3 hours all in — a long travel afternoon, down from 1,500 m to about 400 m, where the colour is only now arriving."
+          "remarks": "The last food until Matsumoto."
         },
         {
-          "time": "17:00",
-          "activity": "Check in, then dinner at Tsumago",
+          "time": "12:30",
+          "activity": "Travel to Matsumoto\nKamikochi Bus Terminal -(Alpico Bus)> Shin-Shimashima Station -(Alpico Kamikochi Line)> Matsumoto Station",
+          "costs": {
+            "transport": 7620
+          },
+          "remarks": "About an hour on the bus, out through the Kama tunnel and past Sawando, then 30 minutes on the train. JPY 3,100 per person for the bus and JPY 710 for the train; figure shown is for two. Since 2025 every seat out of Kamikochi is reserved — book it a month ahead on japanbusonline. Same-day tickets are sold at the terminal, but the bus can be full and there is no other road out."
+        },
+        {
+          "time": "14:30",
+          "activity": "Travel to Tsumago\nMatsumoto Station -(JR Shinano Limited Express)> Nagiso Station -(Bus)> Tsumago",
+          "costs": {
+            "transport": 7460
+          },
+          "remarks": "About 1h 05m down the Kiso valley, then a 7-minute bus, JPY 300 per person paid in coins on the way off. The catch is Nagiso: only some Shinano stop there and most run straight past, so the afternoon is built around that one train rather than around the hour. The fallback is to ride to Kiso-Fukushima or Nakatsugawa and come back a stop or two on a local; a taxi from Nagiso is about JPY 2,000 if the bus has finished. Reserved seats run about JPY 3,130 to 3,430 per person depending on the season and the higher figure is used here; figure shown is for two, plus the bus."
+        },
+        {
+          "time": "16:30",
+          "activity": "Check in at Tsumago",
+          "costs": {},
+          "remarks": "Down from 1,500 m to about 400 m in a single afternoon, into a valley whose colour is only now arriving. The minshuku here are family houses with a handful of rooms each; most serve dinner and it has to be asked for when booking, because almost nothing in Tsumago is open after dark."
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Tsumago",
           "costs": {},
           "remarks": null
         }
@@ -1639,31 +1703,53 @@
           "basisDate": "2025-10-21"
         }
       ],
-      "summary": "Eight kilometres of the old Nakasendo, at peak colour.",
+      "summary": "Eight kilometres of the old Nakasendo, downhill from Magome.",
       "items": [
         {
-          "time": "08:30",
-          "activity": "Travel to Magome\nTsumago -(Bus)> Magome",
+          "time": "08:00",
+          "activity": "Breakfast",
           "costs": {},
-          "remarks": "Send the day bags ahead on the Magome-Tsumago forwarding service, which runs in season."
+          "remarks": null
         },
         {
-          "time": "09:30",
+          "time": "08:30",
+          "activity": "Travel to Magome\nTsumago -(Ontake Kotsu Bus)> Magome",
+          "costs": {
+            "transport": 2000
+          },
+          "remarks": "About 25 minutes by road, JPY 1,000 per person; figure shown is for two. Only four departures a day, so the morning bus fixes the shape of the day and should be checked before anything else is fixed around it. No reservations; pay in cash on the way off. Some services stop at Jinba near the top of the pass and some at Magome at the foot of the village — take the one to Magome, so the village is walked up through before the trail is joined. Nothing needs forwarding today: both nights are in the same house, so this is a day pack."
+        },
+        {
+          "time": "09:00",
           "activity": "Explore Magome-juku",
           "costs": {},
-          "remarks": "Sloping stone street with the Kiso valley below it."
+          "remarks": "A steep stone-paved street rebuilt after fires in 1895 and 1915 — a reconstruction where Tsumago is a preservation, and it still works. Water wheels, a lookout at the top of the slope over the ranges and Mt Ena, and Shimazaki Toson's family home, now the Toson Memorial Museum (JPY 500 per person, 09:00 to 17:00), if there is the appetite for an hour indoors before walking. Magome is in Gifu; the walk crosses back into Nagano at the pass."
         },
         {
           "time": "10:30",
           "activity": "Hike the Nakasendo to Tsumago\nMagome -(Hike - 3 hours)> Tsumago",
           "costs": {},
-          "remarks": "About 8 km over the Magome pass, 2-3 hours, cedar forest and waterfalls. The classic stretch of the whole route, walked downhill from Magome on purpose — the same eight kilometres uphill is a different day out. This is the day the earlier window costs something: the Kiso valley peaks late Oct into early Nov, so the 21st catches the colour arriving rather than at its best. Good walking either way, and the cedars and the stone paving do not depend on the date."
+          "remarks": "About 8 km, two to three hours at a leisurely pace, signposted in English the whole way. Walked from Magome on purpose: the pass tops out at 801 m and Magome already sits high on its slope, so this direction is most of the climb done in the first half hour and then a long descent through cedar — the same eight kilometres the other way is a different day out. The bells on posts along the trail are bear bells and are there to be rung. Halfway is the Tateba teahouse, an old farmhouse with an open hearth where volunteers pour tea for nothing, and a 250 m detour reaches the Odaki and Medaki falls, the male and female pair. This is the day the earlier window costs something: the Kiso valley colours late October into early November, so the 21st catches it arriving rather than at its best. The cedars, the stone paving and the teahouse do not depend on the date."
         },
         {
-          "time": "14:00",
-          "activity": "Explore Tsumago",
+          "time": "13:30",
+          "activity": "Lunch at Tsumago",
           "costs": {},
-          "remarks": "Preserved with no visible wiring or aerials — best after the day visitors leave."
+          "remarks": null
+        },
+        {
+          "time": "14:30",
+          "activity": "Explore Tsumago",
+          "costs": {
+            "sightseeing": 1400
+          },
+          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month — the 21st is the third, so it is open. Figure shown is for two."
+        },
+        {
+          "time": "16:00",
+          "activity": "Explore Tsumago after the buses",
+          "costs": {},
+          "remarks": "The day visitors leave around five and the street goes quiet and unlit except for the lanterns. Seeing that is the only argument for sleeping here rather than passing through, and it is a good one."
         },
         {
           "time": "18:00",
@@ -2126,7 +2212,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Do this first. Fewer than ten properties in the valley and the larch week sells out months ahead. Half board is the norm — there is nowhere else to eat after dark.",
+      "remarks": "Do this first. Fewer than ten properties in the valley and the colour weeks sell out months ahead. Half board is the norm — there is nowhere else to eat after dark. Cancellation typically runs about 30 per cent from three days out and 50 per cent on the day, so be sure before booking.",
       "url": null
     },
     {
@@ -2134,7 +2220,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Second priority. Late October is the busiest stretch of the year on the Nakasendo and the houses have few rooms each. Book direct or through the Tsumago tourist office.",
+      "remarks": "Second priority. Late October is the busiest stretch of the year on the Nakasendo and the houses have few rooms each. Book direct or through the Tsumago tourist office. Two things to ask while doing it: that dinner is included on both nights, since the village closes after dark, and that they will take a takkyubin delivery arriving ahead of you from Okuhida.",
       "url": null
     },
     {
@@ -2218,6 +2304,22 @@
       "url": null
     },
     {
+      "task": "Pick a Shinano that stops at Nagiso, 20 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Most Limited Express Shinano run straight past Nagiso and only some stop. That one train sets the whole afternoon, so choose it first and work the Kamikochi bus backwards from it. Reserved seats from Matsumoto are about JPY 3,130 to 3,430 per person depending on the season. If nothing suitable stops, ride to Kiso-Fukushima or Nakatsugawa and come back a stop or two on a local.",
+      "url": null
+    },
+    {
+      "task": "Check the Tsumago to Magome bus timetable, 21 Oct",
+      "category": "Booking",
+      "subcategory": "Transport",
+      "status": "Open",
+      "remarks": "Four departures a day, JPY 1,000 per person, about 25 minutes, no reservations, cash on the way off. Take one to the Magome stop at the foot of the village rather than Jinba near the top of the pass. Like the Togakushi bus, this is a timetable the day has to be built around rather than fitted into.",
+      "url": null
+    },
+    {
       "task": "Reserve JR Shinano and Tokaido seats, Nagiso to Tokyo, 22 Oct",
       "category": "Booking",
       "subcategory": "Transport",
@@ -2242,19 +2344,19 @@
       "url": null
     },
     {
-      "task": "Check the last bus out of Kamikochi, 20 Oct",
+      "task": "Reserve the bus out of Kamikochi, 20 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "The valley has no through road and the day ends early by late October.",
-      "url": null
+      "remarks": "Since 2025 every seat between Kamikochi and Shin-Shimashima or Matsumoto is reserved, both directions. Booking opens a month ahead on japanbusonline, so around 20 Sep 2027. JPY 3,100 per person to Shin-Shimashima, then JPY 710 on the train to Matsumoto. Same-day tickets are sold at the terminal but the bus can be full and the valley has no second road out. The bus in from Hirayu on the 19th is the opposite case: Nohi's shuttle cannot be reserved at all, JPY 1,500 per person, bought on the day.",
+      "url": "https://visit-nagano.alpico.co.jp/timetable/kamikochi-matsumoto"
     },
     {
-      "task": "Arrange baggage forwarding, Matsumoto to Okuhida",
+      "task": "Arrange baggage forwarding, Okuhida to Tsumago",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "So Kamikochi only needs an overnight bag. Also book the Magome-Tsumago day-bag service for 21 Oct.",
+      "remarks": "So Kamikochi is an overnight bag rather than the whole trip's luggage — it matters, because the plan walks 3.7 km in from Taisho Pond and there are no coin lockers anywhere in the valley. Ask the ryokan to send the cases by takkyubin on the morning of the 19th, allow two days out of a mountain valley, and check when booking that the Tsumago minshuku will accept a delivery; a family house is not a hotel front desk. The Magome-Tsumago day-bag service is not needed — both Kiso nights are in the same house, so the walk on the 21st is a day pack.",
       "url": null
     },
     {
