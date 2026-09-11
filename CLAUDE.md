@@ -175,8 +175,8 @@ anything without its own `match`, deliberately.
   handled** — 8-23 Oct 2027, two travellers, nothing booked. Planned across several
   rounds of the traveller's own review, so the shape reflects their decisions, not a
   first draft: two nights at Nagano for Zenkoji and Togakushi, three at Hakuba, Matsumoto
-  with Azumino, Okuhida, one night in Kamikochi, the Kiso valley, a last night at
-  Shinagawa. The dates
+  with Azumino, two at Okuhida, one night in Kamikochi, the Kiso valley, two last nights
+  at Shinagawa. The dates
   are a knowing trade the traveller made against advice, on evidence they found: Hakuba's
   alpine colour peaks late September and the Nakasendo's late October, five weeks apart,
   so no single trip catches both. Happo Pond was reported at peak on 11 Oct in both 2024
