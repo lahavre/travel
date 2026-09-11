@@ -156,6 +156,14 @@ each place to its `PLACES` table first. Open-Meteo only forecasts about 16 days,
 a trip planned further out has no weather until closer to departure — re-run it then.
 `tools/` also holds the page scaffolder and the Japan workbook migration.
 
+**Re-run it after any reshuffle too, not just as departure nears.** Temperature entries
+are keyed by place *and* date, so moving a day's content to a different date leaves the
+wrong figures behind. Set each day's `temperature` to bare `{"location": …}` stubs for
+the places that day now touches and let the tool fill them. Note that `days[]` and
+`overview[]` each hold **their own** list for the same dates and the two pages read
+different ones — the tool fills both, but a hand edit that touches only `days[]` leaves
+the overview silently showing yesterday's places.
+
 Commit locally as work completes. **Push only when explicitly asked.** Commits use
 this repo's own git identity (`lahavre` / the GitHub noreply address) — the account
 blocks pushes carrying a private email.
@@ -173,26 +181,47 @@ anything without its own `match`, deliberately.
   Activities, To-do. `tools/new_trip_pages.py` scaffolds all eight.
 - **Japan 2027 (`trips/2027-10-japan-alps`) is the first real trip the planner has
   handled** — 8-23 Oct 2027, two travellers, nothing booked. Planned across several
-  rounds of the traveller's own review, so the shape reflects their decisions, not a
-  first draft: two nights at Nagano for Zenkoji and Togakushi, three at Hakuba, Matsumoto
-  with Azumino, two at Okuhida, one night in Kamikochi, the Kiso valley, two last nights
-  at Shinagawa. The dates
-  are a knowing trade the traveller made against advice, on evidence they found: Hakuba's
-  alpine colour peaks late September and the Nakasendo's late October, five weeks apart,
-  so no single trip catches both. Happo Pond was reported at peak on 11 Oct in both 2024
-  and 2025, and it has three nights and two headline walks, so the window follows it —
-  accepting the Kiso valley before its peak and Kamikochi in maples rather than larch.
-  **Sports Day falls on Mon 11 Oct**, and the trip is arranged around it rather than
-  against: the long weekend is spent in Nagano, a city, which absorbs a holiday far
-  better than a resort valley, and the drive to Hakuba happens on the Monday itself —
-  against traffic that runs from the resorts back to the cities. Both Hakuba walks then
-  fall on ordinary weekdays. **Transport is
-  deliberately mixed**: a hire car for the middle four days (Nagano 11 Oct to Matsumoto
-  14 Oct — same prefecture, so the one-way drop stays cheap; Azumino is taken on the
-  drive down, so the car goes back before checking in and needs no hotel parking at all)
-  where the buses are sparse,
-  and rail everywhere else, because Kamikochi bans private cars, the Magome-Tsumago walk
-  is point-to-point, and the long hauls are faster by train.
+  rounds of the traveller's own review, so the shape reflects their decisions rather than
+  a first draft. `data.json` is authoritative and this summary will age; what follows is
+  the reasoning, which the file cannot carry.
+  - **Shape**: Tokyo 1 → Nagano 2 (Zenkoji, Togakushi) → Hakuba 3 → Matsumoto 2 (with
+    Azumino) → Okuhida 2 → Kamikochi 1 → Tsumago 2 → Tokyo/Shinagawa 2. Fifteen nights,
+    sequenced north to south and high to low, following the colour down the mountain.
+  - **The dates are a knowing trade the traveller made against advice**, on evidence they
+    found: Hakuba's alpine colour peaks late September and the Nakasendo's late October,
+    five weeks apart, so no single trip catches both. Happo Pond was reported at peak on
+    11 Oct in both 2024 and 2025, and it has three nights and two headline walks, so the
+    window follows it — accepting the Kiso valley before its peak and Kamikochi in maples
+    rather than larch. **Do not re-propose the later window without new evidence**; it was
+    argued through twice.
+  - **Sports Day falls on Mon 11 Oct**, and the trip is arranged around it rather than
+    against: the long weekend is spent in Nagano, a city, which absorbs a holiday far
+    better than a resort valley, and the drive to Hakuba happens on the Monday itself —
+    against traffic that runs from the resorts back to the cities. Both Hakuba walks then
+    fall on ordinary weekdays.
+  - **Transport is deliberately mixed**: a hire car for the middle four days (Nagano
+    11 Oct to Matsumoto 14 Oct — same prefecture, so the one-way drop stays cheap; Azumino
+    is taken on the drive down, so the car goes back before checking in and needs no hotel
+    parking at all) where the buses are sparse, and rail everywhere else, because Kamikochi
+    bans private cars, the Magome-Tsumago walk is point-to-point, and the long hauls are
+    faster by train.
+  - **Okuhida was cut from three nights to two on 11 Sep 2026**, at the traveller's call —
+    the arrival half-day and the ropeway day do everything the valley was there for.
+    Everything after it moved a day earlier and the freed night went to Tokyo. Two
+    consequences worth keeping: Hirayu Great Falls now happens *during the bus change* on
+    the arrival day, with the cases in the terminal's coin lockers, which is what makes two
+    nights work; and **the Shinhotaka ropeway no longer has a weather spare** — the only
+    card left is swapping it with the falls on the arrival afternoon, and the day says so.
+  - **Both Tokyo days (22-23 Oct) are deliberately open**, at the traveller's request, and
+    marked as open rather than filled. They have already seen **Shinjuku, Shibuya, Ueno and
+    Asakusa**; Shibuya and Asakusa were removed from the last day for that reason, so do not
+    put them back. Ginza is spoken for on the 21st and Tokyo Station on the 23rd afternoon,
+    and the hotel is at the Shinagawa end. The constraints are recorded in the trip's own
+    to-do as well.
+  - **Every day now carries operator-sourced mechanics** — fares, frequencies, altitudes,
+    opening hours — taken from the operators' own pages rather than a general impression.
+    When a figure could not be confirmed it is said so in the remark; the one soft number
+    is the Matsumoto-Nagiso Shinano fare (JPY 3,130-3,430 pp reserved, the higher used).
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
   **design fixture** — its `publicTransport` holds Croatia legs and its `activities`
   hold 2019 vouchers, deliberately, to exercise the renderers. Its data being
