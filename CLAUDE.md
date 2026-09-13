@@ -192,8 +192,15 @@ anything without its own `match`, deliberately.
     traveller's call): they want restaurants in the evening rather than depending on a
     minshuku's dinner. It also happens to be easier — every Shinano stops there, where
     most run past Nagiso, and eleven weekday buses go to Magome against Tsumago's four.
-    The walk is unchanged, Magome to Tsumago; the day ends with a bus to Nagiso and a
-    local train back. What it costs is Tsumago after dark, and the day says so.
+    What it costs is Tsumago after dark, and the day says so.
+  - **The Nakasendo is walked Tsumago to Magome, uphill, on purpose** (changed 13 Sep
+    2026, the traveller's call). Once the base moved, walking the classic downhill way
+    ended the day on a Tsumago bus and a Nagiso train with hour-long gaps; walking the
+    other way ends in Magome, which is part of Nakatsugawa, with a direct bus home every
+    hour. The cost is the climb — Tsumago ~420 m to the 801 m pass — and the morning
+    connection: the 07:41 local from Nakatsugawa for the 08:40 Nagiso bus, with the next
+    pairing two hours later. Nagiso Station to Tsumago is about an hour on foot as a
+    fallback. Do not "correct" the direction back to Magome-first.
   - **The dates are a knowing trade the traveller made against advice**, on evidence they
     found: Hakuba's alpine colour peaks late September and the Nakasendo's late October,
     five weeks apart, so no single trip catches both. Happo Pond was reported at peak on

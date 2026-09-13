@@ -520,8 +520,8 @@
       "weekday": "Wednesday",
       "date": "2027-10-20",
       "city": "Kiso Valley",
-      "morning": "Travel to Magome\nExplore Magome-juku",
-      "afternoon": "Hike the Nakasendo to Tsumago\nExplore Tsumago\nTravel to Nakatsugawa",
+      "morning": "Travel to Tsumago\nExplore Tsumago\nHike the Nakasendo to Magome",
+      "afternoon": "Lunch at Magome\nExplore Magome-juku\nTravel to Nakatsugawa",
       "evening": "Dinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
@@ -1617,7 +1617,7 @@
           "time": "16:00",
           "activity": "Check in at Nakatsugawa",
           "costs": {},
-          "remarks": "Down from 1,500 m to about 340 m in a single afternoon. Stay by the station: the Magome bus leaves from it tomorrow and the Tokyo train the day after. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+          "remarks": "Down from 1,500 m to about 340 m in a single afternoon. Stay by the station: tomorrow starts on the train from it and ends on the bus back to it, and the Tokyo train leaves from it the day after. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
         },
         {
           "time": "17:00",
@@ -1668,61 +1668,61 @@
           "basisDate": "2025-10-20"
         }
       ],
-      "summary": "Eight kilometres of the old Nakasendo, downhill from Magome, and back to town for dinner.",
+      "summary": "Eight kilometres of the old Nakasendo, uphill from Tsumago to Magome, and a bus straight back to town.",
       "items": [
         {
-          "time": "08:00",
+          "time": "07:00",
           "activity": "Breakfast",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "09:10",
-          "activity": "Travel to Magome\nNakatsugawa Station -(Kitaena Bus)> Magome",
+          "time": "07:41",
+          "activity": "Travel to Tsumago\nNakatsugawa Station -(JR Chuo Line)> Nagiso Station -(Bus)> Tsumago",
           "costs": {
-            "transport": 1600
+            "transport": 1260
           },
-          "remarks": "About 25 minutes, JPY 800 per person; figure shown is for two. Board at stop 3 outside the station — an orange marking on the pavement shows where. Eleven departures on a weekday; the 09:10 runs daily, while the 08:15 is weekends and holidays only, so it is no use on a Wednesday. No reservations; pay cash on the way off, and the change machine takes JPY 1,000 notes but nothing bigger. Nothing needs carrying but a day pack — both nights are in the same hotel."
+          "remarks": "The 07:41 local towards Matsumoto passes Nagiso at 08:11, which leaves half an hour for the 08:40 bus, in Tsumago at 08:47. JPY 330 per person on the train and JPY 300 in coins on the bus; figure shown is both, for two. This is the one connection the day hangs on: the next pairing is the 10:19 train with the 10:30 bus, two hours later. The 08:14 local terminates at Nagiso about 19 minutes on, a tight but workable backup for the same bus. If both are missed, walk it — Nagiso Station to Tsumago is about 3.5 km on the old Nakasendo, roughly an hour through the edges of the town and the fields rather than on stone paving, or about JPY 2,000 by taxi. Times are the current timetables; check the 2027 ones, and that the 07:41 runs on a Wednesday."
         },
         {
-          "time": "09:35",
-          "activity": "Explore Magome-juku",
-          "costs": {},
-          "remarks": "A steep stone-paved street rebuilt after fires in 1895 and 1915 — a reconstruction where Tsumago is a preservation, and it still works. Water wheels, a lookout at the top of the slope over the ranges and Mt Ena, and Shimazaki Toson's family home, now the Toson Memorial Museum (JPY 500 per person, 09:00 to 17:00), if there is the appetite for an hour indoors before walking. Magome is in Gifu; the walk crosses back into Nagano at the pass."
-        },
-        {
-          "time": "10:30",
-          "activity": "Hike the Nakasendo to Tsumago\nMagome -(Hike - 3 hours)> Tsumago",
-          "costs": {},
-          "remarks": "About 8 km, two to three hours at a leisurely pace, signposted in English the whole way. Walked from Magome on purpose: the pass tops out at 801 m and Magome already sits high on its slope, so this direction is most of the climb done in the first half hour and then a long descent through cedar — the same eight kilometres the other way is a different day out. The bells on posts along the trail are bear bells and are there to be rung. Halfway is the Tateba teahouse, an old farmhouse with an open hearth where volunteers pour tea for nothing, and a 250 m detour reaches the Odaki and Medaki falls, the male and female pair. This is the day the earlier window costs something, and losing the third Okuhida night cost it one more day: the Kiso valley colours late October into early November, so the 20th catches it arriving rather than at its best. The cedars, the stone paving and the teahouse do not depend on the date."
-        },
-        {
-          "time": "13:30",
-          "activity": "Lunch at Tsumago",
-          "costs": {},
-          "remarks": null
-        },
-        {
-          "time": "14:30",
+          "time": "08:50",
           "activity": "Explore Tsumago",
           "costs": {
             "sightseeing": 1400
           },
-          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month; the 20th is a Wednesday, so that never bites. Figure shown is for two. Leaving before dark is the one real cost of sleeping in Nakatsugawa: the lantern-lit street after the coaches go is what staying here was for."
+          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month; the 20th is a Wednesday, so that never bites. Figure shown is for two. Arriving before the day coaches is the morning version of what sleeping here would have given, and the museum opens at 09:00 as you finish the street."
         },
         {
-          "time": "16:10",
-          "activity": "Travel to Nakatsugawa\nTsumago -(Bus)> Nagiso Station -(JR Chuo Line)> Nakatsugawa Station",
+          "time": "10:15",
+          "activity": "Hike the Nakasendo to Magome\nTsumago -(Hike - 3 hours)> Magome",
+          "costs": {},
+          "remarks": "About 8 km, two to three hours at a leisurely pace, signposted in English. Walked from Tsumago for the way home rather than for the walking: it ends in Magome, which is part of Nakatsugawa and has a direct bus back, where the other direction ends on a bus and a train with hour-long gaps between them. The price is the climb. Tsumago sits at about 420 m and the pass at 801 m, and from Tsumago the trail winds up the hillside over many switchbacks for most of the way before dropping to Magome — Kiso's own tourism office and japan-guide both say the Magome-to-Tsumago direction has less uphill. It is still graded easy to moderate; just start it with water and without hurry. The bells on posts along the trail are bear bells and are there to be rung. Around halfway is the Tateba teahouse, an old farmhouse with an open hearth where volunteers pour tea for nothing — a well-placed stop on the climb — and a 250 m detour reaches the Odaki and Medaki falls, the male and female pair. This is the day the earlier window costs something: the Kiso valley colours late October into early November, so the 20th catches it arriving rather than at its best. The cedars, the stone paving and the teahouse do not depend on the date."
+        },
+        {
+          "time": "13:15",
+          "activity": "Lunch at Magome",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "14:15",
+          "activity": "Explore Magome-juku",
+          "costs": {},
+          "remarks": "A steep stone-paved street rebuilt after fires in 1895 and 1915 — a reconstruction where Tsumago is a preservation, and it still works. Water wheels, a lookout at the top of the slope over the ranges and Mt Ena, and Shimazaki Toson's family home, now the Toson Memorial Museum (JPY 500 per person, 09:00 to 17:00). Magome is in Gifu — the pass you came over was the prefectural border."
+        },
+        {
+          "time": "15:50",
+          "activity": "Travel to Nakatsugawa\nMagome -(Kitaena Bus)> Nakatsugawa Station",
           "costs": {
-            "transport": 1260
+            "transport": 1600
           },
-          "remarks": "7 minutes on the bus, JPY 300 per person in coins, then about 20 minutes on a local train, JPY 330; figure shown is both, for two. The 16:10 bus makes the 16:26 local. The afternoon buses leave Tsumago at 15:40, 16:10, 16:14 and 17:15, and the locals leave Nagiso at 14:25, 16:26, 16:58, 18:04 and 18:31 — so the last comfortable pairing is the 17:15 bus for the 18:04 train. Three Shinano also stop at Nagiso, at 15:55, 16:55 and 17:55, for a limited-express surcharge. Times are the current timetables and will want checking against the 2027 ones."
+          "remarks": "About 25 minutes, JPY 800 per person; figure shown is for two. No connection to make and no hurry: weekday departures from Magome leave at 12:50, 13:50, 14:50, 15:50 and 16:50, then 17:50 (weekdays only) and 18:15 — so the time given here is only a suggestion. No reservations; pay cash on the way off, and the change machine takes JPY 1,000 notes but nothing bigger."
         },
         {
           "time": "18:30",
           "activity": "Dinner at Nakatsugawa",
           "costs": {},
-          "remarks": "After eight kilometres, a restaurant of your own choosing is exactly the point of the move."
+          "remarks": "After eight kilometres and a hill, a restaurant of your own choosing is exactly the point of basing here."
         }
       ]
     },
@@ -2224,7 +2224,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "By the station — the Magome bus leaves from it on the 20th and the Tokyo train on the 21st. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
+      "remarks": "By the station — the walk day starts on a train from it and ends on the Magome bus back to it, and the Tokyo train leaves from it on the 21st. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
       "url": null
     },
     {
@@ -2308,11 +2308,11 @@
       "url": null
     },
     {
-      "task": "Check the Kiso valley bus times, 20 Oct",
+      "task": "Check the Kiso valley train and bus times, 20 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Two buses bracket the walk. Out: Nakatsugawa Station to Magome, JPY 800 per person, 25 minutes from stop 3 — the 09:10 runs daily, and the 08:15 is weekends only. Back: Tsumago to Nagiso Station, JPY 300, then a local train to Nakatsugawa, JPY 330, about 20 minutes. Afternoon buses leave Tsumago at 15:40, 16:10, 16:14 and 17:15; locals leave Nagiso at 14:25, 16:26, 16:58, 18:04 and 18:31. These are the current timetables — recheck against the 2027 ones before the day, since the return is a bus-to-train connection with gaps of up to an hour.",
+      "remarks": "The morning is the part to get right. Out: the 07:41 local from Nakatsugawa passes Nagiso at 08:11, for the 08:40 bus to Tsumago (JPY 330 train, JPY 300 bus). The next pairing is two hours later, 10:19 and 10:30; the 08:14 local, terminating at Nagiso, is a tight backup, and walking from Nagiso Station to Tsumago is about an hour. Confirm the 07:41 runs on a Wednesday — some trains on this line run on specific days only. Back: Magome to Nakatsugawa Station, JPY 800, 25 minutes, hourly from 12:50 to 16:50 plus 17:50 on weekdays and 18:15, so the return needs no planning. These are the current timetables — recheck against the 2027 ones.",
       "url": "https://www.japan-guide.com/bus/kiso.html"
     },
     {
