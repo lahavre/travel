@@ -475,8 +475,8 @@
       "date": "2027-10-19",
       "city": "Kiso Valley",
       "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond\nCheck out",
-      "afternoon": "Travel to Matsumoto\nTravel to Tsumago",
-      "evening": "Check in at Tsumago\nDinner at Tsumago",
+      "afternoon": "Travel to Matsumoto\nTravel to Nakatsugawa\nCheck in",
+      "evening": "Explore Nakatsugawa-juku\nDinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
         {
@@ -500,16 +500,16 @@
           "basisDate": "2025-10-19"
         },
         {
-          "location": "Tsumago",
-          "min": 17.2,
-          "max": 21.0,
+          "location": "Nakatsugawa",
+          "min": 17.5,
+          "max": 21.7,
           "note": null,
-          "feelsMin": 18.9,
-          "feelsMax": 23.8,
+          "feelsMin": 19.3,
+          "feelsMax": 24.5,
           "condition": "Drizzle",
-          "wind": 8.1,
+          "wind": 6.0,
           "sunrise": "05:59",
-          "sunset": "17:09",
+          "sunset": "17:10",
           "basis": "historical",
           "basisDate": "2025-10-19"
         }
@@ -521,8 +521,8 @@
       "date": "2027-10-20",
       "city": "Kiso Valley",
       "morning": "Travel to Magome\nExplore Magome-juku",
-      "afternoon": "Hike the Nakasendo to Tsumago\nExplore Tsumago",
-      "evening": "Explore Tsumago after the buses\nDinner at Tsumago",
+      "afternoon": "Hike the Nakasendo to Tsumago\nExplore Tsumago\nTravel to Nakatsugawa",
+      "evening": "Dinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
         {
@@ -534,6 +534,20 @@
           "feelsMax": 23.7,
           "condition": "Rain",
           "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:08",
+          "basis": "historical",
+          "basisDate": "2025-10-20"
+        },
+        {
+          "location": "Nakatsugawa",
+          "min": 16.1,
+          "max": 22.8,
+          "note": null,
+          "feelsMin": 17.0,
+          "feelsMax": 24.6,
+          "condition": "Rain",
+          "wind": 7.7,
           "sunrise": "06:00",
           "sunset": "17:08",
           "basis": "historical",
@@ -552,14 +566,14 @@
       "remarks": null,
       "temperature": [
         {
-          "location": "Tsumago",
-          "min": 11.1,
-          "max": 18.5,
+          "location": "Nakatsugawa",
+          "min": 10.8,
+          "max": 18.9,
           "note": null,
-          "feelsMin": 9.4,
-          "feelsMax": 17.8,
+          "feelsMin": 10.1,
+          "feelsMax": 18.7,
           "condition": "Overcast",
-          "wind": 9.9,
+          "wind": 5.6,
           "sunrise": "06:01",
           "sunset": "17:07",
           "basis": "historical",
@@ -1446,7 +1460,7 @@
           "time": "08:00",
           "activity": "Breakfast, then check out",
           "costs": {},
-          "remarks": "Send the cases ahead to the Tsumago minshuku from the ryokan desk. Kamikochi is one night, the walk in from Taisho Pond is 3.7 km on foot, and there are no coin lockers anywhere in the valley — so what goes over the pass today should be an overnight bag and nothing more."
+          "remarks": "Send the cases ahead to the Nakatsugawa hotel from the ryokan desk. Kamikochi is one night, the walk in from Taisho Pond is 3.7 km on foot, and there are no coin lockers anywhere in the valley — so what goes over the pass today should be an overnight bag and nothing more."
         },
         {
           "time": "09:30",
@@ -1480,7 +1494,7 @@
           "time": "13:15",
           "activity": "Lunch at Kamikochi",
           "costs": {},
-          "remarks": "The bus terminal and the hotels around Kappa Bridge are the only places to eat, and there is no convenience store and no ATM in the valley at all. Cards are usually taken but carry cash — the Myojin gate tomorrow is coins only, and so is the Nagiso bus on the way out."
+          "remarks": "The bus terminal and the hotels around Kappa Bridge are the only places to eat, and there is no convenience store and no ATM in the valley at all. Cards are usually taken but carry cash — the Myojin gate tomorrow is coins only, and so are the Kiso valley buses on the way on."
         },
         {
           "time": "14:15",
@@ -1541,21 +1555,21 @@
           "basisDate": "2025-10-19"
         },
         {
-          "location": "Tsumago",
-          "min": 17.2,
-          "max": 21.0,
+          "location": "Nakatsugawa",
+          "min": 17.5,
+          "max": 21.7,
           "note": null,
-          "feelsMin": 18.9,
-          "feelsMax": 23.8,
+          "feelsMin": 19.3,
+          "feelsMax": 24.5,
           "condition": "Drizzle",
-          "wind": 8.1,
+          "wind": 6.0,
           "sunrise": "05:59",
-          "sunset": "17:09",
+          "sunset": "17:10",
           "basis": "historical",
           "basisDate": "2025-10-19"
         }
       ],
-      "summary": "Dawn on the Azusa, a loop to Myojin, then the long way down to the Kiso.",
+      "summary": "Dawn on the Azusa, a loop to Myojin, then down to Nakatsugawa for the night.",
       "items": [
         {
           "time": "05:45",
@@ -1593,23 +1607,29 @@
         },
         {
           "time": "14:30",
-          "activity": "Travel to Tsumago\nMatsumoto Station -(JR Shinano Limited Express)> Nagiso Station -(Bus)> Tsumago",
+          "activity": "Travel to Nakatsugawa\nMatsumoto Station -(JR Shinano Limited Express)> Nakatsugawa Station",
           "costs": {
-            "transport": 7460
+            "transport": 8380
           },
-          "remarks": "About 1h 05m down the Kiso valley, then a 7-minute bus, JPY 300 per person paid in coins on the way off. The catch is Nagiso: only some Shinano stop there and most run straight past, so the afternoon is built around that one train rather than around the hour. The fallback is to ride to Kiso-Fukushima or Nakatsugawa and come back a stop or two on a local; a taxi from Nagiso is about JPY 2,000 if the bus has finished. Reserved seats run about JPY 3,130 to 3,430 per person depending on the season and the higher figure is used here; figure shown is for two, plus the bus."
+          "remarks": "About 1h 17m the length of the Kiso valley. Every Shinano stops at Nakatsugawa, so take whichever comes first after the Kamikochi bus — the Nagiso problem, where most trains run straight past, simply does not arise. JPY 2,000 fare plus JPY 2,190 for a reserved seat, JPY 4,190 per person; figure shown is for two. JR moves reserved surcharges by JPY 200 either side in off-peak and busy periods."
         },
         {
-          "time": "16:30",
-          "activity": "Check in at Tsumago",
+          "time": "16:00",
+          "activity": "Check in at Nakatsugawa",
           "costs": {},
-          "remarks": "Down from 1,500 m to about 400 m in a single afternoon, into a valley whose colour is only now arriving. The minshuku here are family houses with a handful of rooms each; most serve dinner and it has to be asked for when booking, because almost nothing in Tsumago is open after dark."
+          "remarks": "Down from 1,500 m to about 340 m in a single afternoon. Stay by the station: the Magome bus leaves from it tomorrow and the Tokyo train the day after. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+        },
+        {
+          "time": "17:00",
+          "activity": "Explore Nakatsugawa-juku",
+          "costs": {},
+          "remarks": "The town's own Nakasendo post town — the 45th of 69, once the area's commercial centre. The old road starts at the Shinmachi crossing, about 100 m down the main street from the station, and keeps its crooked, squared-off layout and houses with udatsu, the raised firewalls that marked a wealthy family. This is also chestnut country: Nakatsugawa is where kurikinton comes from, and more than a dozen shops sell it from September into winter, so the dates land squarely in season."
         },
         {
           "time": "18:30",
-          "activity": "Dinner at Tsumago",
+          "activity": "Dinner at Nakatsugawa",
           "costs": {},
-          "remarks": null
+          "remarks": "The reason for sleeping here rather than in Tsumago — a choice of restaurants, rather than whatever the minshuku serves at six."
         }
       ]
     },
@@ -1632,9 +1652,23 @@
           "sunset": "17:08",
           "basis": "historical",
           "basisDate": "2025-10-20"
+        },
+        {
+          "location": "Nakatsugawa",
+          "min": 16.1,
+          "max": 22.8,
+          "note": null,
+          "feelsMin": 17.0,
+          "feelsMax": 24.6,
+          "condition": "Rain",
+          "wind": 7.7,
+          "sunrise": "06:00",
+          "sunset": "17:08",
+          "basis": "historical",
+          "basisDate": "2025-10-20"
         }
       ],
-      "summary": "Eight kilometres of the old Nakasendo, downhill from Magome.",
+      "summary": "Eight kilometres of the old Nakasendo, downhill from Magome, and back to town for dinner.",
       "items": [
         {
           "time": "08:00",
@@ -1643,15 +1677,15 @@
           "remarks": null
         },
         {
-          "time": "08:30",
-          "activity": "Travel to Magome\nTsumago -(Ontake Kotsu Bus)> Magome",
+          "time": "09:10",
+          "activity": "Travel to Magome\nNakatsugawa Station -(Kitaena Bus)> Magome",
           "costs": {
-            "transport": 2000
+            "transport": 1600
           },
-          "remarks": "About 25 minutes by road, JPY 1,000 per person; figure shown is for two. Only four departures a day, so the morning bus fixes the shape of the day and should be checked before anything else is fixed around it. No reservations; pay in cash on the way off. Some services stop at Jinba near the top of the pass and some at Magome at the foot of the village — take the one to Magome, so the village is walked up through before the trail is joined. Nothing needs forwarding today: both nights are in the same house, so this is a day pack."
+          "remarks": "About 25 minutes, JPY 800 per person; figure shown is for two. Board at stop 3 outside the station — an orange marking on the pavement shows where. Eleven departures on a weekday; the 09:10 runs daily, while the 08:15 is weekends and holidays only, so it is no use on a Wednesday. No reservations; pay cash on the way off, and the change machine takes JPY 1,000 notes but nothing bigger. Nothing needs carrying but a day pack — both nights are in the same hotel."
         },
         {
-          "time": "09:00",
+          "time": "09:35",
           "activity": "Explore Magome-juku",
           "costs": {},
           "remarks": "A steep stone-paved street rebuilt after fires in 1895 and 1915 — a reconstruction where Tsumago is a preservation, and it still works. Water wheels, a lookout at the top of the slope over the ranges and Mt Ena, and Shimazaki Toson's family home, now the Toson Memorial Museum (JPY 500 per person, 09:00 to 17:00), if there is the appetite for an hour indoors before walking. Magome is in Gifu; the walk crosses back into Nagano at the pass."
@@ -1674,19 +1708,21 @@
           "costs": {
             "sightseeing": 1400
           },
-          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month; the 20th is a Wednesday, so that never bites. Figure shown is for two."
+          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month; the 20th is a Wednesday, so that never bites. Figure shown is for two. Leaving before dark is the one real cost of sleeping in Nakatsugawa: the lantern-lit street after the coaches go is what staying here was for."
         },
         {
-          "time": "16:00",
-          "activity": "Explore Tsumago after the buses",
-          "costs": {},
-          "remarks": "The day visitors leave around five and the street goes quiet and unlit except for the lanterns. Seeing that is the only argument for sleeping here rather than passing through, and it is a good one."
+          "time": "16:10",
+          "activity": "Travel to Nakatsugawa\nTsumago -(Bus)> Nagiso Station -(JR Chuo Line)> Nakatsugawa Station",
+          "costs": {
+            "transport": 1260
+          },
+          "remarks": "7 minutes on the bus, JPY 300 per person in coins, then about 20 minutes on a local train, JPY 330; figure shown is both, for two. The 16:10 bus makes the 16:26 local. The afternoon buses leave Tsumago at 15:40, 16:10, 16:14 and 17:15, and the locals leave Nagiso at 14:25, 16:26, 16:58, 18:04 and 18:31 — so the last comfortable pairing is the 17:15 bus for the 18:04 train. Three Shinano also stop at Nagiso, at 15:55, 16:55 and 17:55, for a limited-express surcharge. Times are the current timetables and will want checking against the 2027 ones."
         },
         {
-          "time": "18:00",
-          "activity": "Dinner at Tsumago",
+          "time": "18:30",
+          "activity": "Dinner at Nakatsugawa",
           "costs": {},
-          "remarks": null
+          "remarks": "After eight kilometres, a restaurant of your own choosing is exactly the point of the move."
         }
       ]
     },
@@ -1697,14 +1733,14 @@
       "weekday": "Thursday",
       "temperature": [
         {
-          "location": "Tsumago",
-          "min": 11.1,
-          "max": 18.5,
+          "location": "Nakatsugawa",
+          "min": 10.8,
+          "max": 18.9,
           "note": null,
-          "feelsMin": 9.4,
-          "feelsMax": 17.8,
+          "feelsMin": 10.1,
+          "feelsMax": 18.7,
           "condition": "Overcast",
-          "wind": 9.9,
+          "wind": 5.6,
           "sunrise": "06:01",
           "sunset": "17:07",
           "basis": "historical",
@@ -1728,16 +1764,16 @@
       "summary": "Out of the Kiso valley and into Tokyo, with two days still to spend.",
       "items": [
         {
-          "time": "08:00",
+          "time": "08:30",
           "activity": "Free and easy",
           "costs": {},
-          "remarks": "Tsumago before the coaches arrive."
+          "remarks": "Nakatsugawa-juku before checking out, or a last round of the kurikinton shops to take something back — chestnut sweets are the town's own."
         },
         {
-          "time": "09:30",
-          "activity": "Check out and travel to Tokyo\nTsumago -(Bus)> Nagiso Station -(JR Shinano Limited Express)> Nagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
+          "time": "10:00",
+          "activity": "Check out and travel to Tokyo\nNakatsugawa Station -(JR Shinano Limited Express)> Nagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
           "costs": {},
-          "remarks": "About 2 hours to Nagoya — the Kiso valley line ends there, so it is a change rather than a detour — then 1h 40m on. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo: getting off there rather than at Tokyo Station saves a leg with the luggage, and is why the hotel is on that side. The second leg is the Tokaido, so unlike the Hokuriku on day 2 the oversized-baggage rule applies — a case whose height, width and depth total 160-250 cm needs a free reserved slot booked with the seat, and boarding without one is a JPY 1,000 charge. Measure before this leg, not at the gate."
+          "remarks": "About 50 minutes to Nagoya on any Shinano, then 1h 40m on. Every Nozomi stops at Shinagawa, which is the Haneda end of Tokyo: getting off there rather than at Tokyo Station saves a leg with the luggage, and is why the hotel is on that side. The second leg is the Tokaido, so unlike the Hokuriku on day 2 the oversized-baggage rule applies — a case whose height, width and depth total 160-250 cm needs a free reserved slot booked with the seat, and boarding without one is a JPY 1,000 charge. Measure before this leg, not at the gate."
         },
         {
           "time": "14:30",
@@ -2046,7 +2082,7 @@
       "remarks": null
     },
     {
-      "city": "Tsumago",
+      "city": "Nakatsugawa",
       "name": null,
       "reservation": {
         "site": null,
@@ -2184,11 +2220,11 @@
       "url": null
     },
     {
-      "task": "Book Tsumago minshuku, 19-21 Oct",
+      "task": "Book Nakatsugawa, 19-21 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Second priority. Late October is the busiest stretch of the year on the Nakasendo and the houses have few rooms each. Book direct or through the Tsumago tourist office. Two things to ask while doing it: that dinner is included on both nights, since the village closes after dark, and that they will take a takkyubin delivery arriving ahead of you from Okuhida.",
+      "remarks": "By the station — the Magome bus leaves from it on the 20th and the Tokyo train on the 21st. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
       "url": null
     },
     {
@@ -2272,23 +2308,15 @@
       "url": null
     },
     {
-      "task": "Pick a Shinano that stops at Nagiso, 19 Oct",
+      "task": "Check the Kiso valley bus times, 20 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Most Limited Express Shinano run straight past Nagiso and only some stop. That one train sets the whole afternoon, so choose it first and work the Kamikochi bus backwards from it. Reserved seats from Matsumoto are about JPY 3,130 to 3,430 per person depending on the season. If nothing suitable stops, ride to Kiso-Fukushima or Nakatsugawa and come back a stop or two on a local.",
-      "url": null
+      "remarks": "Two buses bracket the walk. Out: Nakatsugawa Station to Magome, JPY 800 per person, 25 minutes from stop 3 — the 09:10 runs daily, and the 08:15 is weekends only. Back: Tsumago to Nagiso Station, JPY 300, then a local train to Nakatsugawa, JPY 330, about 20 minutes. Afternoon buses leave Tsumago at 15:40, 16:10, 16:14 and 17:15; locals leave Nagiso at 14:25, 16:26, 16:58, 18:04 and 18:31. These are the current timetables — recheck against the 2027 ones before the day, since the return is a bus-to-train connection with gaps of up to an hour.",
+      "url": "https://www.japan-guide.com/bus/kiso.html"
     },
     {
-      "task": "Check the Tsumago to Magome bus timetable, 20 Oct",
-      "category": "Booking",
-      "subcategory": "Transport",
-      "status": "Open",
-      "remarks": "Four departures a day, JPY 1,000 per person, about 25 minutes, no reservations, cash on the way off. Take one to the Magome stop at the foot of the village rather than Jinba near the top of the pass. Like the Togakushi bus, this is a timetable the day has to be built around rather than fitted into.",
-      "url": null
-    },
-    {
-      "task": "Reserve JR Shinano and Tokaido seats, Nagiso to Tokyo, 21 Oct",
+      "task": "Reserve JR Shinano and Tokaido seats, Nakatsugawa to Tokyo, 21 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
@@ -2320,11 +2348,11 @@
       "url": "https://visit-nagano.alpico.co.jp/timetable/kamikochi-matsumoto"
     },
     {
-      "task": "Arrange baggage forwarding, Okuhida to Tsumago",
+      "task": "Arrange baggage forwarding, Okuhida to Nakatsugawa",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "So Kamikochi is an overnight bag rather than the whole trip's luggage — it matters, because the plan walks 3.7 km in from Taisho Pond and there are no coin lockers anywhere in the valley. Ask the ryokan to send the cases by takkyubin on the morning of the 18th, allow two days out of a mountain valley, and check when booking that the Tsumago minshuku will accept a delivery; a family house is not a hotel front desk. The Magome-Tsumago day-bag service is not needed — both Kiso nights are in the same house, so the walk on the 20th is a day pack.",
+      "remarks": "So Kamikochi is an overnight bag rather than the whole trip's luggage — it matters, because the plan walks 3.7 km in from Taisho Pond and there are no coin lockers anywhere in the valley. Ask the ryokan to send the cases by takkyubin on the morning of the 18th and allow two days out of a mountain valley. A hotel front desk takes deliveries as a matter of course, which the Tsumago minshuku could not be counted on to do, but still say so when booking. No Magome-Tsumago day-bag service is needed: both nights are in the same hotel.",
       "url": null
     },
     {
@@ -2425,6 +2453,10 @@
       "lat": 35.577,
       "lon": 137.5954
     },
+    "Nakatsugawa": {
+      "lat": 35.4833,
+      "lon": 137.5
+    },
     "Nagano": {
       "lat": 36.65,
       "lon": 138.1833
@@ -2441,10 +2473,11 @@
     "Kamikochi": "https://tenki.jp/forecast/3/23/",
     "Matsumoto": "https://tenki.jp/forecast/3/23/",
     "Nagano": "https://tenki.jp/forecast/3/23/",
+    "Nakatsugawa": "https://tenki.jp/forecast/5/24/",
     "Okuhida": "https://tenki.jp/forecast/5/24/",
     "Togakushi": "https://tenki.jp/forecast/3/23/",
     "Tokyo": "https://tenki.jp/forecast/3/16/",
     "Tsumago": "https://tenki.jp/forecast/3/23/"
   },
-  "weatherUpdated": "2026-09-11"
+  "weatherUpdated": "2026-09-13"
 }

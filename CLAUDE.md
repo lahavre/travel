@@ -185,8 +185,15 @@ anything without its own `match`, deliberately.
   a first draft. `data.json` is authoritative and this summary will age; what follows is
   the reasoning, which the file cannot carry.
   - **Shape**: Tokyo 1 → Nagano 2 (Zenkoji, Togakushi) → Hakuba 3 → Matsumoto 2 (with
-    Azumino) → Okuhida 2 → Kamikochi 1 → Tsumago 2 → Tokyo/Shinagawa 2. Fifteen nights,
-    sequenced north to south and high to low, following the colour down the mountain.
+    Azumino) → Okuhida 2 → Kamikochi 1 → Nakatsugawa 2 → Tokyo/Shinagawa 2. Fifteen
+    nights, sequenced north to south and high to low, following the colour down the
+    mountain.
+  - **The Kiso valley base is Nakatsugawa, not Tsumago** (changed 13 Sep 2026, the
+    traveller's call): they want restaurants in the evening rather than depending on a
+    minshuku's dinner. It also happens to be easier — every Shinano stops there, where
+    most run past Nagiso, and eleven weekday buses go to Magome against Tsumago's four.
+    The walk is unchanged, Magome to Tsumago; the day ends with a bus to Nagiso and a
+    local train back. What it costs is Tsumago after dark, and the day says so.
   - **The dates are a knowing trade the traveller made against advice**, on evidence they
     found: Hakuba's alpine colour peaks late September and the Nakasendo's late October,
     five weeks apart, so no single trip catches both. Happo Pond was reported at peak on

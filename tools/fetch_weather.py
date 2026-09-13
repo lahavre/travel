@@ -55,6 +55,7 @@ PLACES = {
     "Matsumoto": (36.2333, 137.9667, "Matsumoto, Nagano (593 m)"),
     "Azumino": (36.2882, 137.8871, "Azumino, Nagano (568 m)"),
     "Tsumago": (35.5770, 137.5954, "Tsumago, Nagano (423 m)"),
+    "Nakatsugawa": (35.4833, 137.5000, "Nakatsugawa, Gifu (338 m)"),
     "Nagoya": (35.1815, 136.9064, "Nagoya, Aichi (23 m)"),
     "Nagano": (36.6500, 138.1833, "Nagano, Nagano (372 m)"),
     # Pinned to Hokosha, the lowest of Togakushi's five shrines. The geocoder offers
@@ -87,7 +88,7 @@ TENKI = {
     "Yamagata": _YAMAGATA, "Ginzan Onsen": _YAMAGATA,
     "Naruko": _MIYAGI, "Sendai": _MIYAGI, "Matsushima": _MIYAGI,
     "Toyama": _TOYAMA, "Unazuki": _TOYAMA, "Murodo": _TOYAMA,
-    "Takayama": _GIFU, "Okuhida": _GIFU, "Shinhotaka": _GIFU,
+    "Takayama": _GIFU, "Okuhida": _GIFU, "Shinhotaka": _GIFU, "Nakatsugawa": _GIFU,
     "Omachi": _NAGANO, "Hakuba": _NAGANO, "Matsumoto": _NAGANO,
     "Kamikochi": _NAGANO, "Narai": _NAGANO, "Tsumago": _NAGANO,
     "Azumino": _NAGANO, "Nagano": _NAGANO, "Togakushi": _NAGANO,
