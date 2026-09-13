@@ -234,8 +234,25 @@ anything without its own `match`, deliberately.
     to-do as well.
   - **Every day now carries operator-sourced mechanics** — fares, frequencies, altitudes,
     opening hours — taken from the operators' own pages rather than a general impression.
-    When a figure could not be confirmed it is said so in the remark; the one soft number
-    is the Matsumoto-Nagiso Shinano fare (JPY 3,130-3,430 pp reserved, the higher used).
+    When a figure could not be confirmed it is said so in the remark. Every day cost is
+    now a checked fare; JR reserved surcharges still move JPY 200 either side by season.
+  - **Pick up here next time** (as of 13 Sep 2026, all pushed). In rough priority:
+    1. **The two Tokyo days, 22-23 Oct**, are the only unplanned part of the trip — the
+       traveller said they would revisit. Constraints are in the bullet above and in the
+       trip's to-do.
+    2. **The Kiso walk day's morning is the most fragile connection on the trip**: the
+       07:41 local from Nakatsugawa for the 08:40 Nagiso bus, next pairing two hours
+       later. All Kiso times are the current (2026) timetables; recheck against 2027,
+       and confirm the 07:41 runs on a Wednesday — some trains on that line run on
+       specific days only.
+    3. **Booking order when it starts**: Kamikochi first (under ten properties); the bus
+       *out* of Kamikochi opens a month ahead, around 19 Sep 2027, and every seat is
+       reserved. Flights wait on an ANA promotion.
+    4. **The to-do list has changed a lot since it last seeded.** `todoList/<slug>` copies
+       once; if the traveller has opened the To-do tab signed in since 16 Aug 2026, it
+       shows the old items and wants deleting so it re-seeds.
+    5. Housekeeping the traveller owns: Traveller 2's real name, and ticking their email
+       against the slug. Re-run `tools/fetch_weather.py` from late Sep 2027.
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
   **design fixture** — its `publicTransport` holds Croatia legs and its `activities`
   hold 2019 vouchers, deliberately, to exercise the renderers. Its data being
