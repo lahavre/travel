@@ -185,7 +185,7 @@ anything without its own `match`, deliberately.
   a first draft. `data.json` is authoritative and this summary will age; what follows is
   the reasoning, which the file cannot carry.
   - **Shape**: Tokyo 1 → Nagano 2 (Zenkoji, Togakushi) → Hakuba 3 → Matsumoto 2 (with
-    Azumino) → Okuhida 2 → Kamikochi 1 → Nakatsugawa 2 → Tokyo/Shinagawa 2. Fifteen
+    Azumino) → Kamikochi 1 → Okuhida 2 → Nakatsugawa 2 → Tokyo/Shinagawa 2. Fifteen
     nights, sequenced north to south and high to low, following the colour down the
     mountain.
   - **The Kiso valley base is Nakatsugawa, not Tsumago** (changed 13 Sep 2026, the
@@ -235,10 +235,11 @@ anything without its own `match`, deliberately.
     Ekimae → Nakatsugawa Ekimae, passenger car, tax in) — not the JPY 11,000-13,000 first
     estimated from Nippon's distance rule. Since July 2023 Toyota charges a one-way fee even
     between branches in the same prefecture; only returning to the branch you hired from is
-    free. **The car goes back on the evening of the 19th**, not the 21st — the traveller's
+    free. **The car goes back on the 19th**, not the 21st — the traveller's
     call, because it has no job on the walk day that the train and bus cannot do, and
-    keeping it meant two more days' hire and hotel parking. The branch closes at 20:00 and
-    the plan lands about 18:10, so Narai is what gets cut if the day runs long. Rejected
+    keeping it meant two more days' hire and hotel parking. The branch closes at 20:00;
+    since the swap the plan lands about 16:45, three hours of slack (two if the ropeway
+    spare is used). Rejected
     along the way: extending the *first* hire from 14 Oct (15 Oct in Matsumoto is a walking
     day); keeping the car to the 21st for the walk day; handing it back at Matsumoto to
     dodge the fee (saves ~MYR 265 against this, but makes Narai a dusk visit with suitcases
@@ -246,12 +247,20 @@ anything without its own `match`, deliberately.
     dearer, and a liability there).
   - **Okuhida was cut from three nights to two on 11 Sep 2026**, at the traveller's call —
     the arrival half-day and the ropeway day do everything the valley was there for.
-    Everything after it moved a day earlier and the freed night went to Tokyo. Two
-    consequences worth keeping: Hirayu Great Falls now happens *during the bus change* on
-    the arrival day — now driven to, with a free car park and a 20-minute walk in — which
-    is what makes two nights work; and **the Shinhotaka ropeway no longer has a weather
-    spare** — the only
-    card left is swapping it with the falls on the arrival afternoon, and the day says so.
+    Everything after it moved a day earlier and the freed night went to Tokyo.
+  - **Kamikochi and Okuhida swapped on 16 Sep 2026** (the traveller's call): Kamikochi
+    **Sat 16 Oct**, Okuhida **17-19 Oct**, then Okuhida → Narai → Nakatsugawa on Tue 19.
+    What it bought: the 19th stopped being a 05:45-to-18:30 day with a 20:00 car deadline
+    and now gives **Narai 2½ hours with lunch**; the **ropeway regained a weather spare**
+    (Mon 18, with Tue 19 morning as backup — weekday first car 08:45); the ropeway moved
+    off a weekend; the Okuhida nights moved off Saturday; and the long Kamikochi-exit day
+    ends at a ryokan bath. Hirayu Great Falls now sits on the Kamikochi-exit afternoon.
+    What it cost: **Kamikochi on a Saturday in colour season** — the busiest day, crowded
+    roughly 10:00-14:00 at Taisho Pond and Kappa Bridge, which is when the walk-in happens,
+    and the hardest night to book. Colour is about a wash (a day before the maple peak
+    instead of a day after). **If a Saturday bed cannot be had, swap back** — commit
+    7357943 has the Monday-Kamikochi version; the booking to-do says so. The traveller is
+    doing the itinerary now and booking later.
   - **Both Tokyo days (22-23 Oct) are deliberately open**, at the traveller's request, and
     marked as open rather than filled. They have already seen **Shinjuku, Shibuya, Ueno and
     Asakusa**; Shibuya and Asakusa were removed from the last day for that reason, so do not
@@ -271,9 +280,10 @@ anything without its own `match`, deliberately.
        later. Confirm the 07:41 runs on a Wednesday — some trains on that line run on
        specific days only. On the 19th the car must be back by 20:00. All Kiso and
        Okuhida times are current (2026) timetables and want rechecking against 2027.
-    3. **Booking order when it starts**: Kamikochi first (under ten properties); the bus
-       *out* of Kamikochi opens a month ahead, around 19 Sep 2027, and every seat is
-       reserved. Flights wait on an ANA promotion.
+    3. **Booking order when it starts**: Kamikochi first (under ten properties) — now a
+       **Saturday** night, so if it can't be had, swap Kamikochi and Okuhida back. The
+       plan uses the unreserved Hirayu shuttle both ways, so there is no Kamikochi bus to
+       reserve. Flights wait on an ANA promotion.
     4. **The to-do list has changed a lot since it last seeded.** `todoList/<slug>` copies
        once; if the traveller has opened the To-do tab signed in since 16 Aug 2026, it
        shows the old items and wants deleting so it re-seeds.

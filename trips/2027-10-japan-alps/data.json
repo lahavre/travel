@@ -375,10 +375,10 @@
       "day": 9,
       "weekday": "Saturday",
       "date": "2027-10-16",
-      "city": "Okuhida",
-      "morning": "Check out\nCollect the hire car\nDrive to Hirayu Onsen",
-      "afternoon": "Lunch at Hirayu Onsen\nExplore Hirayu Great Falls\nDrive to Shin-Hotaka Onsen\nCheck in",
-      "evening": "Onsen at Okuhida\nDinner at Okuhida",
+      "city": "Kamikochi",
+      "morning": "Check out\nCollect the hire car\nDrive to Hirayu Onsen\nTravel to Kamikochi",
+      "afternoon": "Explore Taisho Pond\nWalk in to Kappa Bridge\nCheck in\nExplore Kappa Bridge",
+      "evening": "Explore Kamikochi at dusk\nDinner at Kamikochi",
       "remarks": null,
       "temperature": [
         {
@@ -396,18 +396,10 @@
           "basisDate": "2025-10-16"
         },
         {
-          "location": "Okuhida",
-          "min": 14.5,
-          "max": 19.3,
-          "note": null,
-          "feelsMin": 14.8,
-          "feelsMax": 19.9,
-          "condition": "Rain",
-          "wind": 14.5,
-          "sunrise": "05:57",
-          "sunset": "17:13",
-          "basis": "historical",
-          "basisDate": "2025-10-16"
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
         }
       ]
     },
@@ -416,11 +408,17 @@
       "weekday": "Sunday",
       "date": "2027-10-17",
       "city": "Okuhida",
-      "morning": "Drive to Shinhotaka Ropeway\nRide to Nishi-Hotakaguchi",
-      "afternoon": "Walk the Nabedaira nature trail\nOnsen at Shirakabadaira",
+      "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond\nCheck out",
+      "afternoon": "Travel to Hirayu Onsen\nExplore Hirayu Great Falls\nDrive to Shin-Hotaka Onsen\nCheck in",
       "evening": "Onsen at Okuhida\nDinner at Okuhida",
       "remarks": null,
       "temperature": [
+        {
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
         {
           "location": "Okuhida",
           "min": 11.4,
@@ -441,10 +439,10 @@
       "day": 11,
       "weekday": "Monday",
       "date": "2027-10-18",
-      "city": "Kamikochi",
-      "morning": "Check out\nDrive to Hirayu Onsen\nExplore Taisho Pond",
-      "afternoon": "Walk in to Kappa Bridge\nCheck in\nExplore Kappa Bridge",
-      "evening": "Explore Kamikochi at dusk\nDinner at Kamikochi",
+      "city": "Okuhida",
+      "morning": "Drive to Shinhotaka Ropeway\nRide to Nishi-Hotakaguchi",
+      "afternoon": "Walk the Nabedaira nature trail\nOnsen at Shirakabadaira",
+      "evening": "Onsen at Okuhida\nDinner at Okuhida",
       "remarks": null,
       "temperature": [
         {
@@ -460,12 +458,6 @@
           "sunset": "17:10",
           "basis": "historical",
           "basisDate": "2025-10-18"
-        },
-        {
-          "location": "Kamikochi",
-          "min": null,
-          "max": null,
-          "note": null
         }
       ]
     },
@@ -474,16 +466,24 @@
       "weekday": "Tuesday",
       "date": "2027-10-19",
       "city": "Kiso Valley",
-      "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond\nCheck out",
-      "afternoon": "Travel to Hirayu Onsen\nDrive to Narai-juku\nExplore Narai-juku\nDrive to Nakatsugawa",
-      "evening": "Return the hire car\nCheck in\nDinner at Nakatsugawa",
+      "morning": "Check out\nDrive to Narai-juku",
+      "afternoon": "Lunch at Narai-juku\nExplore Narai-juku\nDrive to Nakatsugawa\nReturn the hire car",
+      "evening": "Check in\nExplore Nakatsugawa-juku\nDinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
         {
-          "location": "Kamikochi",
-          "min": null,
-          "max": null,
-          "note": null
+          "location": "Okuhida",
+          "min": 12.3,
+          "max": 17.4,
+          "note": null,
+          "feelsMin": 12.5,
+          "feelsMax": 16.7,
+          "condition": "Drizzle",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:09",
+          "basis": "historical",
+          "basisDate": "2025-10-19"
         },
         {
           "location": "Narai",
@@ -513,7 +513,7 @@
       "date": "2027-10-20",
       "city": "Kiso Valley",
       "morning": "Travel to Tsumago\nExplore Tsumago\nHike the Nakasendo to Magome",
-      "afternoon": "Lunch at Magome\nExplore Magome-juku\nTravel to Nakatsugawa\nExplore Nakatsugawa-juku",
+      "afternoon": "Lunch at Magome\nExplore Magome-juku\nTravel to Nakatsugawa",
       "evening": "Dinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
@@ -1246,7 +1246,7 @@
     {
       "day": 9,
       "date": "2027-10-16",
-      "city": "Okuhida",
+      "city": "Kamikochi",
       "weekday": "Saturday",
       "temperature": [
         {
@@ -1264,73 +1264,85 @@
           "basisDate": "2025-10-16"
         },
         {
-          "location": "Okuhida",
-          "min": 14.5,
-          "max": 19.3,
-          "note": null,
-          "feelsMin": 14.8,
-          "feelsMax": 19.9,
-          "condition": "Rain",
-          "wind": 14.5,
-          "sunrise": "05:57",
-          "sunset": "17:13",
-          "basis": "historical",
-          "basisDate": "2025-10-16"
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
         }
       ],
-      "summary": "Over the Abo pass by car, one waterfall on the way through, and into the ryokan.",
+      "summary": "Over the Abo pass to Hirayu, the car parked, and one night inside the valley.",
       "items": [
         {
           "time": "09:00",
           "activity": "Breakfast, then check out",
           "costs": {},
-          "remarks": null
+          "remarks": "Pack an overnight bag for Kamikochi and leave the cases in the car, which waits at Hirayu until tomorrow. The walk in from Taisho Pond is 3.7 km and there are no coin lockers anywhere in the valley."
         },
         {
           "time": "09:30",
           "activity": "Collect the hire car at Matsumoto Station",
           "costs": {},
-          "remarks": "The second hire: four days, collected here and handed back at Nakatsugawa on the evening of the 19th — it does the Abo pass, Okuhida, the wait at Hirayu and the drive down the Kiso, and is gone before the walk day. That crosses from Nagano into Gifu, so a one-way fee applies: JPY 18,700 including tax for a passenger car from this branch to Nakatsugawa Ekimae, on Toyota's own simulator. Toyota's Nagano list rate for a compact is JPY 8,580 for the first 24 hours and JPY 7,260 a day after. The branch is about three minutes from the station, behind the bus terminal, and opens 08:00 to 20:00. Ask the two questions the first hire asked: whether winter tyres are fitted by mid-October, since the Abo pass and Okuhida run high, and whether an ETC card comes with it."
+          "remarks": "The second hire: four days, collected here and handed back at Nakatsugawa on the afternoon of the 19th — it does the Abo pass, the wait at Hirayu while Kamikochi is done on the shuttle, Okuhida, and the drive down the Kiso by way of Narai, and is gone before the walk day. That crosses from Nagano into Gifu, so a one-way fee applies: JPY 18,700 including tax for a passenger car from this branch to Nakatsugawa Ekimae, on Toyota's own simulator. Toyota's Nagano list rate for a compact is JPY 8,580 for the first 24 hours and JPY 7,260 a day after. The branch is about three minutes from the station, behind the bus terminal, and opens 08:00 to 20:00. Ask the two questions the first hire asked: whether winter tyres are fitted by mid-October, since the Abo pass and Okuhida run high, and whether an ETC card comes with it."
         },
         {
           "time": "10:00",
           "activity": "Drive to Hirayu Onsen\nMatsumoto Station -(Drive)> Hirayu Onsen",
           "costs": {},
-          "remarks": "About 1h 15m up the Azusa on Route 158 and through the Abo Tunnel, JPY 790 for a car — JPY 550 on the ETC late-night or holiday discount. The old Abo pass road over the top is free and adds 25 to 30 minutes, and is worth it only for its own sake. This is the leg the bus did in 1h 25m for JPY 3,000 a head on four departures a day with compulsory seat reservations; the car buys that back."
+          "remarks": "About 1h 15m up the Azusa on Route 158 and through the Abo Tunnel, JPY 790 for a car — JPY 550 on the ETC late-night or holiday discount. The old Abo pass road over the top is free and adds 25 to 30 minutes, and is worth it only for its own sake. This is the leg the bus did in 1h 25m for JPY 3,000 a head on four departures a day with compulsory seat reservations; the car buys that back. Leave the car at the Akandana car park, JPY 600 a day, which is where cars bound for Kamikochi stop: private vehicles are banned beyond Nakanoyu. Two days on the meter, today and tomorrow — worth a thought about what is left visible in the car overnight. Sawando, on the Matsumoto side, is the nearer gate, but whether its shuttle now needs booking could not be confirmed; the Hirayu shuttle certainly does not."
         },
         {
           "time": "11:30",
-          "activity": "Lunch at Hirayu Onsen",
+          "activity": "Travel to Kamikochi\nHirayu Onsen -(Nohi Bus)> Taisho Pond",
+          "costs": {
+            "transport": 5600
+          },
+          "remarks": "About 25 minutes through the Abo tunnel. Buy a return rather than two singles — JPY 2,800 per person against JPY 1,500 each way, so the pair saves JPY 400, and tomorrow's ride out is then already paid; figure shown is the return for two. The shuttle runs roughly every 30 minutes and cannot be reserved or bought in advance — pay at the Hirayu counter and join the queue. It runs 17 Apr to 15 Nov only. Get off one stop early, at Taisho Pond, rather than riding on to the terminal: the walk in from there finishes at the hotel instead of doubling back to it."
+        },
+        {
+          "time": "12:00",
+          "activity": "Explore Taisho Pond",
           "costs": {},
-          "remarks": "Alps Kaido Hirayu at the bus terminal has a free footbath, which is a civilised way to break the drive. No hunt for a locker now — the cases stay in the boot, which is most of what the car is for."
+          "remarks": "Dead trees standing in still water under Yakedake, which made the pond in 1915 by damming the Azusa when it erupted. The volcano still steams, and on a calm morning the whole range doubles in the surface. The far end of the valley and the quietest of its three set pieces. This is a Saturday, and October weekends are Kamikochi's busiest: the crush is roughly 10:00 to 14:00 around Taisho Pond and Kappa Bridge, which is exactly when this walk happens. It thins out through the afternoon, and dusk and tomorrow's dawn belong to the people staying."
         },
         {
           "time": "12:30",
-          "activity": "Explore Hirayu Great Falls\nHirayu Onsen -(Drive)> Hirayu Great Falls",
+          "activity": "Walk in to Kappa Bridge\nTaisho Pond -(Walk - 75 mins)> Kappa Bridge",
           "costs": {},
-          "remarks": "64 m of water off the flank of Norikura, one of Japan's hundred famous waterfalls. The car park is free and holds about a hundred, and it is roughly 20 minutes on foot from there to the falls; it closes once the snow comes, which is not a worry in October. Late October is when the falls look best — the gorge colours later than the tops do, so this is one of the few things the earlier dates do not shortchange. If tomorrow looks clouded in and this afternoon is clear, swap the two: the ropeway is 15 minutes on from Shin-Hotaka and the falls do not need a view. That swap is the only weather card left now the third night has gone."
+          "remarks": "3.7 km of flat boardwalk and gravel along the river, 75 minutes without stopping and a good deal more with. It passes the Tashiro marsh and Tashiro Pond, then the Weston monument — the plaque to the English missionary who talked Japan into climbing these mountains for pleasure. Mobile signal is patchy and exists only around the terminal, Kappa Bridge, the visitor centre, the Weston relief, Tashiro Pond and Taisho Pond."
         },
         {
-          "time": "15:00",
-          "activity": "Drive to Shin-Hotaka Onsen\nHirayu Great Falls -(Drive)> Shin-Hotaka Onsen",
+          "time": "13:45",
+          "activity": "Lunch at Kamikochi",
           "costs": {},
-          "remarks": "About 30 minutes up the valley. The road threads all five Okuhida villages in order — Hirayu, Fukuji, Shin-Hirayu, Tochio, then Shin-Hotaka — so another village's bath is now a short drive rather than an hourly bus."
+          "remarks": "The bus terminal and the hotels around Kappa Bridge are the only places to eat, and there is no convenience store and no ATM in the valley at all. Cards are usually taken but carry cash — the Myojin gate tomorrow is coins only."
         },
         {
-          "time": "15:45",
+          "time": "14:45",
           "activity": "Check in and leave the bags",
           "costs": {},
-          "remarks": "Two nights in one place, and the point of them is the ryokan's own water rather than touring the valley. Okuhida is said to have more open-air baths than anywhere else in Japan, so choose the property for its rotenburo. Parking at a ryokan up here is normally free and normally plentiful, but it is worth confirming when booking rather than arriving and hoping."
+          "remarks": "Fewer than ten properties in the whole valley, and most serve half board because there is nowhere else to eat once the day-trippers have gone. Cancellation typically runs about 30 per cent from three days out and 50 per cent on the day, so this is a booking to be sure of before making."
         },
         {
-          "time": "17:00",
-          "activity": "Onsen at Okuhida",
+          "time": "15:15",
+          "activity": "Explore Kamikochi Visitor Center",
           "costs": {},
-          "remarks": null
+          "remarks": "Free, open until 17:00, a few minutes upstream of Kappa Bridge on the right bank. Exhibits on how the valley was made and what lives in it, and the place to ask what the Myojin path is actually doing before walking it tomorrow."
         },
         {
-          "time": "18:30",
-          "activity": "Dinner at Okuhida",
+          "time": "16:00",
+          "activity": "Explore Kappa Bridge",
+          "costs": {},
+          "remarks": "On these dates the valley is in maples rather than larch: the maple peak is around 17 Oct, so today is a day before it and about as good, while the larch does not turn gold until 25 Oct to 5 Nov and will barely have started. That is the trade the earlier window makes — red rather than gold — and it is real rather than a technicality. Putting Kamikochi ahead of Okuhida moved this from the day after the maple peak to the day before it — close to a wash. The densest larch stands, for reference, are around the bus terminal and Konashidaira."
+        },
+        {
+          "time": "16:45",
+          "activity": "Explore Kamikochi at dusk",
+          "costs": {},
+          "remarks": "The last buses out are late afternoon and the valley empties behind them — this is the whole reason to sleep here, and on a Saturday the contrast with midday is at its sharpest. Sunset is about 17:10, but the walls are high and the floor loses the light well before that."
+        },
+        {
+          "time": "18:00",
+          "activity": "Dinner at Kamikochi",
           "costs": {},
           "remarks": null
         }
@@ -1342,6 +1354,12 @@
       "city": "Okuhida",
       "weekday": "Sunday",
       "temperature": [
+        {
+          "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
         {
           "location": "Okuhida",
           "min": 11.4,
@@ -1357,6 +1375,93 @@
           "basisDate": "2025-10-17"
         }
       ],
+      "summary": "Dawn on the Azusa, a loop to Myojin, then one waterfall and up into the ryokan.",
+      "items": [
+        {
+          "time": "05:45",
+          "activity": "Explore Kamikochi at dawn",
+          "costs": {},
+          "remarks": "Sunrise is around 06:00 and the floor of the valley stays in shadow long after the Hotaka range above it has gone pink — that gap is the picture, and it is the morning the night here was for. Kappa Bridge looks straight at it; Taisho Pond adds the mist. Dress for it: this is about 1,500 m in the middle of October and the morning bears no relation to yesterday afternoon."
+        },
+        {
+          "time": "07:00",
+          "activity": "Breakfast, then check out",
+          "costs": {},
+          "remarks": "Check-out is usually 10:00, so it happens before the walk rather than after it. If you would rather not carry the overnight bag round Myojin, the bus terminal's baggage room takes it from 06:00 to 17:00 for JPY 350 to 600."
+        },
+        {
+          "time": "08:00",
+          "activity": "Hike to Myojin Pond\nKappa Bridge -(Hike - 60 mins)> Myojin Pond",
+          "costs": {
+            "sightseeing": 1000
+          },
+          "remarks": "5.5 km there and back and about two hours' walking by the official figure, flat the whole way — call it three with stops. Go up one bank and back the other: the right bank is the wide main path, the left is quieter and runs through the nature-research forest. The pond is inside the grounds of Hotaka Shrine's inner shrine and is not free — JPY 500 per person, cash only, figure shown is for two. The Kamikochi tourist site still lists 300, so carry coins for either. Kamonji-goya beside it has been grilling char over an open hearth for a century."
+        },
+        {
+          "time": "11:30",
+          "activity": "Lunch at Kamikochi",
+          "costs": {},
+          "remarks": null
+        },
+        {
+          "time": "12:30",
+          "activity": "Travel to Hirayu Onsen\nKamikochi Bus Terminal -(Nohi Bus)> Hirayu Onsen",
+          "costs": {},
+          "remarks": "About 25 minutes, on yesterday's return ticket. This is the quiet advantage of leaving westwards: the Hirayu shuttle takes no reservations at all, where every seat on the Matsumoto-bound bus has had to be booked a month ahead since 2025. Collect the car at Akandana. It is Sunday midday, so expect a queue for the shuttle; it runs about every half hour."
+        },
+        {
+          "time": "13:15",
+          "activity": "Explore Hirayu Great Falls\nHirayu Onsen -(Drive)> Hirayu Great Falls",
+          "costs": {},
+          "remarks": "64 m of water off the flank of Norikura, one of Japan's hundred famous waterfalls. The car park is free and holds about a hundred, and it is roughly 20 minutes on foot from there to the falls; it closes once the snow comes, which is not a worry in October. Late October is when the falls look best — the gorge colours later than the tops do, so this is one of the few things the earlier dates do not shortchange. The ropeway is tomorrow, and if this afternoon is the clearest of the three it can come forward instead — it is 15 minutes on from Shin-Hotaka and the falls do not need a view."
+        },
+        {
+          "time": "15:15",
+          "activity": "Drive to Shin-Hotaka Onsen\nHirayu Great Falls -(Drive)> Shin-Hotaka Onsen",
+          "costs": {},
+          "remarks": "About 30 minutes up the valley. The road threads all five Okuhida villages in order — Hirayu, Fukuji, Shin-Hirayu, Tochio, then Shin-Hotaka — so another village's bath is now a short drive rather than an hourly bus."
+        },
+        {
+          "time": "16:00",
+          "activity": "Check in and leave the bags",
+          "costs": {},
+          "remarks": "Two nights in one place, and the point of them is the ryokan's own water rather than touring the valley. Okuhida is said to have more open-air baths than anywhere else in Japan, so choose the property for its rotenburo. Parking at a ryokan up here is normally free and normally plentiful, but it is worth confirming when booking rather than arriving and hoping."
+        },
+        {
+          "time": "17:00",
+          "activity": "Onsen at Okuhida",
+          "costs": {},
+          "remarks": "After a 05:45 start, this is where the long day ends — in the ryokan's own bath rather than at a rental desk."
+        },
+        {
+          "time": "18:30",
+          "activity": "Dinner at Okuhida",
+          "costs": {},
+          "remarks": null
+        }
+      ]
+    },
+    {
+      "day": 11,
+      "date": "2027-10-18",
+      "city": "Okuhida",
+      "weekday": "Monday",
+      "temperature": [
+        {
+          "location": "Okuhida",
+          "min": 10.7,
+          "max": 19.5,
+          "note": null,
+          "feelsMin": 10.2,
+          "feelsMax": 18.7,
+          "condition": "Heavy drizzle",
+          "wind": 11.0,
+          "sunrise": "05:59",
+          "sunset": "17:10",
+          "basis": "historical",
+          "basisDate": "2025-10-18"
+        }
+      ],
       "summary": "Up Japan's only double-decker ropeway, then back down through the trees.",
       "items": [
         {
@@ -1369,7 +1474,7 @@
           "time": "09:15",
           "activity": "Drive to Shinhotaka Ropeway\nShin-Hotaka Onsen -(Drive)> Shinhotaka Ropeway",
           "costs": {},
-          "remarks": "A few minutes further up from the village. The municipal car park at the base is gated and charges JPY 800 for each six hours for a car — it went up from 600 in June 2026 — with the first 30 minutes free and 113 spaces. Today is about six hours door to door, so expect to pay for two blocks. The Nabedaira Kogen car park higher up is JPY 600 a day if the base is full."
+          "remarks": "A few minutes further up from the village. Today is a weekday, so the October timetable runs from 08:45, with the last car up at 16:15 and the last down at 16:45; weekends start at 08:15 because they are busier, which is half the point of doing this on a Monday. The municipal car park at the base is gated and charges JPY 800 for each six hours for a car — it went up from 600 in June 2026 — with the first 30 minutes free and 113 spaces. Expect two blocks today. The Nabedaira Kogen car park higher up is JPY 600 a day if the base is full."
         },
         {
           "time": "09:30",
@@ -1377,7 +1482,7 @@
           "costs": {
             "sightseeing": 7600
           },
-          "remarks": "Two ropeways and a short walk between them. No.1 lifts you from Shinhotaka Onsen station at 1,117 m to Nabedaira Kogen at 1,305 m; you cross to Shirakabadaira at 1,308 m and take No.2 — the double-decker, the only one in Japan — up to Nishi-Hotakaguchi at 2,156 m. About 25 minutes all in. No.1 leaves at :00 and :30 past the hour and No.2 at :15 and :45, so the connection is built in. JPY 3,800 per person return for both; figure shown is for two. Seasonal hours shift — confirm the last descent before you go up. With the third Okuhida night gone this is the one shot at the top; yesterday afternoon was the fallback and it has already been spent by the time you read this."
+          "remarks": "Two ropeways and a short walk between them. No.1 lifts you from Shinhotaka Onsen station at 1,117 m to Nabedaira Kogen at 1,305 m; you cross to Shirakabadaira at 1,308 m and take No.2 — the double-decker, the only one in Japan — up to Nishi-Hotakaguchi at 2,156 m. About 25 minutes all in. No.1 leaves at :00 and :30 past the hour and No.2 at :15 and :45, so the connection is built in. JPY 3,800 per person return for both; figure shown is for two. Seasonal hours shift — confirm the last descent before you go up. If the top is clouded in, tomorrow morning is the spare: 08:45 up on a weekday, back down by about 11:00, and Narai still gets its afternoon."
         },
         {
           "time": "10:15",
@@ -1424,115 +1529,24 @@
       ]
     },
     {
-      "day": 11,
-      "date": "2027-10-18",
-      "city": "Kamikochi",
-      "weekday": "Monday",
-      "temperature": [
-        {
-          "location": "Okuhida",
-          "min": 10.7,
-          "max": 19.5,
-          "note": null,
-          "feelsMin": 10.2,
-          "feelsMax": 18.7,
-          "condition": "Heavy drizzle",
-          "wind": 11.0,
-          "sunrise": "05:59",
-          "sunset": "17:10",
-          "basis": "historical",
-          "basisDate": "2025-10-18"
-        },
-        {
-          "location": "Kamikochi",
-          "min": null,
-          "max": null,
-          "note": null
-        }
-      ],
-      "summary": "The car waits at Hirayu; one night inside the valley, walked in from Taisho Pond.",
-      "items": [
-        {
-          "time": "08:00",
-          "activity": "Breakfast, then check out",
-          "costs": {},
-          "remarks": "Nothing to forward. The cases stay in the car, which is the clearest thing the hire buys: no takkyubin out of a mountain valley at about JPY 3,000 a case, no two-day wait, and no asking a hotel to take a delivery before you arrive. Take an overnight bag only — the walk in from Taisho Pond is 3.7 km and there are no coin lockers anywhere in Kamikochi."
-        },
-        {
-          "time": "09:30",
-          "activity": "Drive to Hirayu Onsen\nShin-Hotaka Onsen -(Drive)> Hirayu Onsen",
-          "costs": {},
-          "remarks": "About 30 minutes back down the valley. Leave the car at the Akandana car park, JPY 600 a day, which is where cars bound for Kamikochi stop: private vehicles are banned beyond Nakanoyu and there is no way to drive in. Two days on the meter, today and tomorrow. Worth a thought about what is left visible in a car standing overnight in a car park."
-        },
-        {
-          "time": "10:30",
-          "activity": "Travel to Kamikochi\nHirayu Onsen -(Nohi Bus)> Taisho Pond",
-          "costs": {
-            "transport": 5600
-          },
-          "remarks": "About 25 minutes through the Abo tunnel. Buy a return rather than two singles — JPY 2,800 per person against JPY 1,500 each way, so the pair saves JPY 400, and tomorrow's ride out is then already paid; figure shown is the return for two. The shuttle runs roughly every 30 minutes and cannot be reserved or bought in advance — pay at the Hirayu counter and join the queue. It runs 17 Apr to 15 Nov only. Get off one stop early, at Taisho Pond, rather than riding on to the terminal: the walk in from there finishes at the hotel instead of doubling back to it."
-        },
-        {
-          "time": "11:00",
-          "activity": "Explore Taisho Pond",
-          "costs": {},
-          "remarks": "Dead trees standing in still water under Yakedake, which made the pond in 1915 by damming the Azusa when it erupted. The volcano still steams, and on a calm morning the whole range doubles in the surface. The far end of the valley and the quietest of its three set pieces."
-        },
-        {
-          "time": "11:45",
-          "activity": "Walk in to Kappa Bridge\nTaisho Pond -(Walk - 75 mins)> Kappa Bridge",
-          "costs": {},
-          "remarks": "3.7 km of flat boardwalk and gravel along the river, 75 minutes without stopping and a good deal more with. It passes the Tashiro marsh and Tashiro Pond, then the Weston monument — the plaque to the English missionary who talked Japan into climbing these mountains for pleasure. Mobile signal is patchy and exists only around the terminal, Kappa Bridge, the visitor centre, the Weston relief, Tashiro Pond and Taisho Pond."
-        },
-        {
-          "time": "13:15",
-          "activity": "Lunch at Kamikochi",
-          "costs": {},
-          "remarks": "The bus terminal and the hotels around Kappa Bridge are the only places to eat, and there is no convenience store and no ATM in the valley at all. Cards are usually taken but carry cash — the Myojin gate tomorrow is coins only, and so are the Kiso valley buses on the way on."
-        },
-        {
-          "time": "14:15",
-          "activity": "Check in and leave the bags",
-          "costs": {},
-          "remarks": "Fewer than ten properties in the whole valley, and most serve half board because there is nowhere else to eat once the day-trippers have gone. Cancellation typically runs about 30 per cent from three days out and 50 per cent on the day, so this is a booking to be sure of before making."
-        },
-        {
-          "time": "15:00",
-          "activity": "Explore Kamikochi Visitor Center",
-          "costs": {},
-          "remarks": "Free, open until 17:00, a few minutes upstream of Kappa Bridge on the right bank. Exhibits on how the valley was made and what lives in it, and the place to ask what the Myojin path is actually doing before walking it tomorrow."
-        },
-        {
-          "time": "16:00",
-          "activity": "Explore Kappa Bridge",
-          "costs": {},
-          "remarks": "On these dates the valley is in maples rather than larch: the maple peak is around 17 Oct, so today is a day past it and at its best, while the larch does not turn gold until 25 Oct to 5 Nov and will barely have started. That is the trade the earlier window makes — red rather than gold — and it is real rather than a technicality. Dropping the third Okuhida night moved this day a day closer to the maple peak, which is the one piece of colour timing the change improves. The densest larch stands, for reference, are around the bus terminal and Konashidaira."
-        },
-        {
-          "time": "16:45",
-          "activity": "Explore Kamikochi at dusk",
-          "costs": {},
-          "remarks": "The last buses out are late afternoon and the valley empties behind them — this is the whole reason to sleep here. Sunset is about 17:10, but the walls are high and the floor loses the light well before that."
-        },
-        {
-          "time": "18:00",
-          "activity": "Dinner at Kamikochi",
-          "costs": {},
-          "remarks": null
-        }
-      ]
-    },
-    {
       "day": 12,
       "date": "2027-10-19",
       "city": "Kiso Valley",
       "weekday": "Tuesday",
       "temperature": [
         {
-          "location": "Kamikochi",
-          "min": null,
-          "max": null,
-          "note": null
+          "location": "Okuhida",
+          "min": 12.3,
+          "max": 17.4,
+          "note": null,
+          "feelsMin": 12.5,
+          "feelsMax": 16.7,
+          "condition": "Drizzle",
+          "wind": 9.0,
+          "sunrise": "06:00",
+          "sunset": "17:09",
+          "basis": "historical",
+          "basisDate": "2025-10-19"
         },
         {
           "location": "Narai",
@@ -1555,69 +1569,55 @@
           "basisDate": "2025-10-19"
         }
       ],
-      "summary": "Dawn on the Azusa, a loop to Myojin, then Narai-juku on the drive down to the Kiso.",
+      "summary": "Out of Okuhida, a proper stop at Narai-juku, and down the Kiso to Nakatsugawa.",
       "items": [
         {
-          "time": "05:45",
-          "activity": "Explore Kamikochi at dawn",
-          "costs": {},
-          "remarks": "Sunrise is around 06:00 and the floor of the valley stays in shadow long after the Hotaka range above it has gone pink — that gap is the picture, and it is the morning the night here was for. Kappa Bridge looks straight at it; Taisho Pond adds the mist. Dress for it: this is about 1,500 m in the middle of October and the morning bears no relation to yesterday afternoon."
-        },
-        {
-          "time": "07:00",
+          "time": "08:00",
           "activity": "Breakfast, then check out",
           "costs": {},
-          "remarks": "Check-out is usually 10:00, so it happens before the walk rather than after it. If you would rather not carry the overnight bag round Myojin, the bus terminal's baggage room takes it from 06:00 to 17:00 for JPY 350 to 600."
+          "remarks": "An unhurried morning. If yesterday was clouded in at the top, this is the ropeway's spare: the first car up is 08:45 on a weekday and you can be back down by about 11:00, which costs Narai an hour but not the visit."
         },
         {
-          "time": "08:00",
-          "activity": "Hike to Myojin Pond\nKappa Bridge -(Hike - 60 mins)> Myojin Pond",
-          "costs": {
-            "sightseeing": 1000
-          },
-          "remarks": "5.5 km there and back and about two hours' walking by the official figure, flat the whole way — call it three with stops. Go up one bank and back the other: the right bank is the wide main path, the left is quieter and runs through the nature-research forest. The pond is inside the grounds of Hotaka Shrine's inner shrine and is not free — JPY 500 per person, cash only, figure shown is for two. The Kamikochi tourist site still lists 300, so carry coins for either. Kamonji-goya beside it has been grilling char over an open hearth for a century."
-        },
-        {
-          "time": "11:30",
-          "activity": "Lunch at Kamikochi",
+          "time": "10:00",
+          "activity": "Drive to Narai-juku\nShin-Hotaka Onsen -(Drive)> Narai-juku",
           "costs": {},
-          "remarks": "The last proper meal before Narai, mid-afternoon."
+          "remarks": "About two and a half hours: half an hour down the valley to Hirayu, back through the Abo Tunnel (JPY 790) to Matsumoto, then south on Route 19 through Shiojiri — Narai sits on the road about 35 km past Matsumoto, so it is a stop on the way rather than a detour. The old town is closed to cars; leave the car in one of the free car parks by the Kiso-no-Ohashi bridge or at the roadside station. The station car park (JPY 500) and the Gonbei car park (JPY 510) are the fallbacks."
         },
         {
           "time": "12:30",
-          "activity": "Travel to Hirayu Onsen\nKamikochi Bus Terminal -(Nohi Bus)> Hirayu Onsen",
+          "activity": "Lunch at Narai-juku",
           "costs": {},
-          "remarks": "About 25 minutes, on yesterday's return ticket. This is the quiet advantage of leaving westwards: the Hirayu shuttle takes no reservations at all, where every seat on the Matsumoto-bound bus has had to be booked a month ahead since 2025. Collect the car at Akandana."
+          "remarks": null
         },
         {
-          "time": "13:15",
-          "activity": "Drive to Narai-juku\nHirayu Onsen -(Drive)> Narai-juku",
-          "costs": {},
-          "remarks": "About two hours. Back through the Abo Tunnel (JPY 790) to Matsumoto, then south on Route 19 through Shiojiri — Narai sits on the road about 35 km past Matsumoto, so it is a stop on the way rather than a detour. The old town is closed to cars; leave the car in one of the free car parks by the Kiso-no-Ohashi bridge or at the roadside station. The station car park (JPY 500) and the Gonbei car park (JPY 510) are the fallbacks."
-        },
-        {
-          "time": "15:15",
+          "time": "13:30",
           "activity": "Explore Narai-juku",
           "costs": {},
-          "remarks": "The Nakasendo post town dropped earlier in the planning for want of a day, back now because the car drives past it. Nakamura-tei, the merchant house that is its main museum, opens 09:00 to 17:00 with last entry at 16:30, so go there first; the tourist office shuts at 16:00 and many shops close by early evening, which is the real limit on this stop. About an hour and a quarter as planned. Leave Kamikochi an hour earlier — the Hirayu shuttle runs about every 30 minutes — and it becomes two, at the cost of a shorter Myojin morning. This is a car stop for a reason: the Shinano does not call at Narai, and the station has no lockers and holds cases only until 16:00."
+          "remarks": "The Nakasendo post town dropped earlier in the planning for want of a day, back now because the car drives past it. Nakamura-tei, the merchant house that is its main museum, opens 09:00 to 17:00 with last entry at 16:30, so go there first; the tourist office shuts at 16:00 and many shops close by early evening, which is the real limit on this stop. About two and a half hours as planned — the reason for putting Okuhida after Kamikochi. If the morning went on the ropeway instead, it is closer to an hour and a half, which is still enough for Nakamura-tei and the main street. This is a car stop for a reason: the Shinano does not call at Narai, and the station has no lockers and holds cases only until 16:00."
         },
         {
-          "time": "16:30",
+          "time": "15:00",
           "activity": "Drive to Nakatsugawa\nNarai-juku -(Drive)> Nakatsugawa Station",
           "costs": {},
           "remarks": "About 79 km south on Route 19, an hour and a half to an hour and forty — a 50 km/h single carriageway for much of the way, so do not plan on less. Refuel on the way in; full-to-full is the usual policy, and it is easier before you reach the station than after."
         },
         {
-          "time": "18:10",
+          "time": "16:45",
           "activity": "Return the hire car at Nakatsugawa Station",
           "costs": {},
-          "remarks": "Toyota Nakatsugawa Ekimae, about two minutes from the station — cross at the crossing to the right of the exit and it is on the ground floor of the red brick building. It closes at 20:00, which leaves under two hours of slack after Narai; if the afternoon runs long, cut Narai short rather than the drive. Four days, and the JPY 18,700 one-way fee settles here. Handing it back tonight rather than on the 21st saves a day's hire and two nights of hotel parking, and the car has no job on the walk day that the train and bus cannot do. The cases then walk the two to seven minutes to the hotel with you."
+          "remarks": "Toyota Nakatsugawa Ekimae, about two minutes from the station — cross at the crossing to the right of the exit and it is on the ground floor of the red brick building. It closes at 20:00, which leaves about three hours of slack, or two if the morning went on the ropeway; if the day runs long, cut Narai short rather than the drive. Four days, and the JPY 18,700 one-way fee settles here. Handing it back today rather than on the 21st saves a day's hire and two nights of hotel parking, and the car has no job on the walk day that the train and bus cannot do. The cases then walk the two to seven minutes to the hotel with you."
         },
         {
-          "time": "18:30",
+          "time": "17:15",
           "activity": "Check in at Nakatsugawa",
           "costs": {},
-          "remarks": "Down from 1,500 m to about 340 m in a single day. Stay by the station: the car went back beside it this evening, tomorrow starts on the train from it, and the Tokyo train leaves from it on the 21st. No parking to arrange — the car is gone before check-in. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+          "remarks": "Down from about 1,100 m in Okuhida to about 340 m. Stay by the station: the car went back beside it this afternoon, tomorrow starts on the train from it, and the Tokyo train leaves from it on the 21st. No parking to arrange — the car is gone before check-in. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+        },
+        {
+          "time": "17:45",
+          "activity": "Explore Nakatsugawa-juku",
+          "costs": {},
+          "remarks": "The town's own Nakasendo post town — the 45th of 69, once the area's commercial centre. The old road starts at the Shinmachi crossing, about 100 m down the main street from the station, and keeps its crooked, squared-off layout and houses with udatsu, the raised firewalls that marked a wealthy family. This is also chestnut country: Nakatsugawa is where kurikinton comes from, and more than a dozen shops sell it from September into winter, so the dates land squarely in season."
         },
         {
           "time": "19:00",
@@ -1711,12 +1711,6 @@
             "transport": 1600
           },
           "remarks": "About 25 minutes, JPY 800 per person; figure shown is for two. No connection to make and no hurry: weekday departures from Magome leave at 12:50, 13:50, 14:50, 15:50 and 16:50, then 17:50 (weekdays only) and 18:15 — so the time given here is only a suggestion. No reservations; pay cash on the way off, and the change machine takes JPY 1,000 notes but nothing bigger."
-        },
-        {
-          "time": "16:30",
-          "activity": "Explore Nakatsugawa-juku",
-          "costs": {},
-          "remarks": "The town's own Nakasendo post town — the 45th of 69, once the area's commercial centre. The old road starts at the Shinmachi crossing, about 100 m down the main street from the station, and keeps its crooked, squared-off layout and houses with udatsu, the raised firewalls that marked a wealthy family. This is also chestnut country: Nakatsugawa is where kurikinton comes from, and more than a dozen shops sell it from September into winter, so the dates land squarely in season."
         },
         {
           "time": "18:30",
@@ -2024,7 +2018,7 @@
       "remarks": null
     },
     {
-      "city": "Okuhida",
+      "city": "Kamikochi",
       "name": null,
       "reservation": {
         "site": null,
@@ -2034,8 +2028,8 @@
       "address": null,
       "phone": null,
       "checkIn": "2027-10-16",
-      "checkOut": "2027-10-18",
-      "nights": 2,
+      "checkOut": "2027-10-17",
+      "nights": 1,
       "persons": 2,
       "rooms": null,
       "roomType": null,
@@ -2054,7 +2048,7 @@
       "remarks": null
     },
     {
-      "city": "Kamikochi",
+      "city": "Okuhida",
       "name": null,
       "reservation": {
         "site": null,
@@ -2063,9 +2057,9 @@
       },
       "address": null,
       "phone": null,
-      "checkIn": "2027-10-18",
+      "checkIn": "2027-10-17",
       "checkOut": "2027-10-19",
-      "nights": 1,
+      "nights": 2,
       "persons": 2,
       "rooms": null,
       "roomType": null,
@@ -2145,7 +2139,7 @@
     }
   ],
   "transport": {
-    "mode": "Mixed on purpose, and two hire cars rather than one. The first takes the middle four days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. The second runs four days from Matsumoto on 16 Oct and is handed back at Nakatsugawa on the evening of the 19th: over the Abo pass, Okuhida, a two-day wait at Hirayu while Kamikochi is done on the shuttle — private cars are banned there — then Narai-juku and the Kiso valley on the way down. It crosses into Gifu, so it carries a JPY 18,700 one-way fee. What it buys is the cases riding in the boot rather than being forwarded out of a mountain valley, the Kamikochi-to-Kiso leg without doubling back, and Narai, where the Shinano does not stop. It goes back on arrival because it has no job on the walk day that the train and bus cannot do. Rail for the walk day and at either end, because the long hauls are faster by train and a car is useless in Tokyo.",
+    "mode": "Mixed on purpose, and two hire cars rather than one. The first takes the middle four days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. The second runs four days from Matsumoto on 16 Oct and is handed back at Nakatsugawa on the afternoon of the 19th: over the Abo pass to Hirayu, where it waits while Kamikochi is done on the shuttle — private cars are banned there — then Okuhida, and finally Narai-juku and the Kiso valley on the way down. It crosses into Gifu, so it carries a JPY 18,700 one-way fee. What it buys is the cases riding in the boot rather than being forwarded out of a mountain valley, the Kamikochi-to-Kiso leg without doubling back, and Narai, where the Shinano does not stop. It goes back on arrival because it has no job on the walk day that the train and bus cannot do. Rail for the walk day and at either end, because the long hauls are faster by train and a car is useless in Tokyo.",
     "carRental": [
       {
         "company": null,
@@ -2198,7 +2192,7 @@
           "address": null,
           "phone": null,
           "date": "2027-10-19",
-          "time": "18:10"
+          "time": "16:45"
         },
         "costs": {
           "rental": null,
@@ -2243,28 +2237,28 @@
       {
         "day": 9,
         "date": "2027-10-16",
-        "route": "Matsumoto to Hirayu Onsen, the falls, then Shin-Hotaka Onsen",
+        "route": "Matsumoto to Hirayu Onsen, then the car waits at Akandana",
         "km": null,
         "refuel": false
       },
       {
         "day": 10,
         "date": "2027-10-17",
-        "route": "Shin-Hotaka Onsen — Shinhotaka Ropeway",
+        "route": "Hirayu Onsen to Hirayu Great Falls, then Shin-Hotaka Onsen",
         "km": null,
         "refuel": false
       },
       {
         "day": 11,
         "date": "2027-10-18",
-        "route": "Shin-Hotaka Onsen to Hirayu Onsen, then the car waits at Akandana",
+        "route": "Shin-Hotaka Onsen — Shinhotaka Ropeway",
         "km": null,
         "refuel": false
       },
       {
         "day": 12,
         "date": "2027-10-19",
-        "route": "Hirayu Onsen to Narai-juku, then Nakatsugawa — return the car",
+        "route": "Shin-Hotaka Onsen to Narai-juku, then Nakatsugawa — return the car",
         "km": null,
         "refuel": true
       }
@@ -2273,11 +2267,11 @@
   "activities": [],
   "todo": [
     {
-      "task": "Book Kamikochi, 18 Oct",
+      "task": "Book Kamikochi, 16 Oct (Sat)",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Do this first. Fewer than ten properties in the valley and the colour weeks sell out months ahead. Half board is the norm — there is nowhere else to eat after dark. Cancellation typically runs about 30 per cent from three days out and 50 per cent on the day, so be sure before booking.",
+      "remarks": "Do this first. Fewer than ten properties in the valley and the colour weeks sell out months ahead. Half board is the norm — there is nowhere else to eat after dark. Cancellation typically runs about 30 per cent from three days out and 50 per cent on the day, so be sure before booking. It is now a Saturday night, the hardest of the week to get in colour season. If Saturday cannot be had, swap Kamikochi and Okuhida back — Kamikochi on Mon 18 Oct, Okuhida 16-18 Oct — which is how the plan stood before 16 Sep 2026.",
       "url": null
     },
     {
@@ -2285,11 +2279,11 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "By the station — the car is handed back beside it on the evening of the 19th, the walk day starts on a train from it and ends on the Magome bus back to it, and the Tokyo train leaves from it on the 21st. No parking needed: the car is gone before check-in. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
+      "remarks": "By the station — the car is handed back beside it on the afternoon of the 19th, the walk day starts on a train from it and ends on the Magome bus back to it, and the Tokyo train leaves from it on the 21st. No parking needed: the car is gone before check-in. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
       "url": null
     },
     {
-      "task": "Book Okuhida onsen ryokan, 16-18 Oct",
+      "task": "Book Okuhida onsen ryokan, 17-19 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
@@ -2373,7 +2367,7 @@
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Four days, and this one crosses prefectures — Nagano to Gifu — so a one-way fee applies where the first hire's did not: JPY 18,700 including tax for a passenger car from Matsumoto Ekimae to Nakatsugawa Ekimae, on Toyota's own simulator. Toyota's list rate for a compact is JPY 8,580 for the first 24 hours then JPY 7,260 a day. Collect at 09:30 on the 16th; return on the evening of the 19th at the Nakatsugawa Ekimae branch, two minutes from the station, which closes at 20:00 — the plan lands around 18:10 after Narai, so there is under two hours of slack. Ask about winter tyres by mid-October and an ETC card, and check the boot takes both cases with two people in the car, since not forwarding the luggage is half the reason for the hire.",
+      "remarks": "Four days, and this one crosses prefectures — Nagano to Gifu — so a one-way fee applies where the first hire's did not: JPY 18,700 including tax for a passenger car from Matsumoto Ekimae to Nakatsugawa Ekimae, on Toyota's own simulator. Toyota's list rate for a compact is JPY 8,580 for the first 24 hours then JPY 7,260 a day. Collect at 09:30 on the 16th; return on the afternoon of the 19th at the Nakatsugawa Ekimae branch, two minutes from the station, which closes at 20:00 — the plan lands around 16:45 after Narai, so there are about three hours of slack. Ask about winter tyres by mid-October and an ETC card, and check the boot takes both cases with two people in the car, since not forwarding the luggage is half the reason for the hire.",
       "url": null
     },
     {
@@ -2409,7 +2403,7 @@
       "url": null
     },
     {
-      "task": "Buy a return on the Hirayu–Kamikochi shuttle, 18 Oct",
+      "task": "Buy a return on the Hirayu–Kamikochi shuttle, 16 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
