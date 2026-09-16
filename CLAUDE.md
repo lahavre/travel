@@ -197,10 +197,10 @@ anything without its own `match`, deliberately.
     2026, the traveller's call). Once the base moved, walking the classic downhill way
     ended the day on a Tsumago bus and a Nagiso train with hour-long gaps; walking the
     other way ends in Magome, which is part of Nakatsugawa, with a direct bus home every
-    hour. The cost is the climb — Tsumago ~420 m to the 801 m pass — and the morning
-    connection: the 07:41 local from Nakatsugawa for the 08:40 Nagiso bus, with the next
-    pairing two hours later. Nagiso Station to Tsumago is about an hour on foot as a
-    fallback. Do not "correct" the direction back to Magome-first.
+    hour. The cost is the climb — Tsumago ~420 m to the 801 m pass. Do not "correct" the
+    direction back to Magome-first. Since the second car arrived the day drives to Magome
+    (six free car parks; Tsumago charges JPY 500 and has no free option), buses across to
+    Tsumago, and walks back to the car — so the old fragile 07:41 train is gone.
   - **The dates are a knowing trade the traveller made against advice**, on evidence they
     found: Hakuba's alpine colour peaks late September and the Nakasendo's late October,
     five weeks apart, so no single trip catches both. Happo Pond was reported at peak on
@@ -213,18 +213,31 @@ anything without its own `match`, deliberately.
     better than a resort valley, and the drive to Hakuba happens on the Monday itself —
     against traffic that runs from the resorts back to the cities. Both Hakuba walks then
     fall on ordinary weekdays.
-  - **Transport is deliberately mixed**: a hire car for the middle four days (Nagano
-    11 Oct to Matsumoto 14 Oct — same prefecture, so the one-way drop stays cheap; Azumino
-    is taken on the drive down, so the car goes back before checking in and needs no hotel
-    parking at all) where the buses are sparse, and rail everywhere else, because Kamikochi
-    bans private cars, the Magome-Tsumago walk is point-to-point, and the long hauls are
-    faster by train.
+  - **Transport is deliberately mixed, and there are now two hire cars.** The first takes
+    the middle four days (Nagano 11 Oct to Matsumoto 14 Oct — same prefecture, so the
+    one-way drop stays cheap; Azumino is taken on the drive down, so the car goes back
+    before checking in and needs no hotel parking at all). The second runs **Matsumoto
+    16 Oct to Nakatsugawa 21 Oct** (added 16 Sep 2026, the traveller's call after a
+    costed comparison). Rail at either end, because the long hauls are faster by train and
+    a car is useless in Tokyo.
+  - **Why the second car, and what it changed.** It costs roughly JPY 34,000 (MYR ~870)
+    more than the buses and trains it replaces, and buys three things: the cases ride in
+    the boot instead of being forwarded out of a mountain valley (~JPY 3,000 a case, two
+    days in transit, a hotel that has to accept it), the 19 Oct leg stops doubling back
+    through Matsumoto (was four hours and JPY 16,000 with a reserved seat; now one ~3 h
+    drive from Hirayu), and the walk day starts and ends at the same free Magome car park.
+    **Kamikochi still bans private vehicles**, so the car waits two days at Hirayu Akandana
+    (JPY 600/day) while the valley is done on the unreserved shuttle — buy the JPY 2,800
+    return, not two singles. Options weighed and rejected: extending the *first* hire from
+    14 Oct (same benefits, ~JPY 19,000 more, and 15 Oct in Matsumoto is a walking day), and
+    driving on to Tokyo (slower, ~JPY 20,000-30,000 dearer, and a liability there).
   - **Okuhida was cut from three nights to two on 11 Sep 2026**, at the traveller's call —
     the arrival half-day and the ropeway day do everything the valley was there for.
     Everything after it moved a day earlier and the freed night went to Tokyo. Two
     consequences worth keeping: Hirayu Great Falls now happens *during the bus change* on
-    the arrival day, with the cases in the terminal's coin lockers, which is what makes two
-    nights work; and **the Shinhotaka ropeway no longer has a weather spare** — the only
+    the arrival day — now driven to, with a free car park and a 20-minute walk in — which
+    is what makes two nights work; and **the Shinhotaka ropeway no longer has a weather
+    spare** — the only
     card left is swapping it with the falls on the arrival afternoon, and the day says so.
   - **Both Tokyo days (22-23 Oct) are deliberately open**, at the traveller's request, and
     marked as open rather than filled. They have already seen **Shinjuku, Shibuya, Ueno and
@@ -240,11 +253,11 @@ anything without its own `match`, deliberately.
     1. **The two Tokyo days, 22-23 Oct**, are the only unplanned part of the trip — the
        traveller said they would revisit. Constraints are in the bullet above and in the
        trip's to-do.
-    2. **The Kiso walk day's morning is the most fragile connection on the trip**: the
-       07:41 local from Nakatsugawa for the 08:40 Nagiso bus, next pairing two hours
-       later. All Kiso times are the current (2026) timetables; recheck against 2027,
-       and confirm the 07:41 runs on a Wednesday — some trains on that line run on
-       specific days only.
+    2. **Confirm the Magome→Tsumago bus (20 Oct)** — the only timetable the walk day
+       still depends on, and the car is its fallback. The published table lists Magome,
+       Tsumago and Nagiso on one line, so read the Magome column rather than trusting a
+       time at a glance. All Kiso and Okuhida times are current (2026) timetables and
+       want rechecking against 2027.
     3. **Booking order when it starts**: Kamikochi first (under ten properties); the bus
        *out* of Kamikochi opens a month ahead, around 19 Sep 2027, and every seat is
        reserved. Flights wait on an ANA promotion.
