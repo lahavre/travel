@@ -197,10 +197,11 @@ anything without its own `match`, deliberately.
     2026, the traveller's call). Once the base moved, walking the classic downhill way
     ended the day on a Tsumago bus and a Nagiso train with hour-long gaps; walking the
     other way ends in Magome, which is part of Nakatsugawa, with a direct bus home every
-    hour. The cost is the climb — Tsumago ~420 m to the 801 m pass. Do not "correct" the
-    direction back to Magome-first. Since the second car arrived the day drives to Magome
-    (six free car parks; Tsumago charges JPY 500 and has no free option), buses across to
-    Tsumago, and walks back to the car — so the old fragile 07:41 train is gone.
+    hour. The cost is the climb — Tsumago ~420 m to the 801 m pass — and the morning
+    connection: the 07:41 local from Nakatsugawa for the 08:40 Nagiso bus, next pairing two
+    hours later; Nagiso Station to Tsumago is about an hour on foot as a fallback. Do not
+    "correct" the direction back to Magome-first. A version that kept the car for this day
+    was tried and dropped — see the car bullets.
   - **The dates are a knowing trade the traveller made against advice**, on evidence they
     found: Hakuba's alpine colour peaks late September and the Nakasendo's late October,
     five weeks apart, so no single trip catches both. Happo Pond was reported at peak on
@@ -217,20 +218,32 @@ anything without its own `match`, deliberately.
     the middle four days (Nagano 11 Oct to Matsumoto 14 Oct — same prefecture, so the
     one-way drop stays cheap; Azumino is taken on the drive down, so the car goes back
     before checking in and needs no hotel parking at all). The second runs **Matsumoto
-    16 Oct to Nakatsugawa 21 Oct** (added 16 Sep 2026, the traveller's call after a
-    costed comparison). Rail at either end, because the long hauls are faster by train and
-    a car is useless in Tokyo.
-  - **Why the second car, and what it changed.** It costs roughly JPY 34,000 (MYR ~870)
+    16 Oct to Nakatsugawa 19 Oct**, handed back the evening it arrives (added 16 Sep 2026,
+    the traveller's call after a costed comparison). Rail for the walk day and at either
+    end, because the long hauls are faster by train and a car is useless in Tokyo.
+  - **Why the second car, and what it changed.** It costs roughly JPY 33,000 (MYR ~860)
     more than the buses and trains it replaces, and buys three things: the cases ride in
-    the boot instead of being forwarded out of a mountain valley (~JPY 3,000 a case, two
-    days in transit, a hotel that has to accept it), the 19 Oct leg stops doubling back
-    through Matsumoto (was four hours and JPY 16,000 with a reserved seat; now one ~3 h
-    drive from Hirayu), and the walk day starts and ends at the same free Magome car park.
-    **Kamikochi still bans private vehicles**, so the car waits two days at Hirayu Akandana
-    (JPY 600/day) while the valley is done on the unreserved shuttle — buy the JPY 2,800
-    return, not two singles. Options weighed and rejected: extending the *first* hire from
-    14 Oct (same benefits, ~JPY 19,000 more, and 15 Oct in Matsumoto is a walking day), and
-    driving on to Tokyo (slower, ~JPY 20,000-30,000 dearer, and a liability there).
+    the boot instead of being forwarded out of a mountain valley (~JPY 3,000 a case, one to
+    two days in transit, a hotel that has to accept it); the 19 Oct leg stops doubling back
+    through Matsumoto (was four hours and JPY 16,000 with a reserved seat); and
+    **Narai-juku** comes back into the trip as a stop on that drive. By rail Narai was not
+    really doable — the Shinano does not call there, and the station keeps no lockers and
+    holds cases only until 16:00. **Kamikochi still bans private vehicles**, so the car waits
+    two days at Hirayu Akandana (JPY 600/day) while the valley is done on the unreserved
+    shuttle — buy the JPY 2,800 return, not two singles.
+  - **The one-way fee is JPY 18,700**, measured on Toyota's own simulator (Matsumoto
+    Ekimae → Nakatsugawa Ekimae, passenger car, tax in) — not the JPY 11,000-13,000 first
+    estimated from Nippon's distance rule. Since July 2023 Toyota charges a one-way fee even
+    between branches in the same prefecture; only returning to the branch you hired from is
+    free. **The car goes back on the evening of the 19th**, not the 21st — the traveller's
+    call, because it has no job on the walk day that the train and bus cannot do, and
+    keeping it meant two more days' hire and hotel parking. The branch closes at 20:00 and
+    the plan lands about 18:10, so Narai is what gets cut if the day runs long. Rejected
+    along the way: extending the *first* hire from 14 Oct (15 Oct in Matsumoto is a walking
+    day); keeping the car to the 21st for the walk day; handing it back at Matsumoto to
+    dodge the fee (saves ~MYR 265 against this, but makes Narai a dusk visit with suitcases
+    and adds a luggage haul at the tired end of the day); and driving on to Tokyo (slower,
+    dearer, and a liability there).
   - **Okuhida was cut from three nights to two on 11 Sep 2026**, at the traveller's call —
     the arrival half-day and the ropeway day do everything the valley was there for.
     Everything after it moved a day earlier and the freed night went to Tokyo. Two
@@ -249,15 +262,15 @@ anything without its own `match`, deliberately.
     opening hours — taken from the operators' own pages rather than a general impression.
     When a figure could not be confirmed it is said so in the remark. Every day cost is
     now a checked fare; JR reserved surcharges still move JPY 200 either side by season.
-  - **Pick up here next time** (as of 13 Sep 2026, all pushed). In rough priority:
+  - **Pick up here next time** (as of 16 Sep 2026, all pushed). In rough priority:
     1. **The two Tokyo days, 22-23 Oct**, are the only unplanned part of the trip — the
        traveller said they would revisit. Constraints are in the bullet above and in the
        trip's to-do.
-    2. **Confirm the Magome→Tsumago bus (20 Oct)** — the only timetable the walk day
-       still depends on, and the car is its fallback. The published table lists Magome,
-       Tsumago and Nagiso on one line, so read the Magome column rather than trusting a
-       time at a glance. All Kiso and Okuhida times are current (2026) timetables and
-       want rechecking against 2027.
+    2. **The Kiso walk day's morning is the most fragile connection on the trip**: the
+       07:41 local from Nakatsugawa for the 08:40 Nagiso bus, next pairing two hours
+       later. Confirm the 07:41 runs on a Wednesday — some trains on that line run on
+       specific days only. On the 19th the car must be back by 20:00. All Kiso and
+       Okuhida times are current (2026) timetables and want rechecking against 2027.
     3. **Booking order when it starts**: Kamikochi first (under ten properties); the bus
        *out* of Kamikochi opens a month ahead, around 19 Sep 2027, and every seat is
        reserved. Flights wait on an ANA promotion.

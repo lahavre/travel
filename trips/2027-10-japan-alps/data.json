@@ -475,12 +475,18 @@
       "date": "2027-10-19",
       "city": "Kiso Valley",
       "morning": "Explore Kamikochi at dawn\nHike to Myojin Pond\nCheck out",
-      "afternoon": "Travel to Hirayu Onsen\nDrive to Nakatsugawa\nCheck in",
-      "evening": "Explore Nakatsugawa-juku\nDinner at Nakatsugawa",
+      "afternoon": "Travel to Hirayu Onsen\nDrive to Narai-juku\nExplore Narai-juku\nDrive to Nakatsugawa",
+      "evening": "Return the hire car\nCheck in\nDinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
         {
           "location": "Kamikochi",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
+          "location": "Narai",
           "min": null,
           "max": null,
           "note": null
@@ -506,9 +512,9 @@
       "weekday": "Wednesday",
       "date": "2027-10-20",
       "city": "Kiso Valley",
-      "morning": "Drive to Magome\nTravel to Tsumago\nExplore Tsumago",
-      "afternoon": "Hike the Nakasendo to Magome\nLunch at Magome\nExplore Magome-juku",
-      "evening": "Drive to Nakatsugawa\nDinner at Nakatsugawa",
+      "morning": "Travel to Tsumago\nExplore Tsumago\nHike the Nakasendo to Magome",
+      "afternoon": "Lunch at Magome\nExplore Magome-juku\nTravel to Nakatsugawa\nExplore Nakatsugawa-juku",
+      "evening": "Dinner at Nakatsugawa",
       "remarks": null,
       "temperature": [
         {
@@ -546,7 +552,7 @@
       "weekday": "Thursday",
       "date": "2027-10-21",
       "city": "Tokyo",
-      "morning": "Free and easy\nReturn the hire car\nTravel to Tokyo",
+      "morning": "Free and easy\nCheck out\nTravel to Tokyo",
       "afternoon": "Check in\nExplore Ginza",
       "evening": "Dinner at Tokyo",
       "remarks": null,
@@ -1284,7 +1290,7 @@
           "time": "09:30",
           "activity": "Collect the hire car at Matsumoto Station",
           "costs": {},
-          "remarks": "The second hire: five days, collected here and dropped at Nakatsugawa on the 21st. That crosses from Nagano into Gifu, so unlike the September car a one-way fee applies — Toyota prices it by destination prefecture through a quote, and Nippon works out at about JPY 880 per 10 km, so budget roughly JPY 11,000 to 13,000 over the 132 km and have it confirmed rather than assumed. Toyota's Nagano list rate for a compact is JPY 8,580 for the first 24 hours and JPY 7,260 a day after. Ask the two questions the first hire asked: whether winter tyres are fitted by mid-October, since the Abo pass and Okuhida run high, and whether an ETC card comes with it."
+          "remarks": "The second hire: four days, collected here and handed back at Nakatsugawa on the evening of the 19th — it does the Abo pass, Okuhida, the wait at Hirayu and the drive down the Kiso, and is gone before the walk day. That crosses from Nagano into Gifu, so a one-way fee applies: JPY 18,700 including tax for a passenger car from this branch to Nakatsugawa Ekimae, on Toyota's own simulator. Toyota's Nagano list rate for a compact is JPY 8,580 for the first 24 hours and JPY 7,260 a day after. The branch is about three minutes from the station, behind the bus terminal, and opens 08:00 to 20:00. Ask the two questions the first hire asked: whether winter tyres are fitted by mid-October, since the Abo pass and Okuhida run high, and whether an ETC card comes with it."
         },
         {
           "time": "10:00",
@@ -1529,6 +1535,12 @@
           "note": null
         },
         {
+          "location": "Narai",
+          "min": null,
+          "max": null,
+          "note": null
+        },
+        {
           "location": "Nakatsugawa",
           "min": 17.5,
           "max": 21.7,
@@ -1543,7 +1555,7 @@
           "basisDate": "2025-10-19"
         }
       ],
-      "summary": "Dawn on the Azusa, a loop to Myojin, then the drive down to the Kiso.",
+      "summary": "Dawn on the Azusa, a loop to Myojin, then Narai-juku on the drive down to the Kiso.",
       "items": [
         {
           "time": "05:45",
@@ -1569,7 +1581,7 @@
           "time": "11:30",
           "activity": "Lunch at Kamikochi",
           "costs": {},
-          "remarks": "The last food until the Kiso valley."
+          "remarks": "The last proper meal before Narai, mid-afternoon."
         },
         {
           "time": "12:30",
@@ -1579,24 +1591,36 @@
         },
         {
           "time": "13:15",
-          "activity": "Drive to Nakatsugawa\nHirayu Onsen -(Drive)> Nakatsugawa",
+          "activity": "Drive to Narai-juku\nHirayu Onsen -(Drive)> Narai-juku",
           "costs": {},
-          "remarks": "About three hours. Back through the Abo Tunnel (JPY 790) to Matsumoto, then Route 19 south the length of the Kiso valley — 132 km and about 1h 40m, known locally as the Kiso expressway although it is a 50 km/h single carriageway most of the way. Takayama and Gero is the other way round and takes about as long. This is the leg the car is really for: by train the same move was Kamikochi to Shin-Shimashima to Matsumoto to Nakatsugawa, four hours, JPY 16,000 for two, with a reserved seat to book a month ahead."
+          "remarks": "About two hours. Back through the Abo Tunnel (JPY 790) to Matsumoto, then south on Route 19 through Shiojiri — Narai sits on the road about 35 km past Matsumoto, so it is a stop on the way rather than a detour. The old town is closed to cars; leave the car in one of the free car parks by the Kiso-no-Ohashi bridge or at the roadside station. The station car park (JPY 500) and the Gonbei car park (JPY 510) are the fallbacks."
+        },
+        {
+          "time": "15:15",
+          "activity": "Explore Narai-juku",
+          "costs": {},
+          "remarks": "The Nakasendo post town dropped earlier in the planning for want of a day, back now because the car drives past it. Nakamura-tei, the merchant house that is its main museum, opens 09:00 to 17:00 with last entry at 16:30, so go there first; the tourist office shuts at 16:00 and many shops close by early evening, which is the real limit on this stop. About an hour and a quarter as planned. Leave Kamikochi an hour earlier — the Hirayu shuttle runs about every 30 minutes — and it becomes two, at the cost of a shorter Myojin morning. This is a car stop for a reason: the Shinano does not call at Narai, and the station has no lockers and holds cases only until 16:00."
         },
         {
           "time": "16:30",
-          "activity": "Check in at Nakatsugawa",
+          "activity": "Drive to Nakatsugawa\nNarai-juku -(Drive)> Nakatsugawa Station",
           "costs": {},
-          "remarks": "Down from 1,500 m to about 340 m in a single afternoon. Stay by the station: the car goes back to the branch beside it on the 21st and the Tokyo train leaves from it the same morning. Check the hotel has parking — most business hotels here include it, several free, but it is worth asking. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+          "remarks": "About 79 km south on Route 19, an hour and a half to an hour and forty — a 50 km/h single carriageway for much of the way, so do not plan on less. Refuel on the way in; full-to-full is the usual policy, and it is easier before you reach the station than after."
         },
         {
-          "time": "17:15",
-          "activity": "Explore Nakatsugawa-juku",
+          "time": "18:10",
+          "activity": "Return the hire car at Nakatsugawa Station",
           "costs": {},
-          "remarks": "The town's own Nakasendo post town — the 45th of 69, once the area's commercial centre. The old road starts at the Shinmachi crossing, about 100 m down the main street from the station, and keeps its crooked, squared-off layout and houses with udatsu, the raised firewalls that marked a wealthy family. This is also chestnut country: Nakatsugawa is where kurikinton comes from, and more than a dozen shops sell it from September into winter, so the dates land squarely in season."
+          "remarks": "Toyota Nakatsugawa Ekimae, about two minutes from the station — cross at the crossing to the right of the exit and it is on the ground floor of the red brick building. It closes at 20:00, which leaves under two hours of slack after Narai; if the afternoon runs long, cut Narai short rather than the drive. Four days, and the JPY 18,700 one-way fee settles here. Handing it back tonight rather than on the 21st saves a day's hire and two nights of hotel parking, and the car has no job on the walk day that the train and bus cannot do. The cases then walk the two to seven minutes to the hotel with you."
         },
         {
           "time": "18:30",
+          "activity": "Check in at Nakatsugawa",
+          "costs": {},
+          "remarks": "Down from 1,500 m to about 340 m in a single day. Stay by the station: the car went back beside it this evening, tomorrow starts on the train from it, and the Tokyo train leaves from it on the 21st. No parking to arrange — the car is gone before check-in. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+        },
+        {
+          "time": "19:00",
           "activity": "Dinner at Nakatsugawa",
           "costs": {},
           "remarks": "The reason for sleeping here rather than in Tsumago — a choice of restaurants, rather than whatever the minshuku serves at six."
@@ -1638,59 +1662,61 @@
           "basisDate": "2025-10-20"
         }
       ],
-      "summary": "Eight kilometres of the old Nakasendo, uphill from Tsumago, ending at the car.",
+      "summary": "Eight kilometres of the old Nakasendo, uphill from Tsumago to Magome, and a bus straight back to town.",
       "items": [
         {
-          "time": "07:30",
+          "time": "07:00",
           "activity": "Breakfast",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "08:15",
-          "activity": "Drive to Magome\nNakatsugawa Station -(Drive)> Magome",
-          "costs": {},
-          "remarks": "About 25 minutes. Park at Magome rather than Tsumago, for two reasons: Magome has six free car parks, A-1 at the lower entrance being the largest, while every Tsumago car park charges JPY 500 a day and there is no free one nearby; and leaving the car here means the walk finishes where the car is."
-        },
-        {
-          "time": "08:45",
-          "activity": "Travel to Tsumago\nMagome -(Ontake Kotsu Bus)> Tsumago",
+          "time": "07:41",
+          "activity": "Travel to Tsumago\nNakatsugawa Station -(JR Chuo Line)> Nagiso Station -(Bus)> Tsumago",
           "costs": {
-            "transport": 2000
+            "transport": 1260
           },
-          "remarks": "JPY 1,000 per person, about 25 minutes by road; figure shown is for two. One bus, and the car is the fallback if it is missed — which replaces the 07:41 train and the 08:40 connecting bus that were the most fragile link in the trip. There is an early departure around 07:40 and several more through the morning, but the published timetable lists Magome, Tsumago and Nagiso on one line, so read the Magome column carefully when confirming, and check it against the 2027 timetable."
+          "remarks": "The 07:41 local towards Matsumoto passes Nagiso at 08:11, which leaves half an hour for the 08:40 bus, in Tsumago at 08:47. JPY 330 per person on the train and JPY 300 in coins on the bus; figure shown is both, for two. This is the one connection the day hangs on: the next pairing is the 10:19 train with the 10:30 bus, two hours later. The 08:14 local terminates at Nagiso about 19 minutes on, a tight but workable backup for the same bus. If both are missed, walk it — Nagiso Station to Tsumago is about 3.5 km on the old Nakasendo, roughly an hour through the edges of the town and the fields rather than on stone paving, or about JPY 2,000 by taxi. Times are the current timetables; check the 2027 ones, and that the 07:41 runs on a Wednesday."
         },
         {
-          "time": "09:15",
+          "time": "08:50",
           "activity": "Explore Tsumago",
           "costs": {
             "sightseeing": 1400
           },
-          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month; the 20th is a Wednesday, so that never bites. Figure shown is for two. The museum opens at 09:00. An earlier bus, if the timetable has one that suits, buys the street before the day coaches — the morning version of what sleeping here would have given."
+          "remarks": "Preserved rather than restored, and the first place in Japan to try it — the village saw off the 1960s by hiding its wiring and aerials and by agreeing to sell, lease and destroy nothing. One JPY 700 ticket covers three buildings of the Nagiso Town Museum, 09:00 to 17:00: the honjin where the daimyo's party slept, the waki-honjin Okuya beside it with its cypress interior, and the history museum behind. Okuya shuts on the second and fourth Thursday of the month; the 20th is a Wednesday, so that never bites. Figure shown is for two. Arriving before the day coaches is the morning version of what sleeping here would have given, and the museum opens at 09:00 as you finish the street."
         },
         {
-          "time": "10:45",
+          "time": "10:15",
           "activity": "Hike the Nakasendo to Magome\nTsumago -(Hike - 3 hours)> Magome",
           "costs": {},
-          "remarks": "About 8 km, two to three hours at a leisurely pace, signposted in English. Walked from Tsumago for the way home rather than for the walking: it ends at the car in Magome, so there is nothing at all to catch at the end of it. The price is the climb. Tsumago sits at about 420 m and the pass at 801 m, and from Tsumago the trail winds up the hillside over many switchbacks for most of the way before dropping to Magome — Kiso's own tourism office and japan-guide both say the Magome-to-Tsumago direction has less uphill. It is still graded easy to moderate; just start it with water and without hurry. The bells on posts along the trail are bear bells and are there to be rung. Around halfway is the Tateba teahouse, an old farmhouse with an open hearth where volunteers pour tea for nothing — a well-placed stop on the climb — and a 250 m detour reaches the Odaki and Medaki falls, the male and female pair. This is the day the earlier window costs something: the Kiso valley colours late October into early November, so the 20th catches it arriving rather than at its best. The cedars, the stone paving and the teahouse do not depend on the date."
+          "remarks": "About 8 km, two to three hours at a leisurely pace, signposted in English. Walked from Tsumago for the way home rather than for the walking: it ends in Magome, which is part of Nakatsugawa and has a direct bus back, where the other direction ends on a bus and a train with hour-long gaps between them. The price is the climb. Tsumago sits at about 420 m and the pass at 801 m, and from Tsumago the trail winds up the hillside over many switchbacks for most of the way before dropping to Magome — Kiso's own tourism office and japan-guide both say the Magome-to-Tsumago direction has less uphill. It is still graded easy to moderate; just start it with water and without hurry. The bells on posts along the trail are bear bells and are there to be rung. Around halfway is the Tateba teahouse, an old farmhouse with an open hearth where volunteers pour tea for nothing — a well-placed stop on the climb — and a 250 m detour reaches the Odaki and Medaki falls, the male and female pair. This is the day the earlier window costs something: the Kiso valley colours late October into early November, so the 20th catches it arriving rather than at its best. The cedars, the stone paving and the teahouse do not depend on the date."
         },
         {
-          "time": "13:45",
+          "time": "13:15",
           "activity": "Lunch at Magome",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "14:45",
+          "time": "14:15",
           "activity": "Explore Magome-juku",
           "costs": {},
           "remarks": "A steep stone-paved street rebuilt after fires in 1895 and 1915 — a reconstruction where Tsumago is a preservation, and it still works. Water wheels, a lookout at the top of the slope over the ranges and Mt Ena, and Shimazaki Toson's family home, now the Toson Memorial Museum (JPY 500 per person, 09:00 to 17:00). Magome is in Gifu — the pass you came over was the prefectural border."
         },
         {
-          "time": "16:00",
-          "activity": "Drive to Nakatsugawa\nMagome -(Drive)> Nakatsugawa Station",
+          "time": "15:50",
+          "activity": "Travel to Nakatsugawa\nMagome -(Kitaena Bus)> Nakatsugawa Station",
+          "costs": {
+            "transport": 1600
+          },
+          "remarks": "About 25 minutes, JPY 800 per person; figure shown is for two. No connection to make and no hurry: weekday departures from Magome leave at 12:50, 13:50, 14:50, 15:50 and 16:50, then 17:50 (weekdays only) and 18:15 — so the time given here is only a suggestion. No reservations; pay cash on the way off, and the change machine takes JPY 1,000 notes but nothing bigger."
+        },
+        {
+          "time": "16:30",
+          "activity": "Explore Nakatsugawa-juku",
           "costs": {},
-          "remarks": "About 25 minutes, and nothing to catch: the bus-based version of this day ended on an hourly service, this one ends when you decide it does."
+          "remarks": "The town's own Nakasendo post town — the 45th of 69, once the area's commercial centre. The old road starts at the Shinmachi crossing, about 100 m down the main street from the station, and keeps its crooked, squared-off layout and houses with udatsu, the raised firewalls that marked a wealthy family. This is also chestnut country: Nakatsugawa is where kurikinton comes from, and more than a dozen shops sell it from September into winter, so the dates land squarely in season."
         },
         {
           "time": "18:30",
@@ -1735,7 +1761,7 @@
           "basisDate": "2025-10-21"
         }
       ],
-      "summary": "The car goes back, then out of the Kiso valley and into Tokyo.",
+      "summary": "Out of the Kiso valley and into Tokyo, with two days still to spend.",
       "items": [
         {
           "time": "08:30",
@@ -1744,14 +1770,8 @@
           "remarks": "Nakatsugawa-juku before checking out, or a last round of the kurikinton shops to take something back — chestnut sweets are the town's own."
         },
         {
-          "time": "09:15",
-          "activity": "Check out, then return the hire car at Nakatsugawa Station",
-          "costs": {},
-          "remarks": "The Toyota branch is about two minutes from the station — cross at the crossing to the right of the exit and it is on the ground floor of the red brick building — and opens 08:00 to 20:00. Refuel on the way in; full-to-full is the usual policy. Five days, and a one-way drop into another prefecture, so the drop fee settles here."
-        },
-        {
           "time": "10:00",
-          "activity": "Travel to Tokyo\nNakatsugawa Station -(JR Shinano Limited Express)> Nagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
+          "activity": "Check out and travel to Tokyo\nNakatsugawa Station -(JR Shinano Limited Express)> Nagoya Station -(Tokaido Shinkansen)> Shinagawa Station",
           "costs": {
             "transport": 25060
           },
@@ -2125,7 +2145,7 @@
     }
   ],
   "transport": {
-    "mode": "Mixed on purpose, and now two hire cars rather than one. The first takes the middle four days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. The second runs from Matsumoto on 16 Oct to Nakatsugawa on the 21st, over the Abo pass and down the Kiso valley; that one crosses into Gifu, so it carries a one-way fee, and it buys three things the buses could not — the cases ride in the boot instead of being forwarded out of a mountain valley, the Kamikochi-to-Kiso leg stops doubling back through Matsumoto, and the Nakasendo walk starts and ends at the same car park. Rail at either end, because the long hauls are faster by train and a car is useless in Tokyo. Kamikochi still bans private vehicles, so the second car waits two days at Hirayu while the valley is done on the shuttle.",
+    "mode": "Mixed on purpose, and two hire cars rather than one. The first takes the middle four days — Nagano to Hakuba, the Hakuba trailheads, then Matsumoto and Azumino — collected at Nagano Station and returned at Matsumoto, both in Nagano prefecture so the one-way drop stays cheap. The second runs four days from Matsumoto on 16 Oct and is handed back at Nakatsugawa on the evening of the 19th: over the Abo pass, Okuhida, a two-day wait at Hirayu while Kamikochi is done on the shuttle — private cars are banned there — then Narai-juku and the Kiso valley on the way down. It crosses into Gifu, so it carries a JPY 18,700 one-way fee. What it buys is the cases riding in the boot rather than being forwarded out of a mountain valley, the Kamikochi-to-Kiso leg without doubling back, and Narai, where the Shinano does not stop. It goes back on arrival because it has no job on the walk day that the train and bus cannot do. Rail for the walk day and at either end, because the long hauls are faster by train and a car is useless in Tokyo.",
     "carRental": [
       {
         "company": null,
@@ -2177,8 +2197,8 @@
           "place": "Nakatsugawa Station",
           "address": null,
           "phone": null,
-          "date": "2027-10-21",
-          "time": "09:15"
+          "date": "2027-10-19",
+          "time": "18:10"
         },
         "costs": {
           "rental": null,
@@ -2244,21 +2264,7 @@
       {
         "day": 12,
         "date": "2027-10-19",
-        "route": "Hirayu Onsen to Nakatsugawa, over the Abo pass and down the Kiso valley",
-        "km": null,
-        "refuel": true
-      },
-      {
-        "day": 13,
-        "date": "2027-10-20",
-        "route": "Nakatsugawa to Magome and back",
-        "km": null,
-        "refuel": false
-      },
-      {
-        "day": 14,
-        "date": "2027-10-21",
-        "route": "Return the car at Nakatsugawa Station",
+        "route": "Hirayu Onsen to Narai-juku, then Nakatsugawa — return the car",
         "km": null,
         "refuel": true
       }
@@ -2279,7 +2285,7 @@
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "By the station — the car goes back to the branch beside it on the 21st and the Tokyo train leaves from it the same morning. Confirm parking: most business hotels here have it and several include it free, but the car needs somewhere for two nights. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
+      "remarks": "By the station — the car is handed back beside it on the evening of the 19th, the walk day starts on a train from it and ends on the Magome bus back to it, and the Tokyo train leaves from it on the 21st. No parking needed: the car is gone before check-in. Room only; the whole reason for this over Tsumago is eating out. Business hotels are a few minutes' walk away, and The Ryokan O, 120 years old, is about two minutes from the station for something with more character. Tsumago's minshuku had a few rooms each; a station-side hotel is not a scarcity booking in the same way, so this drops down the order behind Kamikochi.",
       "url": null
     },
     {
@@ -2363,19 +2369,19 @@
       "url": null
     },
     {
-      "task": "Book the second hire car, Matsumoto 16 Oct to Nakatsugawa 21 Oct",
+      "task": "Book the second hire car, Matsumoto 16 Oct to Nakatsugawa 19 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "Five days, and this one crosses prefectures — Nagano to Gifu — so a one-way fee applies where the first hire's did not. Toyota quotes by destination prefecture; Nippon works out around JPY 880 per 10 km, so expect roughly JPY 11,000 to 13,000 over the 132 km, and get it quoted before committing. Toyota's list rate for a compact is JPY 8,580 for the first 24 hours then JPY 7,260 a day. Drop is at the Toyota branch two minutes from Nakatsugawa Station, open 08:00 to 20:00. Ask again about winter tyres by mid-October and an ETC card. Check the boot takes both cases with two people in the car, since not forwarding the luggage is half the reason for the hire.",
+      "remarks": "Four days, and this one crosses prefectures — Nagano to Gifu — so a one-way fee applies where the first hire's did not: JPY 18,700 including tax for a passenger car from Matsumoto Ekimae to Nakatsugawa Ekimae, on Toyota's own simulator. Toyota's list rate for a compact is JPY 8,580 for the first 24 hours then JPY 7,260 a day. Collect at 09:30 on the 16th; return on the evening of the 19th at the Nakatsugawa Ekimae branch, two minutes from the station, which closes at 20:00 — the plan lands around 18:10 after Narai, so there is under two hours of slack. Ask about winter tyres by mid-October and an ETC card, and check the boot takes both cases with two people in the car, since not forwarding the luggage is half the reason for the hire.",
       "url": null
     },
     {
-      "task": "Check the Magome to Tsumago bus, 20 Oct",
+      "task": "Check the Kiso valley train and bus times, 20 Oct",
       "category": "Booking",
       "subcategory": "Transport",
       "status": "Open",
-      "remarks": "The only timetable the walk day still depends on, and the car is the fallback if it is missed. JPY 1,000 per person, about 25 minutes by road. There is an early departure around 07:40 and several through the morning, but the published table lists Magome, Tsumago and Nagiso on one line, so read the Magome column rather than trusting a time at a glance — and check it against the 2027 timetable. Park at Magome: six free car parks, against JPY 500 a day and no free option at Tsumago.",
+      "remarks": "The morning is the part to get right. Out: the 07:41 local from Nakatsugawa passes Nagiso at 08:11, for the 08:40 bus to Tsumago (JPY 330 train, JPY 300 bus). The next pairing is two hours later, 10:19 and 10:30; the 08:14 local, terminating at Nagiso, is a tight backup, and walking from Nagiso Station to Tsumago is about an hour. Confirm the 07:41 runs on a Wednesday — some trains on this line run on specific days only. Back: Magome to Nakatsugawa Station, JPY 800, 25 minutes, hourly from 12:50 to 16:50 plus 17:50 on weekdays and 18:15, so the return needs no planning. These are the current timetables — recheck against the 2027 ones.",
       "url": "https://www.japan-guide.com/bus/kiso.html"
     },
     {
@@ -2529,6 +2535,7 @@
     "Matsumoto": "https://tenki.jp/forecast/3/23/",
     "Nagano": "https://tenki.jp/forecast/3/23/",
     "Nakatsugawa": "https://tenki.jp/forecast/5/24/",
+    "Narai": "https://tenki.jp/forecast/3/23/",
     "Okuhida": "https://tenki.jp/forecast/5/24/",
     "Togakushi": "https://tenki.jp/forecast/3/23/",
     "Tokyo": "https://tenki.jp/forecast/3/16/",
