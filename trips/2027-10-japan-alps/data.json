@@ -409,7 +409,7 @@
       "date": "2027-10-17",
       "city": "Okuhida",
       "morning": "Explore Kamikochi at dawn\nCheck out\nExplore Kamikochi Visitor Center\nTravel to Hirayu Onsen\nExplore Hirayu Great Falls",
-      "afternoon": "Lunch at Hirayu Onsen\nOnsen at Hirayu no Mori\nDrive to Shin-Hotaka Onsen\nCheck in",
+      "afternoon": "Lunch at Hirayu Onsen\nOnsen at Hirayu no Mori\nCheck in",
       "evening": "Onsen at Okuhida\nDinner at Okuhida",
       "remarks": null,
       "temperature": [
@@ -1377,7 +1377,7 @@
           "basisDate": "2025-10-17"
         }
       ],
-      "summary": "Dawn at Kappa Bridge, out after breakfast, then a waterfall and an afternoon in the baths before the ryokan.",
+      "summary": "Dawn at Kappa Bridge, out after breakfast, then a waterfall and an afternoon in the baths at Hirayu.",
       "items": [
         {
           "time": "05:45",
@@ -1407,7 +1407,7 @@
           "time": "09:45",
           "activity": "Explore Hirayu Great Falls\nHirayu Onsen -(Drive)> Hirayu Great Falls",
           "costs": {},
-          "remarks": "64 m of water off the flank of Norikura, one of Japan's hundred famous waterfalls. The car park is free and holds about a hundred, and it is roughly 20 minutes on foot from there to the falls; it closes once the snow comes, which is not a worry in October. Late October is when the falls look best — the gorge colours later than the tops do, so this is one of the few things the earlier dates do not shortchange. The ropeway is tomorrow, and if this afternoon is the clearest of the three it can come forward instead — it is 15 minutes on from Shin-Hotaka and the falls do not need a view."
+          "remarks": "64 m of water off the flank of Norikura, one of Japan's hundred famous waterfalls. The car park is free and holds about a hundred, and it is roughly 20 minutes on foot from there to the falls; it closes once the snow comes, which is not a worry in October. Late October is when the falls look best — the gorge colours later than the tops do, so this is one of the few things the earlier dates do not shortchange. The ropeway is tomorrow, and if this afternoon is the clearest of the three it can come forward instead — it is about half an hour up the valley from Hirayu, and the falls do not need a view."
         },
         {
           "time": "11:45",
@@ -1423,15 +1423,9 @@
         },
         {
           "time": "15:00",
-          "activity": "Drive to Shin-Hotaka Onsen\nHirayu Onsen -(Drive)> Shin-Hotaka Onsen",
-          "costs": {},
-          "remarks": "About 30 minutes up the valley. The road threads all five Okuhida villages in order — Hirayu, Fukuji, Shin-Hirayu, Tochio, then Shin-Hotaka — so another village's bath is now a short drive rather than an hourly bus."
-        },
-        {
-          "time": "15:45",
           "activity": "Check in and leave the bags",
           "costs": {},
-          "remarks": "Two nights in one place, and the point of them is the ryokan's own water rather than touring the valley. Okuhida is said to have more open-air baths than anywhere else in Japan, so choose the property for its rotenburo. Parking at a ryokan up here is normally free and normally plentiful, but it is worth confirming when booking rather than arriving and hoping."
+          "remarks": "Hirayu Onsen, the valley's largest village and its transport hub, where the car has been parked since yesterday — so nothing more to drive today. The inn is still to be chosen, on room price. Two nights in one place, and the point of them is the ryokan's own water rather than touring the valley; Okuhida is said to have more open-air baths than anywhere else in Japan, so choose the property for its rotenburo. These are small villages, so book half board. Parking at a ryokan up here is normally free and normally plentiful, but confirm it when booking."
         },
         {
           "time": "17:00",
@@ -1471,16 +1465,16 @@
       "summary": "Up Japan's only double-decker ropeway, then back down through the trees.",
       "items": [
         {
-          "time": "08:30",
+          "time": "08:00",
           "activity": "Breakfast",
           "costs": {},
           "remarks": null
         },
         {
-          "time": "09:15",
-          "activity": "Drive to Shinhotaka Ropeway\nShin-Hotaka Onsen -(Drive)> Shinhotaka Ropeway",
+          "time": "08:45",
+          "activity": "Drive to Shinhotaka Ropeway\nHirayu Onsen -(Drive)> Shinhotaka Ropeway",
           "costs": {},
-          "remarks": "A few minutes further up from the village. Today is a weekday, so the October timetable runs from 08:45, with the last car up at 16:15 and the last down at 16:45; weekends start at 08:15 because they are busier, which is half the point of doing this on a Monday. The municipal car park at the base is gated and charges JPY 800 for each six hours for a car — it went up from 600 in June 2026 — with the first 30 minutes free and 113 spaces. Expect two blocks today. The Nabedaira Kogen car park higher up is JPY 600 a day if the base is full."
+          "remarks": "About half an hour up the valley — 16.8 km, past Fukuji, Shin-Hirayu and Tochio to the road's end at Shin-Hotaka. Today is a weekday, so the October timetable runs from 08:45, with the last car up at 16:15 and the last down at 16:45; weekends start at 08:15 because they are busier, which is half the point of doing this on a Monday. The municipal car park at the base is gated and charges JPY 800 for each six hours for a car — it went up from 600 in June 2026 — with the first 30 minutes free and 113 spaces. Expect two blocks today. The Nabedaira Kogen car park higher up is JPY 600 a day if the base is full."
         },
         {
           "time": "09:30",
@@ -1516,15 +1510,15 @@
         },
         {
           "time": "15:30",
-          "activity": "Drive to the hotel\nShinhotaka Ropeway -(Drive)> Shin-Hotaka Onsen",
+          "activity": "Drive to the hotel\nShinhotaka Ropeway -(Drive)> Hirayu Onsen",
           "costs": {},
-          "remarks": null
+          "remarks": "About half an hour back down. Two riverside baths are on the way if the legs want another: Shin-Hotaka-no-Yu at the top of the valley (open until 30 Oct, about JPY 300, mixed, swimwear required) and Kojin-no-Yu at Tochio (a donation of about JPY 200)."
         },
         {
           "time": "17:00",
           "activity": "Onsen at Okuhida",
           "costs": {},
-          "remarks": "Last night in the valley. If you have been meaning to try another village's water, the hourly bus makes Tochio or Fukuji an easy hour."
+          "remarks": "Last night in the valley — the ryokan's own water. Fukuji, the next village up the road, is the closest if you would rather try another village's bath before dinner."
         },
         {
           "time": "18:30",
@@ -1581,13 +1575,13 @@
           "time": "08:00",
           "activity": "Breakfast, then check out",
           "costs": {},
-          "remarks": "An unhurried morning. If yesterday was clouded in at the top, this is the ropeway's spare: the first car up is 08:45 on a weekday and you can be back down by about 11:00, which costs Narai an hour but not the visit."
+          "remarks": "An unhurried morning. If yesterday was clouded in at the top, this is the ropeway's spare: leave Hirayu by about 08:15 for the 08:45 first car up on a weekday, and you can be back down by about 11:00. That costs Narai an hour or so but not the visit."
         },
         {
           "time": "10:00",
-          "activity": "Drive to Narai-juku\nShin-Hotaka Onsen -(Drive)> Narai-juku",
+          "activity": "Drive to Narai-juku\nHirayu Onsen -(Drive)> Narai-juku",
           "costs": {},
-          "remarks": "About two and a half hours: half an hour down the valley to Hirayu, back through the Abo Tunnel (JPY 790) to Matsumoto, then south on Route 19 through Shiojiri — Narai sits on the road about 35 km past Matsumoto, so it is a stop on the way rather than a detour. The old town is closed to cars; leave the car in one of the free car parks by the Kiso-no-Ohashi bridge or at the roadside station. The station car park (JPY 500) and the Gonbei car park (JPY 510) are the fallbacks."
+          "remarks": "About two hours from Hirayu: straight into the Abo Tunnel (JPY 790) to Matsumoto, then south on Route 19 through Shiojiri — Narai sits on the road about 35 km past Matsumoto, so it is a stop on the way rather than a detour. The old town is closed to cars; leave the car in one of the free car parks by the Kiso-no-Ohashi bridge or at the roadside station. The station car park (JPY 500) and the Gonbei car park (JPY 510) are the fallbacks."
         },
         {
           "time": "12:30",
@@ -1617,7 +1611,7 @@
           "time": "17:15",
           "activity": "Check in at Nakatsugawa",
           "costs": {},
-          "remarks": "Down from about 1,100 m in Okuhida to about 340 m. Stay by the station: the car went back beside it this afternoon, tomorrow starts on the train from it, and the Tokyo train leaves from it on the 21st. No parking to arrange — the car is gone before check-in. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
+          "remarks": "Down from the Okuhida valley to about 340 m. Stay by the station: the car went back beside it this afternoon, tomorrow starts on the train from it, and the Tokyo train leaves from it on the 21st. No parking to arrange — the car is gone before check-in. A city of about 79,000 with business hotels a few minutes' walk away, and The Ryokan O — 120 years old and about two minutes from the station — if the room should have some character. Room only is the point: the evenings are for eating out."
         },
         {
           "time": "17:45",
@@ -2054,7 +2048,7 @@
       "remarks": null
     },
     {
-      "city": "Okuhida",
+      "city": "Hirayu Onsen",
       "name": null,
       "reservation": {
         "site": null,
@@ -2250,21 +2244,21 @@
       {
         "day": 10,
         "date": "2027-10-17",
-        "route": "Hirayu Onsen to Hirayu Great Falls and back, then Shin-Hotaka Onsen",
+        "route": "Hirayu Onsen to Hirayu Great Falls and back",
         "km": null,
         "refuel": false
       },
       {
         "day": 11,
         "date": "2027-10-18",
-        "route": "Shin-Hotaka Onsen — Shinhotaka Ropeway",
+        "route": "Hirayu Onsen — Shinhotaka Ropeway and back",
         "km": null,
         "refuel": false
       },
       {
         "day": 12,
         "date": "2027-10-19",
-        "route": "Shin-Hotaka Onsen to Narai-juku, then Nakatsugawa — return the car",
+        "route": "Hirayu Onsen to Narai-juku, then Nakatsugawa — return the car",
         "km": null,
         "refuel": true
       }
@@ -2289,11 +2283,11 @@
       "url": null
     },
     {
-      "task": "Book Okuhida onsen ryokan, 17-19 Oct",
+      "task": "Book a ryokan in Hirayu Onsen, 17-19 Oct",
       "category": "Booking",
       "subcategory": "Accommodation",
       "status": "Open",
-      "remarks": "Shin-Hotaka or Fukuji. Pick for the bath rather than the room — two nights, and the only thing the plan leaves the property for is the ropeway. Confirm parking too, now that the car comes with you.",
+      "remarks": "Hirayu Onsen for now, and the inn chosen on room price. Pick for the bath rather than the room — two nights, and the only thing the plan leaves the valley's baths for is the ropeway, half an hour up the road. Book half board; these are small villages. Confirm parking. Weighed and kept in reserve if Hirayu's prices disappoint: Fukuji, quieter and more traditional, with private open-air baths (Yumoto Choza has eight, free to guests); Shin-Hotaka, with mountain views and the ropeway on the doorstep (Yarimikan, riverside, with private baths and a women-only one besides its mixed ones); and Shin-Hirayu, the mixed middle ground about 20 minutes from the ropeway.",
       "url": null
     },
     {

@@ -258,6 +258,11 @@ anything without its own `match`, deliberately.
     Pond, Kappa Bridge and Myojin are all done on the arrival day** (~9 km, flat), and the
     17th is a dawn around Kappa Bridge, out after breakfast, Hirayu Great Falls, and an
     optional afternoon at Hirayu no Mori (JPY 700, 10:00-21:00) before the ryokan.
+  - **The Okuhida base is Hirayu Onsen** (17 Sep 2026, the traveller's call; the inn will
+    be chosen on room price). I recommended Fukuji (quiet, traditional, private baths) or
+    Shin-Hotaka (views, at the ropeway); the traveller preferred to keep the hub. It puts
+    the ropeway half an hour up the valley (16.8 km) and the Abo Tunnel on the doorstep for
+    the 19th. The alternatives are kept in the Okuhida booking to-do.
     What it cost: **Kamikochi on a Saturday in colour season** — the busiest day, crowded
     roughly 10:00-14:00 at Taisho Pond and Kappa Bridge, which is when the walk-in happens,
     and the hardest night to book. Colour is about a wash (a day before the maple peak
