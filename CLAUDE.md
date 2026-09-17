@@ -218,7 +218,7 @@ anything without its own `match`, deliberately.
     the middle four days (Nagano 11 Oct to Matsumoto 14 Oct — same prefecture, so the
     one-way drop stays cheap; Azumino is taken on the drive down, so the car goes back
     before checking in and needs no hotel parking at all). The second runs **Matsumoto
-    16 Oct to Nakatsugawa 19 Oct**, handed back the evening it arrives (added 16 Sep 2026,
+    16 Oct to Nakatsugawa 19 Oct**, collected 08:00 and handed back ~16:45 (added 16 Sep 2026,
     the traveller's call after a costed comparison). Rail for the walk day and at either
     end, because the long hauls are faster by train and a car is useless in Tokyo.
   - **Why the second car, and what it changed.** It costs roughly JPY 33,000 (MYR ~860)
@@ -258,17 +258,17 @@ anything without its own `match`, deliberately.
     Pond, Kappa Bridge and Myojin are all done on the arrival day** (~9 km, flat), and the
     17th is a dawn around Kappa Bridge, out after breakfast, Hirayu Great Falls, and an
     optional afternoon at Hirayu no Mori (JPY 700, 10:00-21:00) before the ryokan.
-  - **The Okuhida base is Hirayu Onsen** (17 Sep 2026, the traveller's call; the inn will
-    be chosen on room price). I recommended Fukuji (quiet, traditional, private baths) or
-    Shin-Hotaka (views, at the ropeway); the traveller preferred to keep the hub. It puts
-    the ropeway half an hour up the valley (16.8 km) and the Abo Tunnel on the doorstep for
-    the 19th. The alternatives are kept in the Okuhida booking to-do.
     What it cost: **Kamikochi on a Saturday in colour season** — the busiest day, crowded
     roughly 10:00-14:00 at Taisho Pond and Kappa Bridge, which is when the walk-in happens,
     and the hardest night to book. Colour is about a wash (a day before the maple peak
     instead of a day after). **If a Saturday bed cannot be had, swap back** — commit
     7357943 has the Monday-Kamikochi version; the booking to-do says so. The traveller is
     doing the itinerary now and booking later.
+  - **The Okuhida base is Hirayu Onsen** (17 Sep 2026, the traveller's call; the inn will
+    be chosen on room price). I recommended Fukuji (quiet, traditional, private baths) or
+    Shin-Hotaka (views, at the ropeway); the traveller preferred to keep the hub. It puts
+    the ropeway half an hour up the valley (16.8 km) and the Abo Tunnel on the doorstep for
+    the 19th. The alternatives are kept in the Okuhida booking to-do.
   - **Both Tokyo days (22-23 Oct) are deliberately open**, at the traveller's request, and
     marked as open rather than filled. They have already seen **Shinjuku, Shibuya, Ueno and
     Asakusa**; Shibuya and Asakusa were removed from the last day for that reason, so do not
@@ -279,7 +279,9 @@ anything without its own `match`, deliberately.
     opening hours — taken from the operators' own pages rather than a general impression.
     When a figure could not be confirmed it is said so in the remark. Every day cost is
     now a checked fare; JR reserved surcharges still move JPY 200 either side by season.
-  - **Pick up here next time** (as of 16 Sep 2026, all pushed). In rough priority:
+  - **Pick up here next time** (as of 17 Sep 2026). Start with `git status` and
+    `git log origin/main..HEAD` — the traveller asks for each push, so the last docs commit
+    may still be local. In rough priority:
     1. **The two Tokyo days, 22-23 Oct**, are the only unplanned part of the trip — the
        traveller said they would revisit. Constraints are in the bullet above and in the
        trip's to-do.
@@ -288,10 +290,13 @@ anything without its own `match`, deliberately.
        later. Confirm the 07:41 runs on a Wednesday — some trains on that line run on
        specific days only. On the 19th the car must be back by 20:00. All Kiso and
        Okuhida times are current (2026) timetables and want rechecking against 2027.
-    3. **Booking order when it starts**: Kamikochi first (under ten properties) — now a
-       **Saturday** night, so if it can't be had, swap Kamikochi and Okuhida back. The
-       plan uses the unreserved Hirayu shuttle both ways, so there is no Kamikochi bus to
-       reserve. Flights wait on an ANA promotion.
+    3. **Booking order when it starts** (the traveller is doing the itinerary first and
+       booking later): Kamikochi first (under ten properties) — now a **Saturday** night,
+       so if it can't be had, swap Kamikochi and Okuhida back. Then the **Hirayu Onsen
+       ryokan, chosen on room price** — Fukuji, Shin-Hotaka and Shin-Hirayu are the
+       fallbacks in its to-do. The second hire car's one-way fee is JPY 18,700; get a real
+       quote. The plan uses the unreserved Hirayu shuttle both ways, so there is no
+       Kamikochi bus to reserve. Flights wait on an ANA promotion.
     4. **The to-do list has changed a lot since it last seeded.** `todoList/<slug>` copies
        once; if the traveller has opened the To-do tab signed in since 16 Aug 2026, it
        shows the old items and wants deleting so it re-seeds.
