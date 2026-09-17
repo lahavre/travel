@@ -253,8 +253,11 @@ anything without its own `match`, deliberately.
     What it bought: the 19th stopped being a 05:45-to-18:30 day with a 20:00 car deadline
     and now gives **Narai 2½ hours with lunch**; the **ropeway regained a weather spare**
     (Mon 18, with Tue 19 morning as backup — weekday first car 08:45); the ropeway moved
-    off a weekend; the Okuhida nights moved off Saturday; and the long Kamikochi-exit day
-    ends at a ryokan bath. Hirayu Great Falls now sits on the Kamikochi-exit afternoon.
+    off a weekend; and the Okuhida nights moved off Saturday. Refined on 17 Sep 2026, again
+    the traveller's plan: the car is collected at 08:00 when the branch opens, **Taisho
+    Pond, Kappa Bridge and Myojin are all done on the arrival day** (~9 km, flat), and the
+    17th is a dawn around Kappa Bridge, out after breakfast, Hirayu Great Falls, and an
+    optional afternoon at Hirayu no Mori (JPY 700, 10:00-21:00) before the ryokan.
     What it cost: **Kamikochi on a Saturday in colour season** — the busiest day, crowded
     roughly 10:00-14:00 at Taisho Pond and Kappa Bridge, which is when the walk-in happens,
     and the hardest night to book. Colour is about a wash (a day before the maple peak
