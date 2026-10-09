@@ -280,7 +280,7 @@ anything without its own `match`, deliberately.
     opening hours — taken from the operators' own pages rather than a general impression.
     When a figure could not be confirmed it is said so in the remark. Every day cost is
     now a checked fare; JR reserved surcharges still move JPY 200 either side by season.
-  - **Pick up here next time** (as of 17 Sep 2026). Start with `git status` and
+  - **Pick up here next time** (as of 9 Oct 2026). Start with `git status` and
     `git log origin/main..HEAD` — the traveller asks for each push, so the last docs commit
     may still be local. In rough priority:
     1. **The two Tokyo days, 22-23 Oct**, are the only unplanned part of the trip — the
@@ -303,6 +303,10 @@ anything without its own `match`, deliberately.
        shows the old items and wants deleting so it re-seeds.
     5. Housekeeping the traveller owns: Traveller 2's real name, and ticking their email
        against the slug. Re-run `tools/fetch_weather.py` from late Sep 2027.
+    6. **References tab** (added 9 Oct 2026): 49 links in ten groups, by place and in trip
+       order. The traveller has asked for a **restaurant guide** and a **hotel shortlist**
+       to go there next, but later, not now. Any new link should load before it goes in, and
+       anything added to the trip (the Tokyo days, a booked inn) wants its sites added too.
 - Japan 2023 is migrated and reconciled; it is the reference trip. It doubles as the
   **design fixture** — its `publicTransport` holds Croatia legs and its `activities`
   hold 2019 vouchers, deliberately, to exercise the renderers. Its data being
