@@ -604,5 +604,23 @@
       "remarks": null,
       "url": null
     }
+  ],
+  "_references": "Websites worth having to hand, grouped by place in trip order — official sites, operators, guides. Optional `days` lists the day numbers a group belongs to and renders as links to those days. File-owned and public: nothing here seeds Firestore, so it can be rewritten freely. Only http(s) URLs render as links.",
+  "references": [
+    {
+      "place": "New York",
+      "days": [
+        1,
+        2
+      ],
+      "note": null,
+      "links": [
+        {
+          "title": "Museum of Modern Art",
+          "url": "https://www.moma.org/",
+          "note": "Opening hours and timed tickets."
+        }
+      ]
+    }
   ]
 }

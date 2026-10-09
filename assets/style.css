@@ -1594,3 +1594,56 @@ tfoot td {
     min-width: 0;
   }
 }
+
+/* ---- References: websites grouped by place ---- */
+.ref-group h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+}
+.ref-days {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.ref-day {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-dim);
+}
+.ref-day:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+.ref-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ref-link {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  overflow-wrap: anywhere;
+}
+.ref-link > a {
+  font-weight: 600;
+}
+.ref-host {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+.ref-note {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}

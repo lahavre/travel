@@ -126,7 +126,7 @@ are the actual steps rather than a guess:
 
 1. **Research and propose the day-by-day in chat first, and get sign-off.** Nothing goes
    into the repo before that.
-2. `cp -r trips/_template trips/YYYY-MM-destination` — this brings the eight page stubs
+2. `cp -r trips/_template trips/YYYY-MM-destination` — this brings the nine page stubs
    *and* a worked `data.json` with every section filled in as an example.
 3. In the new `data.json`: **delete every `_`-prefixed key** (they are inline notes on
    the schema, not data), set `slug`/`title`/`destination`/`emoji`/`startDate`/`endDate`,
@@ -137,7 +137,7 @@ are the actual steps rather than a guess:
 4. Add one entry to `trips.json` (`slug`, `title`, `destination`, `emoji`, `startDate`,
    `endDate`). The landing page sorts by `startDate` descending and derives its badge
    from today's date.
-5. Load all eight pages before saying it works. A trip missing a section must render a
+5. Load all nine pages before saying it works. A trip missing a section must render a
    placeholder, never throw.
 6. **Grant the other travellers access to the new slug**, on the root `index.html` admin
    panel (owner only). `canAccessTrip()` short-circuits for the owner, so a new trip's
@@ -177,8 +177,9 @@ anything without its own `match`, deliberately.
 ## Status
 
 - Live at <https://lahavre.github.io/travel/>; pushing to `main` redeploys.
-- **Eight pages per trip**: Overview, Days, Weather, Budget, Accommodation, Transport,
-  Activities, To-do. `tools/new_trip_pages.py` scaffolds all eight.
+- **Nine pages per trip**: Overview, Days, Weather, Budget, Accommodation, Transport,
+  Activities, To-do, References. `tools/new_trip_pages.py` scaffolds all nine. References
+  (added 9 Oct 2026) is file-owned: each link was checked to load before it went in.
 - **Japan 2027 (`trips/2027-10-japan-alps`) is the first real trip the planner has
   handled** — 8-23 Oct 2027, two travellers, nothing booked. Planned across several
   rounds of the traveller's own review, so the shape reflects their decisions rather than

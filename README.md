@@ -21,6 +21,7 @@ trips/<slug>/
   transport.html      Flights, car rental, public transport, driving log
   activities.html     Tours and attractions, what each cost, per-person split
   todo.html           Pre-trip bookings and paperwork (private, sign-in to view)
+  references.html     Websites for the places on the plan, grouped by place
 ```
 
 Trip slugs are `YYYY-MM-destination`, so folders sort chronologically.
@@ -39,7 +40,7 @@ consistent the same way the old spreadsheet formulas did.
    `startDate`, `endDate`. The landing page sorts by `startDate` descending and derives
    the Upcoming/In progress/Past badge from today's date.
 
-The eight HTML pages are identical for every trip and contain no trip-specific content —
+The nine HTML pages are identical for every trip and contain no trip-specific content —
 never edit them per trip. `_template/` is not listed in `trips.json`, so it stays off the
 landing page while remaining previewable at `/trips/_template/`.
 
@@ -68,6 +69,7 @@ breaking, so a half-planned trip still renders.
 | `transport` | `mode`, plus optional `carRental`, `publicTransport`, `legs`, `totalKm`, `rentalTotal` |
 | `activities` | Tours, attractions and tickets booked ahead; `cost` in whichever `currency` was paid. Ones paid for during the trip are added on the page instead (see below) |
 | `todo` | Pre-trip checklist; `status` is `"Done"` or `"Open"`. Optional `category` + `subcategory` group the list (see below) |
+| `references` | Websites grouped by place, in trip order: `{ place, days, note, links: [{ title, url, note }] }`. Optional `days` renders as links to those days. File-owned and public — nothing seeds Firestore. Only http(s) URLs become links |
 
 **Currency.** `exchangeRate.rate` is the rate actually obtained — for Japan 2023, the
 weighted average of seven money-changer transactions (MYR 13,220 for JPY 400,000 =

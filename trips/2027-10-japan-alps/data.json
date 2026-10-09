@@ -2483,6 +2483,345 @@
       "url": null
     }
   ],
+  "references": [
+    {
+      "place": "Tokyo and Haneda",
+      "days": [
+        1,
+        2,
+        14,
+        15,
+        16
+      ],
+      "links": [
+        {
+          "title": "Haneda Airport",
+          "url": "https://tokyo-haneda.com/en/",
+          "note": "Terminal maps, shops and services."
+        },
+        {
+          "title": "Haneda Airport Access Guide",
+          "url": "https://www.haneda-tokyo-access.com/en/",
+          "note": "Getting between Haneda and the city, including the Keikyu line."
+        },
+        {
+          "title": "Tokyo Monorail",
+          "url": "https://www.tokyo-monorail.co.jp/english/",
+          "note": "Haneda to Hamamatsucho."
+        },
+        {
+          "title": "Ginza Official",
+          "url": "https://www.ginza.jp/",
+          "note": "Shops, restaurants and events in Ginza."
+        }
+      ]
+    },
+    {
+      "place": "Nagano",
+      "days": [
+        2,
+        3,
+        4
+      ],
+      "links": [
+        {
+          "title": "Zenkoji Temple",
+          "url": "https://www.zenkoji.jp/en/",
+          "note": "The temple's own English site."
+        },
+        {
+          "title": "Zenkoji – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6001.html",
+          "note": null
+        },
+        {
+          "title": "Nagano City tourism",
+          "url": "https://www.nagano-cvb.or.jp/",
+          "note": "Nagano Convention & Visitors Bureau."
+        },
+        {
+          "title": "Nagano City – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6000.html",
+          "note": null
+        }
+      ]
+    },
+    {
+      "place": "Togakushi",
+      "days": [
+        3
+      ],
+      "links": [
+        {
+          "title": "Togakushi Shrine",
+          "url": "https://www.togakushi-jinja.jp/",
+          "note": "The shrine's official site."
+        },
+        {
+          "title": "Togakushi Tourism Association",
+          "url": "https://togakushi-21.jp/en/",
+          "note": null
+        },
+        {
+          "title": "Togakushi Shrine – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6005.html",
+          "note": null
+        },
+        {
+          "title": "Alpico bus: Nagano to Togakushi",
+          "url": "https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green",
+          "note": "Timetable for the green-season bus."
+        }
+      ]
+    },
+    {
+      "place": "Hakuba",
+      "days": [
+        4,
+        5,
+        6
+      ],
+      "links": [
+        {
+          "title": "Hakuba Valley",
+          "url": "https://www.hakubavalley.com/en/",
+          "note": "The valley's resorts in one place."
+        },
+        {
+          "title": "Hakuba Iwatake Mountain Resort",
+          "url": "https://iwatake-mountain-resort.com/",
+          "note": "Hakuba Mountain Harbor terrace."
+        },
+        {
+          "title": "Hakuba Happo-one",
+          "url": "https://www.happo-one.jp/en/",
+          "note": "Alpen Line lifts and the walk to Happo Pond."
+        },
+        {
+          "title": "Hakuba Tsugaike Mountain Resort",
+          "url": "https://www.tsugaike.gr.jp/",
+          "note": "Gondola, ropeway and Tsugaike Nature Park."
+        }
+      ]
+    },
+    {
+      "place": "Azumino and Matsumoto",
+      "days": [
+        7,
+        8,
+        9
+      ],
+      "links": [
+        {
+          "title": "Daio Wasabi Farm",
+          "url": "https://www.daiowasabi.co.jp/",
+          "note": null
+        },
+        {
+          "title": "Azumino tourism",
+          "url": "https://azumino-e-tabi.net/",
+          "note": "Azumino City Tourism Association."
+        },
+        {
+          "title": "Matsumoto Castle",
+          "url": "https://www.matsumoto-castle.jp/eng",
+          "note": "Opening hours and tickets."
+        },
+        {
+          "title": "Former Kaichi School",
+          "url": "https://matsu-haku.com/kaichi/",
+          "note": null
+        },
+        {
+          "title": "Matsumoto City Museum of Art",
+          "url": "https://matsumoto-artmuse.jp/",
+          "note": null
+        },
+        {
+          "title": "Visit Matsumoto",
+          "url": "https://visitmatsumoto.com/en/",
+          "note": "The city's official tourism site."
+        },
+        {
+          "title": "Matsumoto – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6050.html",
+          "note": null
+        },
+        {
+          "title": "Nakamachi – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6052.html",
+          "note": null
+        }
+      ]
+    },
+    {
+      "place": "Kamikochi",
+      "days": [
+        9,
+        10
+      ],
+      "links": [
+        {
+          "title": "Kamikochi official site",
+          "url": "https://www.kamikochi.or.jp/",
+          "note": "Opening dates, trail conditions, visitor centre."
+        },
+        {
+          "title": "Nohi Bus: Kamikochi line",
+          "url": "https://www.nouhibus.co.jp/route_bus/kamikochi-line-en/",
+          "note": "The Hirayu Onsen shuttle."
+        },
+        {
+          "title": "Kamikochi – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6040.html",
+          "note": null
+        }
+      ]
+    },
+    {
+      "place": "Okuhida",
+      "days": [
+        10,
+        11,
+        12
+      ],
+      "links": [
+        {
+          "title": "Okuhida Onsen-go",
+          "url": "https://okuhida.or.jp/en/",
+          "note": "Okuhida Onsen-go Tourism Association: the five onsen villages, public baths."
+        },
+        {
+          "title": "Shinhotaka Ropeway",
+          "url": "https://shinhotaka-ropeway.jp/en/",
+          "note": "Timetable, fares and live conditions."
+        },
+        {
+          "title": "Hirayu no Mori",
+          "url": "https://www.hirayunomori.co.jp/",
+          "note": "Day-use baths at Hirayu Onsen."
+        },
+        {
+          "title": "Okuhida – japan-guide",
+          "url": "https://www.japan-guide.com/e/e5940.html",
+          "note": null
+        },
+        {
+          "title": "Okuhida hot springs – japan-guide",
+          "url": "https://www.japan-guide.com/e/e5942.html",
+          "note": null
+        }
+      ]
+    },
+    {
+      "place": "Narai-juku",
+      "days": [
+        12
+      ],
+      "links": [
+        {
+          "title": "Narai-juku Tourism Association",
+          "url": "https://www.naraijuku.com/",
+          "note": null
+        },
+        {
+          "title": "Shiojiri tourism",
+          "url": "https://tokimeguri.jp/",
+          "note": "Shiojiri City Tourism Association, which covers Narai."
+        },
+        {
+          "title": "Narai – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6080.html",
+          "note": null
+        }
+      ]
+    },
+    {
+      "place": "Kiso Valley: Nakatsugawa, Tsumago, Magome",
+      "days": [
+        12,
+        13,
+        14
+      ],
+      "links": [
+        {
+          "title": "Nakatsugawa City (English)",
+          "url": "https://www.city.nakatsugawa.lg.jp/kanko/english/index.html",
+          "note": null
+        },
+        {
+          "title": "Tsumago-juku",
+          "url": "https://tsumago.jp/",
+          "note": "Tsumago's official site."
+        },
+        {
+          "title": "Magome Tourism Association",
+          "url": "https://kiso-magome.com/",
+          "note": null
+        },
+        {
+          "title": "Magome-Tsumago trail – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6078.html",
+          "note": "The Nakasendo walk."
+        },
+        {
+          "title": "Tsumago – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6077.html",
+          "note": null
+        },
+        {
+          "title": "Magome – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6076.html",
+          "note": null
+        },
+        {
+          "title": "Kiso Valley access – japan-guide",
+          "url": "https://www.japan-guide.com/e/e6079.html",
+          "note": null
+        },
+        {
+          "title": "Kiso Valley buses – japan-guide",
+          "url": "https://www.japan-guide.com/bus/kiso.html",
+          "note": null
+        },
+        {
+          "title": "Kitaena Kotsu",
+          "url": "https://kitaena.co.jp/",
+          "note": "Operator of the Magome to Nakatsugawa bus."
+        }
+      ]
+    },
+    {
+      "place": "Getting around",
+      "links": [
+        {
+          "title": "Toyota Rent a Car",
+          "url": "https://rent.toyota.co.jp/eng/",
+          "note": "Both hire cars."
+        },
+        {
+          "title": "JR Central (English)",
+          "url": "https://global.jr-central.co.jp/en/",
+          "note": "Shinano limited express and the Tokaido Shinkansen."
+        },
+        {
+          "title": "smart EX",
+          "url": "https://smart-ex.jp/en/",
+          "note": "Online booking for the Tokaido Shinkansen."
+        },
+        {
+          "title": "Go Nagano",
+          "url": "https://www.go-nagano.net/en/",
+          "note": "Nagano Prefecture's official tourism site."
+        },
+        {
+          "title": "Japan National Tourism Organization",
+          "url": "https://www.japan.travel/en/",
+          "note": null
+        }
+      ]
+    }
+  ],
   "weatherPlaces": {
     "Tokyo": {
       "lat": 35.6895,

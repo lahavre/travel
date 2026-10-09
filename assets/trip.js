@@ -24,6 +24,7 @@ const Trip = (() => {
     { key: "transport", label: "Transport", href: "transport.html" },
     { key: "activities", label: "Activities", href: "activities.html" },
     { key: "todo", label: "To-do", href: "todo.html" },
+    { key: "references", label: "References", href: "references.html" },
   ];
 
   const PAGE_TITLES = {
@@ -35,6 +36,7 @@ const Trip = (() => {
     transport: "Transport",
     activities: "Activities",
     todo: "To-do",
+    references: "References",
   };
 
   // ---------------------------------------------------------------- helpers
@@ -5558,6 +5560,68 @@ const Trip = (() => {
     if (attachState.signedIn) loadAttachments();
   }
 
+  // ---------------------------------------------------------------- references
+
+  /** Only http(s) links are rendered as links — the file is public and hand-edited. */
+  function webUrl(url) {
+    return typeof url === "string" && /^https?:\/\//i.test(url) ? url : null;
+  }
+
+  function hostOf(url) {
+    try {
+      return new URL(url).hostname.replace(/^www\./, "");
+    } catch (e) {
+      return "";
+    }
+  }
+
+  // Websites worth having to hand, grouped by place in trip order. File-owned and
+  // public: nothing here seeds Firestore, so the list is rewritten freely.
+  function referencesHtml(trip) {
+    const groups = (trip.references || []).filter((g) => g && has(g.links));
+    const head = `<h1>References</h1>`;
+    if (!groups.length) return head + placeholder("reference websites");
+
+    const dayLinks = (days) =>
+      (days || [])
+        .map((n) => `<a class="ref-day" href="day.html?day=${encodeURIComponent(n)}">Day ${escapeHtml(n)}</a>`)
+        .join("");
+
+    const linkRow = (l) => {
+      const url = webUrl(l.url);
+      const title = escapeHtml(l.title || (url ? hostOf(url) : "Untitled"));
+      return `<li class="ref-link">
+          ${
+            url
+              ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${title}</a>
+                 <span class="ref-host">${escapeHtml(hostOf(url))}</span>`
+              : `<span>${title}</span>`
+          }
+          ${l.note ? `<div class="ref-note">${multiline(l.note)}</div>` : ""}
+        </li>`;
+    };
+
+    return (
+      head +
+      `<p class="subtitle">Official sites and guides for the places on the plan. Links open in a new tab.</p>` +
+      groups
+        .map(
+          (g) => `<section class="ref-group">
+            <h2>${escapeHtml(g.place || "General")}${
+              has(g.days) ? ` <span class="ref-days">${dayLinks(g.days)}</span>` : ""
+            }</h2>
+            ${g.note ? `<p class="section-note">${multiline(g.note)}</p>` : ""}
+            <ul class="ref-list">${g.links.map(linkRow).join("")}</ul>
+          </section>`
+        )
+        .join("")
+    );
+  }
+
+  function renderReferences(trip) {
+    return referencesHtml(trip);
+  }
+
   const RENDERERS = {
     index: renderIndex,
     day: renderDay,
@@ -5567,6 +5631,7 @@ const Trip = (() => {
     transport: renderTransport,
     activities: renderActivities,
     todo: renderTodo,
+    references: renderReferences,
   };
 
   // ---------------------------------------------------------------- entry point

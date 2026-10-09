@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write the eight per-trip HTML pages into a trip folder.
+"""Write the nine per-trip HTML pages into a trip folder.
 
 They are pure boilerplate — all rendering lives in assets/trip.js — so every trip
 gets an identical set. Copying trips/_template/ does the same thing; this exists to
@@ -21,6 +21,7 @@ PAGES = {
     "transport": "Transport",
     "activities": "Activities",
     "todo": "To-do",
+    "references": "References",
 }
 
 TEMPLATE = """<!doctype html>
