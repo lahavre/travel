@@ -181,7 +181,8 @@ anything without its own `match`, deliberately.
   Activities, To-do, References. `tools/new_trip_pages.py` scaffolds all nine. References
   (added 9 Oct 2026) is file-owned: each link was checked to load before it went in.
 - **Japan 2027 (`trips/2027-10-japan-alps`) is the first real trip the planner has
-  handled** — 8-23 Oct 2027, two travellers, nothing booked. Planned across several
+  handled** — **15-30 Oct 2027** (moved a week later on 21 Nov 2026 for Deepavali),
+  two travellers, nothing booked. Planned across several
   rounds of the traveller's own review, so the shape reflects their decisions rather than
   a first draft. `data.json` is authoritative and this summary will age; what follows is
   the reasoning, which the file cannot carry.
@@ -203,13 +204,28 @@ anything without its own `match`, deliberately.
     hours later; Nagiso Station to Tsumago is about an hour on foot as a fallback. Do not
     "correct" the direction back to Magome-first. A version that kept the car for this day
     was tried and dropped — see the car bullets.
-  - **The dates are a knowing trade the traveller made against advice**, on evidence they
-    found: Hakuba's alpine colour peaks late September and the Nakasendo's late October,
-    five weeks apart, so no single trip catches both. Happo Pond was reported at peak on
-    11 Oct in both 2024 and 2025, and it has three nights and two headline walks, so the
-    window follows it — accepting the Kiso valley before its peak and Kamikochi in maples
-    rather than larch. **Do not re-propose the later window without new evidence**; it was
-    argued through twice.
+  - **The dates moved a week later on 21 Nov 2026 — 15-30 Oct — so that Deepavali (Thu
+    28 Oct 2027, all Malaysia bar Sarawak, provisional until gazetted) falls inside the
+    trip.** Day 14, the train to Tokyo, is the holiday. A 7-day shift leaves every weekday
+    unchanged, so nothing weekday-dependent needed rebuilding (Kamikochi Saturday, ropeway
+    Monday, Nakasendo Wednesday, the 07:41 Nagiso connection, Okuya's 2nd/4th-Thursday
+    closure). **This inverted the central trade, which had been argued through twice the
+    other way.** Hakuba's alpine colour peaks late September — Happo Pond at peak on
+    11 Oct in both 2024 and 2025 — while the Nakasendo peaks late Oct into early Nov.
+    The old window took Hakuba; this one takes the Kiso valley and Kamikochi's golden
+    larch, and accepts Happo Pond and Tsugaike **eight days past observed peak**, at the
+    far edge of the ~20 Oct end Hakuba's tourist office quotes (Weathernews called the
+    pond finished by 26 Oct in 2026). Possible consolation: late October is when first
+    snow on the Hakuba range can meet the colour below it. **Sports Day (11 Oct) now falls
+    before the trip and no longer shapes it.** Do not re-propose either window without new
+    evidence — both have now been argued.
+  - **Late October changes three practical things.** Winter tyres are a real question on
+    both hires, not a formality. The ropeway top (2,156 m) is snow-likely rather than
+    snow-possible. And **Tsugaike's gondola is the tightest date in the trip**: its green
+    season ran only to 25 Oct in 2026, so 20 Oct leaves ~5 days of margin — confirm the
+    2027 dates before booking the Hakuba nights at all. Happo's Alpen Line ran to 3 Nov,
+    Kamikochi closes 15 Nov, Shinhotaka is year-round, the Togakushi bus keeps its summer
+    timetable into December: all clear.
   - **Sports Day falls on Mon 11 Oct**, and the trip is arranged around it rather than
     against: the long weekend is spent in Nagano, a city, which absorbs a holiday far
     better than a resort valley, and the drive to Hakuba happens on the Monday itself —
@@ -219,7 +235,7 @@ anything without its own `match`, deliberately.
     the middle four days (Nagano 11 Oct to Matsumoto 14 Oct — same prefecture, so the
     one-way drop stays cheap; Azumino is taken on the drive down, so the car goes back
     before checking in and needs no hotel parking at all). The second runs **Matsumoto
-    16 Oct to Nakatsugawa 19 Oct**, collected 08:00 and handed back ~16:45 (added 16 Sep 2026,
+    23 Oct to Nakatsugawa 26 Oct**, collected 08:00 and handed back ~16:45 (added 16 Sep 2026,
     the traveller's call after a costed comparison). Rail for the walk day and at either
     end, because the long hauls are faster by train and a car is useless in Tokyo.
   - **Why the second car, and what it changed.** It costs roughly JPY 33,000 (MYR ~860)
@@ -250,7 +266,8 @@ anything without its own `match`, deliberately.
     the arrival half-day and the ropeway day do everything the valley was there for.
     Everything after it moved a day earlier and the freed night went to Tokyo.
   - **Kamikochi and Okuhida swapped on 16 Sep 2026** (the traveller's call): Kamikochi
-    **Sat 16 Oct**, Okuhida **17-19 Oct**, then Okuhida → Narai → Nakatsugawa on Tue 19.
+    **Sat 23 Oct**, Okuhida **24-26 Oct**, then Okuhida → Narai → Nakatsugawa on Tue 26.
+    (Dates here are post-shift; the swap itself was decided when they were 16 and 17-19.)
     What it bought: the 19th stopped being a 05:45-to-18:30 day with a 20:00 car deadline
     and now gives **Narai 2½ hours with lunch**; the **ropeway regained a weather spare**
     (Mon 18, with Tue 19 morning as backup — weekday first car 08:45); the ropeway moved
@@ -280,7 +297,7 @@ anything without its own `match`, deliberately.
     opening hours — taken from the operators' own pages rather than a general impression.
     When a figure could not be confirmed it is said so in the remark. Every day cost is
     now a checked fare; JR reserved surcharges still move JPY 200 either side by season.
-  - **Pick up here next time** (as of 9 Oct 2026). Start with `git status` and
+  - **Pick up here next time** (as of 21 Nov 2026). Start with `git status` and
     `git log origin/main..HEAD` — the traveller asks for each push, so the last docs commit
     may still be local. In rough priority:
     1. **The two Tokyo days, 22-23 Oct**, are the only unplanned part of the trip — the
@@ -293,11 +310,14 @@ anything without its own `match`, deliberately.
        Okuhida times are current (2026) timetables and want rechecking against 2027.
     3. **Booking order when it starts** (the traveller is doing the itinerary first and
        booking later): Kamikochi first (under ten properties) — now a **Saturday** night,
-       so if it can't be had, swap Kamikochi and Okuhida back. Then the **Hirayu Onsen
+       so if it can't be had, swap Kamikochi and Okuhida back — and 23 Oct is now the
+       start of the golden-larch fortnight, the valley's busiest. Then the **Hirayu Onsen
        ryokan, chosen on room price** — Fukuji, Shin-Hotaka and Shin-Hirayu are the
        fallbacks in its to-do. The second hire car's one-way fee is JPY 18,700; get a real
        quote. The plan uses the unreserved Hirayu shuttle both ways, so there is no
-       Kamikochi bus to reserve. Flights wait on an ANA promotion.
+       Kamikochi bus to reserve. **Flights: the Oct 2027 ANA schedule was due to load
+       around Nov 2026, which has arrived — check the real 15 and 30 Oct timings.** They
+       still wait on an ANA promotion.
     4. **The to-do list has changed a lot since it last seeded.** `todoList/<slug>` copies
        once; if the traveller has opened the To-do tab signed in since 16 Aug 2026, it
        shows the old items and wants deleting so it re-seeds.
